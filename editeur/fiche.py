@@ -1,11 +1,13 @@
 """Fiche d'un monstre : un champ de saisie par entrée de format.CHAMPS_MONSTRE,
 rangés par onglet. Chaque modification est écrite aussitôt dans la sauvegarde."""
-from PySide6.QtCore import Signal
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QFontDatabase
-from PySide6.QtWidgets import (QFormLayout, QGridLayout, QLabel, QPlainTextEdit,
-                               QSpinBox, QTabWidget, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QComboBox, QCompleter, QFormLayout, QGridLayout,
+                               QLabel, QPlainTextEdit, QSpinBox, QTabWidget,
+                               QVBoxLayout, QWidget)
 
 from dqmj2p_save import format as F
+from dqmj2p_save import noms
 
 ONGLETS = {
     'Identité': ('espece', 'variante', 'polarite', 'plus', 'plus_base',
@@ -21,13 +23,43 @@ ONGLETS = {
 QSPINBOX_MAX = 2**31 - 1
 
 
+class ChoixNom(QComboBox):
+    """Liste déroulante « ID — nom », avec recherche par morceau de nom. Même
+    interface que QSpinBox (setValue, valueChanged) pour la fiche."""
+    valueChanged = Signal(int)
+
+    def __init__(self, table: noms.TableNoms):
+        super().__init__()
+        self.setEditable(True)
+        self.setInsertPolicy(QComboBox.NoInsert)
+        self.setMaxVisibleItems(20)
+        for id_, nom in table.choix():
+            self.addItem(f'{id_} — {nom}', id_)
+        self.completer().setFilterMode(Qt.MatchContains)
+        self.completer().setCompletionMode(QCompleter.PopupCompletion)
+        self.currentIndexChanged.connect(
+            lambda i: self.valueChanged.emit(self.itemData(i)))
+
+    def setValue(self, valeur: int) -> None:
+        index = self.findData(valeur)
+        if index < 0:               # ID hors de la table : on le garde visible
+            self.addItem(f'{valeur} — #{valeur}', valeur)
+            index = self.count() - 1
+        self.setCurrentIndex(index)
+
+    def focusOutEvent(self, evenement) -> None:
+        # Texte tapé sans correspondance : on réaffiche la valeur en cours.
+        super().focusOutEvent(evenement)
+        self.setEditText(self.itemText(self.currentIndex()))
+
+
 class Fiche(QTabWidget):
     modifiee = Signal()             # une valeur a été écrite dans la sauvegarde
 
     def __init__(self):
         super().__init__()
         self.monstre = None
-        self.saisies: dict[str, QSpinBox] = {}
+        self.saisies: dict[str, QSpinBox | ChoixNom] = {}
 
         for titre, cles in ONGLETS.items():
             page = QWidget()
@@ -38,12 +70,13 @@ class Fiche(QTabWidget):
 
         page = QWidget()
         grille = QGridLayout(page)
-        grille.addWidget(QLabel('Compétence (ID)'), 0, 1)
+        grille.addWidget(QLabel('Compétence'), 0, 1)
         grille.addWidget(QLabel('Points investis'), 0, 2)
         for j in range(1, F.NB_COMPETENCES + 1):
             grille.addWidget(QLabel(f'{j}'), j, 0)
             grille.addWidget(self._saisie(f'competence_{j}'), j, 1)
             grille.addWidget(self._saisie(f'competence_{j}_points'), j, 2)
+        grille.setColumnStretch(1, 1)
         grille.setRowStretch(F.NB_COMPETENCES + 1, 1)
         self.addTab(page, 'Compétences')
 
@@ -58,10 +91,13 @@ class Fiche(QTabWidget):
 
         self.setEnabled(False)
 
-    def _saisie(self, cle: str) -> QSpinBox:
+    def _saisie(self, cle: str) -> QWidget:
         champ = F.CHAMP[cle]
-        saisie = QSpinBox()
-        saisie.setRange(0, min(champ.maximum, QSPINBOX_MAX))
+        if champ.noms:
+            saisie = ChoixNom(noms.table(champ.noms))
+        else:
+            saisie = QSpinBox()
+            saisie.setRange(0, min(champ.maximum, QSPINBOX_MAX))
         saisie.setToolTip(f'+0x{champ.offset:02X}, {champ.type}')
         saisie.valueChanged.connect(lambda v, cle=cle: self._ecrire(cle, v))
         self.saisies[cle] = saisie

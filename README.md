@@ -4,8 +4,8 @@
 Professional* (Nintendo DS). Il accepte les `.sav` bruts et les `.dsv` de
 DeSmuME et DraStic.
 
-> **État : en construction.** Édition des monstres fonctionnelle. Les espèces
-> et compétences s'affichent encore par numéro (noms à venir, lus dans la ROM).
+> **État : en construction.** Édition des monstres fonctionnelle, avec les
+> noms français des espèces et des compétences.
 
 ## Principe
 
@@ -49,6 +49,8 @@ s.enregistrer()
 |---|---|
 | `dqmj2p_save/` | Cœur, sans interface, bibliothèque standard uniquement |
 | `editeur/` | Interface graphique (PySide6) |
+| `dqmj2p_save/noms/fr/` | Noms des espèces et compétences (ligne N = ID N) |
+| `outils/importer_noms.py` | Resynchronise ces noms depuis le dépôt de traduction |
 | `docs/format-sauvegarde.md` | Carte du format, avec ce qui reste inconnu |
 | `tests/` | `python -m unittest discover tests` |
 
@@ -61,6 +63,9 @@ Le format de sauvegarde a été décrypté par **Ceris White** et l'équipe du
 projet [DQMJ2 Professional Translation](https://github.com/saneezore07/DQMJ2Pro_Translation).
 Ce dépôt n'en reprend pas le code : il réimplémente le format à partir de
 leur documentation.
+
+Les noms français viennent de la traduction
+[DQMJ2Pro_Translation_FR](https://github.com/ovcr-Darktooth/DQMJ2Pro_Translation_FR).
 
 ## Avertissement
 

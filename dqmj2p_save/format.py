@@ -52,6 +52,7 @@ class Champ:
     libelle: str
     taille: int = 0                 # seulement pour 'octets'
     lecture_seule: bool = False
+    noms: str | None = None         # table de noms associée (voir noms.py)
 
     @property
     def maximum(self) -> int:
@@ -77,7 +78,8 @@ class Champ:
 
 def _competences():
     for j in range(NB_COMPETENCES):
-        yield Champ(f'competence_{j + 1}', 0x7A + 2 * j, 'u8', f'Compétence {j + 1}')
+        yield Champ(f'competence_{j + 1}', 0x7A + 2 * j, 'u8', f'Compétence {j + 1}',
+                    noms='competences')
         yield Champ(f'competence_{j + 1}_points', 0x7B + 2 * j, 'u8',
                     f'Compétence {j + 1} : points investis')
 
@@ -85,7 +87,7 @@ def _competences():
 CHAMPS_MONSTRE = (
     Champ('surnom', 0x00, 'octets', 'Surnom (codage du jeu)', 16),
     Champ('id_creation', 0x14, 'u32', 'ID de création', lecture_seule=True),
-    Champ('espece', 0x18, 'u16', 'Espèce'),
+    Champ('espece', 0x18, 'u16', 'Espèce', noms='especes'),
     Champ('variante', 0x1A, 'u8', 'Variante (0 normal, 1 X, 2 XY)'),
     Champ('polarite', 0x1B, 'u8', 'Polarité'),
     Champ('plus', 0x1C, 'u8', 'Synthèse +'),
@@ -105,12 +107,12 @@ CHAMPS_MONSTRE = (
     Champ('experience_suivant', 0x38, 'u32', 'Expérience du niveau suivant'),
     Champ('points_libres', 0x3C, 'u16', 'Points de compétence non attribués'),
     # Lignée : les grands-parents sont entrelacés (1a, 2a, 1b, 2b).
-    Champ('parent_1', 0x40, 'u16', 'Parent 1'),
-    Champ('parent_2', 0x42, 'u16', 'Parent 2'),
-    Champ('gp_1a', 0x44, 'u16', 'Grand-parent 1a'),
-    Champ('gp_2a', 0x46, 'u16', 'Grand-parent 2a'),
-    Champ('gp_1b', 0x48, 'u16', 'Grand-parent 1b'),
-    Champ('gp_2b', 0x4A, 'u16', 'Grand-parent 2b'),
+    Champ('parent_1', 0x40, 'u16', 'Parent 1', noms='especes'),
+    Champ('parent_2', 0x42, 'u16', 'Parent 2', noms='especes'),
+    Champ('gp_1a', 0x44, 'u16', 'Grand-parent 1a', noms='especes'),
+    Champ('gp_2a', 0x46, 'u16', 'Grand-parent 2a', noms='especes'),
+    Champ('gp_1b', 0x48, 'u16', 'Grand-parent 1b', noms='especes'),
+    Champ('gp_2b', 0x4A, 'u16', 'Grand-parent 2b', noms='especes'),
     Champ('parent_1_variante', 0x4C, 'u8', 'Parent 1 : variante'),
     Champ('parent_2_variante', 0x4D, 'u8', 'Parent 2 : variante'),
     Champ('gp_1a_variante', 0x4E, 'u8', 'Grand-parent 1a : variante'),

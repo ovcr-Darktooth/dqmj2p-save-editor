@@ -8,7 +8,7 @@ from PySide6.QtWidgets import (QAbstractItemView, QFileDialog, QHeaderView,
                                QTableWidgetItem)
 
 from dqmj2p_save import ErreurSauvegarde, Sauvegarde
-from dqmj2p_save import format as F
+from dqmj2p_save import noms
 
 from .fiche import Fiche
 
@@ -47,7 +47,7 @@ class Fenetre(QMainWindow):
         separation.setStretchFactor(0, 0)
         separation.setStretchFactor(1, 1)
         separation.setCollapsible(0, False)
-        self.liste.setMinimumWidth(260)
+        self.liste.setMinimumWidth(330)
         self.setCentralWidget(separation)
 
         menu = self.menuBar().addMenu('&Fichier')
@@ -60,7 +60,7 @@ class Fenetre(QMainWindow):
         self._action(menu, '&Quitter', QKeySequence.Quit, self.close)
 
         self.setAcceptDrops(True)
-        self.resize(900, 560)
+        self.resize(1000, 580)
         self._rafraichir_titre()
         self.statusBar().showMessage('Ouvrez une sauvegarde (Ctrl+O) ou '
                                      'glissez-la dans la fenêtre.')
@@ -99,7 +99,7 @@ class Fenetre(QMainWindow):
     def _remplir_ligne(self, ligne: int) -> None:
         m = self.monstres[ligne]
         valeurs = (m.emplacement, LIBELLES_ROLES[self.sauvegarde.role(m)],
-                   m['espece'], m['niveau'])
+                   noms.table('especes')[m['espece']], m['niveau'])
         for colonne, valeur in enumerate(valeurs):
             cellule = QTableWidgetItem(str(valeur))
             if isinstance(valeur, int):

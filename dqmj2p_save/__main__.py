@@ -1,6 +1,7 @@
 """Inspection rapide en ligne de commande : python -m dqmj2p_save <fichier>"""
 import sys
 
+from .noms import table
 from .sauvegarde import ErreurSauvegarde, Sauvegarde
 
 
@@ -16,7 +17,8 @@ def main() -> None:
     print(f'{sauvegarde.chemin.name} : copie {sauvegarde.index_copie + 1} active, '
           f'{len(monstres)} monstres')
     for m in monstres:
-        print(f'  [{m.emplacement:2}] {sauvegarde.role(m):9}  espèce {m["espece"]:3}  '
+        print(f'  [{m.emplacement:2}] {sauvegarde.role(m):9}  '
+              f'{table("especes")[m["espece"]]:24}'
               f'niv. {m["niveau"]:2}  PV {m["pv_max"]:4}  PM {m["pm_max"]:4}  '
               f'ATQ {m["attaque"]:4}  DEF {m["defense"]:4}  '
               f'AGI {m["agilite"]:4}  SAG {m["sagesse"]:4}')
