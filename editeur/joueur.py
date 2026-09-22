@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (QComboBox, QFormLayout, QGroupBox, QHBoxLayout,
 from dqmj2p_save import format as F
 from dqmj2p_save import noms
 
+from .cadran import CadranHoraire
 from .saisies import Liaison
 
 CHAMPS = ('nom', 'temps_jeu', 'or', 'banque', 'victoires', 'dressages',
@@ -36,15 +37,21 @@ class PageJoueur(QWidget):
         formulaire.addRow('Date', self.date)
         formulaire.addRow('Location', self.lieu)
         formulaire.addRow('Position X / Y / Z', self.position)
-        self.moment = QLabel()
-        jour = QPushButton('Mettre au lever du jour')
+        self.cadran = CadranHoraire()
+        self.cadran.valueChanged.connect(self._regler_horloge)
+        jour = QPushButton('Lever du jour')
         jour.clicked.connect(lambda: self._regler_horloge(0))
-        nuit = QPushButton('Mettre à la tombée de la nuit')
+        nuit = QPushButton('Tombée de la nuit')
         nuit.clicked.connect(lambda: self._regler_horloge(F.DEBUT_NUIT))
+        boutons = QVBoxLayout()
+        boutons.addStretch()
+        boutons.addWidget(jour)
+        boutons.addWidget(nuit)
+        boutons.addStretch()
         ligne_horloge = QHBoxLayout()
-        ligne_horloge.addWidget(self.moment, 1)
-        ligne_horloge.addWidget(jour)
-        ligne_horloge.addWidget(nuit)
+        ligne_horloge.addWidget(self.cadran)
+        ligne_horloge.addLayout(boutons)
+        ligne_horloge.addStretch()
         formulaire.addRow('Moment de la journée', ligne_horloge)
         self.points = QComboBox()
         self.points.addItems(F.POINTS_TELEPORTATION)
@@ -74,8 +81,10 @@ class PageJoueur(QWidget):
         self.liaison.modifiee.emit()
 
     def _regler_horloge(self, valeur: int) -> None:
+        if self.liaison.vue['horloge'] == valeur:
+            return
         self.liaison.vue['horloge'] = valeur
-        self._afficher_emplacement()
+        self.cadran.setValue(valeur)
         self.liaison.modifiee.emit()
 
     def _afficher_emplacement(self) -> None:
@@ -90,9 +99,4 @@ class PageJoueur(QWidget):
                           f"{noms.carte(j['location_precedente'])})")
         self.position.setText(' / '.join(f"{j[f'position_{a}'] / 100:.2f}".replace('.', ',')
                                          for a in 'xyz'))
-        h = j['horloge']
-        if h < F.DEBUT_NUIT:
-            texte = f'Jour — la nuit tombe dans {(F.DEBUT_NUIT - h) / 30 / 60:.1f} min'
-        else:
-            texte = f'Nuit — le jour revient dans {(F.DUREE_CYCLE - h) / 30 / 60:.1f} min'
-        self.moment.setText(texte.replace('.', ',') + " de jeu en plein air")
+        self.cadran.setValue(j['horloge'])
