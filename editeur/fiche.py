@@ -78,7 +78,10 @@ class Fiche(QWidget):
         if infos.rang:
             details.append(f'rang {infos.rang}')
         if infos.famille:
-            details.append(infos.famille)
+            chemin = icones.chemin_famille(infos.famille)
+            image = (f'<img src="{chemin.as_uri()}" width="14" height="20" '
+                     f'style="vertical-align: middle"> ' if chemin else '')
+            details.append(image + infos.famille)
         if infos.taille and infos.taille > 1:
             details.append(f'taille {infos.taille}')
         details += [f"niveau {m['niveau']}", f'emplacement {m.emplacement}']

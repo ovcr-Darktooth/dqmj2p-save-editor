@@ -175,3 +175,13 @@ class Teleportation(unittest.TestCase):
         self.assertEqual(relue.joueur['location_precedente'], 57)
         self.assertEqual(relue.copie[0x86], 24)      # résumé de l'écran de chargement
         self.assertEqual(relue.joueur['position_x'], 145777)
+
+
+class Horloge(unittest.TestCase):
+    def test_valeurs_relevees_en_jeu(self):
+        """Engloutîle : sauvegarde quelques secondes après la tombée de la nuit,
+        puis quelques secondes après le retour du jour."""
+        nuit = Sauvegarde.ouvrir(donnee('debut-nuit.dsv')).joueur['horloge']
+        jour = Sauvegarde.ouvrir(donnee('debut-jour.dsv')).joueur['horloge']
+        self.assertTrue(F.DEBUT_NUIT <= nuit < F.DEBUT_NUIT + 30 * 5)
+        self.assertTrue(0 <= jour < 30 * 5)

@@ -44,7 +44,7 @@ Offsets de base relevés par **Ceris White** (`save_converter.py`, projet
 | `0x1E8` | 100 × 0x84 | Enregistrements de monstres |
 | `0x3638-0x3A67` | | **À cartographier** |
 | `0x3A68` | u8 | Carte actuelle (table `noms.CARTES`, relevée en jeu : 14 L'Arbirynthe, 17 Prairia, 24 Arène, 37 Escarpic, 47 Engloutîle, 57 Archéopolis, 85 Albatros extérieur, 88 Albatros intérieur, 151 Avablanche) |
-| `0x3A6C` | u32 | **À confirmer** : croît au fil des zones de plein air (0x73A → 0xB41), 0 en ville ; horloge jour/nuit ? |
+| `0x3A6C` | u32 | Horloge jour/nuit, en 1/30 s de jeu en plein air (0 en ville) : nuit à partir de 10 800, retour à 0 à 18 000 |
 | `0x3A69` | u8 | Carte précédente : au chargement, le jeu y met la carte du résumé (`0x86`) |
 | `0x3A70` | 3 × i32 | Position X, Y, Z du joueur, en centièmes |
 | `0x3A7C` | i32 | Probablement l'orientation, en degrés virgule fixe 20.12 (180°, −88°, 90° observés) |
@@ -100,6 +100,13 @@ normale). Seul l'écran de chargement affichait encore Archéopolis : la carte a
 une copie en `0x86`, que le jeu relit aussi au chargement (elle est devenue la
 carte précédente). L'éditeur ne téléporte donc que vers des points relevés en
 jeu (`POINTS_TELEPORTATION`), en écrivant la carte aux deux endroits.
+
+**Horloge jour/nuit** (23/09/2026, Engloutîle) : une sauvegarde de nuit
+(horloge 10 833) remise à 3 599 a démarré de jour, drapeau `0x39A1` inchangé.
+Sauvegardes faites quelques secondes après les messages : 10 801 à la tombée
+de la nuit, 26 au retour du jour. Le jour dure donc 6 min de jeu en plein air
+et la nuit 4 min. Un bit de `0x39A1` (`0x20`) s'est allumé à la première nuit
+observée : drapeau d'événement, sans effet sur l'heure.
 
 Deuxième validation le 23/09/2026, avec la fonction `teleporter()` de
 l'éditeur : Archéopolis → Avablanche (zone de plein air). Écran de chargement

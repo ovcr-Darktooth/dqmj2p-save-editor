@@ -189,7 +189,14 @@ CHAMPS_JOUEUR = (
     Champ('position_x', 0x3A70, 'i32', 'Position X (centièmes)', lecture_seule=True),
     Champ('position_y', 0x3A74, 'i32', 'Position Y (centièmes)', lecture_seule=True),
     Champ('position_z', 0x3A78, 'i32', 'Position Z (centièmes)', lecture_seule=True),
+    Champ('horloge', 0x3A6C, 'u32', 'Horloge jour/nuit (1/30 s)'),
 )
+
+# Horloge jour/nuit (0x3A6C), mesurée en jeu : elle avance en plein air, la
+# nuit tombe à 10 800 (6 min) et le jour revient au bout de 18 000 (10 min),
+# l'horloge repartant de 0. En ville elle reste à 0.
+DEBUT_NUIT = 10_800
+DUREE_CYCLE = 18_000
 CHAMP_JOUEUR = {c.cle: c for c in CHAMPS_JOUEUR}
 
 # Bloc de position complet (0x3A68-0x3A83 : carte, carte précédente, X, Y, Z,

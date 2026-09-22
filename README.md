@@ -55,6 +55,8 @@ s.enregistrer()
 | `editeur/icones/` | Icônes des monstres (`<id>.png`) |
 | `dqmj2p_save/donnees/bestiaire.json` | Rang, famille, taille et synthèses spéciales |
 | `outils/importer_synthese.py` | Recopie icônes et bestiaire depuis le projet des synthèses |
+| `editeur/icones/familles/` | Icônes des familles, glyphes de la police du jeu |
+| `outils/extraire_familles.py` | Les extrait d'une ROM (`font_16x16.NFTR` + palette des menus) |
 | `docs/format-sauvegarde.md` | Carte du format, avec ce qui reste inconnu |
 | `tests/` | `python -m unittest discover tests` |
 

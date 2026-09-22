@@ -36,6 +36,16 @@ class PageJoueur(QWidget):
         formulaire.addRow('Date', self.date)
         formulaire.addRow('Location', self.lieu)
         formulaire.addRow('Position X / Y / Z', self.position)
+        self.moment = QLabel()
+        jour = QPushButton('Mettre au lever du jour')
+        jour.clicked.connect(lambda: self._regler_horloge(0))
+        nuit = QPushButton('Mettre à la tombée de la nuit')
+        nuit.clicked.connect(lambda: self._regler_horloge(F.DEBUT_NUIT))
+        ligne_horloge = QHBoxLayout()
+        ligne_horloge.addWidget(self.moment, 1)
+        ligne_horloge.addWidget(jour)
+        ligne_horloge.addWidget(nuit)
+        formulaire.addRow('Moment de la journée', ligne_horloge)
         self.points = QComboBox()
         self.points.addItems(F.POINTS_TELEPORTATION)
         bouton = QPushButton('Téléporter')
@@ -63,6 +73,11 @@ class PageJoueur(QWidget):
         self._afficher_emplacement()
         self.liaison.modifiee.emit()
 
+    def _regler_horloge(self, valeur: int) -> None:
+        self.liaison.vue['horloge'] = valeur
+        self._afficher_emplacement()
+        self.liaison.modifiee.emit()
+
     def _afficher_emplacement(self) -> None:
         joueur = self.liaison.vue
         j = {c: joueur[c] for c in F.CHAMP_JOUEUR}
@@ -75,3 +90,9 @@ class PageJoueur(QWidget):
                           f"{noms.carte(j['location_precedente'])})")
         self.position.setText(' / '.join(f"{j[f'position_{a}'] / 100:.2f}".replace('.', ',')
                                          for a in 'xyz'))
+        h = j['horloge']
+        if h < F.DEBUT_NUIT:
+            texte = f'Jour — la nuit tombe dans {(F.DEBUT_NUIT - h) / 30 / 60:.1f} min'
+        else:
+            texte = f'Nuit — le jour revient dans {(F.DUREE_CYCLE - h) / 30 / 60:.1f} min'
+        self.moment.setText(texte.replace('.', ',') + " de jeu en plein air")

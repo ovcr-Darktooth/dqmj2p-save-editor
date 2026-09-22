@@ -8,7 +8,7 @@ from PySide6.QtWidgets import (QAbstractItemView, QFileDialog, QHeaderView,
                                QTableWidgetItem, QTabWidget)
 
 from dqmj2p_save import ErreurSauvegarde, Sauvegarde
-from dqmj2p_save import noms
+from dqmj2p_save import bestiaire, noms
 
 from . import icones
 from .fiche import Fiche
@@ -22,7 +22,7 @@ LIBELLES_ROLES = {'equipe_1': 'Équipe 1', 'equipe_2': 'Équipe 2',
                   'reserve_2': 'Réserve 2', 'reserve_3': 'Réserve 3',
                   'ranch': 'Ranch'}
 ORDRE_ROLES = list(LIBELLES_ROLES)
-COLONNES = ('Empl.', 'Rôle', 'Espèce', 'Surnom', 'Niveau')
+COLONNES = ('Empl.', 'Rôle', 'Fam.', 'Espèce', 'Surnom', 'Niveau')
 
 
 class Fenetre(QMainWindow):
@@ -58,7 +58,7 @@ class Fenetre(QMainWindow):
         separation.setStretchFactor(0, 0)
         separation.setStretchFactor(1, 1)
         separation.setCollapsible(0, False)
-        self.liste.setMinimumWidth(440)
+        self.liste.setMinimumWidth(480)
 
         self.onglets = QTabWidget()
         self.onglets.addTab(self.page_joueur, 'Joueur')
@@ -132,7 +132,8 @@ class Fenetre(QMainWindow):
 
     def _remplir_ligne(self, ligne: int) -> None:
         m = self.monstres[ligne]
-        valeurs = (m.emplacement, LIBELLES_ROLES[self.sauvegarde.role(m)],
+        famille = bestiaire.fiche(m['espece']).famille
+        valeurs = (m.emplacement, LIBELLES_ROLES[self.sauvegarde.role(m)], '',
                    noms.table('especes')[m['espece']], m['surnom'], m['niveau'])
         for colonne, valeur in enumerate(valeurs):
             cellule = QTableWidgetItem(str(valeur))
@@ -140,6 +141,10 @@ class Fenetre(QMainWindow):
                 cellule.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
             if colonne == COLONNES.index('Espèce'):
                 cellule.setIcon(icones.icone(m['espece']))
+            if colonne == COLONNES.index('Fam.'):
+                cellule.setData(Qt.DecorationRole, icones.famille(famille))
+                cellule.setToolTip(famille or '')
+                cellule.setTextAlignment(Qt.AlignCenter)
             self.liste.setItem(ligne, colonne, cellule)
 
     def _selection(self) -> None:

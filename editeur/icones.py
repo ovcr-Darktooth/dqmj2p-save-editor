@@ -46,3 +46,22 @@ def agrandie(espece: int, hauteur_mini: int = 2 * CASE) -> QPixmap:
 
 
 TAILLE_CASE = QSize(CASE, CASE)
+
+FAMILLES = DOSSIER / 'familles'     # glyphes de la police du jeu (outils/extraire_familles.py)
+
+
+def chemin_famille(famille: str | None) -> Path | None:
+    """Fichier de l'icône d'une famille (« ??? » -> inconnue.png), ou None."""
+    if not famille:
+        return None
+    chemin = FAMILLES / f"{'inconnue' if famille == '???' else famille}.png"
+    return chemin if chemin.exists() else None
+
+
+@cache
+def famille(nom: str | None, facteur: int = 2) -> QPixmap:
+    chemin = chemin_famille(nom)
+    if chemin is None:
+        return QPixmap()
+    source = QPixmap(str(chemin))
+    return source.scaled(source.size() * facteur, Qt.IgnoreAspectRatio, Qt.FastTransformation)
