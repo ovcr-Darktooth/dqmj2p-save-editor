@@ -118,6 +118,16 @@ class Sauvegarde:
         self.copie[champ.miroir] = bloc[0]
         self.modifiee = True
 
+    def regler_horloge(self, valeur: int) -> None:
+        """Règle l'horloge jour/nuit et l'indicateur de nuit qui l'accompagne."""
+        valeur %= F.DUREE_CYCLE
+        self.joueur['horloge'] = valeur
+        octet, bit = F.INDICATEUR_NUIT
+        avant = self.copie[octet]
+        self.copie[octet] = avant | bit if valeur >= F.DEBUT_NUIT else avant & ~bit
+        if self.copie[octet] != avant:
+            self.modifiee = True
+
     def ids_equipe(self) -> list[int]:
         return list(struct.unpack_from('<6I', self.copie, F.EQUIPE_IDS))
 

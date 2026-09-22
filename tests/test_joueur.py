@@ -185,3 +185,19 @@ class Horloge(unittest.TestCase):
         jour = Sauvegarde.ouvrir(donnee('debut-jour.dsv')).joueur['horloge']
         self.assertTrue(F.DEBUT_NUIT <= nuit < F.DEBUT_NUIT + 30 * 5)
         self.assertTrue(0 <= jour < 30 * 5)
+
+    def test_indicateur_de_nuit_coherent(self):
+        """Le bit de nuit suit l'horloge dans toutes les sauvegardes du jeu, et
+        regler_horloge() le tient à jour."""
+        octet, bit = F.INDICATEUR_NUIT
+        for nom in ('debut-nuit.dsv', 'debut-jour.dsv', 'engloutile-nuit.dsv',
+                    'engloutile-brume.dsv'):
+            s = Sauvegarde.ouvrir(donnee(nom))
+            self.assertEqual(bool(s.copie[octet] & bit), s.joueur['horloge'] >= F.DEBUT_NUIT, nom)
+        s = Sauvegarde.ouvrir(donnee('debut-jour.dsv'))
+        s.regler_horloge(F.DEBUT_NUIT)
+        self.assertTrue(s.copie[octet] & bit)
+        s.regler_horloge(0)
+        self.assertFalse(s.copie[octet] & bit)
+        self.assertEqual(Sauvegarde(s.en_octets()).copie[octet],
+                         Sauvegarde.ouvrir(donnee('debut-jour.dsv')).copie[octet])

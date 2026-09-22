@@ -198,6 +198,10 @@ CHAMPS_JOUEUR = (
 # vérifiés en jeu en réglant l'horloge 75 unités avant chacun (~3 s).
 DEBUT_NUIT = 10_800
 DUREE_CYCLE = 18_000
+# Indicateur « il fait nuit » : bit 0x20 de 0x39A1, allumé dans toutes les
+# sauvegardes faites de nuit, éteint de jour. Le jeu le recalcule à partir de
+# l'horloge (une horloge de jour avec le bit allumé démarre de jour).
+INDICATEUR_NUIT = (0x39A1, 0x20)
 CHAMP_JOUEUR = {c.cle: c for c in CHAMPS_JOUEUR}
 
 # Bloc de position complet (0x3A68-0x3A83 : carte, carte précédente, X, Y, Z,

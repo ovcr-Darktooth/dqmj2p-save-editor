@@ -83,7 +83,7 @@ class PageJoueur(QWidget):
     def _regler_horloge(self, valeur: int) -> None:
         if self.liaison.vue['horloge'] == valeur:
             return
-        self.liaison.vue['horloge'] = valeur
+        self.liaison.vue.sauvegarde.regler_horloge(valeur)
         self.cadran.setValue(valeur)
         self.liaison.modifiee.emit()
 
