@@ -47,6 +47,16 @@ CARTES = {
 }
 
 
+# Intempérie propre à chaque carte (une seule par carte), observée en jeu.
+# Les cartes absentes n'ont pas de météo connue.
+METEO = {
+    14: 'pluie',        # L'Arbirynthe
+    17: 'pluie',        # Prairia
+    47: 'brume',        # Engloutîle
+    57: 'pluie',        # Archéopolis (débloquée plus tard dans l'histoire)
+}
+
+
 def carte(numero: int) -> str:
     return CARTES.get(numero, 'lieu inconnu')
 

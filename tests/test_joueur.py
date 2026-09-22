@@ -162,9 +162,11 @@ class Teleportation(unittest.TestCase):
                 ('captures/07-005220-carte57.dsv', 'Archéopolis')):
             with self.subTest(point):
                 reference = Sauvegarde.ouvrir(donnee(fichier))
-                bloc = F.POINTS_TELEPORTATION[point]
-                self.assertEqual(bytes(reference.copie[F.BLOC_POSITION:
-                                                       F.BLOC_POSITION + len(bloc)]), bloc)
+                bloc = bytearray(F.POINTS_TELEPORTATION[point])
+                releve = bytearray(reference.copie[F.BLOC_POSITION:
+                                                   F.BLOC_POSITION + len(bloc)])
+                releve[2] = 0                               # points sans intempérie
+                self.assertEqual(releve, bloc)
                 self.assertEqual(reference.copie[0x86], bloc[0])
 
     def test_teleporter(self):
@@ -201,3 +203,16 @@ class Horloge(unittest.TestCase):
         self.assertFalse(s.copie[octet] & bit)
         self.assertEqual(Sauvegarde(s.en_octets()).copie[octet],
                          Sauvegarde.ouvrir(donnee('debut-jour.dsv')).copie[octet])
+
+
+class Meteo(unittest.TestCase):
+    def test_intemperie_relevee_en_jeu(self):
+        self.assertEqual(Sauvegarde.ouvrir(donnee('engloutile-brume.dsv')).joueur['intemperie'], 1)
+        self.assertEqual(Sauvegarde.ouvrir(donnee('debut-jour.dsv')).joueur['intemperie'], 0)
+        pluie = Sauvegarde.ouvrir(donnee('captures/02-005012-carte14.dsv')).joueur
+        self.assertEqual((pluie['intemperie'], noms.METEO[pluie['location']]), (1, 'pluie'))
+
+    def test_teleportation_sans_intemperie(self):
+        s = Sauvegarde.ouvrir(donnee('engloutile-brume.dsv'))
+        s.teleporter("L'Arbirynthe")
+        self.assertEqual(s.joueur['intemperie'], 0)

@@ -46,6 +46,7 @@ Offsets de base relevés par **Ceris White** (`save_converter.py`, projet
 | `0x3A68` | u8 | Carte actuelle (table `noms.CARTES`, relevée en jeu : 14 L'Arbirynthe, 17 Prairia, 24 Arène, 37 Escarpic, 47 Engloutîle, 57 Archéopolis, 85 Albatros extérieur, 88 Albatros intérieur, 151 Avablanche) |
 | `0x3A6C` | u32 | Horloge jour/nuit, en 1/30 s de jeu en plein air (0 en ville) : nuit à partir de 10 800, retour à 0 à 18 000 |
 | `0x3A69` | u8 | Carte précédente : au chargement, le jeu y met la carte du résumé (`0x86`) |
+| `0x3A6A` | u8 | Intempérie en cours (1) ou non (0) ; son type dépend de la carte (`noms.METEO` : pluie à l'Arbirynthe, Prairia, Archéopolis ; brume à Engloutîle) |
 | `0x3A70` | 3 × i32 | Position X, Y, Z du joueur, en centièmes |
 | `0x3A7C` | i32 | Probablement l'orientation, en degrés virgule fixe 20.12 (180°, −88°, 90° observés) |
 | `0x3A90` | 4 × u32 | Quatre copies du temps de jeu (rôle inconnu) |
@@ -107,6 +108,13 @@ Sauvegardes faites quelques secondes après les messages : 10 801 à la tombée
 de la nuit, 26 au retour du jour. Le jour dure donc 6 min de jeu en plein air
 et la nuit 4 min. Un bit de `0x39A1` (`0x20`) s'est allumé à la première nuit
 observée : drapeau d'événement, sans effet sur l'heure.
+
+**Météo** (23/09/2026) : une sauvegarde prise dans la brume à Engloutîle ne
+diffère des sauvegardes par temps clair que par `0x3A6A` (1 au lieu de 0) et
+`0x3970`. Remettre `0x3970` à sa valeur de temps clair ne change rien ;
+remettre `0x3A6A` à 0 fait disparaître la brume au chargement. La capture de
+l'Arbirynthe, faite sous la pluie, a aussi `0x3A6A` à 1. Chaque carte n'a
+qu'un type d'intempérie. `0x3970` (0 à 6 selon les sauvegardes) reste inconnu.
 
 Réglage par l'éditeur validé en jeu le même jour : horloge à 10 800, la partie
 démarre de nuit ; à 10 725 (75 unités avant le seuil), de jour, et la nuit

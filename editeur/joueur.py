@@ -1,8 +1,8 @@
 """Onglet Joueur : nom, temps de jeu, or et statistiques de partie, plus la
 date de sauvegarde, l'emplacement dans le monde et la téléportation vers des
 points relevés en jeu."""
-from PySide6.QtWidgets import (QComboBox, QFormLayout, QGroupBox, QHBoxLayout,
-                               QLabel, QPushButton, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QCheckBox, QComboBox, QFormLayout, QGroupBox,
+                               QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget)
 
 from dqmj2p_save import format as F
 from dqmj2p_save import noms
@@ -53,6 +53,9 @@ class PageJoueur(QWidget):
         ligne_horloge.addLayout(boutons)
         ligne_horloge.addStretch()
         formulaire.addRow('Moment de la journée', ligne_horloge)
+        self.intemperie = QCheckBox()
+        self.intemperie.toggled.connect(self._regler_intemperie)
+        formulaire.addRow('Météo', self.intemperie)
         self.points = QComboBox()
         self.points.addItems(F.POINTS_TELEPORTATION)
         bouton = QPushButton('Téléporter')
@@ -87,6 +90,13 @@ class PageJoueur(QWidget):
         self.cadran.setValue(valeur)
         self.liaison.modifiee.emit()
 
+    def _regler_intemperie(self, active: bool) -> None:
+        joueur = self.liaison.vue
+        if joueur is None or bool(joueur['intemperie']) == active:
+            return
+        joueur['intemperie'] = int(active)
+        self.liaison.modifiee.emit()
+
     def _afficher_emplacement(self) -> None:
         joueur = self.liaison.vue
         j = {c: joueur[c] for c in F.CHAMP_JOUEUR}
@@ -100,3 +110,11 @@ class PageJoueur(QWidget):
         self.position.setText(' / '.join(f"{j[f'position_{a}'] / 100:.2f}".replace('.', ',')
                                          for a in 'xyz'))
         self.cadran.setValue(j['horloge'])
+        meteo = noms.METEO.get(j['location'])
+        self.intemperie.blockSignals(True)
+        self.intemperie.setChecked(bool(j['intemperie']))
+        self.intemperie.blockSignals(False)
+        # Sur une carte sans météo connue, on laisse décocher mais pas cocher.
+        self.intemperie.setEnabled(meteo is not None or bool(j['intemperie']))
+        self.intemperie.setText(f'{meteo.capitalize()} en cours' if meteo
+                                else 'Aucune intempérie connue sur cette carte')

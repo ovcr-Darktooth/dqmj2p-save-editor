@@ -192,6 +192,9 @@ CHAMPS_JOUEUR = (
     Champ('position_y', 0x3A74, 'i32', 'Position Y (centièmes)', lecture_seule=True),
     Champ('position_z', 0x3A78, 'i32', 'Position Z (centièmes)', lecture_seule=True),
     Champ('horloge', 0x3A6C, 'u32', 'Horloge jour/nuit (1/30 s)'),
+    # Intempérie en cours (pluie ou brume selon la carte), validée en jeu :
+    # une sauvegarde prise dans la brume à Engloutîle démarre sans brume à 0.
+    Champ('intemperie', 0x3A6A, 'u8', 'Intempérie en cours'),
 )
 
 # Horloge jour/nuit (0x3A6C), mesurée en jeu : elle avance en plein air, la
@@ -206,8 +209,10 @@ DUREE_CYCLE = 18_000
 INDICATEUR_NUIT = (0x39A1, 0x20)
 CHAMP_JOUEUR = {c.cle: c for c in CHAMPS_JOUEUR}
 
-# Bloc de position complet (0x3A68-0x3A83 : carte, carte précédente, X, Y, Z,
-# orientation et deux champs inconnus), recopié de sauvegardes faites en jeu.
+# Bloc de position complet (0x3A68-0x3A83 : carte, carte précédente,
+# intempérie, horloge, X, Y, Z, orientation, un champ inconnu), recopié de
+# sauvegardes faites en jeu. Les points sont neutres : pas d'intempérie
+# (l'Arbirynthe avait été relevée sous la pluie).
 # Téléportation validée en jeu le 23/09/2026 (Archéopolis -> Albatros). Les
 # régions sont les points d'arrivée de la Téléportation du jeu, sauvegardés
 # sans bouger ; ordre de msg_map.
@@ -218,7 +223,7 @@ POINTS_TELEPORTATION = {
     'Albatros (sortie)':
         bytes.fromhex('555600003a0700005cb7ffffbc5f00009a89ffff000cfeffbc020000'),
     'Avablanche': bytes.fromhex('97110000900a0000f6fcffff00000000a48c0100cd9c0a00fc030000'),
-    "L'Arbirynthe": bytes.fromhex('0e550100200a0000ec95020014000000cd08010015561300fc030000'),
+    "L'Arbirynthe": bytes.fromhex('0e550000200a0000ec95020014000000cd08010015561300fc030000'),
     'Prairia': bytes.fromhex('110e0000790a00009ac103003e1e0000e11e03007bf81100fc030000'),
     'Arène': bytes.fromhex('1839000000000000713902000e5b00005c3f030000b0f8ffa4000000'),
     'Engloutîle': bytes.fromhex('2f250000410b0000ae6700007e9300009ae1fbff00801600fc030000'),
