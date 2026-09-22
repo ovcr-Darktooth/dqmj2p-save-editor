@@ -194,13 +194,22 @@ CHAMP_JOUEUR = {c.cle: c for c in CHAMPS_JOUEUR}
 
 # Bloc de position complet (0x3A68-0x3A83 : carte, carte précédente, X, Y, Z,
 # orientation et deux champs inconnus), recopié de sauvegardes faites en jeu.
-# Téléportation validée en jeu le 23/09/2026 (Archéopolis -> Albatros).
+# Téléportation validée en jeu le 23/09/2026 (Archéopolis -> Albatros). Les
+# régions sont les points d'arrivée de la Téléportation du jeu, sauvegardés
+# sans bouger ; ordre de msg_map.
 BLOC_POSITION = 0x3A68
 POINTS_TELEPORTATION = {
-    'Archéopolis': bytes.fromhex('3939000000000000cef5ffff0000000042e6000000400b00bc000000'),
     'Albatros (tablette du ranch)':
         bytes.fromhex('58580000a805000051fefeff00a000006dfeffff0080faffa0000000'),
+    'Albatros (sortie)':
+        bytes.fromhex('555600003a0700005cb7ffffbc5f00009a89ffff000cfeffbc020000'),
+    'Avablanche': bytes.fromhex('97110000900a0000f6fcffff00000000a48c0100cd9c0a00fc030000'),
+    "L'Arbirynthe": bytes.fromhex('0e550100200a0000ec95020014000000cd08010015561300fc030000'),
+    'Prairia': bytes.fromhex('110e0000790a00009ac103003e1e0000e11e03007bf81100fc030000'),
     'Arène': bytes.fromhex('1839000000000000713902000e5b00005c3f030000b0f8ffa4000000'),
+    'Engloutîle': bytes.fromhex('2f250000410b0000ae6700007e9300009ae1fbff00801600fc030000'),
+    'Archéopolis': bytes.fromhex('392f000000000000c3f5ffff00000000666a010000400b00bc000000'),
+    'Escarpic': bytes.fromhex('25970000bc0a000066e20000fd000000526404007b180c00fc030000'),
 }
 
 # ── Sac ──────────────────────────────────────────────────────────────────────

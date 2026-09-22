@@ -35,9 +35,15 @@ class TableNoms:
 # cartes et régions (msg_map) n'est pas encore localisée : ces entrées sont
 # relevées en jeu, une sauvegarde à la fois.
 CARTES = {
+    14: "L'Arbirynthe",
+    17: 'Prairia',
     24: 'Arène',
+    37: 'Escarpic',
+    47: 'Engloutîle',
     57: 'Archéopolis',
-    88: 'Albatros',
+    85: 'Albatros (extérieur)',
+    88: 'Albatros (intérieur, ranch)',
+    151: 'Avablanche',
 }
 
 

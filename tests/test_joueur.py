@@ -150,9 +150,16 @@ class Teleportation(unittest.TestCase):
     def test_points_releves_en_jeu(self):
         """Chaque point reproduit exactement le bloc d'une sauvegarde faite sur
         place par le jeu."""
-        for fichier, point in (('moitie-jeu.dsv', 'Archéopolis'),
-                               ('apres-test-jeu.dsv', 'Albatros (tablette du ranch)'),
-                               ('arene.dsv', 'Arène')):
+        for fichier, point in (
+                ('apres-test-jeu.dsv', 'Albatros (tablette du ranch)'),
+                ('arene.dsv', 'Arène'),
+                ('captures/01-004857-carte85.dsv', 'Albatros (sortie)'),
+                ('captures/02-005012-carte14.dsv', "L'Arbirynthe"),
+                ('captures/03-005036-carte17.dsv', 'Prairia'),
+                ('captures/04-005058-carte151.dsv', 'Avablanche'),
+                ('captures/05-005120-carte37.dsv', 'Escarpic'),
+                ('captures/06-005145-carte47.dsv', 'Engloutîle'),
+                ('captures/07-005220-carte57.dsv', 'Archéopolis')):
             with self.subTest(point):
                 reference = Sauvegarde.ouvrir(donnee(fichier))
                 bloc = F.POINTS_TELEPORTATION[point]
@@ -165,5 +172,6 @@ class Teleportation(unittest.TestCase):
         s.teleporter('Arène')
         relue = Sauvegarde(s.en_octets())
         self.assertEqual(noms.carte(relue.joueur['location']), 'Arène')
+        self.assertEqual(relue.joueur['location_precedente'], 57)
         self.assertEqual(relue.copie[0x86], 24)      # résumé de l'écran de chargement
         self.assertEqual(relue.joueur['position_x'], 145777)

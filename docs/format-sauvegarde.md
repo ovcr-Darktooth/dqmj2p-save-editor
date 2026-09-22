@@ -43,7 +43,8 @@ Offsets de base relevés par **Ceris White** (`save_converter.py`, projet
 | `0x1DC` | 3 × u16 | Victoires, monstres dressés, monstres synthétisés |
 | `0x1E8` | 100 × 0x84 | Enregistrements de monstres |
 | `0x3638-0x3A67` | | **À cartographier** |
-| `0x3A68` | u8 | Carte actuelle (24 = Arène, 57 = Archéopolis, 88 = Albatros ; table `noms.CARTES`, relevée en jeu) |
+| `0x3A68` | u8 | Carte actuelle (table `noms.CARTES`, relevée en jeu : 14 L'Arbirynthe, 17 Prairia, 24 Arène, 37 Escarpic, 47 Engloutîle, 57 Archéopolis, 85 Albatros extérieur, 88 Albatros intérieur, 151 Avablanche) |
+| `0x3A6C` | u32 | **À confirmer** : croît au fil des zones de plein air (0x73A → 0xB41), 0 en ville ; horloge jour/nuit ? |
 | `0x3A69` | u8 | Carte précédente : au chargement, le jeu y met la carte du résumé (`0x86`) |
 | `0x3A70` | 3 × i32 | Position X, Y, Z du joueur, en centièmes |
 | `0x3A7C` | i32 | Probablement l'orientation, en degrés virgule fixe 20.12 (180°, −88°, 90° observés) |
