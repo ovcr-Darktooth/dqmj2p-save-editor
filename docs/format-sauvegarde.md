@@ -27,9 +27,9 @@ Offsets de base relevés par **Ceris White** (`save_converter.py`, projet
 | `0x2C` | texte 20 o | Nom du joueur (résumé ; copie de `0x98`) |
 | `0x40` | 3 × texte 20 o | Surnoms des 3 monstres d'équipe (résumé) |
 | `0x7C` | 3 × u16 + 3 × u8 | Espèce puis niveau des 3 monstres d'équipe (résumé) |
-| `0x85` | u8 | **À confirmer** : 3 en milieu de partie, 1 au début (chapitre ?) |
+| `0x85` | u8 | Nombre de monstres dans l'équipe (résumé) |
 | `0x86` | u8 | Carte (résumé ; copie de `0x3A68`), affichée sur l'écran de chargement |
-| `0x87` | u8 | **À confirmer** : 63, 7 ou 0, ressemble à des bits (régions débloquées ?) |
+| `0x87` | u8 | Bits d'avancement cumulatifs : 0 en début de partie, 3 bits à 3 h, 6 à 13 h, les 7 après Rapthorne 2 (étapes de l'histoire ?) |
 | `0x88` | u32 | Somme data : somme des `0x1C10` mots u32 à partir de `0x90` |
 | `0x8C` | u32 | Somme d'en-tête : somme des `0x23` premiers mots (inclut `0x88`, donc à calculer après) |
 | `0x90` | u32 | Temps de jeu, en 1/30 s |

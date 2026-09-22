@@ -142,6 +142,7 @@ class Sauvegarde:
         résumé de l'écran de chargement, que le jeu tient à jour de son côté."""
         par_id = {m['id_creation']: m for m in self.monstres()}
         surnom = F.CHAMP['surnom']
+        self.copie[F.TAILLE_EQUIPE] = sum(cid in par_id for cid in self.ids_equipe()[:3])
         for i, cid in enumerate(self.ids_equipe()[:3]):
             m = par_id.get(cid)
             struct.pack_into('<H', self.copie, F.TABLE_EQUIPE + 2 * i,
