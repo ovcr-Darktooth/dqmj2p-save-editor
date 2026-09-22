@@ -54,11 +54,21 @@ contenu complet du sac (28 objets). Les ID d'objets sont ceux de
 
 ## Texte
 
-Un octet par caractère, selon la table de l'ARM9 (`0x020DBC16`, reprise dans
-`texte.py`) : `01-0A` chiffres, `0D-26` A-Z, `27-40` a-z, puis accents et
-kana. Le texte s'arrête au premier `00` ou au marqueur `E3 1B`. Ce qui suit est
-du résidu d'un nom précédent, à conserver tel quel. Les noms et surnoms font
-8 caractères au plus, dans un champ de 20 octets.
+Table de caractères de l'ARM9 (`0x020DBC16`, reprise dans `texte.py`) :
+un octet par caractère (`01-0A` chiffres, `0D-26` A-Z, `27-40` a-z, puis
+accents et kana), ou deux octets avec un préfixe `E0`, `E1` ou `E4`
+(ponctuation, symboles, kanji). Le tiret s'écrit `E0 5A`. Le texte s'arrête au
+premier `00` ou au marqueur `E3 1B` ; ce qui suit est du résidu d'un nom
+précédent, à conserver tel quel. Les noms et surnoms font 8 **caractères** au
+plus, dans un champ de 20 octets.
+
+À la capture, le jeu donne comme surnom les 2 premières lettres de l'espèce.
+Valider un surnom vide le remplace par le nom de l'espèce coupé à 8
+caractères, ce que fait aussi l'action « Surnoms abrégés → nom complet ».
+
+Les monstres vivants occupent toujours les emplacements `0..N-1` (le jeu
+compacte le ranch) ; au-delà traînent des monstres consommés en synthèse, ID de
+création à 0. Un nouveau monstre prend l'emplacement N et l'ID `0x94 + 1`.
 
 Un emplacement de monstre est libre si son ID de création (`+0x14`) ou son
 espèce (`+0x18`) vaut 0 (monstre consommé en synthèse).

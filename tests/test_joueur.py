@@ -91,3 +91,34 @@ class Sac(unittest.TestCase):
         s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
         s.sac[1] = 99
         self.assertEqual(Sauvegarde(s.en_octets()).sac[1], 99)
+
+
+class Monstres(unittest.TestCase):
+    def test_surnoms_par_defaut_restaures(self):
+        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        renommes = {m.emplacement: m['surnom'] for m in s.restaurer_surnoms()}
+        self.assertEqual(renommes[1], 'Slurpier')          # était « Sl »
+        self.assertNotIn(21, renommes)                      # « Nécroman » déjà complet
+        relue = Sauvegarde(s.en_octets())
+        self.assertEqual(relue.monstre(1)['surnom'], 'Slurpier')
+        self.assertFalse(any(m.surnom_par_defaut for m in relue.monstres()))
+
+    def test_surnom_avec_tiret_sur_deux_octets(self):
+        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        mort_vivant = next(m for m in s.monstres() if m['surnom'] == 'Mort-viv')
+        champ = F.CHAMP['surnom']
+        self.assertEqual(champ.en_octets('Mort-viv')[:9],
+                         mort_vivant.octets[:9])            # tiret = E0 5A
+
+    def test_dupliquer(self):
+        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        avant = len(s.monstres())
+        modele = s.monstre(21)
+        copie = s.dupliquer(modele)
+        relue = Sauvegarde(s.en_octets())
+        self.assertEqual(copie.emplacement, avant)
+        self.assertEqual(len(relue.monstres()), avant + 1)
+        self.assertEqual(relue.monstre(avant)['id_creation'], 108)
+        self.assertEqual(relue.joueur['dernier_id_creation'], 108)
+        self.assertEqual(relue.role(relue.monstre(avant)), 'ranch')
+        self.assertEqual(relue.monstre(avant).octets[0x18:], modele.octets[0x18:])

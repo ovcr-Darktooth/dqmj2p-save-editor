@@ -72,6 +72,14 @@ class Fenetre(QMainWindow):
         menu.addSeparator()
         self._action(menu, '&Quitter', QKeySequence.Quit, self.close)
 
+        menu = self.menuBar().addMenu('&Monstres')
+        self.actions_sauvegarde = [
+            self._action(menu, '&Dupliquer le monstre sélectionné', 'Ctrl+D',
+                         self.dupliquer),
+            self._action(menu, "Surnoms abrégés → &nom complet de l'espèce", None,
+                         self.restaurer_surnoms),
+        ]
+
         self.setAcceptDrops(True)
         self.resize(1080, 620)
         self._rafraichir_titre()
@@ -79,7 +87,9 @@ class Fenetre(QMainWindow):
                                      'glissez-la dans la fenêtre.')
 
     def _action(self, menu, texte, raccourci, slot) -> QAction:
-        action = QAction(texte, self, shortcut=raccourci, triggered=slot)
+        action = QAction(texte, self, triggered=slot)
+        if raccourci:
+            action.setShortcut(raccourci)
         menu.addAction(action)
         return action
 
@@ -99,17 +109,23 @@ class Fenetre(QMainWindow):
             QMessageBox.critical(self, 'Ouverture impossible', f'{chemin}\n\n{e}')
             return
         self.sauvegarde = sauvegarde
+        self._remplir_liste()
+        self.page_joueur.afficher(sauvegarde.joueur)
+        self.page_sac.afficher(sauvegarde.sac)
+        self._rafraichir_titre()
+        self.statusBar().showMessage(f'{len(self.monstres)} monstres chargés.')
+
+    def _remplir_liste(self, emplacement_choisi: int | None = None) -> None:
+        sauvegarde = self.sauvegarde
         self.monstres = sorted(sauvegarde.monstres(),
                                key=lambda m: (ORDRE_ROLES.index(sauvegarde.role(m)),
                                               m.emplacement))
         self.liste.setRowCount(len(self.monstres))
         for ligne in range(len(self.monstres)):
             self._remplir_ligne(ligne)
-        self.liste.selectRow(0)
-        self.page_joueur.afficher(sauvegarde.joueur)
-        self.page_sac.afficher(sauvegarde.sac)
-        self._rafraichir_titre()
-        self.statusBar().showMessage(f'{len(self.monstres)} monstres chargés.')
+        emplacements = [m.emplacement for m in self.monstres]
+        self.liste.selectRow(emplacements.index(emplacement_choisi)
+                             if emplacement_choisi in emplacements else 0)
 
     def _remplir_ligne(self, ligne: int) -> None:
         m = self.monstres[ligne]
@@ -129,6 +145,26 @@ class Fenetre(QMainWindow):
     def _apres_modification(self) -> None:
         self._remplir_ligne(self.liste.currentRow())
         self._rafraichir_titre()
+
+    # ── Actions sur les monstres ─────────────────────────────────────────────
+
+    def dupliquer(self) -> None:
+        modele = self.fiche.monstre
+        try:
+            copie = self.sauvegarde.dupliquer(modele)
+        except ErreurSauvegarde as e:
+            QMessageBox.warning(self, 'Duplication impossible', str(e))
+            return
+        self._remplir_liste(copie.emplacement)
+        self._rafraichir_titre()
+        self.statusBar().showMessage(
+            f'{copie["surnom"]} dupliqué dans le ranch (emplacement {copie.emplacement}).')
+
+    def restaurer_surnoms(self) -> None:
+        renommes = self.sauvegarde.restaurer_surnoms()
+        self._remplir_liste(self.fiche.monstre.emplacement)
+        self._rafraichir_titre()
+        self.statusBar().showMessage(f'{len(renommes)} surnom(s) complété(s).')
 
     # ── Enregistrement ───────────────────────────────────────────────────────
 
@@ -157,8 +193,9 @@ class Fenetre(QMainWindow):
 
     def _rafraichir_titre(self) -> None:
         ouverte = self.sauvegarde is not None
-        self.action_enregistrer.setEnabled(ouverte)
-        self.action_enregistrer_sous.setEnabled(ouverte)
+        for action in (self.action_enregistrer, self.action_enregistrer_sous,
+                       *self.actions_sauvegarde):
+            action.setEnabled(ouverte)
         if not ouverte:
             self.setWindowTitle(TITRE)
             return

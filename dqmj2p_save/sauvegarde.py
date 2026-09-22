@@ -85,6 +85,30 @@ class Sauvegarde:
         """Monstres présents, dans l'ordre des emplacements."""
         return [m for m in map(self.monstre, range(F.NB_MONSTRES)) if m.present]
 
+    def restaurer_surnoms(self) -> list[Monstre]:
+        """Donne le nom complet de l'espèce aux monstres qui portent encore le
+        surnom abrégé de la capture. Renvoie les monstres renommés."""
+        renommes = [m for m in self.monstres() if m.surnom_par_defaut]
+        for m in renommes:
+            m['surnom'] = m.surnom_complet()
+        return renommes
+
+    def dupliquer(self, modele: Monstre) -> Monstre:
+        """Copie un monstre dans le premier emplacement libre du ranch, avec un
+        nouvel ID de création. Le jeu range les monstres vivants dans les
+        emplacements 0..N-1 : la copie va en N."""
+        emplacement = len(self.monstres())
+        if emplacement >= F.NB_MONSTRES:
+            raise ErreurSauvegarde(f'ranch plein ({F.NB_MONSTRES} monstres)')
+        copie = self.monstre(emplacement)
+        self.copie[copie.base: copie.base + F.TAILLE_MONSTRE] = modele.octets
+        # Champs en lecture seule pour l'utilisateur : écriture directe.
+        nouvel_id = self.joueur['dernier_id_creation'] + 1
+        F.CHAMP['id_creation'].ecrire(self.copie, copie.base, nouvel_id)
+        F.CHAMP_JOUEUR['dernier_id_creation'].ecrire(self.copie, 0, nouvel_id)
+        self.modifiee = True
+        return copie
+
     def ids_equipe(self) -> list[int]:
         return list(struct.unpack_from('<6I', self.copie, F.EQUIPE_IDS))
 
