@@ -1,0 +1,3 @@
+bestiaire.json : rang, famille, taille et synthèses spéciales, repris de
+site/data.js (lui-même construit depuis les bases de DQMJ2Pro_Translation_FR).
+Issu de https://github.com/ovcr-Darktooth/dqmj2pro-synthesis, commit bcd3ec7.

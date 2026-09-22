@@ -6,11 +6,12 @@ from PySide6.QtWidgets import (QFormLayout, QGridLayout, QHBoxLayout, QLabel,
                                QPlainTextEdit, QTabWidget, QVBoxLayout, QWidget)
 
 from dqmj2p_save import format as F
-from dqmj2p_save import noms
+from dqmj2p_save import bestiaire, noms
 
 from . import icones
 
 from .saisies import Liaison
+from .synthese import PageSynthese
 
 ONGLETS = {
     'Identité': ('surnom', 'espece', 'variante', 'polarite', 'plus', 'plus_base',
@@ -32,6 +33,7 @@ class Fiche(QWidget):
         super().__init__()
         self.onglets = _Onglets()
         self.liaison = self.onglets.liaison
+        self._espece_affichee = None
         self.liaison.modifiee.connect(self._afficher_entete)
 
         self.image = QLabel(alignment=Qt.AlignCenter)
@@ -68,10 +70,22 @@ class Fiche(QWidget):
 
     def _afficher_entete(self) -> None:
         m = self.monstre
-        self.image.setPixmap(icones.agrandie(m['espece']))
-        self.titre.setText(m['surnom'] or noms.table('especes')[m['espece']])
-        self.sous_titre.setText(f"{noms.table('especes')[m['espece']]}  —  niveau {m['niveau']}"
-                                f"  —  emplacement {m.emplacement}")
+        espece = m['espece']
+        self.image.setPixmap(icones.agrandie(espece))
+        self.titre.setText(m['surnom'] or noms.table('especes')[espece])
+        infos = bestiaire.fiche(espece)
+        details = [noms.table('especes')[espece]]
+        if infos.rang:
+            details.append(f'rang {infos.rang}')
+        if infos.famille:
+            details.append(infos.famille)
+        if infos.taille and infos.taille > 1:
+            details.append(f'taille {infos.taille}')
+        details += [f"niveau {m['niveau']}", f'emplacement {m.emplacement}']
+        self.sous_titre.setText('  —  '.join(details))
+        if espece != self._espece_affichee:
+            self._espece_affichee = espece
+            self.onglets.synthese.afficher(espece)
 
 
 class _Onglets(QTabWidget):
@@ -98,6 +112,9 @@ class _Onglets(QTabWidget):
         grille.setColumnStretch(1, 1)
         grille.setRowStretch(F.NB_COMPETENCES + 1, 1)
         self.addTab(page, 'Compétences')
+
+        self.synthese = PageSynthese()
+        self.addTab(self.synthese, 'Synthèse')
 
         page = QWidget()
         disposition = QVBoxLayout(page)

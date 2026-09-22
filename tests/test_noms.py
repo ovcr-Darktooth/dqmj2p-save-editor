@@ -21,3 +21,23 @@ class Noms(unittest.TestCase):
             if champ.noms:
                 with self.subTest(champ.cle):
                     self.assertTrue(len(noms.table(champ.noms)))
+
+
+class Bestiaire(unittest.TestCase):
+    def test_fiches(self):
+        from dqmj2p_save import bestiaire
+        gluant = bestiaire.fiche(1)
+        self.assertEqual((gluant.rang, gluant.famille, gluant.taille), ('F', 'Gluant', 1))
+        self.assertEqual(bestiaire.fiche(31).taille, 3)             # Famille gluant
+        self.assertEqual(bestiaire.fiche(9999), bestiaire.Fiche(None, None, None))
+
+    def test_recettes(self):
+        from dqmj2p_save import bestiaire
+        self.assertEqual(bestiaire.obtenu_par(110), [])              # Phalène géante
+        self.assertIn(bestiaire.Recette(379, (1, 17), False), bestiaire.obtenu_par(379))
+        self.assertTrue(all(1 in r.parents for r in bestiaire.sert_a(1)))
+        # Toute espèce citée dans une recette a un nom
+        from dqmj2p_save.bestiaire import _donnees
+        for r in _donnees()[1]:
+            for espece in (r.resultat, *r.parents):
+                self.assertNotIn(noms.table('especes')[espece], (noms.INUTILISE, noms.AUCUN))

@@ -53,7 +53,8 @@ s.enregistrer()
 | `dqmj2p_save/noms/fr/` | Noms des espèces et compétences (ligne N = ID N) |
 | `outils/importer_noms.py` | Resynchronise ces noms depuis le dépôt de traduction |
 | `editeur/icones/` | Icônes des monstres (`<id>.png`) |
-| `outils/importer_icones.py` | Les recopie depuis le projet des synthèses |
+| `dqmj2p_save/donnees/bestiaire.json` | Rang, famille, taille et synthèses spéciales |
+| `outils/importer_synthese.py` | Recopie icônes et bestiaire depuis le projet des synthèses |
 | `docs/format-sauvegarde.md` | Carte du format, avec ce qui reste inconnu |
 | `tests/` | `python -m unittest discover tests` |
 
@@ -69,7 +70,7 @@ leur documentation.
 
 Les noms français viennent de la traduction
 [DQMJ2Pro_Translation_FR](https://github.com/ovcr-Darktooth/DQMJ2Pro_Translation_FR),
-les icônes du projet [dqmj2pro-synthesis](https://github.com/ovcr-Darktooth/dqmj2pro-synthesis),
+les icônes et les synthèses du projet [dqmj2pro-synthesis](https://github.com/ovcr-Darktooth/dqmj2pro-synthesis),
 qui les extrait de la ROM (`MonsterIconDat.NICA`).
 
 ## Avertissement

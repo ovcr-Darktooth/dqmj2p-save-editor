@@ -1,0 +1,4924 @@
+{
+"monstres": {
+"1": {
+"rang": "F",
+"famille": "Gluant",
+"taille": 1
+},
+"2": {
+"rang": "F",
+"famille": "Gluant",
+"taille": 1
+},
+"3": {
+"rang": "E",
+"famille": "Gluant",
+"taille": 1
+},
+"4": {
+"rang": "F",
+"famille": "Gluant",
+"taille": 1
+},
+"5": {
+"rang": "F",
+"famille": "Gluant",
+"taille": 1
+},
+"6": {
+"rang": "D",
+"famille": "Gluant",
+"taille": 1
+},
+"7": {
+"rang": "D",
+"famille": "Gluant",
+"taille": 1
+},
+"8": {
+"rang": "E",
+"famille": "Gluant",
+"taille": 1
+},
+"9": {
+"rang": "C",
+"famille": "Gluant",
+"taille": 1
+},
+"10": {
+"rang": "D",
+"famille": "Gluant",
+"taille": 1
+},
+"11": {
+"rang": "C",
+"famille": "Gluant",
+"taille": 1
+},
+"12": {
+"rang": "A",
+"famille": "Gluant",
+"taille": 1
+},
+"13": {
+"rang": "A",
+"famille": "Gluant",
+"taille": 1
+},
+"14": {
+"rang": "S",
+"famille": "Gluant",
+"taille": 2
+},
+"15": {
+"rang": "SS",
+"famille": "Gluant",
+"taille": 2
+},
+"16": {
+"rang": "SS",
+"famille": "Nature",
+"taille": 1
+},
+"17": {
+"rang": "F",
+"famille": "Gluant",
+"taille": 1
+},
+"18": {
+"rang": "E",
+"famille": "Gluant",
+"taille": 1
+},
+"19": {
+"rang": "C",
+"famille": "Gluant",
+"taille": 1
+},
+"20": {
+"rang": "D",
+"famille": "Gluant",
+"taille": 1
+},
+"21": {
+"rang": "D",
+"famille": "Gluant",
+"taille": 1
+},
+"22": {
+"rang": "C",
+"famille": "Gluant",
+"taille": 1
+},
+"23": {
+"rang": "D",
+"famille": "Gluant",
+"taille": 1
+},
+"24": {
+"rang": "A",
+"famille": "Gluant",
+"taille": 2
+},
+"25": {
+"rang": "B",
+"famille": "Gluant",
+"taille": 1
+},
+"26": {
+"rang": "B",
+"famille": "Gluant",
+"taille": 1
+},
+"27": {
+"rang": "B",
+"famille": "Gluant",
+"taille": 1
+},
+"28": {
+"rang": "S",
+"famille": "Gluant",
+"taille": 2
+},
+"29": {
+"rang": "D",
+"famille": "Gluant",
+"taille": 1
+},
+"31": {
+"rang": "A",
+"famille": "Gluant",
+"taille": 3
+},
+"32": {
+"rang": "S",
+"famille": "Gluant",
+"taille": 2
+},
+"33": {
+"rang": "S",
+"famille": "Gluant",
+"taille": 3
+},
+"34": {
+"rang": "SS",
+"famille": "Gluant",
+"taille": 3
+},
+"35": {
+"rang": "SS",
+"famille": "Gluant",
+"taille": 1
+},
+"36": {
+"rang": "SS",
+"famille": "Gluant",
+"taille": 3
+},
+"37": {
+"rang": "A",
+"famille": "Nature",
+"taille": 1
+},
+"38": {
+"rang": "S",
+"famille": "Nature",
+"taille": 1
+},
+"40": {
+"rang": "S",
+"famille": "Nature",
+"taille": 1
+},
+"41": {
+"rang": "SS",
+"famille": "Nature",
+"taille": 3
+},
+"42": {
+"rang": "SS",
+"famille": "Nature",
+"taille": 1
+},
+"43": {
+"rang": "S",
+"famille": "Bête",
+"taille": 1
+},
+"44": {
+"rang": "S",
+"famille": "Bête",
+"taille": 2
+},
+"46": {
+"rang": "SS",
+"famille": "Bête",
+"taille": 3
+},
+"47": {
+"rang": "SS",
+"famille": "Bête",
+"taille": 2
+},
+"48": {
+"rang": "F",
+"famille": "Dragon",
+"taille": 1
+},
+"49": {
+"rang": "F",
+"famille": "Dragon",
+"taille": 1
+},
+"51": {
+"rang": "F",
+"famille": "Dragon",
+"taille": 1
+},
+"53": {
+"rang": "E",
+"famille": "Dragon",
+"taille": 2
+},
+"54": {
+"rang": "C",
+"famille": "Dragon",
+"taille": 1
+},
+"55": {
+"rang": "F",
+"famille": "Dragon",
+"taille": 1
+},
+"56": {
+"rang": "C",
+"famille": "Dragon",
+"taille": 1
+},
+"57": {
+"rang": "E",
+"famille": "Dragon",
+"taille": 1
+},
+"58": {
+"rang": "C",
+"famille": "Dragon",
+"taille": 1
+},
+"59": {
+"rang": "D",
+"famille": "Dragon",
+"taille": 2
+},
+"60": {
+"rang": "D",
+"famille": "Dragon",
+"taille": 1
+},
+"61": {
+"rang": "B",
+"famille": "Dragon",
+"taille": 1
+},
+"62": {
+"rang": "B",
+"famille": "Dragon",
+"taille": 2
+},
+"63": {
+"rang": "A",
+"famille": "Dragon",
+"taille": 1
+},
+"64": {
+"rang": "A",
+"famille": "Dragon",
+"taille": 1
+},
+"65": {
+"rang": "S",
+"famille": "Dragon",
+"taille": 1
+},
+"66": {
+"rang": "SS",
+"famille": "Dragon",
+"taille": 2
+},
+"68": {
+"rang": "SS",
+"famille": "Dragon",
+"taille": 2
+},
+"69": {
+"rang": "B",
+"famille": "Dragon",
+"taille": 1
+},
+"70": {
+"rang": "D",
+"famille": "Dragon",
+"taille": 1
+},
+"71": {
+"rang": "F",
+"famille": "Dragon",
+"taille": 1
+},
+"72": {
+"rang": "E",
+"famille": "Dragon",
+"taille": 1
+},
+"73": {
+"rang": "F",
+"famille": "Dragon",
+"taille": 1
+},
+"74": {
+"rang": "C",
+"famille": "Dragon",
+"taille": 1
+},
+"75": {
+"rang": "D",
+"famille": "Dragon",
+"taille": 1
+},
+"76": {
+"rang": "E",
+"famille": "Dragon",
+"taille": 1
+},
+"77": {
+"rang": "B",
+"famille": "Dragon",
+"taille": 1
+},
+"78": {
+"rang": "B",
+"famille": "Dragon",
+"taille": 1
+},
+"79": {
+"rang": "S",
+"famille": "Dragon",
+"taille": 1
+},
+"80": {
+"rang": "B",
+"famille": "Dragon",
+"taille": 1
+},
+"81": {
+"rang": "B",
+"famille": "Dragon",
+"taille": 1
+},
+"82": {
+"rang": "B",
+"famille": "Dragon",
+"taille": 1
+},
+"83": {
+"rang": "S",
+"famille": "Dragon",
+"taille": 2
+},
+"85": {
+"rang": "F",
+"famille": "Dragon",
+"taille": 1
+},
+"86": {
+"rang": "E",
+"famille": "Dragon",
+"taille": 1
+},
+"87": {
+"rang": "C",
+"famille": "Dragon",
+"taille": 1
+},
+"88": {
+"rang": "B",
+"famille": "Dragon",
+"taille": 1
+},
+"89": {
+"rang": "A",
+"famille": "Dragon",
+"taille": 1
+},
+"90": {
+"rang": "A",
+"famille": "Dragon",
+"taille": 1
+},
+"91": {
+"rang": "A",
+"famille": "Dragon",
+"taille": 1
+},
+"92": {
+"rang": "S",
+"famille": "Dragon",
+"taille": 2
+},
+"93": {
+"rang": "S",
+"famille": "Dragon",
+"taille": 2
+},
+"94": {
+"rang": "SS",
+"famille": "Dragon",
+"taille": 2
+},
+"95": {
+"rang": "SS",
+"famille": "Dragon",
+"taille": 3
+},
+"96": {
+"rang": "F",
+"famille": "Bête",
+"taille": 1
+},
+"97": {
+"rang": "E",
+"famille": "Nature",
+"taille": 1
+},
+"98": {
+"rang": "F",
+"famille": "Nature",
+"taille": 1
+},
+"99": {
+"rang": "B",
+"famille": "Nature",
+"taille": 1
+},
+"100": {
+"rang": "D",
+"famille": "Nature",
+"taille": 1
+},
+"101": {
+"rang": "D",
+"famille": "Nature",
+"taille": 1
+},
+"102": {
+"rang": "F",
+"famille": "Nature",
+"taille": 1
+},
+"103": {
+"rang": "F",
+"famille": "Nature",
+"taille": 1
+},
+"104": {
+"rang": "E",
+"famille": "Nature",
+"taille": 1
+},
+"105": {
+"rang": "C",
+"famille": "Nature",
+"taille": 1
+},
+"106": {
+"rang": "E",
+"famille": "Démon",
+"taille": 1
+},
+"107": {
+"rang": "D",
+"famille": "Nature",
+"taille": 1
+},
+"108": {
+"rang": "E",
+"famille": "Nature",
+"taille": 1
+},
+"109": {
+"rang": "B",
+"famille": "Bête",
+"taille": 2
+},
+"110": {
+"rang": "B",
+"famille": "Nature",
+"taille": 1
+},
+"111": {
+"rang": "C",
+"famille": "Nature",
+"taille": 2
+},
+"112": {
+"rang": "C",
+"famille": "Nature",
+"taille": 1
+},
+"113": {
+"rang": "B",
+"famille": "Nature",
+"taille": 1
+},
+"114": {
+"rang": "D",
+"famille": "Nature",
+"taille": 1
+},
+"115": {
+"rang": "A",
+"famille": "Nature",
+"taille": 1
+},
+"116": {
+"rang": "C",
+"famille": "Nature",
+"taille": 1
+},
+"117": {
+"rang": "A",
+"famille": "Nature",
+"taille": 1
+},
+"118": {
+"rang": "E",
+"famille": "Nature",
+"taille": 2
+},
+"119": {
+"rang": "B",
+"famille": "Bête",
+"taille": 1
+},
+"120": {
+"rang": "S",
+"famille": "Nature",
+"taille": 1
+},
+"121": {
+"rang": "S",
+"famille": "Nature",
+"taille": 2
+},
+"122": {
+"rang": "S",
+"famille": "Nature",
+"taille": 3
+},
+"123": {
+"rang": "SS",
+"famille": "Nature",
+"taille": 1
+},
+"124": {
+"rang": "A",
+"famille": "Nature",
+"taille": 3
+},
+"125": {
+"rang": "D",
+"famille": "Nature",
+"taille": 1
+},
+"126": {
+"rang": "E",
+"famille": "Bête",
+"taille": 1
+},
+"127": {
+"rang": "D",
+"famille": "Nature",
+"taille": 1
+},
+"128": {
+"rang": "D",
+"famille": "Nature",
+"taille": 1
+},
+"129": {
+"rang": "A",
+"famille": "Nature",
+"taille": 1
+},
+"130": {
+"rang": "S",
+"famille": "Nature",
+"taille": 1
+},
+"131": {
+"rang": "F",
+"famille": "Nature",
+"taille": 1
+},
+"132": {
+"rang": "F",
+"famille": "Nature",
+"taille": 1
+},
+"133": {
+"rang": null,
+"famille": null,
+"taille": null
+},
+"134": {
+"rang": "E",
+"famille": "Nature",
+"taille": 1
+},
+"135": {
+"rang": "D",
+"famille": "Nature",
+"taille": 1
+},
+"136": {
+"rang": "D",
+"famille": "Nature",
+"taille": 1
+},
+"137": {
+"rang": "C",
+"famille": "Nature",
+"taille": 1
+},
+"138": {
+"rang": "C",
+"famille": "Nature",
+"taille": 3
+},
+"139": {
+"rang": "C",
+"famille": "Nature",
+"taille": 1
+},
+"140": {
+"rang": "B",
+"famille": "Nature",
+"taille": 1
+},
+"141": {
+"rang": "B",
+"famille": "Nature",
+"taille": 1
+},
+"142": {
+"rang": "A",
+"famille": "Nature",
+"taille": 1
+},
+"143": {
+"rang": "A",
+"famille": "Nature",
+"taille": 1
+},
+"144": {
+"rang": "F",
+"famille": "Bête",
+"taille": 1
+},
+"145": {
+"rang": "D",
+"famille": "Bête",
+"taille": 1
+},
+"146": {
+"rang": "F",
+"famille": "Bête",
+"taille": 1
+},
+"147": {
+"rang": "F",
+"famille": "Bête",
+"taille": 1
+},
+"148": {
+"rang": "C",
+"famille": "Bête",
+"taille": 1
+},
+"149": {
+"rang": "S",
+"famille": "Bête",
+"taille": 1
+},
+"150": {
+"rang": "E",
+"famille": "Bête",
+"taille": 1
+},
+"151": {
+"rang": "C",
+"famille": "Matière",
+"taille": 1
+},
+"152": {
+"rang": "B",
+"famille": "Nature",
+"taille": 1
+},
+"153": {
+"rang": "D",
+"famille": "Bête",
+"taille": 1
+},
+"154": {
+"rang": "E",
+"famille": "Démon",
+"taille": 1
+},
+"155": {
+"rang": "B",
+"famille": "Démon",
+"taille": 1
+},
+"156": {
+"rang": "D",
+"famille": "Bête",
+"taille": 1
+},
+"157": {
+"rang": "E",
+"famille": "Bête",
+"taille": 1
+},
+"159": {
+"rang": "C",
+"famille": "Bête",
+"taille": 1
+},
+"160": {
+"rang": "D",
+"famille": "Bête",
+"taille": 1
+},
+"162": {
+"rang": "A",
+"famille": "Bête",
+"taille": 2
+},
+"163": {
+"rang": "B",
+"famille": "Bête",
+"taille": 1
+},
+"164": {
+"rang": "A",
+"famille": "Zombie",
+"taille": 1
+},
+"165": {
+"rang": "C",
+"famille": "Bête",
+"taille": 1
+},
+"166": {
+"rang": "S",
+"famille": "Bête",
+"taille": 2
+},
+"167": {
+"rang": "B",
+"famille": "Démon",
+"taille": 2
+},
+"168": {
+"rang": "S",
+"famille": "Bête",
+"taille": 2
+},
+"169": {
+"rang": "S",
+"famille": "Bête",
+"taille": 1
+},
+"170": {
+"rang": "A",
+"famille": "Démon",
+"taille": 1
+},
+"171": {
+"rang": "S",
+"famille": "Bête",
+"taille": 1
+},
+"172": {
+"rang": "SS",
+"famille": "???",
+"taille": 1
+},
+"173": {
+"rang": "SS",
+"famille": "???",
+"taille": 3
+},
+"174": {
+"rang": "SS",
+"famille": "???",
+"taille": 1
+},
+"175": {
+"rang": "D",
+"famille": "Bête",
+"taille": 1
+},
+"176": {
+"rang": "B",
+"famille": "???",
+"taille": 1
+},
+"178": {
+"rang": "F",
+"famille": "Bête",
+"taille": 1
+},
+"179": {
+"rang": "F",
+"famille": "Bête",
+"taille": 1
+},
+"180": {
+"rang": "E",
+"famille": "Bête",
+"taille": 1
+},
+"181": {
+"rang": "D",
+"famille": "Bête",
+"taille": 1
+},
+"182": {
+"rang": "D",
+"famille": "Bête",
+"taille": 1
+},
+"183": {
+"rang": "C",
+"famille": "Bête",
+"taille": 1
+},
+"184": {
+"rang": "C",
+"famille": "Bête",
+"taille": 2
+},
+"185": {
+"rang": "C",
+"famille": "Bête",
+"taille": 1
+},
+"186": {
+"rang": "C",
+"famille": "Bête",
+"taille": 2
+},
+"187": {
+"rang": "B",
+"famille": "Bête",
+"taille": 1
+},
+"188": {
+"rang": "B",
+"famille": "Bête",
+"taille": 1
+},
+"189": {
+"rang": "A",
+"famille": "Bête",
+"taille": 2
+},
+"190": {
+"rang": "A",
+"famille": "Bête",
+"taille": 1
+},
+"191": {
+"rang": "A",
+"famille": "Bête",
+"taille": 1
+},
+"192": {
+"rang": "F",
+"famille": "Matière",
+"taille": 1
+},
+"193": {
+"rang": "F",
+"famille": "Matière",
+"taille": 1
+},
+"194": {
+"rang": "F",
+"famille": "Zombie",
+"taille": 1
+},
+"195": {
+"rang": "D",
+"famille": "Matière",
+"taille": 1
+},
+"196": {
+"rang": "F",
+"famille": "Matière",
+"taille": 1
+},
+"197": {
+"rang": "E",
+"famille": "Matière",
+"taille": 1
+},
+"198": {
+"rang": "E",
+"famille": "Matière",
+"taille": 1
+},
+"199": {
+"rang": "D",
+"famille": "Matière",
+"taille": 1
+},
+"200": {
+"rang": "D",
+"famille": "Matière",
+"taille": 1
+},
+"201": {
+"rang": "F",
+"famille": "Matière",
+"taille": 1
+},
+"202": {
+"rang": "C",
+"famille": "Matière",
+"taille": 1
+},
+"203": {
+"rang": "E",
+"famille": "Matière",
+"taille": 1
+},
+"204": {
+"rang": "A",
+"famille": "Matière",
+"taille": 1
+},
+"205": {
+"rang": "C",
+"famille": "Matière",
+"taille": 1
+},
+"206": {
+"rang": "A",
+"famille": "Matière",
+"taille": 1
+},
+"207": {
+"rang": "E",
+"famille": "Matière",
+"taille": 1
+},
+"208": {
+"rang": "B",
+"famille": "Matière",
+"taille": 1
+},
+"209": {
+"rang": "F",
+"famille": "Matière",
+"taille": 1
+},
+"210": {
+"rang": "A",
+"famille": "Matière",
+"taille": 1
+},
+"211": {
+"rang": "C",
+"famille": "Matière",
+"taille": 1
+},
+"212": {
+"rang": "B",
+"famille": "Matière",
+"taille": 1
+},
+"213": {
+"rang": "C",
+"famille": "Bête",
+"taille": 1
+},
+"214": {
+"rang": "S",
+"famille": "Matière",
+"taille": 1
+},
+"215": {
+"rang": "D",
+"famille": "Matière",
+"taille": 1
+},
+"216": {
+"rang": "A",
+"famille": "Matière",
+"taille": 1
+},
+"217": {
+"rang": "S",
+"famille": "Matière",
+"taille": 1
+},
+"218": {
+"rang": "A",
+"famille": "Matière",
+"taille": 1
+},
+"219": {
+"rang": "S",
+"famille": "Matière",
+"taille": 1
+},
+"220": {
+"rang": "S",
+"famille": "Matière",
+"taille": 3
+},
+"221": {
+"rang": "SS",
+"famille": "Matière",
+"taille": 2
+},
+"222": {
+"rang": "SS",
+"famille": "Matière",
+"taille": 3
+},
+"223": {
+"rang": "D",
+"famille": "Matière",
+"taille": 1
+},
+"224": {
+"rang": "F",
+"famille": "Matière",
+"taille": 1
+},
+"225": {
+"rang": "B",
+"famille": "Matière",
+"taille": 1
+},
+"226": {
+"rang": "E",
+"famille": "Matière",
+"taille": 1
+},
+"227": {
+"rang": "E",
+"famille": "Matière",
+"taille": 1
+},
+"228": {
+"rang": "D",
+"famille": "Matière",
+"taille": 1
+},
+"229": {
+"rang": "D",
+"famille": "Matière",
+"taille": 2
+},
+"230": {
+"rang": "D",
+"famille": "Matière",
+"taille": 1
+},
+"231": {
+"rang": "D",
+"famille": "Matière",
+"taille": 1
+},
+"232": {
+"rang": "C",
+"famille": "Matière",
+"taille": 1
+},
+"233": {
+"rang": "C",
+"famille": "Matière",
+"taille": 1
+},
+"234": {
+"rang": "B",
+"famille": "Matière",
+"taille": 2
+},
+"235": {
+"rang": "B",
+"famille": "Matière",
+"taille": null
+},
+"236": {
+"rang": "A",
+"famille": "Matière",
+"taille": 1
+},
+"237": {
+"rang": "A",
+"famille": "Matière",
+"taille": null
+},
+"238": {
+"rang": "S",
+"famille": "Matière",
+"taille": 1
+},
+"239": {
+"rang": "S",
+"famille": "Matière",
+"taille": null
+},
+"240": {
+"rang": "F",
+"famille": "Démon",
+"taille": 1
+},
+"241": {
+"rang": "F",
+"famille": "Démon",
+"taille": 1
+},
+"242": {
+"rang": "F",
+"famille": "Démon",
+"taille": 1
+},
+"243": {
+"rang": "E",
+"famille": "Démon",
+"taille": 1
+},
+"244": {
+"rang": "E",
+"famille": "Démon",
+"taille": 1
+},
+"245": {
+"rang": "D",
+"famille": "Bête",
+"taille": 1
+},
+"246": {
+"rang": "E",
+"famille": "Démon",
+"taille": 1
+},
+"247": {
+"rang": "B",
+"famille": "Démon",
+"taille": 1
+},
+"248": {
+"rang": "C",
+"famille": "Bête",
+"taille": 1
+},
+"249": {
+"rang": "D",
+"famille": "Démon",
+"taille": 1
+},
+"250": {
+"rang": "C",
+"famille": "Démon",
+"taille": 1
+},
+"251": {
+"rang": "C",
+"famille": "Démon",
+"taille": 1
+},
+"252": {
+"rang": "C",
+"famille": "Démon",
+"taille": 1
+},
+"253": {
+"rang": "D",
+"famille": "Démon",
+"taille": 1
+},
+"254": {
+"rang": "SS",
+"famille": "???",
+"taille": 3
+},
+"255": {
+"rang": "B",
+"famille": "Démon",
+"taille": 1
+},
+"256": {
+"rang": "A",
+"famille": "Bête",
+"taille": 1
+},
+"257": {
+"rang": "A",
+"famille": "Bête",
+"taille": 1
+},
+"258": {
+"rang": "B",
+"famille": "Démon",
+"taille": 1
+},
+"259": {
+"rang": "A",
+"famille": "Bête",
+"taille": 1
+},
+"260": {
+"rang": "A",
+"famille": "Démon",
+"taille": 1
+},
+"261": {
+"rang": "A",
+"famille": "Démon",
+"taille": 1
+},
+"262": {
+"rang": "A",
+"famille": "Démon",
+"taille": 1
+},
+"263": {
+"rang": "S",
+"famille": "Bête",
+"taille": 1
+},
+"264": {
+"rang": "S",
+"famille": "Démon",
+"taille": 2
+},
+"265": {
+"rang": "SS",
+"famille": "???",
+"taille": 1
+},
+"266": {
+"rang": "SS",
+"famille": "???",
+"taille": 2
+},
+"267": {
+"rang": "SS",
+"famille": "???",
+"taille": 2
+},
+"268": {
+"rang": "SS",
+"famille": "???",
+"taille": 2
+},
+"269": {
+"rang": "F",
+"famille": "Démon",
+"taille": 1
+},
+"270": {
+"rang": "D",
+"famille": "Démon",
+"taille": 1
+},
+"271": {
+"rang": "B",
+"famille": "Démon",
+"taille": 1
+},
+"272": {
+"rang": "C",
+"famille": "Démon",
+"taille": 1
+},
+"273": {
+"rang": "D",
+"famille": "Démon",
+"taille": 1
+},
+"274": {
+"rang": "A",
+"famille": "Démon",
+"taille": 1
+},
+"275": {
+"rang": "F",
+"famille": "Démon",
+"taille": 1
+},
+"276": {
+"rang": "E",
+"famille": "Démon",
+"taille": 1
+},
+"277": {
+"rang": "D",
+"famille": "Démon",
+"taille": 1
+},
+"278": {
+"rang": "C",
+"famille": "Démon",
+"taille": 1
+},
+"279": {
+"rang": "B",
+"famille": "Démon",
+"taille": 1
+},
+"280": {
+"rang": "B",
+"famille": "Démon",
+"taille": 1
+},
+"281": {
+"rang": "B",
+"famille": "Démon",
+"taille": 1
+},
+"282": {
+"rang": "A",
+"famille": "Démon",
+"taille": 1
+},
+"283": {
+"rang": "A",
+"famille": "Démon",
+"taille": 2
+},
+"284": {
+"rang": "A",
+"famille": "Démon",
+"taille": 1
+},
+"285": {
+"rang": "A",
+"famille": "Démon",
+"taille": 1
+},
+"286": {
+"rang": "S",
+"famille": "Démon",
+"taille": 1
+},
+"287": {
+"rang": "S",
+"famille": "Démon",
+"taille": 2
+},
+"288": {
+"rang": "C",
+"famille": "Zombie",
+"taille": 1
+},
+"289": {
+"rang": "F",
+"famille": "Zombie",
+"taille": 1
+},
+"290": {
+"rang": "F",
+"famille": "Zombie",
+"taille": 1
+},
+"291": {
+"rang": "F",
+"famille": "Zombie",
+"taille": 1
+},
+"292": {
+"rang": "F",
+"famille": "Zombie",
+"taille": 1
+},
+"293": {
+"rang": "E",
+"famille": "Zombie",
+"taille": 1
+},
+"294": {
+"rang": "F",
+"famille": "Zombie",
+"taille": 1
+},
+"295": {
+"rang": null,
+"famille": null,
+"taille": null
+},
+"296": {
+"rang": "C",
+"famille": "Zombie",
+"taille": 1
+},
+"297": {
+"rang": "E",
+"famille": "Zombie",
+"taille": 1
+},
+"298": {
+"rang": "D",
+"famille": "Zombie",
+"taille": 1
+},
+"299": {
+"rang": "C",
+"famille": "Zombie",
+"taille": 1
+},
+"300": {
+"rang": "B",
+"famille": "Zombie",
+"taille": 1
+},
+"301": {
+"rang": "E",
+"famille": "Zombie",
+"taille": 1
+},
+"302": {
+"rang": "B",
+"famille": "Zombie",
+"taille": 1
+},
+"303": {
+"rang": "A",
+"famille": "Zombie",
+"taille": 1
+},
+"304": {
+"rang": "D",
+"famille": "Zombie",
+"taille": 1
+},
+"305": {
+"rang": "A",
+"famille": "Zombie",
+"taille": 1
+},
+"306": {
+"rang": "A",
+"famille": "Zombie",
+"taille": 1
+},
+"307": {
+"rang": "S",
+"famille": "Zombie",
+"taille": 1
+},
+"308": {
+"rang": "A",
+"famille": "Zombie",
+"taille": 1
+},
+"309": {
+"rang": "S",
+"famille": "Zombie",
+"taille": 1
+},
+"310": {
+"rang": "SS",
+"famille": "Zombie",
+"taille": 2
+},
+"311": {
+"rang": "E",
+"famille": "Zombie",
+"taille": 1
+},
+"312": {
+"rang": "E",
+"famille": "Zombie",
+"taille": 1
+},
+"313": {
+"rang": "E",
+"famille": "Zombie",
+"taille": 1
+},
+"314": {
+"rang": "B",
+"famille": "Zombie",
+"taille": 1
+},
+"315": {
+"rang": "B",
+"famille": "Zombie",
+"taille": 1
+},
+"316": {
+"rang": "S",
+"famille": "Zombie",
+"taille": 1
+},
+"317": {
+"rang": "C",
+"famille": "Zombie",
+"taille": 1
+},
+"318": {
+"rang": "B",
+"famille": "Zombie",
+"taille": 1
+},
+"319": {
+"rang": "B",
+"famille": "Zombie",
+"taille": 1
+},
+"320": {
+"rang": "B",
+"famille": "Zombie",
+"taille": 1
+},
+"321": {
+"rang": "A",
+"famille": "Zombie",
+"taille": null
+},
+"322": {
+"rang": "A",
+"famille": "Zombie",
+"taille": 1
+},
+"323": {
+"rang": "S",
+"famille": "Zombie",
+"taille": 1
+},
+"325": {
+"rang": "S",
+"famille": "Zombie",
+"taille": 3
+},
+"336": {
+"rang": "SS",
+"famille": "???",
+"taille": 1
+},
+"337": {
+"rang": "SS",
+"famille": "???",
+"taille": 1
+},
+"338": {
+"rang": "SS",
+"famille": "???",
+"taille": 1
+},
+"339": {
+"rang": "SS",
+"famille": "???",
+"taille": 1
+},
+"340": {
+"rang": "SS",
+"famille": "???",
+"taille": 1
+},
+"341": {
+"rang": "SS",
+"famille": "???",
+"taille": 1
+},
+"342": {
+"rang": "SS",
+"famille": "???",
+"taille": 1
+},
+"343": {
+"rang": "SS",
+"famille": "???",
+"taille": 1
+},
+"344": {
+"rang": "SS",
+"famille": "???",
+"taille": 1
+},
+"346": {
+"rang": "S",
+"famille": "???",
+"taille": 1
+},
+"347": {
+"rang": "SS",
+"famille": "???",
+"taille": 3
+},
+"348": {
+"rang": "SS",
+"famille": "???",
+"taille": 3
+},
+"349": {
+"rang": "SS",
+"famille": "???",
+"taille": 3
+},
+"350": {
+"rang": "A",
+"famille": "???",
+"taille": 1
+},
+"351": {
+"rang": "SS",
+"famille": "???",
+"taille": 3
+},
+"352": {
+"rang": "A",
+"famille": "Matière",
+"taille": 3
+},
+"355": {
+"rang": "S",
+"famille": "Dragon",
+"taille": 1
+},
+"356": {
+"rang": "A",
+"famille": "???",
+"taille": 1
+},
+"357": {
+"rang": "SS",
+"famille": "Dragon",
+"taille": 2
+},
+"358": {
+"rang": "SS",
+"famille": "Dragon",
+"taille": 2
+},
+"359": {
+"rang": "SS",
+"famille": "???",
+"taille": 1
+},
+"360": {
+"rang": "B",
+"famille": "Bête",
+"taille": 3
+},
+"361": {
+"rang": "F",
+"famille": "Démon",
+"taille": 1
+},
+"362": {
+"rang": "E",
+"famille": "Nature",
+"taille": 1
+},
+"363": {
+"rang": "F",
+"famille": "Démon",
+"taille": 1
+},
+"364": {
+"rang": "F",
+"famille": "Matière",
+"taille": 1
+},
+"365": {
+"rang": "F",
+"famille": "Nature",
+"taille": 1
+},
+"366": {
+"rang": "D",
+"famille": "Nature",
+"taille": 3
+},
+"367": {
+"rang": "F",
+"famille": "Nature",
+"taille": 1
+},
+"368": {
+"rang": "C",
+"famille": "Bête",
+"taille": 3
+},
+"369": {
+"rang": "SS",
+"famille": "Démon",
+"taille": null
+},
+"370": {
+"rang": "D",
+"famille": "Zombie",
+"taille": 1
+},
+"371": {
+"rang": "F",
+"famille": "Gluant",
+"taille": 1
+},
+"372": {
+"rang": "C",
+"famille": "Zombie",
+"taille": 1
+},
+"373": {
+"rang": "F",
+"famille": "Gluant",
+"taille": 1
+},
+"374": {
+"rang": "S",
+"famille": "Démon",
+"taille": 1
+},
+"375": {
+"rang": "B",
+"famille": "Matière",
+"taille": 1
+},
+"376": {
+"rang": "B",
+"famille": "Zombie",
+"taille": 1
+},
+"377": {
+"rang": "S",
+"famille": "Démon",
+"taille": 1
+},
+"378": {
+"rang": "S",
+"famille": "Démon",
+"taille": 2
+},
+"379": {
+"rang": "E",
+"famille": "Gluant",
+"taille": 1
+},
+"380": {
+"rang": "D",
+"famille": "Gluant",
+"taille": 1
+},
+"381": {
+"rang": "B",
+"famille": "Gluant",
+"taille": 1
+},
+"382": {
+"rang": "C",
+"famille": "Gluant",
+"taille": 1
+},
+"383": {
+"rang": "B",
+"famille": "Gluant",
+"taille": 1
+},
+"384": {
+"rang": "E",
+"famille": "Gluant",
+"taille": 1
+},
+"385": {
+"rang": "C",
+"famille": "Dragon",
+"taille": 1
+},
+"386": {
+"rang": "D",
+"famille": "Dragon",
+"taille": 1
+},
+"387": {
+"rang": "E",
+"famille": "Dragon",
+"taille": 2
+},
+"388": {
+"rang": "SS",
+"famille": "Dragon",
+"taille": 3
+},
+"389": {
+"rang": "SS",
+"famille": "Dragon",
+"taille": 3
+},
+"390": {
+"rang": "F",
+"famille": "Bête",
+"taille": 1
+},
+"391": {
+"rang": "C",
+"famille": "Nature",
+"taille": 1
+},
+"392": {
+"rang": "D",
+"famille": "Nature",
+"taille": 1
+},
+"393": {
+"rang": "A",
+"famille": "Nature",
+"taille": 2
+},
+"394": {
+"rang": "D",
+"famille": "Démon",
+"taille": 1
+},
+"395": {
+"rang": "C",
+"famille": "Nature",
+"taille": 1
+},
+"396": {
+"rang": "E",
+"famille": "Bête",
+"taille": 1
+},
+"397": {
+"rang": "A",
+"famille": "Bête",
+"taille": 2
+},
+"398": {
+"rang": "C",
+"famille": "Démon",
+"taille": 1
+},
+"399": {
+"rang": "S",
+"famille": "Matière",
+"taille": 1
+},
+"400": {
+"rang": "C",
+"famille": "Matière",
+"taille": 1
+},
+"401": {
+"rang": "D",
+"famille": "Matière",
+"taille": 1
+},
+"402": {
+"rang": "A",
+"famille": "Matière",
+"taille": 1
+},
+"403": {
+"rang": "A",
+"famille": "Démon",
+"taille": 1
+},
+"404": {
+"rang": "D",
+"famille": "Démon",
+"taille": 1
+},
+"405": {
+"rang": "A",
+"famille": "Démon",
+"taille": 1
+},
+"406": {
+"rang": "SS",
+"famille": "Démon",
+"taille": 1
+},
+"407": {
+"rang": "A",
+"famille": "Démon",
+"taille": 2
+},
+"408": {
+"rang": "S",
+"famille": "Démon",
+"taille": 1
+},
+"409": {
+"rang": "D",
+"famille": "Zombie",
+"taille": 1
+},
+"410": {
+"rang": "B",
+"famille": "Zombie",
+"taille": 1
+},
+"411": {
+"rang": "F",
+"famille": "Zombie",
+"taille": 1
+},
+"412": {
+"rang": "A",
+"famille": "Zombie",
+"taille": 1
+},
+"413": {
+"rang": "A",
+"famille": "Zombie",
+"taille": 2
+},
+"414": {
+"rang": "A",
+"famille": "Zombie",
+"taille": 2
+},
+"415": {
+"rang": "A",
+"famille": "Bête",
+"taille": 2
+},
+"416": {
+"rang": "A",
+"famille": "Dragon",
+"taille": 2
+},
+"417": {
+"rang": "A",
+"famille": "Bête",
+"taille": 2
+},
+"418": {
+"rang": "A",
+"famille": "Nature",
+"taille": 2
+},
+"419": {
+"rang": "A",
+"famille": "Zombie",
+"taille": 2
+},
+"420": {
+"rang": "A",
+"famille": "Démon",
+"taille": 2
+},
+"421": {
+"rang": "SS",
+"famille": "???",
+"taille": 3
+},
+"422": {
+"rang": "S",
+"famille": "Gluant",
+"taille": 3
+},
+"423": {
+"rang": "SS",
+"famille": "Bête",
+"taille": 3
+},
+"424": {
+"rang": "SS",
+"famille": "Matière",
+"taille": 3
+},
+"426": {
+"rang": "SS",
+"famille": "???",
+"taille": 3
+},
+"427": {
+"rang": "SS",
+"famille": "Matière",
+"taille": 3
+},
+"428": {
+"rang": "A",
+"famille": "Gluant",
+"taille": 1
+},
+"429": {
+"rang": "SS",
+"famille": "Matière",
+"taille": 2
+},
+"430": {
+"rang": "S",
+"famille": "Démon",
+"taille": 1
+},
+"431": {
+"rang": "E",
+"famille": "Bête",
+"taille": 1
+},
+"432": {
+"rang": "B",
+"famille": "Bête",
+"taille": 1
+},
+"433": {
+"rang": "S",
+"famille": "Gluant",
+"taille": 1
+},
+"434": {
+"rang": "C",
+"famille": "Gluant",
+"taille": 1
+},
+"435": {
+"rang": "SS",
+"famille": "Bête",
+"taille": 1
+},
+"436": {
+"rang": "SS",
+"famille": "Nature",
+"taille": 1
+},
+"437": {
+"rang": "A",
+"famille": "Gluant",
+"taille": 1
+},
+"438": {
+"rang": "SS",
+"famille": "Démon",
+"taille": 1
+},
+"439": {
+"rang": "D",
+"famille": "Démon",
+"taille": 1
+},
+"440": {
+"rang": "SS",
+"famille": "Nature",
+"taille": 3
+},
+"441": {
+"rang": "SS",
+"famille": "Dragon",
+"taille": 2
+},
+"442": {
+"rang": "B",
+"famille": "Bête",
+"taille": 1
+},
+"443": {
+"rang": "B",
+"famille": "Gluant",
+"taille": 1
+},
+"444": {
+"rang": "E",
+"famille": "Zombie",
+"taille": 1
+},
+"445": {
+"rang": "S",
+"famille": "Gluant",
+"taille": 3
+}
+},
+"recettes": [
+{
+"resultat": 379,
+"parents": [
+1,
+17
+],
+"patch": false
+},
+{
+"resultat": 21,
+"parents": [
+20,
+17
+],
+"patch": false
+},
+{
+"resultat": 23,
+"parents": [
+6,
+297
+],
+"patch": false
+},
+{
+"resultat": 23,
+"parents": [
+6,
+7
+],
+"patch": false
+},
+{
+"resultat": 29,
+"parents": [
+379,
+379,
+379,
+379
+],
+"patch": false
+},
+{
+"resultat": 29,
+"parents": [
+20,
+21
+],
+"patch": false
+},
+{
+"resultat": 19,
+"parents": [
+4,
+21
+],
+"patch": false
+},
+{
+"resultat": 11,
+"parents": [
+20,
+20
+],
+"patch": false
+},
+{
+"resultat": 9,
+"parents": [
+6,
+6
+],
+"patch": false
+},
+{
+"resultat": 25,
+"parents": [
+26,
+297
+],
+"patch": false
+},
+{
+"resultat": 25,
+"parents": [
+26,
+7
+],
+"patch": false
+},
+{
+"resultat": 27,
+"parents": [
+11,
+11
+],
+"patch": false
+},
+{
+"resultat": 383,
+"parents": [
+371,
+29
+],
+"patch": false
+},
+{
+"resultat": 12,
+"parents": [
+2,
+2,
+11,
+11
+],
+"patch": false
+},
+{
+"resultat": 24,
+"parents": [
+23,
+23,
+27,
+27
+],
+"patch": false
+},
+{
+"resultat": 13,
+"parents": [
+9,
+9,
+9,
+9
+],
+"patch": false
+},
+{
+"resultat": 422,
+"parents": [
+15,
+15,
+317,
+317
+],
+"patch": false
+},
+{
+"resultat": 28,
+"parents": [
+21,
+21,
+13,
+13
+],
+"patch": false
+},
+{
+"resultat": 14,
+"parents": [
+27,
+27,
+24,
+24
+],
+"patch": false
+},
+{
+"resultat": 433,
+"parents": [
+24,
+24
+],
+"patch": false
+},
+{
+"resultat": 35,
+"parents": [
+15,
+15,
+28,
+28
+],
+"patch": false
+},
+{
+"resultat": 15,
+"parents": [
+14,
+14,
+402,
+402
+],
+"patch": false
+},
+{
+"resultat": 36,
+"parents": [
+33,
+35
+],
+"patch": false
+},
+{
+"resultat": 57,
+"parents": [
+49,
+51
+],
+"patch": false
+},
+{
+"resultat": 57,
+"parents": [
+49,
+73
+],
+"patch": false
+},
+{
+"resultat": 53,
+"parents": [
+48,
+48
+],
+"patch": false
+},
+{
+"resultat": 56,
+"parents": [
+59,
+202
+],
+"patch": false
+},
+{
+"resultat": 74,
+"parents": [
+75,
+128
+],
+"patch": false
+},
+{
+"resultat": 74,
+"parents": [
+75,
+135
+],
+"patch": false
+},
+{
+"resultat": 88,
+"parents": [
+54,
+297
+],
+"patch": false
+},
+{
+"resultat": 88,
+"parents": [
+54,
+7
+],
+"patch": false
+},
+{
+"resultat": 62,
+"parents": [
+387,
+387,
+387,
+387
+],
+"patch": false
+},
+{
+"resultat": 80,
+"parents": [
+73,
+73,
+73,
+73
+],
+"patch": false
+},
+{
+"resultat": 61,
+"parents": [
+51,
+51,
+51,
+51
+],
+"patch": false
+},
+{
+"resultat": 69,
+"parents": [
+304,
+59
+],
+"patch": false
+},
+{
+"resultat": 64,
+"parents": [
+89,
+189
+],
+"patch": false
+},
+{
+"resultat": 64,
+"parents": [
+89,
+91
+],
+"patch": false
+},
+{
+"resultat": 64,
+"parents": [
+89,
+90
+],
+"patch": false
+},
+{
+"resultat": 64,
+"parents": [
+89,
+234
+],
+"patch": false
+},
+{
+"resultat": 63,
+"parents": [
+56,
+64
+],
+"patch": false
+},
+{
+"resultat": 63,
+"parents": [
+56,
+89
+],
+"patch": false
+},
+{
+"resultat": 89,
+"parents": [
+61,
+61,
+80,
+80
+],
+"patch": false
+},
+{
+"resultat": 91,
+"parents": [
+247,
+88
+],
+"patch": false
+},
+{
+"resultat": 91,
+"parents": [
+247,
+77
+],
+"patch": false
+},
+{
+"resultat": 91,
+"parents": [
+247,
+69
+],
+"patch": false
+},
+{
+"resultat": 91,
+"parents": [
+247,
+90
+],
+"patch": false
+},
+{
+"resultat": 83,
+"parents": [
+63,
+65
+],
+"patch": false
+},
+{
+"resultat": 92,
+"parents": [
+402,
+130
+],
+"patch": false
+},
+{
+"resultat": 92,
+"parents": [
+402,
+79
+],
+"patch": false
+},
+{
+"resultat": 79,
+"parents": [
+64,
+306
+],
+"patch": false
+},
+{
+"resultat": 79,
+"parents": [
+64,
+407
+],
+"patch": false
+},
+{
+"resultat": 355,
+"parents": [
+64,
+274
+],
+"patch": false
+},
+{
+"resultat": 65,
+"parents": [
+77,
+168
+],
+"patch": false
+},
+{
+"resultat": 65,
+"parents": [
+77,
+262
+],
+"patch": false
+},
+{
+"resultat": 65,
+"parents": [
+77,
+260
+],
+"patch": false
+},
+{
+"resultat": 93,
+"parents": [
+252,
+64
+],
+"patch": false
+},
+{
+"resultat": 93,
+"parents": [
+252,
+89
+],
+"patch": false
+},
+{
+"resultat": 66,
+"parents": [
+355,
+83
+],
+"patch": false
+},
+{
+"resultat": 68,
+"parents": [
+66,
+173
+],
+"patch": false
+},
+{
+"resultat": 357,
+"parents": [
+358,
+68
+],
+"patch": false
+},
+{
+"resultat": 388,
+"parents": [
+93,
+93,
+92,
+92
+],
+"patch": false
+},
+{
+"resultat": 441,
+"parents": [
+357,
+94
+],
+"patch": false
+},
+{
+"resultat": 441,
+"parents": [
+357,
+38
+],
+"patch": false
+},
+{
+"resultat": 441,
+"parents": [
+357,
+41
+],
+"patch": false
+},
+{
+"resultat": 95,
+"parents": [
+309,
+406
+],
+"patch": false
+},
+{
+"resultat": 389,
+"parents": [
+66,
+441
+],
+"patch": false
+},
+{
+"resultat": 98,
+"parents": [
+132,
+226
+],
+"patch": false
+},
+{
+"resultat": 116,
+"parents": [
+97,
+97,
+97,
+97
+],
+"patch": false
+},
+{
+"resultat": 138,
+"parents": [
+74,
+368
+],
+"patch": false
+},
+{
+"resultat": 138,
+"parents": [
+74,
+366
+],
+"patch": false
+},
+{
+"resultat": 111,
+"parents": [
+290,
+290,
+102,
+102
+],
+"patch": false
+},
+{
+"resultat": 111,
+"parents": [
+290,
+290,
+362,
+362
+],
+"patch": false
+},
+{
+"resultat": 112,
+"parents": [
+107,
+107
+],
+"patch": false
+},
+{
+"resultat": 152,
+"parents": [
+98,
+98,
+98,
+98
+],
+"patch": false
+},
+{
+"resultat": 140,
+"parents": [
+114,
+135
+],
+"patch": false
+},
+{
+"resultat": 141,
+"parents": [
+278,
+119
+],
+"patch": false
+},
+{
+"resultat": 142,
+"parents": [
+278,
+396
+],
+"patch": false
+},
+{
+"resultat": 117,
+"parents": [
+105,
+115
+],
+"patch": false
+},
+{
+"resultat": 393,
+"parents": [
+397,
+370
+],
+"patch": false
+},
+{
+"resultat": 115,
+"parents": [
+395,
+82
+],
+"patch": false
+},
+{
+"resultat": 37,
+"parents": [
+306,
+69
+],
+"patch": false
+},
+{
+"resultat": 129,
+"parents": [
+115,
+152
+],
+"patch": false
+},
+{
+"resultat": 129,
+"parents": [
+115,
+148
+],
+"patch": false
+},
+{
+"resultat": 129,
+"parents": [
+115,
+277
+],
+"patch": false
+},
+{
+"resultat": 130,
+"parents": [
+152,
+152,
+152,
+152
+],
+"patch": false
+},
+{
+"resultat": 130,
+"parents": [
+152,
+13
+],
+"patch": false
+},
+{
+"resultat": 40,
+"parents": [
+116,
+323,
+305,
+274
+],
+"patch": false
+},
+{
+"resultat": 122,
+"parents": [
+101,
+101,
+121,
+121
+],
+"patch": false
+},
+{
+"resultat": 121,
+"parents": [
+115,
+321
+],
+"patch": false
+},
+{
+"resultat": 121,
+"parents": [
+115,
+261
+],
+"patch": false
+},
+{
+"resultat": 38,
+"parents": [
+119,
+119,
+396,
+396
+],
+"patch": false
+},
+{
+"resultat": 38,
+"parents": [
+139,
+117
+],
+"patch": false
+},
+{
+"resultat": 440,
+"parents": [
+68,
+124
+],
+"patch": false
+},
+{
+"resultat": 123,
+"parents": [
+171,
+288
+],
+"patch": false
+},
+{
+"resultat": 123,
+"parents": [
+171,
+150
+],
+"patch": false
+},
+{
+"resultat": 42,
+"parents": [
+357,
+435
+],
+"patch": false
+},
+{
+"resultat": 16,
+"parents": [
+346,
+169,
+369,
+166
+],
+"patch": false
+},
+{
+"resultat": 41,
+"parents": [
+435,
+369
+],
+"patch": false
+},
+{
+"resultat": 396,
+"parents": [
+133,
+387
+],
+"patch": false
+},
+{
+"resultat": 396,
+"parents": [
+133,
+126
+],
+"patch": false
+},
+{
+"resultat": 396,
+"parents": [
+133,
+384
+],
+"patch": false
+},
+{
+"resultat": 213,
+"parents": [
+242,
+242,
+242,
+242
+],
+"patch": false
+},
+{
+"resultat": 184,
+"parents": [
+106,
+295
+],
+"patch": false
+},
+{
+"resultat": 163,
+"parents": [
+304,
+105
+],
+"patch": false
+},
+{
+"resultat": 109,
+"parents": [
+213,
+138
+],
+"patch": false
+},
+{
+"resultat": 109,
+"parents": [
+186,
+138
+],
+"patch": false
+},
+{
+"resultat": 109,
+"parents": [
+165,
+138
+],
+"patch": false
+},
+{
+"resultat": 119,
+"parents": [
+105,
+207
+],
+"patch": false
+},
+{
+"resultat": 432,
+"parents": [
+431,
+431,
+431,
+431
+],
+"patch": false
+},
+{
+"resultat": 187,
+"parents": [
+300,
+119
+],
+"patch": false
+},
+{
+"resultat": 189,
+"parents": [
+397,
+256
+],
+"patch": false
+},
+{
+"resultat": 257,
+"parents": [
+182,
+182,
+182,
+182
+],
+"patch": false
+},
+{
+"resultat": 162,
+"parents": [
+138,
+167
+],
+"patch": false
+},
+{
+"resultat": 162,
+"parents": [
+138,
+394
+],
+"patch": false
+},
+{
+"resultat": 190,
+"parents": [
+259,
+191
+],
+"patch": false
+},
+{
+"resultat": 397,
+"parents": [
+109,
+109
+],
+"patch": false
+},
+{
+"resultat": 397,
+"parents": [
+259,
+257
+],
+"patch": false
+},
+{
+"resultat": 259,
+"parents": [
+234,
+116
+],
+"patch": false
+},
+{
+"resultat": 259,
+"parents": [
+234,
+91
+],
+"patch": false
+},
+{
+"resultat": 259,
+"parents": [
+234,
+8
+],
+"patch": false
+},
+{
+"resultat": 256,
+"parents": [
+257,
+182
+],
+"patch": false
+},
+{
+"resultat": 191,
+"parents": [
+257,
+69
+],
+"patch": false
+},
+{
+"resultat": 415,
+"parents": [
+257,
+162
+],
+"patch": false
+},
+{
+"resultat": 168,
+"parents": [
+162,
+162,
+162,
+162
+],
+"patch": false
+},
+{
+"resultat": 168,
+"parents": [
+162,
+117
+],
+"patch": false
+},
+{
+"resultat": 168,
+"parents": [
+162,
+256
+],
+"patch": false
+},
+{
+"resultat": 44,
+"parents": [
+162,
+262
+],
+"patch": false
+},
+{
+"resultat": 44,
+"parents": [
+162,
+77
+],
+"patch": false
+},
+{
+"resultat": 44,
+"parents": [
+162,
+61
+],
+"patch": false
+},
+{
+"resultat": 171,
+"parents": [
+83,
+430
+],
+"patch": false
+},
+{
+"resultat": 169,
+"parents": [
+144,
+144,
+263,
+263
+],
+"patch": false
+},
+{
+"resultat": 166,
+"parents": [
+432,
+149,
+139,
+120
+],
+"patch": false
+},
+{
+"resultat": 43,
+"parents": [
+283,
+321
+],
+"patch": false
+},
+{
+"resultat": 263,
+"parents": [
+167,
+77
+],
+"patch": false
+},
+{
+"resultat": 263,
+"parents": [
+167,
+80
+],
+"patch": false
+},
+{
+"resultat": 263,
+"parents": [
+167,
+260
+],
+"patch": false
+},
+{
+"resultat": 423,
+"parents": [
+261,
+406
+],
+"patch": false
+},
+{
+"resultat": 46,
+"parents": [
+220,
+83
+],
+"patch": false
+},
+{
+"resultat": 46,
+"parents": [
+220,
+168
+],
+"patch": false
+},
+{
+"resultat": 46,
+"parents": [
+220,
+65
+],
+"patch": false
+},
+{
+"resultat": 209,
+"parents": [
+207,
+387
+],
+"patch": false
+},
+{
+"resultat": 209,
+"parents": [
+207,
+126
+],
+"patch": false
+},
+{
+"resultat": 207,
+"parents": [
+209,
+194
+],
+"patch": false
+},
+{
+"resultat": 207,
+"parents": [
+209,
+201
+],
+"patch": false
+},
+{
+"resultat": 198,
+"parents": [
+192,
+192
+],
+"patch": false
+},
+{
+"resultat": 200,
+"parents": [
+192,
+203
+],
+"patch": false
+},
+{
+"resultat": 401,
+"parents": [
+396,
+205
+],
+"patch": false
+},
+{
+"resultat": 215,
+"parents": [
+205,
+15
+],
+"patch": false
+},
+{
+"resultat": 215,
+"parents": [
+205,
+198
+],
+"patch": false
+},
+{
+"resultat": 232,
+"parents": [
+207,
+209
+],
+"patch": false
+},
+{
+"resultat": 205,
+"parents": [
+196,
+196,
+196,
+196
+],
+"patch": false
+},
+{
+"resultat": 233,
+"parents": [
+182,
+231
+],
+"patch": false
+},
+{
+"resultat": 151,
+"parents": [
+1,
+244
+],
+"patch": false
+},
+{
+"resultat": 235,
+"parents": [
+202,
+202
+],
+"patch": false
+},
+{
+"resultat": 225,
+"parents": [
+228,
+228,
+228,
+228
+],
+"patch": false
+},
+{
+"resultat": 375,
+"parents": [
+119,
+205
+],
+"patch": false
+},
+{
+"resultat": 212,
+"parents": [
+200,
+200,
+200,
+200
+],
+"patch": false
+},
+{
+"resultat": 234,
+"parents": [
+213,
+205
+],
+"patch": false
+},
+{
+"resultat": 234,
+"parents": [
+186,
+205
+],
+"patch": false
+},
+{
+"resultat": 234,
+"parents": [
+165,
+205
+],
+"patch": false
+},
+{
+"resultat": 402,
+"parents": [
+205,
+205,
+215,
+215
+],
+"patch": false
+},
+{
+"resultat": 402,
+"parents": [
+375,
+401,
+205,
+215
+],
+"patch": false
+},
+{
+"resultat": 402,
+"parents": [
+375,
+375,
+401,
+401
+],
+"patch": false
+},
+{
+"resultat": 218,
+"parents": [
+202,
+202,
+202,
+202
+],
+"patch": false
+},
+{
+"resultat": 216,
+"parents": [
+205,
+205,
+205,
+205
+],
+"patch": false
+},
+{
+"resultat": 236,
+"parents": [
+281,
+382
+],
+"patch": false
+},
+{
+"resultat": 237,
+"parents": [
+226,
+226,
+226,
+226
+],
+"patch": false
+},
+{
+"resultat": 238,
+"parents": [
+236,
+216
+],
+"patch": false
+},
+{
+"resultat": 238,
+"parents": [
+236,
+237
+],
+"patch": false
+},
+{
+"resultat": 238,
+"parents": [
+236,
+217
+],
+"patch": false
+},
+{
+"resultat": 219,
+"parents": [
+204,
+206,
+208,
+210
+],
+"patch": false
+},
+{
+"resultat": 399,
+"parents": [
+402,
+402,
+218,
+218
+],
+"patch": false
+},
+{
+"resultat": 220,
+"parents": [
+219,
+215
+],
+"patch": false
+},
+{
+"resultat": 220,
+"parents": [
+219,
+216
+],
+"patch": false
+},
+{
+"resultat": 220,
+"parents": [
+352,
+215
+],
+"patch": false
+},
+{
+"resultat": 220,
+"parents": [
+352,
+216
+],
+"patch": false
+},
+{
+"resultat": 239,
+"parents": [
+155,
+155,
+308,
+308
+],
+"patch": false
+},
+{
+"resultat": 217,
+"parents": [
+212,
+212,
+200,
+24
+],
+"patch": false
+},
+{
+"resultat": 217,
+"parents": [
+212,
+212,
+63,
+63
+],
+"patch": false
+},
+{
+"resultat": 222,
+"parents": [
+378,
+95
+],
+"patch": false
+},
+{
+"resultat": 221,
+"parents": [
+286,
+220
+],
+"patch": false
+},
+{
+"resultat": 424,
+"parents": [
+429,
+399,
+218,
+235
+],
+"patch": false
+},
+{
+"resultat": 424,
+"parents": [
+429,
+399,
+218,
+217
+],
+"patch": false
+},
+{
+"resultat": 424,
+"parents": [
+214,
+214
+],
+"patch": false
+},
+{
+"resultat": 429,
+"parents": [
+399,
+220
+],
+"patch": false
+},
+{
+"resultat": 272,
+"parents": [
+240,
+240,
+240,
+240
+],
+"patch": false
+},
+{
+"resultat": 278,
+"parents": [
+251,
+398
+],
+"patch": false
+},
+{
+"resultat": 278,
+"parents": [
+251,
+250
+],
+"patch": false
+},
+{
+"resultat": 278,
+"parents": [
+251,
+252
+],
+"patch": false
+},
+{
+"resultat": 278,
+"parents": [
+251,
+277
+],
+"patch": false
+},
+{
+"resultat": 255,
+"parents": [
+270,
+270,
+270,
+270
+],
+"patch": false
+},
+{
+"resultat": 167,
+"parents": [
+213,
+113
+],
+"patch": false
+},
+{
+"resultat": 167,
+"parents": [
+186,
+113
+],
+"patch": false
+},
+{
+"resultat": 167,
+"parents": [
+165,
+113
+],
+"patch": false
+},
+{
+"resultat": 155,
+"parents": [
+273,
+151
+],
+"patch": false
+},
+{
+"resultat": 280,
+"parents": [
+400,
+232
+],
+"patch": false
+},
+{
+"resultat": 258,
+"parents": [
+250,
+278
+],
+"patch": false
+},
+{
+"resultat": 247,
+"parents": [
+299,
+58
+],
+"patch": false
+},
+{
+"resultat": 283,
+"parents": [
+280,
+255
+],
+"patch": false
+},
+{
+"resultat": 283,
+"parents": [
+280,
+167
+],
+"patch": false
+},
+{
+"resultat": 283,
+"parents": [
+280,
+155
+],
+"patch": false
+},
+{
+"resultat": 262,
+"parents": [
+255,
+255,
+255,
+255
+],
+"patch": false
+},
+{
+"resultat": 262,
+"parents": [
+255,
+402
+],
+"patch": false
+},
+{
+"resultat": 262,
+"parents": [
+255,
+64
+],
+"patch": false
+},
+{
+"resultat": 403,
+"parents": [
+361,
+420
+],
+"patch": false
+},
+{
+"resultat": 403,
+"parents": [
+361,
+418
+],
+"patch": false
+},
+{
+"resultat": 405,
+"parents": [
+141,
+142
+],
+"patch": false
+},
+{
+"resultat": 407,
+"parents": [
+258,
+168
+],
+"patch": false
+},
+{
+"resultat": 407,
+"parents": [
+258,
+262
+],
+"patch": false
+},
+{
+"resultat": 407,
+"parents": [
+258,
+260
+],
+"patch": false
+},
+{
+"resultat": 261,
+"parents": [
+262,
+248
+],
+"patch": false
+},
+{
+"resultat": 261,
+"parents": [
+262,
+252
+],
+"patch": false
+},
+{
+"resultat": 282,
+"parents": [
+258,
+37
+],
+"patch": false
+},
+{
+"resultat": 284,
+"parents": [
+308,
+64
+],
+"patch": false
+},
+{
+"resultat": 284,
+"parents": [
+308,
+89
+],
+"patch": false
+},
+{
+"resultat": 260,
+"parents": [
+253,
+253,
+253,
+253
+],
+"patch": false
+},
+{
+"resultat": 260,
+"parents": [
+253,
+413
+],
+"patch": false
+},
+{
+"resultat": 260,
+"parents": [
+253,
+89
+],
+"patch": false
+},
+{
+"resultat": 287,
+"parents": [
+284,
+283
+],
+"patch": false
+},
+{
+"resultat": 287,
+"parents": [
+284,
+237
+],
+"patch": false
+},
+{
+"resultat": 374,
+"parents": [
+90,
+130
+],
+"patch": false
+},
+{
+"resultat": 374,
+"parents": [
+90,
+239
+],
+"patch": false
+},
+{
+"resultat": 286,
+"parents": [
+287,
+323
+],
+"patch": false
+},
+{
+"resultat": 377,
+"parents": [
+405,
+413
+],
+"patch": false
+},
+{
+"resultat": 377,
+"parents": [
+405,
+316
+],
+"patch": false
+},
+{
+"resultat": 264,
+"parents": [
+377,
+274
+],
+"patch": false
+},
+{
+"resultat": 264,
+"parents": [
+377,
+122
+],
+"patch": false
+},
+{
+"resultat": 408,
+"parents": [
+360,
+43
+],
+"patch": false
+},
+{
+"resultat": 408,
+"parents": [
+360,
+263
+],
+"patch": false
+},
+{
+"resultat": 378,
+"parents": [
+256,
+168
+],
+"patch": false
+},
+{
+"resultat": 378,
+"parents": [
+256,
+93
+],
+"patch": false
+},
+{
+"resultat": 430,
+"parents": [
+285,
+419
+],
+"patch": false
+},
+{
+"resultat": 430,
+"parents": [
+285,
+415
+],
+"patch": false
+},
+{
+"resultat": 406,
+"parents": [
+405,
+310
+],
+"patch": false
+},
+{
+"resultat": 318,
+"parents": [
+62,
+155
+],
+"patch": false
+},
+{
+"resultat": 376,
+"parents": [
+314,
+271
+],
+"patch": false
+},
+{
+"resultat": 300,
+"parents": [
+213,
+297
+],
+"patch": false
+},
+{
+"resultat": 300,
+"parents": [
+186,
+297
+],
+"patch": false
+},
+{
+"resultat": 300,
+"parents": [
+165,
+297
+],
+"patch": false
+},
+{
+"resultat": 315,
+"parents": [
+304,
+304,
+304,
+304
+],
+"patch": false
+},
+{
+"resultat": 320,
+"parents": [
+296,
+302
+],
+"patch": false
+},
+{
+"resultat": 314,
+"parents": [
+298,
+298,
+298,
+298
+],
+"patch": false
+},
+{
+"resultat": 302,
+"parents": [
+194,
+194,
+194,
+194
+],
+"patch": false
+},
+{
+"resultat": 302,
+"parents": [
+289,
+289,
+289,
+289
+],
+"patch": false
+},
+{
+"resultat": 319,
+"parents": [
+300,
+315
+],
+"patch": false
+},
+{
+"resultat": 306,
+"parents": [
+300,
+300
+],
+"patch": false
+},
+{
+"resultat": 413,
+"parents": [
+366,
+393
+],
+"patch": false
+},
+{
+"resultat": 413,
+"parents": [
+366,
+412
+],
+"patch": false
+},
+{
+"resultat": 413,
+"parents": [
+366,
+308
+],
+"patch": false
+},
+{
+"resultat": 321,
+"parents": [
+184,
+184
+],
+"patch": false
+},
+{
+"resultat": 322,
+"parents": [
+320,
+64
+],
+"patch": false
+},
+{
+"resultat": 322,
+"parents": [
+320,
+89
+],
+"patch": false
+},
+{
+"resultat": 419,
+"parents": [
+256,
+117
+],
+"patch": false
+},
+{
+"resultat": 164,
+"parents": [
+113,
+188
+],
+"patch": false
+},
+{
+"resultat": 164,
+"parents": [
+137,
+188
+],
+"patch": false
+},
+{
+"resultat": 412,
+"parents": [
+376,
+376
+],
+"patch": false
+},
+{
+"resultat": 305,
+"parents": [
+271,
+306
+],
+"patch": false
+},
+{
+"resultat": 305,
+"parents": [
+271,
+129
+],
+"patch": false
+},
+{
+"resultat": 308,
+"parents": [
+376,
+318
+],
+"patch": false
+},
+{
+"resultat": 308,
+"parents": [
+376,
+320
+],
+"patch": false
+},
+{
+"resultat": 308,
+"parents": [
+376,
+303
+],
+"patch": false
+},
+{
+"resultat": 308,
+"parents": [
+376,
+319
+],
+"patch": false
+},
+{
+"resultat": 303,
+"parents": [
+211,
+315
+],
+"patch": false
+},
+{
+"resultat": 303,
+"parents": [
+211,
+314
+],
+"patch": false
+},
+{
+"resultat": 307,
+"parents": [
+306,
+412
+],
+"patch": false
+},
+{
+"resultat": 307,
+"parents": [
+306,
+220
+],
+"patch": false
+},
+{
+"resultat": 307,
+"parents": [
+306,
+308
+],
+"patch": false
+},
+{
+"resultat": 325,
+"parents": [
+190,
+282,
+40,
+358
+],
+"patch": false
+},
+{
+"resultat": 323,
+"parents": [
+191,
+37
+],
+"patch": false
+},
+{
+"resultat": 316,
+"parents": [
+308,
+12
+],
+"patch": false
+},
+{
+"resultat": 316,
+"parents": [
+308,
+11
+],
+"patch": false
+},
+{
+"resultat": 310,
+"parents": [
+28,
+408
+],
+"patch": false
+},
+{
+"resultat": 346,
+"parents": [
+408,
+286
+],
+"patch": false
+},
+{
+"resultat": 174,
+"parents": [
+340,
+123
+],
+"patch": false
+},
+{
+"resultat": 348,
+"parents": [
+423,
+164,
+254,
+174
+],
+"patch": false
+},
+{
+"resultat": 359,
+"parents": [
+325,
+347
+],
+"patch": false
+},
+{
+"resultat": 349,
+"parents": [
+348,
+359
+],
+"patch": false
+},
+{
+"resultat": 351,
+"parents": [
+95,
+424
+],
+"patch": false
+},
+{
+"resultat": 426,
+"parents": [
+344,
+176
+],
+"patch": false
+},
+{
+"resultat": 347,
+"parents": [
+421,
+388,
+46,
+369
+],
+"patch": false
+},
+{
+"resultat": 267,
+"parents": [
+221,
+238
+],
+"patch": false
+},
+{
+"resultat": 267,
+"parents": [
+221,
+239
+],
+"patch": false
+},
+{
+"resultat": 266,
+"parents": [
+374,
+122
+],
+"patch": false
+},
+{
+"resultat": 266,
+"parents": [
+374,
+43
+],
+"patch": false
+},
+{
+"resultat": 268,
+"parents": [
+430,
+92
+],
+"patch": false
+},
+{
+"resultat": 268,
+"parents": [
+430,
+93
+],
+"patch": false
+},
+{
+"resultat": 172,
+"parents": [
+265,
+266,
+267,
+268
+],
+"patch": false
+},
+{
+"resultat": 173,
+"parents": [
+172,
+222
+],
+"patch": false
+},
+{
+"resultat": 421,
+"parents": [
+426,
+389
+],
+"patch": false
+},
+{
+"resultat": 344,
+"parents": [
+340,
+440
+],
+"patch": false
+},
+{
+"resultat": 265,
+"parents": [
+264,
+307
+],
+"patch": false
+},
+{
+"resultat": 265,
+"parents": [
+264,
+316
+],
+"patch": false
+},
+{
+"resultat": 373,
+"parents": [
+290,
+1
+],
+"patch": true
+},
+{
+"resultat": 11,
+"parents": [
+1,
+1,
+1,
+1
+],
+"patch": true
+},
+{
+"resultat": 443,
+"parents": [
+383,
+373
+],
+"patch": true
+},
+{
+"resultat": 31,
+"parents": [
+27,
+381,
+11,
+29
+],
+"patch": true
+},
+{
+"resultat": 428,
+"parents": [
+405,
+129,
+7,
+23
+],
+"patch": true
+},
+{
+"resultat": 437,
+"parents": [
+405,
+319,
+25,
+26
+],
+"patch": true
+},
+{
+"resultat": 445,
+"parents": [
+352,
+13,
+428,
+184
+],
+"patch": true
+},
+{
+"resultat": 32,
+"parents": [
+433,
+63,
+420,
+10
+],
+"patch": true
+},
+{
+"resultat": 33,
+"parents": [
+445,
+124,
+422,
+28
+],
+"patch": true
+},
+{
+"resultat": 34,
+"parents": [
+424,
+427,
+173,
+35
+],
+"patch": true
+},
+{
+"resultat": 358,
+"parents": [
+388,
+190,
+40,
+282
+],
+"patch": true
+},
+{
+"resultat": 94,
+"parents": [
+358,
+268,
+83,
+79
+],
+"patch": true
+},
+{
+"resultat": 127,
+"parents": [
+154,
+365
+],
+"patch": true
+},
+{
+"resultat": 366,
+"parents": [
+409,
+409,
+387,
+387
+],
+"patch": false
+},
+{
+"resultat": 139,
+"parents": [
+105,
+371
+],
+"patch": true
+},
+{
+"resultat": 124,
+"parents": [
+117,
+117,
+356,
+356
+],
+"patch": false
+},
+{
+"resultat": 120,
+"parents": [
+139,
+14
+],
+"patch": true
+},
+{
+"resultat": 436,
+"parents": [
+435,
+166
+],
+"patch": true
+},
+{
+"resultat": 431,
+"parents": [
+150,
+240
+],
+"patch": true
+},
+{
+"resultat": 368,
+"parents": [
+250,
+250,
+116,
+116
+],
+"patch": false
+},
+{
+"resultat": 442,
+"parents": [
+144,
+225
+],
+"patch": true
+},
+{
+"resultat": 360,
+"parents": [
+109,
+109,
+272,
+272
+],
+"patch": false
+},
+{
+"resultat": 188,
+"parents": [
+156,
+156,
+178,
+178
+],
+"patch": true
+},
+{
+"resultat": 47,
+"parents": [
+221,
+264,
+170,
+65
+],
+"patch": true
+},
+{
+"resultat": 435,
+"parents": [
+171,
+149
+],
+"patch": true
+},
+{
+"resultat": 202,
+"parents": [
+23,
+271
+],
+"patch": true
+},
+{
+"resultat": 352,
+"parents": [
+237,
+216
+],
+"patch": true
+},
+{
+"resultat": 214,
+"parents": [
+399,
+168,
+78,
+398
+],
+"patch": true
+},
+{
+"resultat": 427,
+"parents": [
+33,
+220,
+238,
+437
+],
+"patch": true
+},
+{
+"resultat": 361,
+"parents": [
+242,
+51
+],
+"patch": true
+},
+{
+"resultat": 439,
+"parents": [
+361,
+243
+],
+"patch": true
+},
+{
+"resultat": 170,
+"parents": [
+162,
+439
+],
+"patch": true
+},
+{
+"resultat": 438,
+"parents": [
+47,
+198,
+170,
+198
+],
+"patch": true
+},
+{
+"resultat": 369,
+"parents": [
+46,
+265
+],
+"patch": true
+},
+{
+"resultat": 444,
+"parents": [
+411,
+293
+],
+"patch": true
+},
+{
+"resultat": 309,
+"parents": [
+306,
+410,
+218,
+417
+],
+"patch": true
+},
+{
+"resultat": 176,
+"parents": [
+368,
+397
+],
+"patch": true
+},
+{
+"resultat": 356,
+"parents": [
+418,
+117
+],
+"patch": true
+},
+{
+"resultat": 350,
+"parents": [
+306,
+377
+],
+"patch": true
+},
+{
+"resultat": 254,
+"parents": [
+176,
+174
+],
+"patch": true
+},
+{
+"resultat": 336,
+"parents": [
+124,
+123
+],
+"patch": true
+}
+]
+}

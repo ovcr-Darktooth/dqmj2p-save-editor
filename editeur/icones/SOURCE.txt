@@ -1,2 +1,2 @@
-Icônes extraites de la ROM (MonsterIconDat.NICA) par tools/extract_icons.py
-de https://github.com/ovcr-Darktooth/dqmj2pro-synthesis, commit bcd3ec7.
+Icônes extraites de la ROM (MonsterIconDat.NICA) par tools/extract_icons.py.
+Issu de https://github.com/ovcr-Darktooth/dqmj2pro-synthesis, commit bcd3ec7.
