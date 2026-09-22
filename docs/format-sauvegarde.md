@@ -21,7 +21,8 @@ Offsets de base relevés par **Ceris White** (`save_converter.py`, projet
 | Offset | Type | Contenu |
 |---|---|---|
 | `0x00` | 4 o | Magic `SIZ\0` |
-| `0x04-0x27` | | **À cartographier** (`0x20` et `0x24` : u32 inconnus) |
+| `0x04-0x0B` | | **À cartographier** (constant : `00 00 01 00 D0 70 00 00`) |
+| `0x0C` | 7 × u32 | Date de la dernière sauvegarde en jeu : année − 2000, mois, jour, jour de la semaine (0 = dimanche), heure, minute, seconde |
 | `0x28` | u32 | Temps de jeu, en 1/30 s (résumé ; copie de `0x90`) |
 | `0x2C` | texte 20 o | Nom du joueur (résumé ; copie de `0x98`) |
 | `0x40` | 3 × texte 20 o | Surnoms des 3 monstres d'équipe (résumé) |
@@ -38,7 +39,13 @@ Offsets de base relevés par **Ceris White** (`save_converter.py`, projet
 | `0x1CC-0x1DB` | 16 o | **À cartographier** (`00 01 00 02 03 04 05 07 0B 09 08 7F…`, ressemble à un ordre ou à des index) |
 | `0x1DC` | 3 × u16 | Victoires, monstres dressés, monstres synthétisés |
 | `0x1E8` | 100 × 0x84 | Enregistrements de monstres |
-| `0x3638-0x70CF` | | Après les monstres, couvert par la somme data. **À cartographier** (inventaire ? drapeaux ?) |
+| `0x3638-0x3A67` | | **À cartographier** |
+| `0x3A68` | u8 | Location actuelle |
+| `0x3A69` | u8 | Location précédente (?) : souvent égale à la précédente |
+| `0x3A70` | 3 × i32 | Position X, Y, Z du joueur, en centièmes |
+| `0x3A7C` | i32 | Probablement l'orientation, en degrés virgule fixe 20.12 (180°, −88°, 90° observés) |
+| `0x3A90` | 4 × u32 | Quatre copies du temps de jeu (rôle inconnu) |
+| `0x3AA0-0x70CF` | | **À cartographier** (drapeaux d'histoire ? bibliothèque ?) |
 | `0x70D0-0x70FF` | | Hors somme de contrôle, rôle inconnu |
 
 La zone `0x20-0x87` est un **résumé** pour l'écran de chargement : le jeu y
@@ -77,9 +84,11 @@ une autre en combat sans anomalie ; le monstre né de la synthèse a reçu l'ID
 suivant celui laissé par l'éditeur en `0x94`. Un monstre synthétisé est nommé
 d'après son espèce coupée à 8 caractères, espace final compris.
 
-`0x20` et `0x24` (u32, résumé) ont changé pendant cette session de jeu
-(56 → 11, 47 → 16) sans lien avec l'or ni l'équipe : peut-être le lieu où
-la partie a été sauvegardée. À confirmer.
+La date de sauvegarde (`0x0C-0x27`) a été vérifiée contre l'heure d'écriture
+des `.dsv` sur la console : elle la précède de quelques secondes, le temps que
+DraStic vide sa mémoire de sauvegarde. Location et position ont été relevées en
+jeu sur `moitie-jeu` (location 57, position −26,10 / 0 / 589,46). L'éditeur
+les affiche sans les modifier : une téléportation n'a pas encore été testée.
 
 Un emplacement de monstre est libre si son ID de création (`+0x14`) ou son
 espèce (`+0x18`) vaut 0 (monstre consommé en synthèse).

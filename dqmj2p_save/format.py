@@ -45,14 +45,14 @@ TAILLE_MONSTRE = 0x84
 NB_MONSTRES = 100
 NB_COMPETENCES = 5
 
-_FORMATS = {'u8': '<B', 'u16': '<H', 'u32': '<I'}
+_FORMATS = {'u8': '<B', 'u16': '<H', 'u32': '<I', 'i32': '<i'}
 
 
 @dataclass(frozen=True)
 class Champ:
     cle: str
     offset: int
-    type: str                       # 'u8', 'u16', 'u32', 'texte' ou 'octets'
+    type: str                       # 'u8', 'u16', 'u32', 'i32', 'texte' ou 'octets'
     libelle: str
     taille: int = 0                 # seulement pour 'texte' et 'octets'
     lecture_seule: bool = False
@@ -60,8 +60,13 @@ class Champ:
     miroir: int | None = None       # second offset où la même valeur est rangée
 
     @property
+    def minimum(self) -> int:
+        return -(1 << 31) if self.type == 'i32' else 0
+
+    @property
     def maximum(self) -> int:
-        return (1 << (8 * struct.calcsize(_FORMATS[self.type]))) - 1
+        bits = 8 * struct.calcsize(_FORMATS[self.type])
+        return (1 << (bits - 1)) - 1 if self.type == 'i32' else (1 << bits) - 1
 
     def lire(self, buf, base: int):
         debut = base + self.offset
@@ -88,8 +93,8 @@ class Champ:
                 raise ValueError(f'{self.cle} : {self.taille} octets attendus, '
                                  f'{len(valeur)} reçus')
             return bytes(valeur)
-        if not 0 <= valeur <= self.maximum:
-            raise ValueError(f'{self.cle} : {valeur} hors de 0..{self.maximum}')
+        if not self.minimum <= valeur <= self.maximum:
+            raise ValueError(f'{self.cle} : {valeur} hors de {self.minimum}..{self.maximum}')
         return struct.pack(_FORMATS[self.type], valeur)
 
 
@@ -156,6 +161,16 @@ INCONNUS_MONSTRE = ((0x1D, 1), (0x1F, 1), (0x33, 1), (0x3E, 2))
 IMAGES_PAR_SECONDE = 30             # unité du temps de jeu
 
 CHAMPS_JOUEUR = (
+    # Date et heure de la dernière sauvegarde en jeu (horloge de la console),
+    # vérifiées contre l'heure d'écriture des .dsv.
+    Champ('sauvegarde_annee', 0x0C, 'u32', 'Année (depuis 2000)', lecture_seule=True),
+    Champ('sauvegarde_mois', 0x10, 'u32', 'Mois', lecture_seule=True),
+    Champ('sauvegarde_jour', 0x14, 'u32', 'Jour', lecture_seule=True),
+    Champ('sauvegarde_jour_semaine', 0x18, 'u32', 'Jour de la semaine (0 = dimanche)',
+          lecture_seule=True),
+    Champ('sauvegarde_heure', 0x1C, 'u32', 'Heure', lecture_seule=True),
+    Champ('sauvegarde_minute', 0x20, 'u32', 'Minute', lecture_seule=True),
+    Champ('sauvegarde_seconde', 0x24, 'u32', 'Seconde', lecture_seule=True),
     Champ('temps_jeu', 0x28, 'u32', 'Temps de jeu', miroir=0x90),  # en 1/30 s
     Champ('nom', 0x2C, 'texte', 'Nom', 20, miroir=0x98),
     Champ('dernier_id_creation', 0x94, 'u32', 'Dernier ID de création attribué',
@@ -165,6 +180,13 @@ CHAMPS_JOUEUR = (
     Champ('victoires', 0x1DC, 'u16', 'Victoires'),
     Champ('dressages', 0x1DE, 'u16', 'Monstres dressés'),
     Champ('syntheses', 0x1E0, 'u16', 'Monstres synthétisés'),
+    # Emplacement dans le monde, relevé en jeu (location 57, -26,10 / 0 / 589,46).
+    # Lecture seule tant qu'une téléportation n'a pas été testée en jeu.
+    Champ('location', 0x3A68, 'u8', 'Location', lecture_seule=True),
+    Champ('location_precedente', 0x3A69, 'u8', 'Location précédente (?)', lecture_seule=True),
+    Champ('position_x', 0x3A70, 'i32', 'Position X (centièmes)', lecture_seule=True),
+    Champ('position_y', 0x3A74, 'i32', 'Position Y (centièmes)', lecture_seule=True),
+    Champ('position_z', 0x3A78, 'i32', 'Position Z (centièmes)', lecture_seule=True),
 )
 CHAMP_JOUEUR = {c.cle: c for c in CHAMPS_JOUEUR}
 

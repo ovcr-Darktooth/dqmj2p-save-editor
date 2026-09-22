@@ -106,7 +106,7 @@ def creer_saisie(champ: F.Champ) -> QWidget:
     if champ.cle == 'temps_jeu':
         return TempsJeu()
     saisie = QSpinBox()
-    saisie.setRange(0, min(champ.maximum, QSPINBOX_MAX))
+    saisie.setRange(max(champ.minimum, -QSPINBOX_MAX), min(champ.maximum, QSPINBOX_MAX))
     saisie.setGroupSeparatorShown(champ.maximum > 0xFFFF)
     saisie.setReadOnly(champ.lecture_seule)
     if champ.lecture_seule:

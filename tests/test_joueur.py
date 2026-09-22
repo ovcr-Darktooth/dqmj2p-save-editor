@@ -131,3 +131,15 @@ class Monstres(unittest.TestCase):
         self.assertEqual(relue.joueur['dernier_id_creation'], 108)
         self.assertEqual(relue.role(relue.monstre(avant)), 'ranch')
         self.assertEqual(relue.monstre(avant).octets[0x18:], modele.octets[0x18:])
+
+
+class Emplacement(unittest.TestCase):
+    def test_valeurs_relevees_en_jeu(self):
+        """moitie-jeu : location 57, position -26,10 / 0 / 589,46, sauvegardée
+        le mardi 22/09/2026 à 02:56:47 (fichier écrit à 02:56:55)."""
+        j = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv')).joueur
+        self.assertEqual(j['location'], 57)
+        self.assertEqual((j['position_x'], j['position_y'], j['position_z']), (-2610, 0, 58946))
+        date = tuple(j[f'sauvegarde_{c}'] for c in
+                     ('annee', 'mois', 'jour', 'jour_semaine', 'heure', 'minute', 'seconde'))
+        self.assertEqual(date, (26, 9, 22, 2, 2, 56, 47))
