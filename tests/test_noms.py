@@ -41,3 +41,11 @@ class Bestiaire(unittest.TestCase):
         for r in _donnees()[1]:
             for espece in (r.resultat, *r.parents):
                 self.assertNotIn(noms.table('especes')[espece], (noms.INUTILISE, noms.AUCUN))
+
+
+class AideObjets(unittest.TestCase):
+    def test_descriptions(self):
+        self.assertEqual(noms.aide_objet(1), 'Rend 30 PV à un équipier.')
+        self.assertEqual(noms.aide_objet(130), 'Attaque +28\nAssez efficace contre les Matériels.')
+        self.assertIn('⊕', noms.aide_objet(30))              # Positif mag'
+        self.assertEqual(noms.aide_objet(9999), '')

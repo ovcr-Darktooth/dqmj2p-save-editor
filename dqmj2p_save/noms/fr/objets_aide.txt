@@ -1,0 +1,257 @@
+
+Rend 30 PV à un équipier.
+Rend 60 PV à un équipier.
+Rend 120 PV à un équipier.
+Rend 30 PV à l'équipe.
+Rend environ 100 PV à l'équipe.
+Rend 30 PM à un équipier.
+Rend 90 PM à un équipier.
+Restaure tous les PM d'un équipier.
+Feuille mystique qui ressuscite un équipier mort.
+Guérit un équipier des effets du poison.
+Guérit un équipier des effets de la paralysie.
+Guérit un équipier: poison, paralysie, sommeil, confusion.
+Poudre scellant la magie d'un ennemi.
+Augmente fortement l'attaque d'un allié pendant 2 à 5 tours.
+Hausse la résistance magique d'un allié.
+Hausse la résistance magique de l'équipe.
+Hausse la résistance d'un allié aux souffles feu et glace.
+Hausse la résistance de l'équipe aux souffles feu et glace.
+Donne 3 points de compétence à un allié.
+Augmente à vie le PV max d'un allié de 2 à 4 points.
+Augmente à vie le PM max d'un allié de 2 à 4 points.
+Augmente à vie l'attaque d'un allié de 1 à 2 points.
+Augmente à vie la Défense d'un allié de 1 à 2 points.
+Augmente à vie l'Agilité d'un allié de 1 à 2 points.
+Augmente à vie la Sagesse d'un allié de 1 à 2 points.
+Sent très mauvais mais se lance sur les ennemis au combat. N'inflige que 0 ou 1 dégât à un ennemi, mais fait mal aux monstres de métal.
+Amène un allié à 1 point d'Exp{315}du niveau suivant.
+Permet d'acheter des objets à prix réduit.
+Gros morceau d'or.
+Attire les monstres {231} au combat. Effet perdu ensuite.
+Attire les monstres {232} au combat. Effet perdu ensuite.
+Attire les monstres {233} au combat. Effet perdu ensuite.
+Redonne environ 40 PV à tous vos alliés.
+
+
+
+
+
+
+
+
+Ticket spécial pour aller à la métallo-ménagerie. Ne le gâchez pas quand celle-ci est déjà accessible.
+
+
+Viande que les monstres adorent. Augmente les chances de dressage.
+Guérit un allié du sommeil et de la confusion.
+
+Livre conférant la compétence Apik.
+Livre conférant la compétence Akœur.
+Livre conférant la compétence Akaro.
+Livre conférant la compétence Atrèfle.
+Confère la compétence de guerrier.
+Confère la compétence de mage.
+Confère la compétence de prêtre.
+Confère la compétence d'artiste martial.
+Confère la compétence de sage.
+Confère la compétence de voleur.
+Pierres dures à lancer au combat. N'infligent que 1 à 3 dégâts à un ennemi, mais efficaces contre les monstres de métal.
+Pierres explosives à lancer au combat. Réduisent les PV d'un ennemi à 1.
+
+Affecte le statut d'un ennemi.
+
+
+
+
+Augmente la tension de l'équipe.
+Diminue fortement l'Attaque d'un ennemi pendant 2 à 5 tours.
+Diminue fortement la Défense d'un ennemi pendant 4 à 7 tours.
+Diminue fortement l'Agilité d'un ennemi pendant 4 à 7 tours.
+Diminue fortement la Sagesse d'un ennemi pendant 4 à 7 tours.
+Augmente fortement la Défense d'un allié pendant 4 à 7 tours.
+Augmente fortement l'Agilité d'un allié pendant 4 à 7 tours.
+Augmente fortement la Sagesse d'un allié pendant 4 à 7 tours.
+Confère la compétence Soigneur.
+Confère la compétence Aide magique.
+Livre conférant la compétence Bonus Attaque.
+Livre conférant la compétence Bonus Défense.
+Livre conférant la compétence Bonus Agilité.
+Livre conférant la compétence Bonus Sagesse.
+Grande médaille gravée d'une tête de lion.
+Clef donnant accès aux ruines d'Archéopolis.
+Accessoire clé du dresseur: cet anneau permet à son porteur de dresser des monstres et de les recruter.
+Lettre visqueuse remise par le gluant devant le repaire des taupes.
+Confère la compétence Guérisseur.
+
+
+
+
+
+
+
+
+Gravier à lancer durant le combat. Inflige au maximum 1 point de dégâts à un ennemi, mais s'avère efficace contre les monstres de métal.
+Objet valant quelques pièces d'or.
+Objet valant un joli nombre de pièces d'or.
+
+
+
+
+
+
+
+
+
+
+
+Porte le logo du distributeur d'objets de l'Albatros.
+
+Médaille autorisant celui qui la porte à participer au dernier niveau du Championnat des Dresseurs des taupes.
+
+Objet magique qui donne une âme à la boue.
+Attaque+10
+Attaque +13{315}Assez efficace contre les Zombies.
+Attaque+18{315}Assez efficace contre Dragons.
+Attaque+30{315}Épée d'acier banale.
+Attaque +36{315}Assez efficace contre les Zombies.
+Attaque+41{315}Assez efficace contre Dragons.
+Attaque +48{315}Forte probabilité de toucher les monstres de métal.
+Attaque+62
+Attaque +67{315}Efficace contre les Zombies.
+Attaque+72{315}Efficace contre Dragons.
+Attaque+90
+Attaque +81{315}Très efficace contre les Zombies.
+Attaque+86{315}Très efficace contre Dragons.
+Attaque+110
+Attaque +102{315}Forte probabilité de toucher les monstres de métal.
+Attaque+9{315}Assez efficace contre Gluants.
+Attaque+16{315}Assez efficace contre Naturels.{315}Favorise le coup critique.
+Attaque +22{315}Assez efficace contre Démons
+Attaque +28{315}Assez efficace contre les Matériels.
+Attaque +34{315}Assez efficace contre les Zombies.
+Attaque +40{315}Assez efficace contre Bêtes{315}Favorise les coups critiques
+Attaque +45{315}Assez efficace contre Dragons
+Attaque+57
+Attaque+82
+Attaque +94{315}Favorise les coups critiques
+Attaque+7
+Attaque +14{315}Assez efficace contre les Bêtes et les Naturels.
+Attaque+23
+Attaque +32{315}Assez efficace contre les Bêtes et les Naturels.
+Attaque +39{315}Favorise les coups critiques
+Attaque+52
+Attaque +60{315}Efficace contre Bêtes et Naturels
+Attaque+81
+Attaque +90{315}Très efficace contre les Bêtes et les Naturels.
+Attaque +93{315}Favorise les coups critiques
+Attaque +3{315}Défense accrue
+Attaque +12{315}Assez efficace contre Matériels et Gluants
+Attaque +24{315}Défense accrue
+Attaque +31{315}Tue parfois en un coup
+Attaque +37{315}Rend des PV au porteur
+Attaque +49{315}Défense accrue
+Attaque +97{315}Très efficace contre Matériels et Gluants
+Attaque +80{315}Défense accrue
+Attaque +58{315}Tue parfois en un coup
+Attaque +87{315}Rend des PV au porteur
+Attaque +4{315}Touche tous les ennemis
+Attaque +10{315}Touche tous les ennemis
+Attaque +14{315}Touche tous les ennemis
+Attaque +30{315}Touche tous les ennemis
+Attaque +20{315}Touche tous les ennemis
+Attaque +36{315}Touche tous les ennemis
+Attaque +42{315}Touche tous les ennemis
+Attaque +48{315}Touche tous les ennemis
+Attaque +58{315}Touche tous les ennemis
+Attaque +68{315}Touche tous les ennemis
+Attaque +5{315}Agilité accrue
+Attaque +15{315}Touche presque toujours les monstres de métal{315}Agilité accrue
+Attaque +11{315}Agilité accrue
+Attaque +25{315}Efficace contre Démons{315}Agilité accrue
+Attaque +33{315}Agilité accrue
+Attaque +43{315}Agilité accrue
+Attaque +51{315}Touche presque toujours les monstres de métal{315}Agilité accrue
+Attaque +77{315}Agilité accrue
+Attaque +84{315}Très efficace contre Démons{315}Agilité accrue
+Attaque +95{315}Agilité accrue
+Attaque +4{315}Sagesse accrue
+Attaque +12{315}Sagesse accrue
+Attaque +8{315}Le porteur garde sa forme à la synthèse
+
+Attaque +23{315}Le monstre synthétisé sera {231}
+Attaque +23{315}Le monstre synthétisé sera {232}
+Attaque +34{315}Sagesse accrue
+Attaque +47{315}Sagesse accrue
+Attaque +61{315}Sagesse accrue
+Attaque +83{315}Sagesse accrue.
+Attaque +95{315}Agilité et Sagesse accrues.
+Attaque +46{315}Efficace contre les Matériels.
+Attaque +42{315}Sagesse accrue.
+Attaque +88{315}Agilité accrue.
+Attaque +76{315}Efficace contre les Démons.{315}Coups critiques plus fréquents.
+
+
+Attaque +10{315}Agilité accrue.
+Attaque +20{315}Défense accrue.
+Attaque +77{315}Restaure une partie de vos PV.
+Attaque +15{315}Agilité très accrue.
+Attaque +7{315}Restaure une partie de vos PV.
+Attaque +44{315}Efficace contre les Dragons.
+Attaque +58{315}Efficace contre les Naturels.{315}Défense accrue.
+Attaque +76{315}Touche tous les ennemis.
+
+
+
+
+
+
+
+
+
+
+Flamme éternelle d'un pégase.{315}Sert d'ingrédient pour un certain élixir.
+Larmes versées par un dragon tricéphale.{315}Ingrédient d'un certain élixir.
+Cristal à l'éclat éternel.{315}Ingrédient d'un certain élixir.
+Plaque à tête de lion des plaines.
+Plaque à tête de lion des neiges.
+Plaque à tête de lion des falaises.
+Plaque à tête de lion de la côte.
+Plaque à tête de lion du Dieu guerrier.
+Attaque +150{315}Baisse Défense ennemie.
+Attaque +85{315}Favorise la montée de tension.
+Attaque +130
+Attaque +12{315}Révèle stats ennemies.
+Attaque +130{315}Baisse Tension ennemie.
+Attaque +65{315}Scelle les Atouts
+Attaque +120
+Attaque +70{315}Baisse Tension ennemie.
+Attaque +100{315}Touche tous les ennemis.
+Attaque +25{315}Touche tous les ennemis.{315}Sorts critiques plus fréquents.
+Attaque +130{315}Dégâts accrus aux Dragons.
+Attaque +55{315}Gros dégâts aux monstres de métal.
+Attaque +110{315}Peut lancer Perturbonde.
+Attaque +35{315}Chance accrue à bas PV.
+Oeuf de monstre précieux.{315}Offrez-le à l'arbre mystérieux{315}de l'Île de Domus.
+Attaque de l'équipe accrue{315}pendant 2 à 5 tours.
+Défense de l'équipe accrue{315}pendant 4 à 7 tours.
+Agilité de l'équipe accrue{315}pendant 4 à 7 tours.
+Sagesse de l'équipe accrue{315}pendant 4 à 7 tours.
+Attaque des ennemis réduite{315}pendant 2 à 5 tours.
+Réduit la Défense des ennemis{315}pendant 4 à 7 tours.
+Réduit l'Agilité des ennemis{315}pendant 4 à 7 tours.
+Sagesse des ennemis réduite{315}pendant 4 à 7 tours.
+Ressuscite toute l'équipe{315}et restaure tous ses PV.
+Permet d'apprendre le talent{315}" Anti-Lame ".
+Permet d'apprendre le talent{315}" Anti-Sort ".
+Enseigne le talent{315}"Anti-Souffle".
+Enseigne le talent{315}"Guérison".
+Enseigne le talent{315}"Sélection de Morry".
+Permet d'apprendre le talent{315}" Maître de l'Arène".
+
+
+Enseigne le talent{315}"Anti-Métal".
+Enseigne le talent{315}"Anti-Zone Zéro".
+Enseigne le talent{315}"Anti-Géant".
+
+

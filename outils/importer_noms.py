@@ -14,6 +14,7 @@ TABLES = {                          # fichier de la traduction -> table ici
     'msg_monstername.txt': 'especes.txt',
     'msg_skillname.txt': 'competences.txt',
     'msg_itemname.txt': 'objets.txt',
+    'msg_itemhelp.txt': 'objets_aide.txt',
 }
 CIBLE = Path(__file__).resolve().parents[1] / 'dqmj2p_save' / 'noms' / 'fr'
 

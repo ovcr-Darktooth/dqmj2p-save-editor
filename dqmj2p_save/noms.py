@@ -66,8 +66,22 @@ def carte(numero: int) -> str:
     return CARTES.get(numero, 'lieu inconnu')
 
 
+# Codes de contrôle des textes du jeu : {315} retour à la ligne, {231} à {233}
+# symboles de polarité (+, -, neutre).
+_CODES_TEXTE = {'{315}': '\n', '{231}': '⊕', '{232}': '⊖', '{233}': '⊘'}
+
+
+def aide_objet(id_: int, langue: str = 'fr') -> str:
+    """Description d'un objet telle que le jeu l'affiche (msg_itemhelp)."""
+    lignes = table('objets_aide', langue).noms
+    texte = lignes[id_] if 0 <= id_ < len(lignes) else ''
+    for code, remplacement in _CODES_TEXTE.items():
+        texte = texte.replace(code, remplacement)
+    return texte
+
+
 @cache
 def table(nom: str, langue: str = 'fr') -> TableNoms:
-    """nom : 'especes', 'competences' ou 'objets'."""
+    """nom : 'especes', 'competences', 'objets' ou 'objets_aide'."""
     chemin = DOSSIER / langue / f'{nom}.txt'
     return TableNoms(chemin.read_text(encoding='utf-8').splitlines())
