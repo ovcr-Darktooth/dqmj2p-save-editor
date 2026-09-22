@@ -1,10 +1,14 @@
 """Fiche d'un monstre : un champ de saisie par entrée de format.CHAMPS_MONSTRE,
 rangés par onglet. Chaque modification est écrite aussitôt dans la sauvegarde."""
-from PySide6.QtGui import QFontDatabase
-from PySide6.QtWidgets import (QFormLayout, QGridLayout, QLabel, QPlainTextEdit,
-                               QTabWidget, QVBoxLayout, QWidget)
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QFont, QFontDatabase
+from PySide6.QtWidgets import (QFormLayout, QGridLayout, QHBoxLayout, QLabel,
+                               QPlainTextEdit, QTabWidget, QVBoxLayout, QWidget)
 
 from dqmj2p_save import format as F
+from dqmj2p_save import noms
+
+from . import icones
 
 from .saisies import Liaison
 
@@ -21,7 +25,56 @@ ONGLETS = {
 }
 
 
-class Fiche(QTabWidget):
+class Fiche(QWidget):
+    """En-tête (icône, surnom, espèce, niveau) au-dessus des onglets."""
+
+    def __init__(self):
+        super().__init__()
+        self.onglets = _Onglets()
+        self.liaison = self.onglets.liaison
+        self.liaison.modifiee.connect(self._afficher_entete)
+
+        self.image = QLabel(alignment=Qt.AlignCenter)
+        self.image.setFixedWidth(icones.CASE * 2 + 8)
+        self.titre = QLabel()
+        police = QFont(self.titre.font())
+        police.setPointSizeF(police.pointSizeF() * 1.5)
+        police.setBold(True)
+        self.titre.setFont(police)
+        self.sous_titre = QLabel()
+        textes = QVBoxLayout()
+        textes.addStretch()
+        textes.addWidget(self.titre)
+        textes.addWidget(self.sous_titre)
+        textes.addStretch()
+        entete = QHBoxLayout()
+        entete.addWidget(self.image)
+        entete.addLayout(textes, 1)
+
+        disposition = QVBoxLayout(self)
+        disposition.setContentsMargins(0, 0, 0, 0)
+        disposition.addLayout(entete)
+        disposition.addWidget(self.onglets, 1)
+        self.setEnabled(False)
+
+    @property
+    def monstre(self):
+        return self.liaison.vue
+
+    def afficher(self, monstre) -> None:
+        self.onglets.afficher(monstre)
+        self._afficher_entete()
+        self.setEnabled(True)
+
+    def _afficher_entete(self) -> None:
+        m = self.monstre
+        self.image.setPixmap(icones.agrandie(m['espece']))
+        self.titre.setText(m['surnom'] or noms.table('especes')[m['espece']])
+        self.sous_titre.setText(f"{noms.table('especes')[m['espece']]}  —  niveau {m['niveau']}"
+                                f"  —  emplacement {m.emplacement}")
+
+
+class _Onglets(QTabWidget):
     def __init__(self):
         super().__init__()
         self.liaison = Liaison(F.CHAMP)
@@ -55,19 +108,12 @@ class Fiche(QTabWidget):
         disposition.addWidget(self.hexa)
         self.addTab(page, 'Octets bruts')
 
-        self.setEnabled(False)
-
-    @property
-    def monstre(self):
-        return self.liaison.vue
-
     def afficher(self, monstre) -> None:
         self.liaison.afficher(monstre)
         self._afficher_octets()
-        self.setEnabled(True)
 
     def _afficher_octets(self) -> None:
-        octets = self.monstre.octets
+        octets = self.liaison.vue.octets
         inconnus = {off + k for off, n in F.INCONNUS_MONSTRE for k in range(n)}
         lignes = []
         for debut in range(0, len(octets), 16):

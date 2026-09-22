@@ -10,6 +10,7 @@ from PySide6.QtWidgets import (QAbstractItemView, QFileDialog, QHeaderView,
 from dqmj2p_save import ErreurSauvegarde, Sauvegarde
 from dqmj2p_save import noms
 
+from . import icones
 from .fiche import Fiche
 from .joueur import PageJoueur
 from .sac import PageSac
@@ -36,6 +37,8 @@ class Fenetre(QMainWindow):
         self.liste.setSelectionMode(QAbstractItemView.SingleSelection)
         self.liste.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.liste.verticalHeader().hide()
+        self.liste.verticalHeader().setDefaultSectionSize(icones.CASE + 4)
+        self.liste.setIconSize(icones.TAILLE_CASE)
         self.liste.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         self.liste.horizontalHeader().setStretchLastSection(True)
         self.liste.itemSelectionChanged.connect(self._selection)
@@ -55,7 +58,7 @@ class Fenetre(QMainWindow):
         separation.setStretchFactor(0, 0)
         separation.setStretchFactor(1, 1)
         separation.setCollapsible(0, False)
-        self.liste.setMinimumWidth(400)
+        self.liste.setMinimumWidth(440)
 
         self.onglets = QTabWidget()
         self.onglets.addTab(self.page_joueur, 'Joueur')
@@ -135,6 +138,8 @@ class Fenetre(QMainWindow):
             cellule = QTableWidgetItem(str(valeur))
             if isinstance(valeur, int):
                 cellule.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
+            if colonne == COLONNES.index('Espèce'):
+                cellule.setIcon(icones.icone(m['espece']))
             self.liste.setItem(ligne, colonne, cellule)
 
     def _selection(self) -> None:

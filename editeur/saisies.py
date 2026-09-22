@@ -10,6 +10,8 @@ from PySide6.QtWidgets import (QComboBox, QCompleter, QHBoxLayout, QLineEdit,
 from dqmj2p_save import format as F
 from dqmj2p_save import noms, texte
 
+from . import icones
+
 QSPINBOX_MAX = 2**31 - 1
 
 
@@ -17,13 +19,17 @@ class ChoixNom(QComboBox):
     """Liste déroulante « ID — nom », avec recherche par morceau de nom."""
     valueChanged = Signal(int)
 
-    def __init__(self, table: noms.TableNoms):
+    def __init__(self, table: noms.TableNoms, avec_icones: bool = False):
         super().__init__()
         self.setEditable(True)
         self.setInsertPolicy(QComboBox.NoInsert)
         self.setMaxVisibleItems(20)
+        if avec_icones:
+            self.setIconSize(icones.TAILLE_CASE / 2)
         for id_, nom in table.choix():
             self.addItem(f'{id_} — {nom}', id_)
+            if avec_icones:
+                self.setItemIcon(self.count() - 1, icones.icone(id_))
         self.completer().setFilterMode(Qt.MatchContains)
         self.completer().setCompletionMode(QCompleter.PopupCompletion)
         self.currentIndexChanged.connect(
@@ -100,7 +106,7 @@ class TempsJeu(QWidget):
 
 def creer_saisie(champ: F.Champ) -> QWidget:
     if champ.noms:
-        return ChoixNom(noms.table(champ.noms))
+        return ChoixNom(noms.table(champ.noms), avec_icones=champ.noms == 'especes')
     if champ.type == 'texte':
         return ChampTexte()
     if champ.cle == 'temps_jeu':
