@@ -52,6 +52,7 @@ CARTES = {
 METEO = {
     14: 'pluie',        # L'Arbirynthe
     17: 'pluie',        # Prairia
+    37: 'pluie',        # Escarpic
     47: 'brume',        # Engloutîle
     57: 'pluie',        # Archéopolis (débloquée plus tard dans l'histoire)
 }
