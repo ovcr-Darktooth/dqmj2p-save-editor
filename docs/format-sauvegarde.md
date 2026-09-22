@@ -110,7 +110,9 @@ observée : drapeau d'événement, sans effet sur l'heure.
 
 Réglage par l'éditeur validé en jeu le même jour : horloge à 10 800, la partie
 démarre de nuit ; à 10 725 (75 unités avant le seuil), de jour, et la nuit
-tombe au bout d'environ 3 secondes. L'horloge avance donc d'environ 25 à 30
+tombe au bout d'environ 3 secondes. À 17 925 (75 avant la fin de la
+nuit), la partie démarre de nuit et le jour revient au bout d'environ 3
+secondes : la durée du cycle, 18 000, est confirmée par mesure directe. L'horloge avance donc d'environ 25 à 30
 unités par seconde en plein air.
 
 Deuxième validation le 23/09/2026, avec la fonction `teleporter()` de

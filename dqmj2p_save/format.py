@@ -194,7 +194,8 @@ CHAMPS_JOUEUR = (
 
 # Horloge jour/nuit (0x3A6C), mesurée en jeu : elle avance en plein air, la
 # nuit tombe à 10 800 (6 min) et le jour revient au bout de 18 000 (10 min),
-# l'horloge repartant de 0. En ville elle reste à 0.
+# l'horloge repartant de 0. En ville elle reste à 0. Les deux seuils ont été
+# vérifiés en jeu en réglant l'horloge 75 unités avant chacun (~3 s).
 DEBUT_NUIT = 10_800
 DUREE_CYCLE = 18_000
 CHAMP_JOUEUR = {c.cle: c for c in CHAMPS_JOUEUR}
