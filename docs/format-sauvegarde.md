@@ -101,6 +101,12 @@ une copie en `0x86`, que le jeu relit aussi au chargement (elle est devenue la
 carte précédente). L'éditeur ne téléporte donc que vers des points relevés en
 jeu (`POINTS_TELEPORTATION`), en écrivant la carte aux deux endroits.
 
+Deuxième validation le 23/09/2026, avec la fonction `teleporter()` de
+l'éditeur : Archéopolis → Avablanche (zone de plein air). Écran de chargement
+correct, arrivée au point de la Téléportation du jeu, décor, musique, combats
+et jour normaux, puis déplacement, Téléportation du jeu vers Engloutîle et
+sauvegarde sans anomalie.
+
 Un emplacement de monstre est libre si son ID de création (`+0x14`) ou son
 espèce (`+0x18`) vaut 0 (monstre consommé en synthèse).
 
