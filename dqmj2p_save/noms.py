@@ -39,6 +39,7 @@ CARTES = {
     17: 'Prairia',
     24: 'Arène',
     33: 'Avablanche (autre zone)',
+    35: 'Avablanche (fin de zone)',
     37: 'Escarpic',
     47: 'Engloutîle',
     57: 'Archéopolis',

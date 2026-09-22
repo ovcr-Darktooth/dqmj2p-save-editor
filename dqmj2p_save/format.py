@@ -223,6 +223,8 @@ POINTS_TELEPORTATION = {
     'Albatros (sortie)':
         bytes.fromhex('555600003a0700005cb7ffffbc5f00009a89ffff000cfeffbc020000'),
     'Avablanche': bytes.fromhex('97110000900a0000f6fcffff00000000a48c0100cd9c0a00fc030000'),
+    'Avablanche (fin de zone, sort)':
+        bytes.fromhex('232100009d110000aebbffffeccc0000f634feff00000000fc030000'),
     "L'Arbirynthe": bytes.fromhex('0e550000200a0000ec95020014000000cd08010015561300fc030000'),
     'Prairia': bytes.fromhex('110e0000790a00009ac103003e1e0000e11e03007bf81100fc030000'),
     'Arène': bytes.fromhex('1839000000000000713902000e5b00005c3f030000b0f8ffa4000000'),

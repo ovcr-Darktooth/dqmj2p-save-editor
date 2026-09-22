@@ -119,7 +119,8 @@ l'histoire ne la débloque), Prairia et Escarpic. **Forcée à Avablanche, qui
 n'a pas de météo, il ne pleut pas mais la zone n'a plus ni monstres ni
 musique**, et l'octet reste à 1 dans la sauvegarde suivante : l'éditeur
 n'autorise donc la case que sur les cartes à météo connue (on peut toujours la
-décocher pour réparer). `0x3970` (0 à 6 selon les sauvegardes) reste inconnu.
+décocher pour réparer). Réparation validée : la même sauvegarde, intempérie
+remise à 0, a retrouvé monstres et musique. `0x3970` (0 à 6 selon les sauvegardes) reste inconnu.
 
 Réglage par l'éditeur validé en jeu le même jour : horloge à 10 800, la partie
 démarre de nuit ; à 10 725 (75 unités avant le seuil), de jour, et la nuit

@@ -159,7 +159,8 @@ class Teleportation(unittest.TestCase):
                 ('captures/04-005058-carte151.dsv', 'Avablanche'),
                 ('captures/05-005120-carte37.dsv', 'Escarpic'),
                 ('captures/06-005145-carte47.dsv', 'Engloutîle'),
-                ('captures/07-005220-carte57.dsv', 'Archéopolis')):
+                ('captures/07-005220-carte57.dsv', 'Archéopolis'),
+                ('avablanche-warp.dsv', 'Avablanche (fin de zone, sort)')):
             with self.subTest(point):
                 reference = Sauvegarde.ouvrir(donnee(fichier))
                 bloc = bytearray(F.POINTS_TELEPORTATION[point])
