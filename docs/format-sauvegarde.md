@@ -108,6 +108,11 @@ de la nuit, 26 au retour du jour. Le jour dure donc 6 min de jeu en plein air
 et la nuit 4 min. Un bit de `0x39A1` (`0x20`) s'est allumé à la première nuit
 observée : drapeau d'événement, sans effet sur l'heure.
 
+Réglage par l'éditeur validé en jeu le même jour : horloge à 10 800, la partie
+démarre de nuit ; à 10 725 (75 unités avant le seuil), de jour, et la nuit
+tombe au bout d'environ 3 secondes. L'horloge avance donc d'environ 25 à 30
+unités par seconde en plein air.
+
 Deuxième validation le 23/09/2026, avec la fonction `teleporter()` de
 l'éditeur : Archéopolis → Avablanche (zone de plein air). Écran de chargement
 correct, arrivée au point de la Téléportation du jeu, décor, musique, combats
