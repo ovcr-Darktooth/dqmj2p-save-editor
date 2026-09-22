@@ -54,6 +54,8 @@ class PageJoueur(QWidget):
         ligne_horloge.addStretch()
         formulaire.addRow('Moment de la journée', ligne_horloge)
         self.intemperie = QCheckBox()
+        self.intemperie.setToolTip("Seulement sur les cartes où le jeu prévoit une intempérie : "
+                                   "forcée ailleurs, la zone perd ses monstres et sa musique.")
         self.intemperie.toggled.connect(self._regler_intemperie)
         formulaire.addRow('Météo', self.intemperie)
         self.points = QComboBox()

@@ -38,6 +38,7 @@ CARTES = {
     14: "L'Arbirynthe",
     17: 'Prairia',
     24: 'Arène',
+    33: 'Avablanche (autre zone)',
     37: 'Escarpic',
     47: 'Engloutîle',
     57: 'Archéopolis',
@@ -48,7 +49,9 @@ CARTES = {
 
 
 # Intempérie propre à chaque carte (une seule par carte), observée en jeu.
-# Les cartes absentes n'ont pas de météo connue.
+# Les cartes absentes n'ont pas de météo connue. Ne jamais forcer l'intempérie
+# ailleurs : essayé à Avablanche, il ne pleut pas mais la zone perd ses
+# monstres et sa musique, y compris dans les zones voisines.
 METEO = {
     14: 'pluie',        # L'Arbirynthe
     17: 'pluie',        # Prairia

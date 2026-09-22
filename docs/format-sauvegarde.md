@@ -114,7 +114,12 @@ diffère des sauvegardes par temps clair que par `0x3A6A` (1 au lieu de 0) et
 `0x3970`. Remettre `0x3970` à sa valeur de temps clair ne change rien ;
 remettre `0x3A6A` à 0 fait disparaître la brume au chargement. La capture de
 l'Arbirynthe, faite sous la pluie, a aussi `0x3A6A` à 1. Chaque carte n'a
-qu'un type d'intempérie. `0x3970` (0 à 6 selon les sauvegardes) reste inconnu.
+qu'un type d'intempérie. Pluie forcée validée à Archéopolis (avant même que
+l'histoire ne la débloque), Prairia et Escarpic. **Forcée à Avablanche, qui
+n'a pas de météo, il ne pleut pas mais la zone n'a plus ni monstres ni
+musique**, et l'octet reste à 1 dans la sauvegarde suivante : l'éditeur
+n'autorise donc la case que sur les cartes à météo connue (on peut toujours la
+décocher pour réparer). `0x3970` (0 à 6 selon les sauvegardes) reste inconnu.
 
 Réglage par l'éditeur validé en jeu le même jour : horloge à 10 800, la partie
 démarre de nuit ; à 10 725 (75 unités avant le seuil), de jour, et la nuit
