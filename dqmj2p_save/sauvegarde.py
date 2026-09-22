@@ -17,6 +17,7 @@ from pathlib import Path
 
 from . import format as F
 from .monstre import Monstre
+from .vue import Joueur
 
 
 class ErreurSauvegarde(Exception):
@@ -65,6 +66,7 @@ class Sauvegarde:
         debut = F.COPIES[self.index_copie]
         self.copie = bytearray(self.brut[debut: debut + F.TAILLE_COPIE])
         self.modifiee = False
+        self.joueur = Joueur(self)
 
     @classmethod
     def ouvrir(cls, chemin) -> 'Sauvegarde':
@@ -91,15 +93,21 @@ class Sauvegarde:
         cid = monstre['id_creation']
         return F.ROLES[ids.index(cid)] if cid in ids else 'ranch'
 
-    def _synchroniser_table_equipe(self) -> None:
-        """Recopie espèce et niveau des 3 monstres d'équipe dans la table
-        compacte de 0x7C, que le jeu tient à jour de son côté."""
+    def _synchroniser_resume_equipe(self) -> None:
+        """Recopie surnom, espèce et niveau des 3 monstres d'équipe dans le
+        résumé de l'écran de chargement, que le jeu tient à jour de son côté."""
         par_id = {m['id_creation']: m for m in self.monstres()}
+        surnom = F.CHAMP['surnom']
         for i, cid in enumerate(self.ids_equipe()[:3]):
             m = par_id.get(cid)
             struct.pack_into('<H', self.copie, F.TABLE_EQUIPE + 2 * i,
                              m['espece'] if m else 0)
             self.copie[F.TABLE_EQUIPE + 6 + i] = m['niveau'] if m else 0
+            if m:
+                debut = F.RESUME_SURNOMS + i * surnom.taille
+                source = m.base + surnom.offset
+                self.copie[debut: debut + surnom.taille] = \
+                    self.copie[source: source + surnom.taille]
 
     # ── Écriture ─────────────────────────────────────────────────────────────
 
@@ -107,7 +115,7 @@ class Sauvegarde:
         """Contenu complet du fichier. Sans modification, c'est exactement le
         fichier d'origine (si ses deux copies étaient valides)."""
         if self.modifiee:
-            self._synchroniser_table_equipe()
+            self._synchroniser_resume_equipe()
             struct.pack_into('<2I', self.copie, F.SOMME_DATA, *calculer_sommes(self.copie))
         brut = bytearray(self.brut)
         for debut in F.COPIES:

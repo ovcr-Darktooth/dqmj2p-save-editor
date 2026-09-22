@@ -10,6 +10,8 @@ Translation), vérifiés sur des sauvegardes réelles. Voir docs/format-sauvegar
 import struct
 from dataclasses import dataclass
 
+from . import texte
+
 # ── Fichier ──────────────────────────────────────────────────────────────────
 
 TAILLE_BRUTE = 0x10000              # mémoire de sauvegarde de la cartouche
@@ -29,6 +31,8 @@ MOTS_ENTETE = 0x23
 
 # ── Équipe ───────────────────────────────────────────────────────────────────
 
+# Résumé pour l'écran de chargement : copie de données tenues ailleurs.
+RESUME_SURNOMS = 0x40               # 3 × 20 o : surnoms des monstres d'équipe
 TABLE_EQUIPE = 0x7C                 # 3 × u16 espèce, puis 3 × u8 niveau
 EQUIPE_IDS = 0xB4                   # 6 × u32 : ID de création des monstres
 ROLES = ('equipe_1', 'equipe_2', 'equipe_3',
@@ -48,32 +52,45 @@ _FORMATS = {'u8': '<B', 'u16': '<H', 'u32': '<I'}
 class Champ:
     cle: str
     offset: int
-    type: str                       # 'u8', 'u16', 'u32' ou 'octets'
+    type: str                       # 'u8', 'u16', 'u32', 'texte' ou 'octets'
     libelle: str
-    taille: int = 0                 # seulement pour 'octets'
+    taille: int = 0                 # seulement pour 'texte' et 'octets'
     lecture_seule: bool = False
     noms: str | None = None         # table de noms associée (voir noms.py)
+    miroir: int | None = None       # second offset où la même valeur est rangée
 
     @property
     def maximum(self) -> int:
         return (1 << (8 * struct.calcsize(_FORMATS[self.type]))) - 1
 
     def lire(self, buf, base: int):
+        debut = base + self.offset
         if self.type == 'octets':
-            return bytes(buf[base + self.offset: base + self.offset + self.taille])
-        return struct.unpack_from(_FORMATS[self.type], buf, base + self.offset)[0]
+            return bytes(buf[debut: debut + self.taille])
+        if self.type == 'texte':
+            return texte.decoder(bytes(buf[debut: debut + self.taille]))
+        return struct.unpack_from(_FORMATS[self.type], buf, debut)[0]
 
     def ecrire(self, buf, base: int, valeur) -> None:
+        brut = self.en_octets(valeur)
+        for offset in (self.offset, self.miroir):
+            if offset is not None:
+                buf[base + offset: base + offset + len(brut)] = brut
+
+    def en_octets(self, valeur) -> bytes:
+        if self.type == 'texte':
+            try:
+                return texte.encoder(valeur, self.taille)
+            except ValueError as e:
+                raise ValueError(f'{self.cle} : {e}') from None
         if self.type == 'octets':
-            valeur = bytes(valeur)
             if len(valeur) != self.taille:
                 raise ValueError(f'{self.cle} : {self.taille} octets attendus, '
                                  f'{len(valeur)} reçus')
-            buf[base + self.offset: base + self.offset + self.taille] = valeur
-            return
+            return bytes(valeur)
         if not 0 <= valeur <= self.maximum:
             raise ValueError(f'{self.cle} : {valeur} hors de 0..{self.maximum}')
-        struct.pack_into(_FORMATS[self.type], buf, base + self.offset, valeur)
+        return struct.pack(_FORMATS[self.type], valeur)
 
 
 def _competences():
@@ -85,7 +102,7 @@ def _competences():
 
 
 CHAMPS_MONSTRE = (
-    Champ('surnom', 0x00, 'octets', 'Surnom (codage du jeu)', 16),
+    Champ('surnom', 0x00, 'texte', 'Surnom', 20),
     Champ('id_creation', 0x14, 'u32', 'ID de création', lecture_seule=True),
     Champ('espece', 0x18, 'u16', 'Espèce', noms='especes'),
     Champ('variante', 0x1A, 'u8', 'Variante (0 normal, 1 X, 2 XY)'),
@@ -119,8 +136,8 @@ CHAMPS_MONSTRE = (
     Champ('gp_2a_variante', 0x4F, 'u8', 'Grand-parent 2a : variante'),
     Champ('gp_1b_variante', 0x50, 'u8', 'Grand-parent 1b : variante'),
     Champ('gp_2b_variante', 0x51, 'u8', 'Grand-parent 2b : variante'),
-    Champ('parent_1_surnom', 0x52, 'octets', 'Parent 1 : surnom', 16),
-    Champ('parent_2_surnom', 0x66, 'octets', 'Parent 2 : surnom', 16),
+    Champ('parent_1_surnom', 0x52, 'texte', 'Parent 1 : surnom', 20),
+    Champ('parent_2_surnom', 0x66, 'texte', 'Parent 2 : surnom', 20),
     *_competences(),
 )
 
@@ -128,7 +145,25 @@ CHAMP = {c.cle: c for c in CHAMPS_MONSTRE}
 
 # Octets de l'enregistrement dont le rôle est inconnu : (offset, taille).
 # Ils ne sont jamais réécrits, donc toujours préservés.
-INCONNUS_MONSTRE = (
-    (0x10, 4), (0x1D, 1), (0x1F, 1), (0x33, 1), (0x3E, 2),
-    (0x62, 4), (0x76, 4),
+INCONNUS_MONSTRE = ((0x1D, 1), (0x1F, 1), (0x33, 1), (0x3E, 2))
+
+# ── Joueur (offsets relatifs au début de la copie) ───────────────────────────
+# Valeurs relevées sur une partie connue (13 h 07 min 07 s, « BKK », 2601 or,
+# 11856 en banque, 245 victoires, 65 dressages, 41 synthèses). Nom et temps de
+# jeu existent en double : résumé de l'écran de chargement (0x20-0x87) et
+# données de partie (0x90+).
+
+IMAGES_PAR_SECONDE = 30             # unité du temps de jeu
+
+CHAMPS_JOUEUR = (
+    Champ('temps_jeu', 0x28, 'u32', 'Temps de jeu', miroir=0x90),  # en 1/30 s
+    Champ('nom', 0x2C, 'texte', 'Nom', 20, miroir=0x98),
+    Champ('dernier_id_creation', 0x94, 'u32', 'Dernier ID de création attribué',
+          lecture_seule=True),
+    Champ('or', 0xAC, 'u32', 'Or sur soi'),
+    Champ('banque', 0xB0, 'u32', 'Or en banque'),
+    Champ('victoires', 0x1DC, 'u16', 'Victoires'),
+    Champ('dressages', 0x1DE, 'u16', 'Monstres dressés'),
+    Champ('syntheses', 0x1E0, 'u16', 'Monstres synthétisés'),
 )
+CHAMP_JOUEUR = {c.cle: c for c in CHAMPS_JOUEUR}

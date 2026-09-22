@@ -5,12 +5,13 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QAction, QKeySequence
 from PySide6.QtWidgets import (QAbstractItemView, QFileDialog, QHeaderView,
                                QMainWindow, QMessageBox, QSplitter, QTableWidget,
-                               QTableWidgetItem)
+                               QTableWidgetItem, QTabWidget)
 
 from dqmj2p_save import ErreurSauvegarde, Sauvegarde
 from dqmj2p_save import noms
 
 from .fiche import Fiche
+from .joueur import PageJoueur
 
 TITRE = 'Éditeur de sauvegardes DQMJ2P'
 FILTRE = 'Sauvegardes DS (*.dsv *.sav);;Tous les fichiers (*)'
@@ -19,7 +20,7 @@ LIBELLES_ROLES = {'equipe_1': 'Équipe 1', 'equipe_2': 'Équipe 2',
                   'reserve_2': 'Réserve 2', 'reserve_3': 'Réserve 3',
                   'ranch': 'Ranch'}
 ORDRE_ROLES = list(LIBELLES_ROLES)
-COLONNES = ('Empl.', 'Rôle', 'Espèce', 'Niveau')
+COLONNES = ('Empl.', 'Rôle', 'Espèce', 'Surnom', 'Niveau')
 
 
 class Fenetre(QMainWindow):
@@ -39,7 +40,11 @@ class Fenetre(QMainWindow):
         self.liste.itemSelectionChanged.connect(self._selection)
 
         self.fiche = Fiche()
-        self.fiche.modifiee.connect(self._apres_modification)
+        self.fiche.liaison.modifiee.connect(self._apres_modification)
+        self.page_joueur = PageJoueur()
+        self.page_joueur.liaison.modifiee.connect(self._rafraichir_titre)
+        for liaison in (self.fiche.liaison, self.page_joueur.liaison):
+            liaison.erreur.connect(lambda message: self.statusBar().showMessage(message, 8000))
 
         separation = QSplitter()
         separation.addWidget(self.liste)
@@ -47,8 +52,12 @@ class Fenetre(QMainWindow):
         separation.setStretchFactor(0, 0)
         separation.setStretchFactor(1, 1)
         separation.setCollapsible(0, False)
-        self.liste.setMinimumWidth(330)
-        self.setCentralWidget(separation)
+        self.liste.setMinimumWidth(400)
+
+        self.onglets = QTabWidget()
+        self.onglets.addTab(self.page_joueur, 'Joueur')
+        self.onglets.addTab(separation, 'Monstres')
+        self.setCentralWidget(self.onglets)
 
         menu = self.menuBar().addMenu('&Fichier')
         self._action(menu, '&Ouvrir…', QKeySequence.Open, self.ouvrir_dialogue)
@@ -60,7 +69,7 @@ class Fenetre(QMainWindow):
         self._action(menu, '&Quitter', QKeySequence.Quit, self.close)
 
         self.setAcceptDrops(True)
-        self.resize(1000, 580)
+        self.resize(1080, 620)
         self._rafraichir_titre()
         self.statusBar().showMessage('Ouvrez une sauvegarde (Ctrl+O) ou '
                                      'glissez-la dans la fenêtre.')
@@ -93,13 +102,14 @@ class Fenetre(QMainWindow):
         for ligne in range(len(self.monstres)):
             self._remplir_ligne(ligne)
         self.liste.selectRow(0)
+        self.page_joueur.afficher(sauvegarde.joueur)
         self._rafraichir_titre()
         self.statusBar().showMessage(f'{len(self.monstres)} monstres chargés.')
 
     def _remplir_ligne(self, ligne: int) -> None:
         m = self.monstres[ligne]
         valeurs = (m.emplacement, LIBELLES_ROLES[self.sauvegarde.role(m)],
-                   noms.table('especes')[m['espece']], m['niveau'])
+                   noms.table('especes')[m['espece']], m['surnom'], m['niveau'])
         for colonne, valeur in enumerate(valeurs):
             cellule = QTableWidgetItem(str(valeur))
             if isinstance(valeur, int):

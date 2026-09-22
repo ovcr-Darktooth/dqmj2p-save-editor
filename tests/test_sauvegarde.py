@@ -16,6 +16,10 @@ from dqmj2p_save.sauvegarde import copie_valide
 
 DONNEES = Path(__file__).parent / 'donnees'
 REELLES = sorted(DONNEES.glob('*.dsv'))
+# Éditées avec l'ancienne chaîne save_converter, qui laissait le résumé
+# d'équipe incohérent : elles ne reflètent pas ce qu'écrit le jeu.
+EDITEES_HORS_JEU = {'random-edit.dsv', 'random-lvl50.dsv'}
+ECRITES_PAR_LE_JEU = [p for p in REELLES if p.name not in EDITEES_HORS_JEU]
 
 
 def donnee(nom: str) -> Path:
