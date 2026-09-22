@@ -70,6 +70,17 @@ Les monstres vivants occupent toujours les emplacements `0..N-1` (le jeu
 compacte le ranch) ; au-delà traînent des monstres consommés en synthèse, ID de
 création à 0. Un nouveau monstre prend l'emplacement N et l'ID `0x94 + 1`.
 
+**Validé en jeu le 23/09/2026** (ROM `dqmj2-pro-patchfr-test`) sur une
+sauvegarde générée par l'éditeur : or, banque, sac, surnoms complétés, écran
+de chargement, et trois monstres dupliqués. Une copie a servi en synthèse et
+une autre en combat sans anomalie ; le monstre né de la synthèse a reçu l'ID
+suivant celui laissé par l'éditeur en `0x94`. Un monstre synthétisé est nommé
+d'après son espèce coupée à 8 caractères, espace final compris.
+
+`0x20` et `0x24` (u32, résumé) ont changé pendant cette session de jeu
+(56 → 11, 47 → 16) sans lien avec l'or ni l'équipe : peut-être le lieu où
+la partie a été sauvegardée. À confirmer.
+
 Un emplacement de monstre est libre si son ID de création (`+0x14`) ou son
 espèce (`+0x18`) vaut 0 (monstre consommé en synthèse).
 

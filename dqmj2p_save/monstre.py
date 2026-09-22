@@ -21,9 +21,10 @@ class Monstre(Vue):
         return bytes(self.sauvegarde.copie[self.base: self.base + F.TAILLE_MONSTRE])
 
     def surnom_complet(self) -> str:
-        """Nom de l'espèce, coupé à la longueur permise par le jeu : ce que le
-        jeu attribue quand on valide un surnom vide."""
-        return table('especes')[self['espece']][:LONGUEUR_MAX].rstrip()
+        """Nom de l'espèce coupé à la longueur permise, espace final compris :
+        ce que le jeu donne à un monstre synthétisé (« Phalène » + espace pour
+        Phalène géante) ou quand on valide un surnom vide."""
+        return table('especes')[self['espece']][:LONGUEUR_MAX]
 
     @property
     def surnom_par_defaut(self) -> bool:

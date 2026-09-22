@@ -103,6 +103,15 @@ class Monstres(unittest.TestCase):
         self.assertEqual(relue.monstre(1)['surnom'], 'Slurpier')
         self.assertFalse(any(m.surnom_par_defaut for m in relue.monstres()))
 
+    def test_surnom_complet_identique_a_celui_du_jeu(self):
+        """Phalène géante née d'une synthèse en jeu : le jeu l'a nommée
+        « Phalène » suivi d'un espace (8 caractères)."""
+        s = Sauvegarde.ouvrir(donnee('apres-test-jeu.dsv'))
+        phalene = next(m for m in s.monstres() if m['id_creation'] == 111)
+        self.assertEqual(phalene['surnom'], 'Phalène ')
+        self.assertEqual(phalene.surnom_complet(), phalene['surnom'])
+        self.assertFalse(phalene.surnom_par_defaut)
+
     def test_surnom_avec_tiret_sur_deux_octets(self):
         s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
         mort_vivant = next(m for m in s.monstres() if m['surnom'] == 'Mort-viv')
