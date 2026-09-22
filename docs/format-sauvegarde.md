@@ -40,7 +40,7 @@ Offsets de base relevés par **Ceris White** (`save_converter.py`, projet
 | `0x1DC` | 3 × u16 | Victoires, monstres dressés, monstres synthétisés |
 | `0x1E8` | 100 × 0x84 | Enregistrements de monstres |
 | `0x3638-0x3A67` | | **À cartographier** |
-| `0x3A68` | u8 | Location actuelle |
+| `0x3A68` | u8 | Carte actuelle (57 = Archéopolis, 88 = Albatros ; table `noms.CARTES`, relevée en jeu) |
 | `0x3A69` | u8 | Location précédente (?) : souvent égale à la précédente |
 | `0x3A70` | 3 × i32 | Position X, Y, Z du joueur, en centièmes |
 | `0x3A7C` | i32 | Probablement l'orientation, en degrés virgule fixe 20.12 (180°, −88°, 90° observés) |

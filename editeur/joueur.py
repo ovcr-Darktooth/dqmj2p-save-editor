@@ -3,6 +3,7 @@ date de sauvegarde et l'emplacement dans le monde (lecture seule)."""
 from PySide6.QtWidgets import QFormLayout, QGroupBox, QLabel, QVBoxLayout, QWidget
 
 from dqmj2p_save import format as F
+from dqmj2p_save import noms
 
 from .saisies import Liaison
 
@@ -44,7 +45,9 @@ class PageJoueur(QWidget):
         self.date.setText(f"{jour} {j['sauvegarde_jour']:02}/{j['sauvegarde_mois']:02}/"
                           f"{2000 + j['sauvegarde_annee']} à {j['sauvegarde_heure']:02}:"
                           f"{j['sauvegarde_minute']:02}:{j['sauvegarde_seconde']:02}")
-        self.lieu.setText(f"{j['location']} (précédente : {j['location_precedente']})")
+        self.lieu.setText(f"{j['location']} — {noms.carte(j['location'])}   "
+                          f"(précédente : {j['location_precedente']} — "
+                          f"{noms.carte(j['location_precedente'])})")
         self.position.setText(' / '.join(f"{j[f'position_{a}'] / 100:.2f}".replace('.', ',')
                                          for a in 'xyz'))
         self.setEnabled(True)

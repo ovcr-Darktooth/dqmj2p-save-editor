@@ -2,7 +2,7 @@
 Valeurs de référence relevées en jeu sur moitie-jeu.dsv."""
 import unittest
 
-from dqmj2p_save import Sauvegarde, texte
+from dqmj2p_save import Sauvegarde, noms, texte
 from dqmj2p_save import format as F
 
 from test_sauvegarde import ECRITES_PAR_LE_JEU, donnee
@@ -139,6 +139,7 @@ class Emplacement(unittest.TestCase):
         le mardi 22/09/2026 à 02:56:47 (fichier écrit à 02:56:55)."""
         j = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv')).joueur
         self.assertEqual(j['location'], 57)
+        self.assertEqual(noms.carte(j['location']), 'Archéopolis')
         self.assertEqual((j['position_x'], j['position_y'], j['position_z']), (-2610, 0, 58946))
         date = tuple(j[f'sauvegarde_{c}'] for c in
                      ('annee', 'mois', 'jour', 'jour_semaine', 'heure', 'minute', 'seconde'))

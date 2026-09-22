@@ -31,6 +31,19 @@ class TableNoms:
         return [(i, self[i]) for i in range(len(self.noms))]
 
 
+# Numéro de carte (sauvegarde, 0x3A68) -> lieu. La table du jeu qui relie
+# cartes et régions (msg_map) n'est pas encore localisée : ces entrées sont
+# relevées en jeu, une sauvegarde à la fois.
+CARTES = {
+    57: 'Archéopolis',
+    88: 'Albatros',
+}
+
+
+def carte(numero: int) -> str:
+    return CARTES.get(numero, 'lieu inconnu')
+
+
 @cache
 def table(nom: str, langue: str = 'fr') -> TableNoms:
     """nom : 'especes', 'competences' ou 'objets'."""
