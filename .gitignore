@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.venv/
+build/
+dist/
+*.spec
+*.bak
+*.tmp
+
+# Sauvegardes et ROM personnelles : jamais versionnées
+tests/donnees/*
+!tests/donnees/.gitkeep
+*.nds
+*.sav
+*.dsv
