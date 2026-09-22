@@ -26,14 +26,18 @@ class ChoixNom(QComboBox):
         self.setMaxVisibleItems(20)
         if avec_icones:
             self.setIconSize(icones.TAILLE_CASE / 2)
+        aide = noms.aide_objet if table is noms.table('objets') else None
         for id_, nom in table.choix():
             self.addItem(f'{id_} — {nom}', id_)
+            if aide:
+                self.setItemData(self.count() - 1, aide(id_), Qt.ToolTipRole)
             if avec_icones:
                 self.setItemIcon(self.count() - 1, icones.icone(id_))
         self.completer().setFilterMode(Qt.MatchContains)
         self.completer().setCompletionMode(QCompleter.PopupCompletion)
         self.currentIndexChanged.connect(
             lambda i: self.valueChanged.emit(self.itemData(i)))
+        self.currentIndexChanged.connect(self._majInfobulle)
 
     def setValue(self, valeur: int) -> None:
         index = self.findData(valeur)
@@ -41,6 +45,9 @@ class ChoixNom(QComboBox):
             self.addItem(f'{valeur} — #{valeur}', valeur)
             index = self.count() - 1
         self.setCurrentIndex(index)
+
+    def _majInfobulle(self) -> None:
+        self.setToolTip(self.itemData(self.currentIndex(), Qt.ToolTipRole) or '')
 
     def focusOutEvent(self, evenement) -> None:
         # Texte tapé sans correspondance : on réaffiche la valeur en cours.

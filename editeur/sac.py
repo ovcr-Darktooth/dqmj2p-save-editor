@@ -25,7 +25,7 @@ class PageSac(QWidget):
         self.table_noms = noms.table('objets')
         self.quantites: dict[int, QSpinBox] = {}
 
-        self.recherche = QLineEdit(placeholderText='Rechercher un objet…', clearButtonEnabled=True)
+        self.recherche = QLineEdit(placeholderText='Rechercher dans les noms et descriptions…', clearButtonEnabled=True)
         self.recherche.textChanged.connect(self._filtrer)
         self.possedes = QCheckBox('Objets possédés seulement')
         self.possedes.toggled.connect(self._filtrer)
@@ -104,6 +104,7 @@ class PageSac(QWidget):
         motif = _sans_accents(self.recherche.text())
         for ligne in range(self.table.rowCount()):
             id_ = int(self.table.item(ligne, 0).text())
-            visible = (motif in _sans_accents(self.table.item(ligne, 1).text())
+            texte = self.table.item(ligne, 1).text() + ' ' + noms.aide_objet(id_)
+            visible = (motif in _sans_accents(texte)
                        and (not self.possedes.isChecked() or self.quantites[id_].value()))
             self.table.setRowHidden(ligne, not visible)
