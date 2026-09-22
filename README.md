@@ -5,8 +5,8 @@ Professional* (Nintendo DS). Il accepte les `.sav` bruts et les `.dsv` de
 DeSmuME et DraStic.
 
 > **État : en construction.** Édition du joueur (nom, temps de jeu, or,
-> statistiques) et des monstres (surnom, espèce, stats, lignée, compétences),
-> avec les noms français.
+> statistiques), du sac et des monstres (surnom, espèce, stats, lignée,
+> compétences, arme), avec les noms français.
 
 ## Principe
 

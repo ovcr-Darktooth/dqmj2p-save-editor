@@ -25,3 +25,13 @@ class Vue:
 class Joueur(Vue):
     def __init__(self, sauvegarde):
         super().__init__(sauvegarde, 0, F.CHAMP_JOUEUR)
+
+
+class Sac(Vue):
+    """sac[id_objet] : quantité possédée."""
+    def __init__(self, sauvegarde):
+        super().__init__(sauvegarde, 0, F.CHAMPS_SAC)
+
+    def contenu(self) -> dict[int, int]:
+        """{id: quantité} des objets possédés."""
+        return {i: q for i in self.champs if (q := self[i])}

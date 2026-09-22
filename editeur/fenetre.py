@@ -12,6 +12,7 @@ from dqmj2p_save import noms
 
 from .fiche import Fiche
 from .joueur import PageJoueur
+from .sac import PageSac
 
 TITRE = 'Éditeur de sauvegardes DQMJ2P'
 FILTRE = 'Sauvegardes DS (*.dsv *.sav);;Tous les fichiers (*)'
@@ -43,6 +44,8 @@ class Fenetre(QMainWindow):
         self.fiche.liaison.modifiee.connect(self._apres_modification)
         self.page_joueur = PageJoueur()
         self.page_joueur.liaison.modifiee.connect(self._rafraichir_titre)
+        self.page_sac = PageSac()
+        self.page_sac.modifiee.connect(self._rafraichir_titre)
         for liaison in (self.fiche.liaison, self.page_joueur.liaison):
             liaison.erreur.connect(lambda message: self.statusBar().showMessage(message, 8000))
 
@@ -57,6 +60,7 @@ class Fenetre(QMainWindow):
         self.onglets = QTabWidget()
         self.onglets.addTab(self.page_joueur, 'Joueur')
         self.onglets.addTab(separation, 'Monstres')
+        self.onglets.addTab(self.page_sac, 'Sac')
         self.setCentralWidget(self.onglets)
 
         menu = self.menuBar().addMenu('&Fichier')
@@ -103,6 +107,7 @@ class Fenetre(QMainWindow):
             self._remplir_ligne(ligne)
         self.liste.selectRow(0)
         self.page_joueur.afficher(sauvegarde.joueur)
+        self.page_sac.afficher(sauvegarde.sac)
         self._rafraichir_titre()
         self.statusBar().showMessage(f'{len(self.monstres)} monstres chargés.')
 

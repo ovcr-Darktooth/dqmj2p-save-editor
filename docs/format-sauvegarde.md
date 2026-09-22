@@ -34,7 +34,8 @@ Offsets de base relevés par **Ceris White** (`save_converter.py`, projet
 | `0xAC` | u32 | Or sur soi |
 | `0xB0` | u32 | Or en banque |
 | `0xB4` | 6 × u32 | ID de création : équipe 1-3, puis réserve 1-3 |
-| `0xCC-0x1DB` | | **À cartographier** |
+| `0xCC` | 256 × u8 | Sac : quantité possédée de chaque objet, indexée par ID d'objet (armes comprises) |
+| `0x1CC-0x1DB` | 16 o | **À cartographier** (`00 01 00 02 03 04 05 07 0B 09 08 7F…`, ressemble à un ordre ou à des index) |
 | `0x1DC` | 3 × u16 | Victoires, monstres dressés, monstres synthétisés |
 | `0x1E8` | 100 × 0x84 | Enregistrements de monstres |
 | `0x3638-0x70CF` | | Après les monstres, couvert par la somme data. **À cartographier** (inventaire ? drapeaux ?) |
@@ -47,7 +48,9 @@ toutes les sauvegardes écrites par le jeu, ce recalcul redonne exactement les
 octets d'origine.
 
 Valeurs identifiées sur une partie connue : 13 h 07 min 07 s, joueur « BKK »,
-2601 or, 11856 en banque, 245 victoires, 65 dressages, 41 synthèses.
+2601 or, 11856 en banque, 245 victoires, 65 dressages, 41 synthèses, et le
+contenu complet du sac (28 objets). Les ID d'objets sont ceux de
+`msg_itemname` ; le champ « arme » d'un monstre (`+0x31`) utilise les mêmes.
 
 ## Texte
 

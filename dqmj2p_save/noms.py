@@ -33,6 +33,6 @@ class TableNoms:
 
 @cache
 def table(nom: str, langue: str = 'fr') -> TableNoms:
-    """nom : 'especes' ou 'competences'."""
+    """nom : 'especes', 'competences' ou 'objets'."""
     chemin = DOSSIER / langue / f'{nom}.txt'
     return TableNoms(chemin.read_text(encoding='utf-8').splitlines())

@@ -17,7 +17,7 @@ from pathlib import Path
 
 from . import format as F
 from .monstre import Monstre
-from .vue import Joueur
+from .vue import Joueur, Sac
 
 
 class ErreurSauvegarde(Exception):
@@ -67,6 +67,7 @@ class Sauvegarde:
         self.copie = bytearray(self.brut[debut: debut + F.TAILLE_COPIE])
         self.modifiee = False
         self.joueur = Joueur(self)
+        self.sac = Sac(self)
 
     @classmethod
     def ouvrir(cls, chemin) -> 'Sauvegarde':

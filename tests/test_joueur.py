@@ -60,3 +60,34 @@ class Texte(unittest.TestCase):
             texte.encoder('Neuf lettres', 20)
         with self.assertRaises(ValueError):
             texte.encoder('a#b', 20)
+
+
+class Sac(unittest.TestCase):
+    # Contenu relevé en jeu (onglet objets ; les armes sont rangées à part).
+    OBJETS = {
+        'Herbe médicinale': 25, 'Remède puissant': 15, 'Remède spécial': 1,
+        "Feuille d'Yggdrasil": 1, 'Graine de Compétence': 5, 'Graine de Vie': 3,
+        'Graine de Magie': 1, 'Graine de Défense': 1, "Graine d'Agilité": 2,
+        'Ticket de métal': 5, 'Herbe curative': 11, 'Botryche lunaire': 6,
+        'Sels de choc': 1, 'Panacée': 1, 'Maxi Isolacto': 1, 'Poudre Décuplo': 1,
+        'Simpletiol': 1, 'Crottin de monstre': 3, 'Bout de caillou': 8,
+        'Pelotox': 6, 'Eclat de bombe': 6, 'Brisure de bronze': 8,
+        "Eclat d'argent": 2, 'Anneau de dresseur': 1, "Clef d'Archéopolis": 1,
+        'Médaille mystérieuse': 1, 'Plaque des cimes enneigées': 1,
+        'Plaque de la côte': 1,
+    }
+
+    def test_contenu_releve_en_jeu(self):
+        from dqmj2p_save import noms
+        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        par_nom = {noms.table('objets')[i]: q for i, q in s.sac.contenu().items()}
+        for nom, quantite in self.OBJETS.items():
+            self.assertEqual(par_nom.pop(nom), quantite, nom)
+        # Le reste : uniquement des armes (ID 112 à 191 environ).
+        armes = {i for i in s.sac.contenu() if noms.table('objets')[i] in par_nom}
+        self.assertTrue(all(100 <= i < 200 for i in armes), armes)
+
+    def test_modifier_une_quantite(self):
+        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        s.sac[1] = 99
+        self.assertEqual(Sauvegarde(s.en_octets()).sac[1], 99)

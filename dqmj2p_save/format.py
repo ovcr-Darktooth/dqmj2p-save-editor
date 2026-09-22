@@ -118,7 +118,7 @@ CHAMPS_MONSTRE = (
     Champ('agilite', 0x2C, 'u16', 'Agilité'),
     Champ('sagesse', 0x2E, 'u16', 'Sagesse'),
     Champ('niveau', 0x30, 'u8', 'Niveau'),
-    Champ('arme', 0x31, 'u8', 'Arme équipée'),
+    Champ('arme', 0x31, 'u8', 'Arme équipée', noms='objets'),
     Champ('tactique', 0x32, 'u8', 'Tactique'),
     Champ('experience', 0x34, 'u32', 'Expérience'),
     Champ('experience_suivant', 0x38, 'u32', 'Expérience du niveau suivant'),
@@ -167,3 +167,14 @@ CHAMPS_JOUEUR = (
     Champ('syntheses', 0x1E0, 'u16', 'Monstres synthétisés'),
 )
 CHAMP_JOUEUR = {c.cle: c for c in CHAMPS_JOUEUR}
+
+# ── Sac ──────────────────────────────────────────────────────────────────────
+# Quantité possédée de chaque objet, indexée par son ID (armes comprises).
+# Relevé sur une partie dont le contenu du sac était connu.
+
+SAC = 0xCC
+NB_OBJETS = 256
+QUANTITE_MAX = 99                   # plafond du jeu (le format permettrait 255)
+
+CHAMPS_SAC = {i: Champ(f'objet_{i}', SAC + i, 'u8', f'Objet {i}', noms='objets')
+              for i in range(1, NB_OBJETS)}
