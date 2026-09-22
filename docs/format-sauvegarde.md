@@ -27,6 +27,9 @@ Offsets de base relevés par **Ceris White** (`save_converter.py`, projet
 | `0x2C` | texte 20 o | Nom du joueur (résumé ; copie de `0x98`) |
 | `0x40` | 3 × texte 20 o | Surnoms des 3 monstres d'équipe (résumé) |
 | `0x7C` | 3 × u16 + 3 × u8 | Espèce puis niveau des 3 monstres d'équipe (résumé) |
+| `0x85` | u8 | **À confirmer** : 3 en milieu de partie, 1 au début (chapitre ?) |
+| `0x86` | u8 | Carte (résumé ; copie de `0x3A68`), affichée sur l'écran de chargement |
+| `0x87` | u8 | **À confirmer** : 63, 7 ou 0, ressemble à des bits (régions débloquées ?) |
 | `0x88` | u32 | Somme data : somme des `0x1C10` mots u32 à partir de `0x90` |
 | `0x8C` | u32 | Somme d'en-tête : somme des `0x23` premiers mots (inclut `0x88`, donc à calculer après) |
 | `0x90` | u32 | Temps de jeu, en 1/30 s |
@@ -40,8 +43,8 @@ Offsets de base relevés par **Ceris White** (`save_converter.py`, projet
 | `0x1DC` | 3 × u16 | Victoires, monstres dressés, monstres synthétisés |
 | `0x1E8` | 100 × 0x84 | Enregistrements de monstres |
 | `0x3638-0x3A67` | | **À cartographier** |
-| `0x3A68` | u8 | Carte actuelle (57 = Archéopolis, 88 = Albatros ; table `noms.CARTES`, relevée en jeu) |
-| `0x3A69` | u8 | Location précédente (?) : souvent égale à la précédente |
+| `0x3A68` | u8 | Carte actuelle (24 = Arène, 57 = Archéopolis, 88 = Albatros ; table `noms.CARTES`, relevée en jeu) |
+| `0x3A69` | u8 | Carte précédente : au chargement, le jeu y met la carte du résumé (`0x86`) |
 | `0x3A70` | 3 × i32 | Position X, Y, Z du joueur, en centièmes |
 | `0x3A7C` | i32 | Probablement l'orientation, en degrés virgule fixe 20.12 (180°, −88°, 90° observés) |
 | `0x3A90` | 4 × u32 | Quatre copies du temps de jeu (rôle inconnu) |
@@ -87,8 +90,15 @@ d'après son espèce coupée à 8 caractères, espace final compris.
 La date de sauvegarde (`0x0C-0x27`) a été vérifiée contre l'heure d'écriture
 des `.dsv` sur la console : elle la précède de quelques secondes, le temps que
 DraStic vide sa mémoire de sauvegarde. Location et position ont été relevées en
-jeu sur `moitie-jeu` (location 57, position −26,10 / 0 / 589,46). L'éditeur
-les affiche sans les modifier : une téléportation n'a pas encore été testée.
+jeu sur `moitie-jeu` (location 57, position −26,10 / 0 / 589,46).
+
+**Téléportation validée en jeu le 23/09/2026** : en recopiant le bloc
+`0x3A68-0x3A83` d'une sauvegarde faite à l'Albatros, une partie sauvegardée à
+Archéopolis a démarré sur l'Albatros (bon décor, bonne musique, sortie
+normale). Seul l'écran de chargement affichait encore Archéopolis : la carte a
+une copie en `0x86`, que le jeu relit aussi au chargement (elle est devenue la
+carte précédente). L'éditeur ne téléporte donc que vers des points relevés en
+jeu (`POINTS_TELEPORTATION`), en écrivant la carte aux deux endroits.
 
 Un emplacement de monstre est libre si son ID de création (`+0x14`) ou son
 espèce (`+0x18`) vaut 0 (monstre consommé en synthèse).

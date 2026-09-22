@@ -35,6 +35,7 @@ class TableNoms:
 # cartes et régions (msg_map) n'est pas encore localisée : ces entrées sont
 # relevées en jeu, une sauvegarde à la fois.
 CARTES = {
+    24: 'Arène',
     57: 'Archéopolis',
     88: 'Albatros',
 }

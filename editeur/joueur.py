@@ -1,6 +1,8 @@
 """Onglet Joueur : nom, temps de jeu, or et statistiques de partie, plus la
-date de sauvegarde et l'emplacement dans le monde (lecture seule)."""
-from PySide6.QtWidgets import QFormLayout, QGroupBox, QLabel, QVBoxLayout, QWidget
+date de sauvegarde, l'emplacement dans le monde et la téléportation vers des
+points relevés en jeu."""
+from PySide6.QtWidgets import (QComboBox, QFormLayout, QGroupBox, QHBoxLayout,
+                               QLabel, QPushButton, QVBoxLayout, QWidget)
 
 from dqmj2p_save import format as F
 from dqmj2p_save import noms
@@ -26,7 +28,7 @@ class PageJoueur(QWidget):
         note.setWordWrap(True)
         disposition.addWidget(note)
 
-        infos = QGroupBox('Dernière sauvegarde en jeu (lecture seule)')
+        infos = QGroupBox('Dernière sauvegarde en jeu')
         formulaire = QFormLayout(infos)
         self.date = QLabel()
         self.lieu = QLabel()
@@ -34,12 +36,35 @@ class PageJoueur(QWidget):
         formulaire.addRow('Date', self.date)
         formulaire.addRow('Location', self.lieu)
         formulaire.addRow('Position X / Y / Z', self.position)
+        self.points = QComboBox()
+        self.points.addItems(F.POINTS_TELEPORTATION)
+        bouton = QPushButton('Téléporter')
+        bouton.clicked.connect(self._teleporter)
+        ligne = QHBoxLayout()
+        ligne.addWidget(self.points, 1)
+        ligne.addWidget(bouton)
+        formulaire.addRow('Téléporter vers', ligne)
+        aide = QLabel('Points relevés dans des sauvegardes faites sur place : la '
+                      "position, l'orientation et la carte du résumé sont recopiées.")
+        aide.setWordWrap(True)
+        formulaire.addRow(aide)
         disposition.addWidget(infos)
         disposition.addStretch()
         self.setEnabled(False)
 
     def afficher(self, joueur) -> None:
         self.liaison.afficher(joueur)
+        self._afficher_emplacement()
+        self.setEnabled(True)
+
+    def _teleporter(self) -> None:
+        joueur = self.liaison.vue
+        joueur.sauvegarde.teleporter(self.points.currentText())
+        self._afficher_emplacement()
+        self.liaison.modifiee.emit()
+
+    def _afficher_emplacement(self) -> None:
+        joueur = self.liaison.vue
         j = {c: joueur[c] for c in F.CHAMP_JOUEUR}
         jour = JOURS[j['sauvegarde_jour_semaine']] if j['sauvegarde_jour_semaine'] < 7 else '?'
         self.date.setText(f"{jour} {j['sauvegarde_jour']:02}/{j['sauvegarde_mois']:02}/"
@@ -50,4 +75,3 @@ class PageJoueur(QWidget):
                           f"{noms.carte(j['location_precedente'])})")
         self.position.setText(' / '.join(f"{j[f'position_{a}'] / 100:.2f}".replace('.', ',')
                                          for a in 'xyz'))
-        self.setEnabled(True)

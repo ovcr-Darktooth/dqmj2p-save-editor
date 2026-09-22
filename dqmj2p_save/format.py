@@ -181,14 +181,27 @@ CHAMPS_JOUEUR = (
     Champ('dressages', 0x1DE, 'u16', 'Monstres dressés'),
     Champ('syntheses', 0x1E0, 'u16', 'Monstres synthétisés'),
     # Emplacement dans le monde, relevé en jeu (location 57, -26,10 / 0 / 589,46).
-    # Lecture seule tant qu'une téléportation n'a pas été testée en jeu.
-    Champ('location', 0x3A68, 'u8', 'Location', lecture_seule=True),
+    # Lecture seule : on ne le change qu'en bloc, vers un point relevé en jeu
+    # (voir POINTS_TELEPORTATION). La carte a une copie dans le résumé, que le
+    # jeu relit au chargement (elle devient la « location précédente »).
+    Champ('location', 0x3A68, 'u8', 'Location', lecture_seule=True, miroir=0x86),
     Champ('location_precedente', 0x3A69, 'u8', 'Location précédente (?)', lecture_seule=True),
     Champ('position_x', 0x3A70, 'i32', 'Position X (centièmes)', lecture_seule=True),
     Champ('position_y', 0x3A74, 'i32', 'Position Y (centièmes)', lecture_seule=True),
     Champ('position_z', 0x3A78, 'i32', 'Position Z (centièmes)', lecture_seule=True),
 )
 CHAMP_JOUEUR = {c.cle: c for c in CHAMPS_JOUEUR}
+
+# Bloc de position complet (0x3A68-0x3A83 : carte, carte précédente, X, Y, Z,
+# orientation et deux champs inconnus), recopié de sauvegardes faites en jeu.
+# Téléportation validée en jeu le 23/09/2026 (Archéopolis -> Albatros).
+BLOC_POSITION = 0x3A68
+POINTS_TELEPORTATION = {
+    'Archéopolis': bytes.fromhex('3939000000000000cef5ffff0000000042e6000000400b00bc000000'),
+    'Albatros (tablette du ranch)':
+        bytes.fromhex('58580000a805000051fefeff00a000006dfeffff0080faffa0000000'),
+    'Arène': bytes.fromhex('1839000000000000713902000e5b00005c3f030000b0f8ffa4000000'),
+}
 
 # ── Sac ──────────────────────────────────────────────────────────────────────
 # Quantité possédée de chaque objet, indexée par son ID (armes comprises).

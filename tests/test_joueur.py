@@ -144,3 +144,26 @@ class Emplacement(unittest.TestCase):
         date = tuple(j[f'sauvegarde_{c}'] for c in
                      ('annee', 'mois', 'jour', 'jour_semaine', 'heure', 'minute', 'seconde'))
         self.assertEqual(date, (26, 9, 22, 2, 2, 56, 47))
+
+
+class Teleportation(unittest.TestCase):
+    def test_points_releves_en_jeu(self):
+        """Chaque point reproduit exactement le bloc d'une sauvegarde faite sur
+        place par le jeu."""
+        for fichier, point in (('moitie-jeu.dsv', 'Archéopolis'),
+                               ('apres-test-jeu.dsv', 'Albatros (tablette du ranch)'),
+                               ('arene.dsv', 'Arène')):
+            with self.subTest(point):
+                reference = Sauvegarde.ouvrir(donnee(fichier))
+                bloc = F.POINTS_TELEPORTATION[point]
+                self.assertEqual(bytes(reference.copie[F.BLOC_POSITION:
+                                                       F.BLOC_POSITION + len(bloc)]), bloc)
+                self.assertEqual(reference.copie[0x86], bloc[0])
+
+    def test_teleporter(self):
+        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        s.teleporter('Arène')
+        relue = Sauvegarde(s.en_octets())
+        self.assertEqual(noms.carte(relue.joueur['location']), 'Arène')
+        self.assertEqual(relue.copie[0x86], 24)      # résumé de l'écran de chargement
+        self.assertEqual(relue.joueur['position_x'], 145777)

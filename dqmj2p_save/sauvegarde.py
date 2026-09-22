@@ -109,6 +109,15 @@ class Sauvegarde:
         self.modifiee = True
         return copie
 
+    def teleporter(self, point: str) -> None:
+        """Place le joueur sur un point de F.POINTS_TELEPORTATION, relevé en
+        jeu, et met à jour la carte du résumé de l'écran de chargement."""
+        bloc = F.POINTS_TELEPORTATION[point]
+        self.copie[F.BLOC_POSITION: F.BLOC_POSITION + len(bloc)] = bloc
+        champ = F.CHAMP_JOUEUR['location']
+        self.copie[champ.miroir] = bloc[0]
+        self.modifiee = True
+
     def ids_equipe(self) -> list[int]:
         return list(struct.unpack_from('<6I', self.copie, F.EQUIPE_IDS))
 
