@@ -4,8 +4,8 @@
 Professional* (Nintendo DS). Il accepte les `.sav` bruts et les `.dsv` de
 DeSmuME et DraStic.
 
-> **État : en construction.** Le cœur (lecture, édition, écriture) fonctionne
-> et est testé. L'interface graphique n'existe pas encore.
+> **État : en construction.** Édition des monstres fonctionnelle. Les espèces
+> et compétences s'affichent encore par numéro (noms à venir, lus dans la ROM).
 
 ## Principe
 
@@ -18,11 +18,19 @@ sans modification ressort identique octet pour octet.
 Avant chaque écriture, une copie horodatée de l'original est gardée
 (`partie.dsv.20260922-153000.bak`).
 
-## Utilisation (pour l'instant)
+## Lancer l'éditeur
+
+Double-cliquer sur `Lancer-Editeur.bat`. La première fois, il crée un
+environnement `.venv` et y installe PySide6. On peut aussi glisser une
+sauvegarde sur la fenêtre, ou lancer :
 
 ```
-python -m dqmj2p_save partie.dsv
+python -m editeur partie.dsv
 ```
+
+## Utilisation en Python
+
+Inspection rapide : `python -m dqmj2p_save partie.dsv`
 
 ```python
 from dqmj2p_save import Sauvegarde
@@ -40,7 +48,7 @@ s.enregistrer()
 | Dossier | Rôle |
 |---|---|
 | `dqmj2p_save/` | Cœur, sans interface, bibliothèque standard uniquement |
-| `editeur/` | Interface graphique (PySide6), à venir |
+| `editeur/` | Interface graphique (PySide6) |
 | `docs/format-sauvegarde.md` | Carte du format, avec ce qui reste inconnu |
 | `tests/` | `python -m unittest discover tests` |
 
