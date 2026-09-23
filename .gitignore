@@ -13,3 +13,7 @@ tests/donnees/*
 *.nds
 *.sav
 *.dsv
+
+# Graphismes du jeu (extraits de la ROM) : jamais versionnés, voir README
+editeur/icones/*.png
+editeur/icones/familles/

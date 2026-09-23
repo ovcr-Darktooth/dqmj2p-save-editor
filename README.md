@@ -30,6 +30,17 @@ sauvegarde sur la fenêtre, ou lancer :
 python -m editeur partie.dsv
 ```
 
+### Icônes (facultatif)
+
+Les icônes des monstres et des familles sont des graphismes du jeu : elles ne
+sont pas dans ce dépôt. Sans elles, l'éditeur fonctionne et affiche des cases
+vides. Pour les obtenir :
+
+```
+python outils/importer_synthese.py <clone de dqmj2pro-synthesis>
+python outils/extraire_familles.py <votre ROM .nds>
+```
+
 ## Utilisation en Python
 
 Inspection rapide : `python -m dqmj2p_save partie.dsv`
@@ -53,10 +64,10 @@ s.enregistrer()
 | `editeur/` | Interface graphique (PySide6) |
 | `dqmj2p_save/noms/fr/` | Noms des espèces et compétences (ligne N = ID N) |
 | `outils/importer_noms.py` | Resynchronise ces noms depuis le dépôt de traduction |
-| `editeur/icones/` | Icônes des monstres (`<id>.png`) |
+| `editeur/icones/` | Icônes des monstres (`<id>.png`), à importer (non versionnées) |
 | `dqmj2p_save/donnees/bestiaire.json` | Rang, famille, taille et synthèses spéciales |
 | `outils/importer_synthese.py` | Recopie icônes et bestiaire depuis le projet des synthèses |
-| `editeur/icones/familles/` | Icônes des familles, glyphes de la police du jeu |
+| `editeur/icones/familles/` | Icônes des familles, glyphes de la police du jeu (non versionnées) |
 | `outils/extraire_familles.py` | Les extrait d'une ROM (`font_16x16.NFTR` + palette des menus) |
 | `docs/format-sauvegarde.md` | Carte du format, avec ce qui reste inconnu |
 | `tests/` | `python -m unittest discover tests` |
