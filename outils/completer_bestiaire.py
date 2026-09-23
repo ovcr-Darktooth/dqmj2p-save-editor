@@ -30,6 +30,7 @@ MANUEL = {
     452: {'famille': 'Bête'},       # Nouveau-nhé
     455: {'famille': 'Bête'},       # Nouveau-nhé
     456: {'famille': 'Nature'},     # Tentaculeux : tentacule du Khalamar, ni dressable ni synthétisable
+    487: {'famille': 'Zombie'},     # Chevalier Karbon
 }
 
 
