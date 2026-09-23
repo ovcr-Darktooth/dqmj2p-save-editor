@@ -5,12 +5,13 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QAction, QKeySequence
 from PySide6.QtWidgets import (QAbstractItemView, QFileDialog, QHeaderView,
                                QMainWindow, QMessageBox, QSplitter, QTableWidget,
-                               QTableWidgetItem, QTabWidget)
+                               QTableWidgetItem, QTabWidget, QVBoxLayout, QWidget)
 
 from dqmj2p_save import ErreurSauvegarde, Sauvegarde
 from dqmj2p_save import bestiaire, noms
 
 from . import icones
+from .equipe import PanneauEquipe, TYPE_MIME, emplacement_depuis, glisser
 from .fiche import Fiche
 from .joueur import PageJoueur
 from .sac import PageSac
@@ -25,13 +26,45 @@ ORDRE_ROLES = list(LIBELLES_ROLES)
 COLONNES = ('Empl.', 'Rôle', 'Fam.', 'Espèce', 'Surnom', 'Niveau')
 
 
+class ListeMonstres(QTableWidget):
+    """Liste des monstres : on en glisse un vers le panneau d'équipe, et on y
+    dépose un monstre du panneau pour le renvoyer au ranch."""
+
+    def __init__(self, fenetre: 'Fenetre'):
+        super().__init__(0, len(COLONNES))
+        self.fenetre = fenetre
+        self.setDragEnabled(True)
+        self.setAcceptDrops(True)
+        self.setDragDropMode(QAbstractItemView.DragDrop)
+
+    def startDrag(self, _actions):
+        ligne = self.currentRow()
+        if 0 <= ligne < len(self.fenetre.monstres):
+            glisser(self, self.fenetre.monstres[ligne])
+
+    def dragEnterEvent(self, evenement):
+        if evenement.mimeData().hasFormat(TYPE_MIME) and evenement.source() is not self:
+            evenement.acceptProposedAction()
+        else:
+            evenement.ignore()
+
+    def dragMoveEvent(self, evenement):
+        self.dragEnterEvent(evenement)
+
+    def dropEvent(self, evenement):
+        emplacement = emplacement_depuis(evenement.mimeData())
+        if emplacement is not None and evenement.source() is not self:
+            self.fenetre.panneau_equipe.renvoyer_au_ranch(emplacement)
+            evenement.acceptProposedAction()
+
+
 class Fenetre(QMainWindow):
     def __init__(self):
         super().__init__()
         self.sauvegarde: Sauvegarde | None = None
         self.monstres = []
 
-        self.liste = QTableWidget(0, len(COLONNES))
+        self.liste = ListeMonstres(self)
         self.liste.setHorizontalHeaderLabels(COLONNES)
         self.liste.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.liste.setSelectionMode(QAbstractItemView.SingleSelection)
@@ -52,8 +85,18 @@ class Fenetre(QMainWindow):
         for liaison in (self.fiche.liaison, self.page_joueur.liaison):
             liaison.erreur.connect(lambda message: self.statusBar().showMessage(message, 8000))
 
+        self.panneau_equipe = PanneauEquipe()
+        self.panneau_equipe.modifiee.connect(self._apres_changement_equipe)
+        self.panneau_equipe.selectionner.connect(self._selectionner_emplacement)
+        self.panneau_equipe.message.connect(lambda texte: self.statusBar().showMessage(texte, 8000))
+        gauche = QWidget()
+        colonne_gauche = QVBoxLayout(gauche)
+        colonne_gauche.setContentsMargins(0, 0, 0, 0)
+        colonne_gauche.addWidget(self.panneau_equipe)
+        colonne_gauche.addWidget(self.liste, 1)
+
         separation = QSplitter()
-        separation.addWidget(self.liste)
+        separation.addWidget(gauche)
         separation.addWidget(self.fiche)
         separation.setStretchFactor(0, 0)
         separation.setStretchFactor(1, 1)
@@ -113,6 +156,7 @@ class Fenetre(QMainWindow):
             return
         self.sauvegarde = sauvegarde
         self._remplir_liste()
+        self.panneau_equipe.afficher(sauvegarde)
         self.page_joueur.afficher(sauvegarde.joueur)
         self.page_sac.afficher(sauvegarde.sac)
         self._rafraichir_titre()
@@ -150,10 +194,22 @@ class Fenetre(QMainWindow):
     def _selection(self) -> None:
         lignes = self.liste.selectionModel().selectedRows()
         if lignes:
-            self.fiche.afficher(self.monstres[lignes[0].row()])
+            monstre = self.monstres[lignes[0].row()]
+            self.fiche.afficher(monstre)
+            self.panneau_equipe.marquer(monstre.emplacement)
+
+    def _selectionner_emplacement(self, emplacement: int) -> None:
+        emplacements = [m.emplacement for m in self.monstres]
+        if emplacement in emplacements:
+            self.liste.selectRow(emplacements.index(emplacement))
+
+    def _apres_changement_equipe(self) -> None:
+        self._remplir_liste(self.fiche.monstre.emplacement if self.fiche.monstre else None)
+        self._rafraichir_titre()
 
     def _apres_modification(self) -> None:
         self._remplir_ligne(self.liste.currentRow())
+        self.panneau_equipe.update_colonnes()   # espèce changée : taille et icône
         self._rafraichir_titre()
 
     # ── Actions sur les monstres ─────────────────────────────────────────────
@@ -166,6 +222,7 @@ class Fenetre(QMainWindow):
             QMessageBox.warning(self, 'Duplication impossible', str(e))
             return
         self._remplir_liste(copie.emplacement)
+        self.panneau_equipe.update_colonnes()
         self._rafraichir_titre()
         self.statusBar().showMessage(
             f'{copie["surnom"]} dupliqué dans le ranch (emplacement {copie.emplacement}).')
