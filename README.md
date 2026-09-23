@@ -22,7 +22,15 @@ sans modification ressort identique octet pour octet.
 Avant chaque écriture, une copie horodatée de l'original est gardée
 (`partie.dsv.20260922-153000.bak`).
 
-## Lancer l'éditeur
+## Télécharger (Windows)
+
+Prenez le zip de la dernière version dans les
+[Releases](https://github.com/ovcr-Darktooth/dqmj2p-save-editor/releases),
+décompressez-le et lancez `Editeur-DQMJ2P.exe` : Python n'est pas nécessaire.
+Windows peut afficher un avertissement SmartScreen (exe non signé) :
+« Informations complémentaires », puis « Exécuter quand même ».
+
+## Lancer l'éditeur depuis le code
 
 Double-cliquer sur `Lancer-Editeur.bat`. La première fois, il crée un
 environnement `.venv` et y installe PySide6. On peut aussi glisser une
@@ -57,6 +65,12 @@ Les icônes des monstres peuvent aussi venir d'un clone du projet
 [dqmj2pro-synthesis](https://github.com/ovcr-Darktooth/dqmj2pro-synthesis),
 qui les publie déjà : `python outils/importer_synthese.py <clone>`.
 
+Avec l'exe, les icônes se rangent dans le dossier `icones` à côté de
+`Editeur-DQMJ2P.exe` : copiez-y les PNG de `site/icons` de dqmj2pro-synthesis,
+ou donnez ce dossier aux outils d'extraction
+(`python outils/extraire_icones.py <ROM> <dossier de l'exe>\icones`, et
+`…\icones\familles` pour `extraire_familles.py`).
+
 ## Utilisation en Python
 
 Inspection rapide : `python -m dqmj2p_save partie.dsv`
@@ -89,6 +103,8 @@ s.enregistrer()
 | `editeur/icones/familles/` | Icônes des familles, glyphes de la police du jeu (non versionnées) |
 | `outils/extraire_familles.py` | Les extrait d'une ROM (`font_16x16.NFTR` + palette des menus) |
 | `docs/format-sauvegarde.md` | Carte du format, avec ce qui reste inconnu |
+| `outils/construire_exe.py` | Construit l'exe (PyInstaller) |
+| `.github/workflows/release.yml` | Exe Windows à chaque PR ; release au push d'un tag `vX.Y.Z` (notes : `docs/notes-de-version/vX.Y.Z.md`) |
 | `tests/` | `python -m unittest discover tests` |
 
 Les tests sur sauvegardes réelles lisent `tests/donnees/*.dsv`. Ces fichiers
