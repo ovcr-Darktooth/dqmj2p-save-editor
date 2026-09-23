@@ -1,14 +1,15 @@
 """Fenêtre principale : liste des monstres à gauche, fiche à droite."""
 from pathlib import Path
 
-from PySide6.QtCore import QSettings, Qt
-from PySide6.QtGui import QAction, QKeySequence
+from PySide6.QtCore import QLocale, QSettings, Qt
+from PySide6.QtGui import QAction, QActionGroup, QKeySequence
 from PySide6.QtWidgets import (QAbstractItemView, QFileDialog, QHeaderView,
                                QMainWindow, QMenu, QMessageBox, QSplitter, QTableWidget,
                                QTableWidgetItem, QTabWidget, QVBoxLayout, QWidget)
 
 from dqmj2p_save import ErreurSauvegarde, Sauvegarde
-from dqmj2p_save import bestiaire, noms
+from dqmj2p_save import bestiaire, langue, noms
+from dqmj2p_save.langue import tr
 
 from . import icones
 from .bibliotheque import PageBibliotheque
@@ -17,6 +18,7 @@ from .fiche import Fiche
 from .joueur import PageJoueur
 from .sac import PageSac
 
+# Textes traduits à l'affichage (tr) : la langue peut changer en cours de route.
 TITRE = 'Éditeur de sauvegardes DQMJ2P'
 FILTRE = 'Sauvegardes DS (*.dsv *.sav);;Tous les fichiers (*)'
 LIBELLES_ROLES = {'equipe_1': 'Équipe 1', 'equipe_2': 'Équipe 2',
@@ -25,8 +27,20 @@ LIBELLES_ROLES = {'equipe_1': 'Équipe 1', 'equipe_2': 'Équipe 2',
                   'ranch': 'Ranch'}
 ORDRE_ROLES = list(LIBELLES_ROLES)
 COLONNES = ('Empl.', 'Rôle', 'Fam.', 'Espèce', 'Surnom', 'Niveau')
+COLONNE_FAMILLE, COLONNE_ESPECE = COLONNES.index('Fam.'), COLONNES.index('Espèce')
 CLE_RECENTS = 'fichiers_recents'
+CLE_LANGUE = 'langue'
 NB_RECENTS = 8
+
+
+def langue_systeme() -> str:
+    """Français si le système l'est, anglais sinon."""
+    return 'fr' if QLocale.system().language() == QLocale.French else 'en'
+
+
+def langue_enregistree(reglages: QSettings) -> str:
+    code = reglages.value(CLE_LANGUE, '')
+    return code if code in langue.LANGUES else langue_systeme()
 
 
 class ListeMonstres(QTableWidget):
@@ -62,14 +76,21 @@ class ListeMonstres(QTableWidget):
 
 
 class Fenetre(QMainWindow):
+    # Fenêtre affichée : une fenêtre sans parent doit rester référencée, et
+    # changer de langue en construit une nouvelle (voir _changer_langue).
+    active: 'Fenetre | None' = None
+
     def __init__(self, reglages: QSettings | None = None):
         super().__init__()
+        Fenetre.active = self
         self.reglages = reglages or QSettings('ovcr-Darktooth', 'dqmj2p-save-editor')
+        langue.choisir(langue_enregistree(self.reglages))
         self.sauvegarde: Sauvegarde | None = None
         self.monstres = []
+        self._remplacee = False
 
         self.liste = ListeMonstres(self)
-        self.liste.setHorizontalHeaderLabels(COLONNES)
+        self.liste.setHorizontalHeaderLabels([tr(c) for c in COLONNES])
         self.liste.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.liste.setSelectionMode(QAbstractItemView.SingleSelection)
         self.liste.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -110,32 +131,32 @@ class Fenetre(QMainWindow):
         self.liste.setMinimumWidth(480)
 
         self.onglets = QTabWidget()
-        self.onglets.addTab(self.page_joueur, 'Joueur')
-        self.onglets.addTab(separation, 'Monstres')
-        self.onglets.addTab(self.page_sac, 'Sac')
-        self.onglets.addTab(self.page_bibliotheque, 'Bibliothèque')
+        self.onglets.addTab(self.page_joueur, tr('Joueur'))
+        self.onglets.addTab(separation, tr('Monstres'))
+        self.onglets.addTab(self.page_sac, tr('Sac'))
+        self.onglets.addTab(self.page_bibliotheque, tr('Bibliothèque'))
         self.setCentralWidget(self.onglets)
 
-        menu = self.menuBar().addMenu('&Fichier')
-        self._action(menu, '&Ouvrir…', QKeySequence.Open, self.ouvrir_dialogue)
-        self.menu_recents = menu.addMenu('Fichiers &récents')
+        menu = self.menuBar().addMenu(tr('&Fichier'))
+        self._action(menu, tr('&Ouvrir…'), QKeySequence.Open, self.ouvrir_dialogue)
+        self.menu_recents = menu.addMenu(tr('Fichiers &récents'))
         self.menu_recents.aboutToShow.connect(self._remplir_recents)
         self.menu_recents.setToolTipsVisible(True)
         self.action_enregistrer = self._action(
-            menu, '&Enregistrer', QKeySequence.Save, self.enregistrer)
+            menu, tr('&Enregistrer'), QKeySequence.Save, self.enregistrer)
         self.action_enregistrer_sous = self._action(
-            menu, 'Enregistrer &sous…', QKeySequence.SaveAs, self.enregistrer_sous)
+            menu, tr('Enregistrer &sous…'), QKeySequence.SaveAs, self.enregistrer_sous)
         menu.addSeparator()
-        self._action(menu, '&Quitter', QKeySequence.Quit, self.close)
+        self._action(menu, tr('&Quitter'), QKeySequence.Quit, self.close)
 
-        menu = self.menuBar().addMenu('&Monstres')
+        menu = self.menuBar().addMenu(tr('&Monstres'))
         self.actions_sauvegarde = [
-            self._action(menu, '&Dupliquer le monstre sélectionné', 'Ctrl+D',
+            self._action(menu, tr('&Dupliquer le monstre sélectionné'), 'Ctrl+D',
                          self.dupliquer),
-            self._action(menu, "Surnoms abrégés → &nom complet de l'espèce", None,
+            self._action(menu, tr("Surnoms abrégés → &nom complet de l'espèce"), None,
                          self.restaurer_surnoms),
         ]
-        self.action_supprimer = self._action(menu, '&Supprimer le monstre sélectionné…',
+        self.action_supprimer = self._action(menu, tr('&Supprimer le monstre sélectionné…'),
                                              None, self.supprimer)
         self.actions_sauvegarde.append(self.action_supprimer)
         # Suppr n'agit que dans la liste (pas dans un champ de saisie).
@@ -145,12 +166,25 @@ class Fenetre(QMainWindow):
         self.liste.setContextMenuPolicy(Qt.CustomContextMenu)
         self.liste.customContextMenuRequested.connect(self._menu_liste)
 
+        # Libellé bilingue : on retrouve le menu quelle que soit la langue.
+        menu = self.menuBar().addMenu('&Langue / Language')
+        groupe = QActionGroup(self)
+        for code, nom in langue.LANGUES.items():
+            action = menu.addAction(nom, lambda c=code: self._changer_langue(c))
+            action.setCheckable(True)
+            action.setChecked(code == langue.courante())
+            groupe.addAction(action)
+        menu.addSeparator()
+        menu.addAction(tr('Choisir la langue du patch installé : noms des monstres, '
+                          'des compétences et des objets identiques au jeu.')
+                       ).setEnabled(False)
+
         self.setAcceptDrops(True)
         self.resize(1080, 620)
         self._remplir_recents()
         self._rafraichir_titre()
-        self.statusBar().showMessage('Ouvrez une sauvegarde (Ctrl+O) ou '
-                                     'glissez-la dans la fenêtre.')
+        self.statusBar().showMessage(tr('Ouvrez une sauvegarde (Ctrl+O) ou '
+                                        'glissez-la dans la fenêtre.'))
 
     def _action(self, menu, texte, raccourci, slot) -> QAction:
         action = QAction(texte, self, triggered=slot)
@@ -166,14 +200,16 @@ class Fenetre(QMainWindow):
             return
         recents = self.recents()
         dossier = str(Path(recents[0]).parent) if recents else ''
-        chemin, _ = QFileDialog.getOpenFileName(self, 'Ouvrir une sauvegarde', dossier, FILTRE)
+        chemin, _ = QFileDialog.getOpenFileName(self, tr('Ouvrir une sauvegarde'), dossier,
+                                                tr(FILTRE))
         if chemin:
             self.ouvrir(chemin)
 
     def ouvrir_recent(self, chemin: str) -> None:
         if not Path(chemin).is_file():
-            QMessageBox.warning(self, 'Fichier introuvable',
-                                f'{chemin}\n\nIl est retiré des fichiers récents.')
+            QMessageBox.warning(self, tr('Fichier introuvable'),
+                                tr('{chemin}\n\nIl est retiré des fichiers récents.',
+                                   chemin=chemin))
             self._enregistrer_recents([c for c in self.recents() if c != chemin])
             return
         if self._confirmer_abandon():
@@ -183,17 +219,21 @@ class Fenetre(QMainWindow):
         try:
             sauvegarde = Sauvegarde.ouvrir(chemin)
         except (OSError, ErreurSauvegarde) as e:
-            QMessageBox.critical(self, 'Ouverture impossible', f'{chemin}\n\n{e}')
+            QMessageBox.critical(self, tr('Ouverture impossible'), f'{chemin}\n\n{e}')
             return
+        self.afficher(sauvegarde)
+        self._ajouter_recent(sauvegarde.chemin)
+        self.statusBar().showMessage(tr('{n} monstres chargés.', n=len(self.monstres)))
+
+    def afficher(self, sauvegarde: Sauvegarde, emplacement: int | None = None) -> None:
+        """Affiche une sauvegarde déjà ouverte, modifications comprises."""
         self.sauvegarde = sauvegarde
-        self._remplir_liste()
+        self._remplir_liste(emplacement)
         self.panneau_equipe.afficher(sauvegarde)
         self.page_joueur.afficher(sauvegarde.joueur)
         self.page_sac.afficher(sauvegarde.sac)
         self.page_bibliotheque.afficher(sauvegarde.bibliotheque)
-        self._ajouter_recent(sauvegarde.chemin)
         self._rafraichir_titre()
-        self.statusBar().showMessage(f'{len(self.monstres)} monstres chargés.')
 
     # ── Fichiers récents ─────────────────────────────────────────────────────
 
@@ -222,7 +262,7 @@ class Fenetre(QMainWindow):
             action.triggered.connect(lambda _=False, c=chemin: self.ouvrir_recent(c))
         if recents:
             self.menu_recents.addSeparator()
-        self.menu_recents.addAction('&Vider la liste', lambda: self._enregistrer_recents([])
+        self.menu_recents.addAction(tr('&Vider la liste'), lambda: self._enregistrer_recents([])
                                     ).setEnabled(bool(recents))
         self.menu_recents.setEnabled(bool(recents))
 
@@ -241,17 +281,17 @@ class Fenetre(QMainWindow):
     def _remplir_ligne(self, ligne: int) -> None:
         m = self.monstres[ligne]
         famille = bestiaire.fiche(m['espece']).famille
-        valeurs = (m.emplacement, LIBELLES_ROLES[self.sauvegarde.role(m)], '',
+        valeurs = (m.emplacement, tr(LIBELLES_ROLES[self.sauvegarde.role(m)]), '',
                    noms.table('especes')[m['espece']], m['surnom'], m['niveau'])
         for colonne, valeur in enumerate(valeurs):
             cellule = QTableWidgetItem(str(valeur))
             if isinstance(valeur, int):
                 cellule.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
-            if colonne == COLONNES.index('Espèce'):
+            if colonne == COLONNE_ESPECE:
                 cellule.setIcon(icones.icone(m['espece']))
-            if colonne == COLONNES.index('Fam.'):
+            if colonne == COLONNE_FAMILLE:
                 cellule.setData(Qt.DecorationRole, icones.famille(famille))
-                cellule.setToolTip(famille or '')
+                cellule.setToolTip(tr(famille) if famille else '')
                 cellule.setTextAlignment(Qt.AlignCenter)
             self.liste.setItem(ligne, colonne, cellule)
 
@@ -283,13 +323,14 @@ class Fenetre(QMainWindow):
         try:
             copie = self.sauvegarde.dupliquer(modele)
         except ErreurSauvegarde as e:
-            QMessageBox.warning(self, 'Duplication impossible', str(e))
+            QMessageBox.warning(self, tr('Duplication impossible'), str(e))
             return
         self._remplir_liste(copie.emplacement)
         self.panneau_equipe.update_colonnes()
         self._rafraichir_titre()
         self.statusBar().showMessage(
-            f'{copie["surnom"]} dupliqué dans le ranch (emplacement {copie.emplacement}).')
+            tr('{surnom} dupliqué dans le ranch (emplacement {n}).',
+               surnom=copie['surnom'], n=copie.emplacement))
 
     def _menu_liste(self, position) -> None:
         if self.sauvegarde is None or self.liste.itemAt(position) is None:
@@ -303,34 +344,38 @@ class Fenetre(QMainWindow):
         monstre = self.fiche.monstre
         if monstre is None:
             return
-        role = LIBELLES_ROLES[self.sauvegarde.role(monstre)]
-        description = (f"{monstre['surnom']} ({noms.table('especes')[monstre['espece']]}, "
-                       f"niveau {monstre['niveau']}, {role.lower()})")
-        colonne = "l'équipe" if role.startswith('Équipe') else 'la réserve'
-        avertissement = '' if role == 'Ranch' else f'\n\nIl quittera aussi {colonne}.'
+        role = self.sauvegarde.role(monstre)
+        description = tr('{surnom} ({espece}, niveau {niveau}, {role})',
+                         surnom=monstre['surnom'],
+                         espece=noms.table('especes')[monstre['espece']],
+                         niveau=monstre['niveau'], role=tr(LIBELLES_ROLES[role]).lower())
+        avertissement = ('' if role == 'ranch' else
+                         tr("\n\nIl quittera aussi l'équipe.") if role.startswith('equipe')
+                         else tr('\n\nIl quittera aussi la réserve.'))
         choix = QMessageBox.warning(
-            self, 'Supprimer un monstre',
-            f'Supprimer définitivement {description} ?{avertissement}\n\n'
-            "La sauvegarde n'est modifiée sur le disque qu'à l'enregistrement.",
+            self, tr('Supprimer un monstre'),
+            tr('Supprimer définitivement {description} ?', description=description)
+            + avertissement + '\n\n'
+            + tr("La sauvegarde n'est modifiée sur le disque qu'à l'enregistrement."),
             QMessageBox.Yes | QMessageBox.Cancel, QMessageBox.Cancel)
         if choix != QMessageBox.Yes:
             return
         try:
             self.sauvegarde.supprimer(monstre)
         except ErreurSauvegarde as e:
-            QMessageBox.warning(self, 'Suppression impossible', str(e))
+            QMessageBox.warning(self, tr('Suppression impossible'), str(e))
             return
         emplacement = min(monstre.emplacement, len(self.sauvegarde.monstres()) - 1)
         self.panneau_equipe.afficher(self.sauvegarde)
         self._remplir_liste(emplacement)
         self._rafraichir_titre()
-        self.statusBar().showMessage(f'{description} supprimé.')
+        self.statusBar().showMessage(tr('{description} supprimé.', description=description))
 
     def restaurer_surnoms(self) -> None:
         renommes = self.sauvegarde.restaurer_surnoms()
         self._remplir_liste(self.fiche.monstre.emplacement)
         self._rafraichir_titre()
-        self.statusBar().showMessage(f'{len(renommes)} surnom(s) complété(s).')
+        self.statusBar().showMessage(tr('{n} surnom(s) complété(s).', n=len(renommes)))
 
     # ── Enregistrement ───────────────────────────────────────────────────────
 
@@ -339,22 +384,42 @@ class Fenetre(QMainWindow):
 
     def enregistrer_sous(self) -> bool:
         chemin, _ = QFileDialog.getSaveFileName(
-            self, 'Enregistrer sous', str(self.sauvegarde.chemin), FILTRE)
+            self, tr('Enregistrer sous'), str(self.sauvegarde.chemin), tr(FILTRE))
         return bool(chemin) and self._enregistrer_vers(chemin)
 
     def _enregistrer_vers(self, chemin) -> bool:
         try:
             bak = self.sauvegarde.enregistrer(chemin)
         except OSError as e:
-            QMessageBox.critical(self, 'Enregistrement impossible', f'{chemin}\n\n{e}')
+            QMessageBox.critical(self, tr('Enregistrement impossible'), f'{chemin}\n\n{e}')
             return False
         self._ajouter_recent(chemin)
         self._rafraichir_titre()
-        message = f'Enregistré : {Path(chemin).name}'
+        message = tr('Enregistré : {nom}', nom=Path(chemin).name)
         if bak:
-            message += f'  (original gardé dans {bak.name})'
+            message += tr('  (original gardé dans {nom})', nom=bak.name)
         self.statusBar().showMessage(message)
         return True
+
+    # ── Langue ───────────────────────────────────────────────────────────────
+
+    def _changer_langue(self, code: str) -> None:
+        """Enregistre la langue et reconstruit la fenêtre dans cette langue. La
+        sauvegarde ouverte passe telle quelle, modifications non enregistrées
+        comprises."""
+        if code == langue.courante():
+            return
+        self.reglages.setValue(CLE_LANGUE, code)
+        nouvelle = Fenetre(self.reglages)
+        nouvelle.restoreGeometry(self.saveGeometry())
+        if self.sauvegarde is not None:
+            nouvelle.afficher(self.sauvegarde,
+                              self.fiche.monstre.emplacement if self.fiche.monstre else None)
+        nouvelle.onglets.setCurrentIndex(self.onglets.currentIndex())
+        nouvelle.show()
+        self._remplacee = True
+        self.close()
+        self.deleteLater()
 
     # ── Divers ───────────────────────────────────────────────────────────────
 
@@ -364,18 +429,18 @@ class Fenetre(QMainWindow):
                        *self.actions_sauvegarde):
             action.setEnabled(ouverte)
         if not ouverte:
-            self.setWindowTitle(TITRE)
+            self.setWindowTitle(tr(TITRE))
             return
         marque = ' *' if self.sauvegarde.modifiee else ''
-        self.setWindowTitle(f'{self.sauvegarde.chemin.name}{marque} — {TITRE}')
+        self.setWindowTitle(f'{self.sauvegarde.chemin.name}{marque} — {tr(TITRE)}')
 
     def _confirmer_abandon(self) -> bool:
         """Vrai si l'on peut abandonner la sauvegarde courante."""
-        if not (self.sauvegarde and self.sauvegarde.modifiee):
+        if self._remplacee or not (self.sauvegarde and self.sauvegarde.modifiee):
             return True
         choix = QMessageBox.question(
-            self, 'Modifications non enregistrées',
-            'Enregistrer les modifications avant de continuer ?',
+            self, tr('Modifications non enregistrées'),
+            tr('Enregistrer les modifications avant de continuer ?'),
             QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
         if choix == QMessageBox.Save:
             return self.enregistrer()

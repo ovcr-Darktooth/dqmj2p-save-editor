@@ -5,6 +5,7 @@ from PySide6.QtWidgets import (QFrame, QHBoxLayout, QLabel, QScrollArea,
                                QVBoxLayout, QWidget)
 
 from dqmj2p_save import bestiaire, noms
+from dqmj2p_save.langue import tr
 
 from . import icones
 
@@ -41,8 +42,8 @@ def _ligne(recette: bestiaire.Recette, espece: int, montrer_resultat: bool) -> Q
         disposition.addWidget(QLabel('→'))
         disposition.addWidget(_monstre(recette.resultat))
     if recette.patch:
-        etiquette = QLabel('patch FR')
-        etiquette.setToolTip('Recette ajoutée par le patch de traduction')
+        etiquette = QLabel(tr('patch'))
+        etiquette.setToolTip(tr('Recette ajoutée par le patch de traduction'))
         etiquette.setStyleSheet('color: palette(highlighted-text); background: palette(highlight);'
                                 'border-radius: 3px; padding: 1px 4px')
         disposition.addWidget(etiquette, 0, Qt.AlignVCenter)
@@ -63,11 +64,11 @@ class PageSynthese(QScrollArea):
         for titre, recettes, montrer_resultat, vide in (
                 ('Obtenu par', bestiaire.obtenu_par(espece), False, AUCUNE_RECETTE),
                 ('Sert à créer', bestiaire.sert_a(espece), True, AUCUN_USAGE)):
-            entete = QLabel(f'{titre} ({len(recettes)})')
+            entete = QLabel(f'{tr(titre)} ({len(recettes)})')
             entete.setStyleSheet('font-weight: bold; margin-top: 6px')
             disposition.addWidget(entete)
             if not recettes:
-                note = QLabel(vide)
+                note = QLabel(tr(vide))
                 note.setWordWrap(True)
                 disposition.addWidget(note)
             for recette in recettes:

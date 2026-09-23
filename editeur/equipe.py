@@ -16,6 +16,7 @@ from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QVBoxLayout, QWidget
 
 from dqmj2p_save import ErreurSauvegarde
 from dqmj2p_save import format as F
+from dqmj2p_save.langue import tr
 
 from . import icones
 
@@ -168,14 +169,14 @@ class PanneauEquipe(QFrame):
         for titre, couleur, colonne in (('Équipe', '#c8322f', self.equipe),
                                         ('Réserve', '#2f6fc8', self.reserve)):
             bloc = QVBoxLayout()
-            entete = QLabel(titre, alignment=Qt.AlignCenter)
+            entete = QLabel(tr(titre), alignment=Qt.AlignCenter)
             entete.setStyleSheet(f'background: {couleur}; border: 1px solid #d8b64e; '
                                  'border-radius: 4px; padding: 1px 6px;')
             bloc.addWidget(entete)
             bloc.addWidget(colonne, 0, Qt.AlignHCenter)
             disposition.addLayout(bloc)
-        aide = QLabel('Glisser pour réorganiser.\nDepuis la liste : prendre\nla place. Vers la liste :\n'
-                      'renvoyer au ranch.')
+        aide = QLabel(tr('Glisser pour réorganiser.\nDepuis la liste : prendre\nla place. '
+                         'Vers la liste :\nrenvoyer au ranch.'))
         aide.setStyleSheet('color: #dfe6f5; font-weight: normal;')
         disposition.addWidget(aide, 1, Qt.AlignVCenter)
         self.setEnabled(False)
@@ -213,13 +214,14 @@ class PanneauEquipe(QFrame):
         try:
             self.sauvegarde.deplacer(monstre, cible, case)
         except ErreurSauvegarde as e:
-            self.message.emit(f'Impossible : {e}.')
+            self.message.emit(tr('Impossible : {erreur}.', erreur=e))
             return
         if self.sauvegarde.ids_equipe() == avant:
             return
         self.update_colonnes()
-        self.message.emit(f"{monstre['surnom'] or 'Monstre'} placé en "
-                          f"{'équipe' if cible == 'equipe' else 'réserve'}.")
+        surnom = monstre['surnom'] or tr('Monstre')
+        self.message.emit(tr('{surnom} placé en équipe.', surnom=surnom) if cible == 'equipe'
+                          else tr('{surnom} placé en réserve.', surnom=surnom))
         self.modifiee.emit()
 
     def renvoyer_au_ranch(self, emplacement: int) -> None:
@@ -228,14 +230,14 @@ class PanneauEquipe(QFrame):
                     for nom, liste in colonnes.items()}
         if nouvelle == colonnes:
             return
-        self._appliquer(nouvelle, 'Monstre renvoyé au ranch')
+        self._appliquer(nouvelle, tr('Monstre renvoyé au ranch.'))
 
     def _appliquer(self, colonnes: dict, message: str) -> None:
         try:
             self.sauvegarde.definir_composition(colonnes['equipe'], colonnes['reserve'])
         except ErreurSauvegarde as e:
-            self.message.emit(f'Impossible : {e}.')
+            self.message.emit(tr('Impossible : {erreur}.', erreur=e))
             return
         self.update_colonnes()
-        self.message.emit(message + '.')
+        self.message.emit(message)
         self.modifiee.emit()

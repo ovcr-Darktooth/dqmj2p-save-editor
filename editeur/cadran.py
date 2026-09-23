@@ -12,6 +12,7 @@ from PySide6.QtGui import QColor, QFont, QPainter, QPainterPath, QPen
 from PySide6.QtWidgets import QSizePolicy, QWidget
 
 from dqmj2p_save import format as F
+from dqmj2p_save.langue import decimal, tr
 
 MILIEU_JOUR = F.DEBUT_NUIT // 2
 PAS_MOLETTE = 5 * 30                # 5 secondes
@@ -28,8 +29,8 @@ class CadranHoraire(QWidget):
         self.setMinimumSize(170, 170)
         self.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.setCursor(Qt.PointingHandCursor)
-        self.setToolTip("Faire glisser la poignée, ou la molette (5 s par cran). "
-                        "L'horloge ne tourne qu'en plein air.")
+        self.setToolTip(tr("Faire glisser la poignée, ou la molette (5 s par cran). "
+                           "L'horloge ne tourne qu'en plein air."))
 
     def sizeHint(self):
         return self.minimumSize()
@@ -102,10 +103,12 @@ class CadranHoraire(QWidget):
         police.setBold(True)
         p.setFont(police)
         p.drawText(QRectF(centre.x() - 50, centre.y() - 20, 100, 20), Qt.AlignCenter,
-                   'Jour' if jour else 'Nuit')
+                   tr('Jour') if jour else tr('Nuit'))
         p.setFont(self.font())
+        minutes = decimal(reste / 30 / 60, 1)
         p.drawText(QRectF(centre.x() - 60, centre.y(), 120, 18), Qt.AlignCenter,
-                   f"{'nuit' if jour else 'jour'} dans {reste / 30 / 60:.1f} min".replace('.', ','))
+                   tr('nuit dans {n} min', n=minutes) if jour
+                   else tr('jour dans {n} min', n=minutes))
 
         # Poignée
         poignee = self._point(self._angle(self._valeur), rayon)

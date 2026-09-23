@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (QFormLayout, QGridLayout, QHBoxLayout, QLabel,
 
 from dqmj2p_save import format as F
 from dqmj2p_save import bestiaire, noms
+from dqmj2p_save.langue import tr
 
 from . import icones
 
@@ -76,15 +77,15 @@ class Fiche(QWidget):
         infos = bestiaire.fiche(espece)
         details = [noms.table('especes')[espece]]
         if infos.rang:
-            details.append(f'rang {infos.rang}')
+            details.append(tr('rang {rang}', rang=infos.rang))
         if infos.famille:
             chemin = icones.chemin_famille(infos.famille)
             image = (f'<img src="{chemin.as_uri()}" width="14" height="20" '
                      f'style="vertical-align: middle"> ' if chemin else '')
-            details.append(image + infos.famille)
+            details.append(image + tr(infos.famille))
         if infos.taille and infos.taille > 1:
-            details.append(f'taille {infos.taille}')
-        details += [f"niveau {m['niveau']}", f'emplacement {m.emplacement}']
+            details.append(tr('taille {n}', n=infos.taille))
+        details += [tr('niveau {n}', n=m['niveau']), tr('emplacement {n}', n=m.emplacement)]
         self.sous_titre.setText('  —  '.join(details))
         if espece != self._espece_affichee:
             self._espece_affichee = espece
@@ -101,32 +102,32 @@ class _Onglets(QTabWidget):
             page = QWidget()
             formulaire = QFormLayout(page)
             for cle in cles:
-                formulaire.addRow(F.CHAMP[cle].libelle, self.liaison.saisie(cle))
-            self.addTab(page, titre)
+                formulaire.addRow(tr(F.CHAMP[cle].libelle), self.liaison.saisie(cle))
+            self.addTab(page, tr(titre))
 
         page = QWidget()
         grille = QGridLayout(page)
-        grille.addWidget(QLabel('Compétence'), 0, 1)
-        grille.addWidget(QLabel('Points investis'), 0, 2)
+        grille.addWidget(QLabel(tr('Compétence')), 0, 1)
+        grille.addWidget(QLabel(tr('Points investis')), 0, 2)
         for j in range(1, F.NB_COMPETENCES + 1):
             grille.addWidget(QLabel(f'{j}'), j, 0)
             grille.addWidget(self.liaison.saisie(f'competence_{j}'), j, 1)
             grille.addWidget(self.liaison.saisie(f'competence_{j}_points'), j, 2)
         grille.setColumnStretch(1, 1)
         grille.setRowStretch(F.NB_COMPETENCES + 1, 1)
-        self.addTab(page, 'Compétences')
+        self.addTab(page, tr('Compétences'))
 
         self.synthese = PageSynthese()
-        self.addTab(self.synthese, 'Synthèse')
+        self.addTab(self.synthese, tr('Synthèse'))
 
         page = QWidget()
         disposition = QVBoxLayout(page)
-        disposition.addWidget(QLabel('Enregistrement brut (0x84 octets). '
-                                     'Les octets entre [ ] ont un rôle inconnu.'))
+        disposition.addWidget(QLabel(tr('Enregistrement brut (0x84 octets). '
+                                        'Les octets entre [ ] ont un rôle inconnu.')))
         self.hexa = QPlainTextEdit(readOnly=True)
         self.hexa.setFont(QFontDatabase.systemFont(QFontDatabase.FixedFont))
         disposition.addWidget(self.hexa)
-        self.addTab(page, 'Octets bruts')
+        self.addTab(page, tr('Octets bruts'))
 
     def afficher(self, monstre) -> None:
         self.liaison.afficher(monstre)
