@@ -21,7 +21,8 @@ from dqmj2p_save import format as F  # noqa: E402
 
 COMPLEMENT = RACINE / 'dqmj2p_save' / 'donnees' / 'complement_bestiaire.json'
 FAMILLES = {'Matériel': 'Matière', 'Mort-vivant': 'Zombie'}   # noms de la base -> ceux d'ici
-# Relevés en jeu, pour les espèces absentes de la base.
+# Relevés en jeu, pour les espèces absentes de la base. Les tailles viennent de
+# la hauteur des icônes extraites de la ROM (40, 80 ou 120 px).
 MANUEL = {
     133: {'famille': 'Nature'},     # Volapistil
     295: {'famille': 'Zombie'},     # Boumbone
@@ -30,7 +31,9 @@ MANUEL = {
     452: {'famille': 'Bête'},       # Nouveau-nhé
     455: {'famille': 'Bête'},       # Nouveau-nhé
     456: {'famille': 'Nature'},     # Tentaculeux : tentacule du Khalamar, ni dressable ni synthétisable
-    487: {'famille': 'Zombie'},     # Chevalier Karbon
+    481: {'taille': 3},             # Seigneur Hyurde : icône de 120 px, géant
+    482: {'taille': 3},             # Bête du Malin : icône de 120 px, géant
+    487: {'famille': 'Zombie', 'taille': 1},    # Chevalier Karbon
 }
 
 

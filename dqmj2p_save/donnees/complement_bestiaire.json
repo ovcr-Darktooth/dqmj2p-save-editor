@@ -132,6 +132,12 @@
   "rang": "A",
   "famille": "???"
  },
+ "481": {
+  "taille": 3
+ },
+ "482": {
+  "taille": 3
+ },
  "483": {
   "rang": "S",
   "famille": "Bête"
@@ -149,7 +155,8 @@
   "famille": "???"
  },
  "487": {
-  "famille": "Zombie"
+  "famille": "Zombie",
+  "taille": 1
  },
  "488": {
   "rang": "B",
