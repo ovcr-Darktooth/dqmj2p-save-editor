@@ -1,10 +1,11 @@
 """Panneau Équipe / Réserve, dans le style de l'écran « Changer de monstres » du
 jeu : deux colonnes de 3 cases, un grand monstre couvrant 2 ou 3 cases.
 
-Glisser-déposer :
-  - d'une case à une autre : échange (ou déplacement vers une case libre) ;
-  - depuis la liste du ranch vers une case : le monstre prend la place, l'ancien
-    occupant retourne au ranch ;
+Glisser-déposer (règles dans Sauvegarde.deplacer, en raisonnant par cases) :
+  - d'une case à une autre : le monstre couvre autant de cases que sa taille et
+    tous leurs occupants prennent sa place d'origine (case libre : déplacement) ;
+  - depuis la liste du ranch vers une case : même chose, les délogés retournant
+    au ranch ;
   - d'une case vers la liste : le monstre retourne au ranch.
 Chaque opération passe par Sauvegarde.definir_composition(), qui tasse les
 colonnes et refuse une colonne de plus de 3 places ou une équipe vide.
@@ -205,30 +206,21 @@ class PanneauEquipe(QFrame):
 
     def deposer(self, emplacement: int, cible: str, case: int) -> None:
         """Dépose le monstre `emplacement` sur la case `case` de la colonne
-        `cible` : échange avec l'occupant, ou ajout en fin de colonne."""
-        colonnes = self.colonnes()
-        par_emplacement = {m.emplacement: m for m in colonnes['equipe'] + colonnes['reserve']}
-        source = par_emplacement.get(emplacement) or self.sauvegarde.monstre(emplacement)
-        origine = next((nom for nom, liste in colonnes.items()
-                        if any(m.emplacement == emplacement for m in liste)), None)
-        occupant = getattr(self, 'equipe' if cible == 'equipe' else 'reserve') \
-            .monstre_sous(QPoint(10, 4 + case * CASE + CASE // 2))
-        nouvelle = {nom: [m for m in liste] for nom, liste in colonnes.items()}
-
-        if occupant is not None and occupant.emplacement == emplacement:
+        `cible` (voir Sauvegarde.deplacer : un grand monstre couvre plusieurs
+        cases et en déloge tous les occupants)."""
+        monstre = self.sauvegarde.monstre(emplacement)
+        avant = self.sauvegarde.ids_equipe()
+        try:
+            self.sauvegarde.deplacer(monstre, cible, case)
+        except ErreurSauvegarde as e:
+            self.message.emit(f'Impossible : {e}.')
             return
-        if occupant is not None:
-            i_cible = [m.emplacement for m in nouvelle[cible]].index(occupant.emplacement)
-            if origine is not None:
-                i_source = [m.emplacement for m in nouvelle[origine]].index(emplacement)
-                nouvelle[origine][i_source] = occupant
-            nouvelle[cible][i_cible] = source
-        else:
-            if origine is not None:
-                nouvelle[origine] = [m for m in nouvelle[origine] if m.emplacement != emplacement]
-            nouvelle[cible].append(source)
-        self._appliquer(nouvelle, f"{source['surnom'] or 'Monstre'} placé en "
-                                  f"{'équipe' if cible == 'equipe' else 'réserve'}")
+        if self.sauvegarde.ids_equipe() == avant:
+            return
+        self.update_colonnes()
+        self.message.emit(f"{monstre['surnom'] or 'Monstre'} placé en "
+                          f"{'équipe' if cible == 'equipe' else 'réserve'}.")
+        self.modifiee.emit()
 
     def renvoyer_au_ranch(self, emplacement: int) -> None:
         colonnes = self.colonnes()

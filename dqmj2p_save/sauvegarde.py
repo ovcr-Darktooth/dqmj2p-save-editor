@@ -162,6 +162,56 @@ class Sauvegarde:
             struct.pack_into('<6I', self.copie, F.EQUIPE_IDS, *nouveau)
             self.modifiee = True
 
+    def deplacer(self, monstre: Monstre, cible: str, case: int) -> None:
+        """Dépose `monstre` sur la case `case` (0 à 2) de la colonne `cible`
+        ('equipe' ou 'reserve'), comme dans le jeu, en raisonnant par cases :
+        le monstre couvre autant de cases que sa taille à partir de `case`, et
+        tous les monstres qui les occupaient prennent sa place d'origine
+        (même position de sa colonne, ou le ranch s'il en venait). Sur une
+        case libre, il s'ajoute en fin de colonne."""
+        equipe, reserve = self.composition()
+        colonnes = {'equipe': equipe, 'reserve': reserve}
+        cid = monstre['id_creation']
+        origine = next((nom for nom, liste in colonnes.items()
+                        if any(m['id_creation'] == cid for m in liste)), None)
+        taille = self.taille(monstre)
+        debut = min(case, F.PLACES_PAR_COLONNE - taille)
+        couvertes = set(range(debut, debut + taille))
+        deplaces, occupee = [], 0
+        for m in colonnes[cible]:
+            n = self.taille(m)
+            if m['id_creation'] != cid and couvertes & set(range(occupee, occupee + n)):
+                deplaces.append(m)
+            occupee += n
+        ids_deplaces = {m['id_creation'] for m in deplaces}
+
+        if origine == cible:
+            if not deplaces:
+                return                              # déjà en place
+            nouvelle = []
+            for m in colonnes[cible]:
+                if m['id_creation'] == cid:
+                    nouvelle += deplaces
+                elif m['id_creation'] == deplaces[0]['id_creation']:
+                    nouvelle.append(monstre)
+                elif m['id_creation'] not in ids_deplaces:
+                    nouvelle.append(m)
+            colonnes[cible] = nouvelle
+        else:
+            liste = colonnes[cible]
+            if deplaces:
+                position = sum(1 for m in liste[:liste.index(deplaces[0])]
+                               if m['id_creation'] not in ids_deplaces)
+            else:
+                position = len(liste)
+            reste = [m for m in liste if m['id_creation'] not in ids_deplaces]
+            colonnes[cible] = reste[:position] + [monstre] + reste[position:]
+            if origine is not None:                 # sinon les déplacés vont au ranch
+                source = colonnes[origine]
+                i = [m['id_creation'] for m in source].index(cid)
+                colonnes[origine] = source[:i] + deplaces + source[i + 1:]
+        self.definir_composition(colonnes['equipe'], colonnes['reserve'])
+
     def ids_equipe(self) -> list[int]:
         return list(struct.unpack_from('<6I', self.copie, F.EQUIPE_IDS))
 

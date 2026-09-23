@@ -262,3 +262,41 @@ class Composition(unittest.TestCase):
         with self.assertRaises(ErreurSauvegarde):
             s.definir_composition(equipe, [equipe[0]])
         self.assertFalse(s.modifiee)
+
+    def _noms(self, s):
+        E = noms.table('especes')
+        e, r = s.composition()
+        return [E[m['espece']] for m in e], [E[m['espece']] for m in r]
+
+    def _par_nom(self, s, nom):
+        E = noms.table('especes')
+        return next(m for m in s.monstres() if E[m['espece']] == nom)
+
+    def test_grand_monstre_echange_plusieurs_cases(self):
+        """Cas signalé : Sanglinaire (taille 2) déposé sur Dingodrag. Il couvre
+        les cases 2 et 3 : Dingodrag et Magmasse partent ensemble en réserve."""
+        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        s.deplacer(self._par_nom(s, 'Sanglinaire'), 'equipe', 1)
+        self.assertEqual(self._noms(s), (['Nécromante', 'Sanglinaire'],
+                                         ['Tyrantosaure', 'Dingodrag', 'Magmasse']))
+
+    def test_echange_dans_la_meme_colonne(self):
+        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        s.deplacer(self._par_nom(s, 'Nécromante'), 'equipe', 2)
+        self.assertEqual(self._noms(s)[0], ['Magmasse', 'Dingodrag', 'Nécromante'])
+
+    def test_depuis_le_ranch_et_case_libre(self):
+        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        s.deplacer(self._par_nom(s, 'Condor infernal'), 'equipe', 0)   # Nécromante -> ranch
+        self.assertEqual(self._noms(s)[0], ['Condor infernal', 'Dingodrag', 'Magmasse'])
+        self.assertEqual(s.role(self._par_nom(s, 'Nécromante')), 'ranch')
+        s.definir_composition(s.composition()[0], s.composition()[1][:1])  # réserve : 1 place prise
+        s.deplacer(self._par_nom(s, 'Slurpierre'), 'reserve', 2)          # case libre -> en fin
+        self.assertEqual(self._noms(s)[1], ['Tyrantosaure', 'Slurpierre'])
+
+    def test_grand_monstre_refuse_si_la_place_manque(self):
+        from dqmj2p_save import ErreurSauvegarde
+        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        with self.assertRaises(ErreurSauvegarde):     # Sanglinaire irait en équipe (4 places)
+            s.deplacer(self._par_nom(s, 'Dingodrag'), 'reserve', 1)
+        self.assertFalse(s.modifiee)
