@@ -1,2 +1,6 @@
-Icônes extraites de la ROM (MonsterIconDat.NICA) par tools/extract_icons.py.
-Issu de https://github.com/ovcr-Darktooth/dqmj2pro-synthesis, commit bcd3ec7.
+Icônes des monstres (<id>.png) et des familles (familles/), extraites de la
+ROM. Non versionnées : ce sont des graphismes du jeu. Pour les obtenir :
+
+- depuis la ROM : outils/extraire_icones.py et outils/extraire_familles.py ;
+- ou, pour les monstres, depuis https://github.com/ovcr-Darktooth/dqmj2pro-synthesis
+  (site/icons, extraites par tools/extract_icons.py) : outils/importer_synthese.py.

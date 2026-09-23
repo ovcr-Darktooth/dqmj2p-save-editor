@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Extrait les icônes de familles de la police du jeu (font_16x16.NFTR).
 
-    python outils/extraire_familles.py <rom.nds>
+    python outils/extraire_familles.py <rom.nds> [dossier de sortie]
 
 Les pictogrammes des familles sont des glyphes de la police, juste après les
 kanji : 565 Gluant, 566 Dragon, 567 Nature, 568 Bête, 569 Matière, 570 Démon,
@@ -19,36 +19,16 @@ from pathlib import Path
 from PySide6.QtCore import QRect
 from PySide6.QtGui import QColor, QImage
 
+from rom_nds import couleurs_bgr555, fichier_rom
+
 CIBLE = Path(__file__).resolve().parents[1] / 'editeur' / 'icones' / 'familles'
 GLYPHES = {'Gluant': 565, 'Dragon': 566, 'Nature': 567, 'Bête': 568,
            'Matière': 569, 'Démon': 570, 'Zombie': 571, '???': 572}
 FICHIERS = {'???': 'inconnue'}      # « ??? » n'est pas un nom de fichier sûr
 
 
-def fichier_rom(rom: bytes, nom: str) -> bytes:
-    """Lit un fichier à la racine du système de fichiers NDS."""
-    fnt_off, _, fat_off, _ = struct.unpack_from('<4I', rom, 0x40)
-    debut, premier, _ = struct.unpack_from('<IHH', rom, fnt_off)
-    i, fid = fnt_off + debut, premier
-    while (longueur := rom[i]) != 0:
-        nom_entree = rom[i + 1: i + 1 + (longueur & 0x7F)].decode('latin1')
-        i += 1 + (longueur & 0x7F)
-        if longueur & 0x80:
-            i += 2                  # sous-dossier
-            continue
-        if nom_entree == nom:
-            a, b = struct.unpack_from('<II', rom, fat_off + fid * 8)
-            return rom[a:b]
-        fid += 1
-    raise SystemExit(f'{nom} introuvable dans la ROM')
-
-
 def palette(donnees: bytes) -> list[QColor]:
-    couleurs = []
-    for v in struct.unpack_from('<16H', donnees):
-        c5 = lambda x: (x << 3) | (x >> 2)
-        couleurs.append(QColor(c5(v & 31), c5((v >> 5) & 31), c5((v >> 10) & 31)))
-    return couleurs
+    return [QColor(*rgb) for rgb in couleurs_bgr555(donnees)]
 
 
 def glyphe(police: bytes, index: int, couleurs: list[QColor]) -> QImage:
@@ -79,15 +59,16 @@ def _boite(image: QImage):
 
 
 def main() -> None:
-    if len(sys.argv) != 2:
+    if len(sys.argv) not in (2, 3):
         raise SystemExit(__doc__)
+    cible = Path(sys.argv[2]) if len(sys.argv) == 3 else CIBLE
     rom = Path(sys.argv[1]).read_bytes()
     police = fichier_rom(rom, 'font_16x16.NFTR')
     couleurs = palette(fichier_rom(rom, 'main_status_bg.pal'))
-    CIBLE.mkdir(parents=True, exist_ok=True)
+    cible.mkdir(parents=True, exist_ok=True)
     for famille, index in GLYPHES.items():
-        glyphe(police, index, couleurs).save(str(CIBLE / f'{FICHIERS.get(famille, famille)}.png'))
-    print(f'{len(GLYPHES)} icônes de familles écrites dans {CIBLE}')
+        glyphe(police, index, couleurs).save(str(cible / f'{FICHIERS.get(famille, famille)}.png'))
+    print(f'{len(GLYPHES)} icônes de familles écrites dans {cible}')
 
 
 if __name__ == '__main__':

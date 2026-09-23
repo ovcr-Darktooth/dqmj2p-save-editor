@@ -34,12 +34,17 @@ python -m editeur partie.dsv
 
 Les icônes des monstres et des familles sont des graphismes du jeu : elles ne
 sont pas dans ce dépôt. Sans elles, l'éditeur fonctionne et affiche des cases
-vides. Pour les obtenir :
+vides. Pour les extraire de votre ROM (japonaise d'origine ou patchée, en
+moins d'une seconde) :
 
 ```
-python outils/importer_synthese.py <clone de dqmj2pro-synthesis>
+python outils/extraire_icones.py <votre ROM .nds>
 python outils/extraire_familles.py <votre ROM .nds>
 ```
+
+Les icônes des monstres peuvent aussi venir d'un clone du projet
+[dqmj2pro-synthesis](https://github.com/ovcr-Darktooth/dqmj2pro-synthesis),
+qui les publie déjà : `python outils/importer_synthese.py <clone>`.
 
 ## Utilisation en Python
 
@@ -64,7 +69,9 @@ s.enregistrer()
 | `editeur/` | Interface graphique (PySide6) |
 | `dqmj2p_save/noms/fr/` | Noms des espèces et compétences (ligne N = ID N) |
 | `outils/importer_noms.py` | Resynchronise ces noms depuis le dépôt de traduction |
-| `editeur/icones/` | Icônes des monstres (`<id>.png`), à importer (non versionnées) |
+| `editeur/icones/` | Icônes des monstres (`<id>.png`), à extraire (non versionnées) |
+| `outils/extraire_icones.py` | Les extrait d'une ROM (`MonsterIconDat.NICA`) |
+| `outils/rom_nds.py` | Lecture des fichiers d'une ROM DS, pour les extracteurs |
 | `dqmj2p_save/donnees/bestiaire.json` | Rang, famille, taille et synthèses spéciales |
 | `outils/importer_synthese.py` | Recopie icônes et bestiaire depuis le projet des synthèses |
 | `editeur/icones/familles/` | Icônes des familles, glyphes de la police du jeu (non versionnées) |
@@ -84,8 +91,9 @@ leur documentation.
 
 Les noms français viennent de la traduction
 [DQMJ2Pro_Translation_FR](https://github.com/ovcr-Darktooth/DQMJ2Pro_Translation_FR),
-les icônes et les synthèses du projet [dqmj2pro-synthesis](https://github.com/ovcr-Darktooth/dqmj2pro-synthesis),
-qui les extrait de la ROM (`MonsterIconDat.NICA`).
+les synthèses du projet [dqmj2pro-synthesis](https://github.com/ovcr-Darktooth/dqmj2pro-synthesis),
+dont `tools/extract_icons.py` a décodé le format des icônes (`MonsterIconDat.NICA`)
+repris par `outils/extraire_icones.py`.
 
 ## Avertissement
 
