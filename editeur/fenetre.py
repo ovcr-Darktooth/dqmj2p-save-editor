@@ -1,7 +1,7 @@
 """Fenêtre principale : liste des monstres à gauche, fiche à droite."""
 from pathlib import Path
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import QSettings, Qt
 from PySide6.QtGui import QAction, QKeySequence
 from PySide6.QtWidgets import (QAbstractItemView, QFileDialog, QHeaderView,
                                QMainWindow, QMessageBox, QSplitter, QTableWidget,
@@ -24,6 +24,8 @@ LIBELLES_ROLES = {'equipe_1': 'Équipe 1', 'equipe_2': 'Équipe 2',
                   'ranch': 'Ranch'}
 ORDRE_ROLES = list(LIBELLES_ROLES)
 COLONNES = ('Empl.', 'Rôle', 'Fam.', 'Espèce', 'Surnom', 'Niveau')
+CLE_RECENTS = 'fichiers_recents'
+NB_RECENTS = 8
 
 
 class ListeMonstres(QTableWidget):
@@ -59,8 +61,9 @@ class ListeMonstres(QTableWidget):
 
 
 class Fenetre(QMainWindow):
-    def __init__(self):
+    def __init__(self, reglages: QSettings | None = None):
         super().__init__()
+        self.reglages = reglages or QSettings('ovcr-Darktooth', 'dqmj2p-save-editor')
         self.sauvegarde: Sauvegarde | None = None
         self.monstres = []
 
@@ -111,6 +114,9 @@ class Fenetre(QMainWindow):
 
         menu = self.menuBar().addMenu('&Fichier')
         self._action(menu, '&Ouvrir…', QKeySequence.Open, self.ouvrir_dialogue)
+        self.menu_recents = menu.addMenu('Fichiers &récents')
+        self.menu_recents.aboutToShow.connect(self._remplir_recents)
+        self.menu_recents.setToolTipsVisible(True)
         self.action_enregistrer = self._action(
             menu, '&Enregistrer', QKeySequence.Save, self.enregistrer)
         self.action_enregistrer_sous = self._action(
@@ -128,6 +134,7 @@ class Fenetre(QMainWindow):
 
         self.setAcceptDrops(True)
         self.resize(1080, 620)
+        self._remplir_recents()
         self._rafraichir_titre()
         self.statusBar().showMessage('Ouvrez une sauvegarde (Ctrl+O) ou '
                                      'glissez-la dans la fenêtre.')
@@ -144,8 +151,19 @@ class Fenetre(QMainWindow):
     def ouvrir_dialogue(self) -> None:
         if not self._confirmer_abandon():
             return
-        chemin, _ = QFileDialog.getOpenFileName(self, 'Ouvrir une sauvegarde', '', FILTRE)
+        recents = self.recents()
+        dossier = str(Path(recents[0]).parent) if recents else ''
+        chemin, _ = QFileDialog.getOpenFileName(self, 'Ouvrir une sauvegarde', dossier, FILTRE)
         if chemin:
+            self.ouvrir(chemin)
+
+    def ouvrir_recent(self, chemin: str) -> None:
+        if not Path(chemin).is_file():
+            QMessageBox.warning(self, 'Fichier introuvable',
+                                f'{chemin}\n\nIl est retiré des fichiers récents.')
+            self._enregistrer_recents([c for c in self.recents() if c != chemin])
+            return
+        if self._confirmer_abandon():
             self.ouvrir(chemin)
 
     def ouvrir(self, chemin) -> None:
@@ -159,8 +177,40 @@ class Fenetre(QMainWindow):
         self.panneau_equipe.afficher(sauvegarde)
         self.page_joueur.afficher(sauvegarde.joueur)
         self.page_sac.afficher(sauvegarde.sac)
+        self._ajouter_recent(sauvegarde.chemin)
         self._rafraichir_titre()
         self.statusBar().showMessage(f'{len(self.monstres)} monstres chargés.')
+
+    # ── Fichiers récents ─────────────────────────────────────────────────────
+
+    def recents(self) -> list[str]:
+        valeur = self.reglages.value(CLE_RECENTS, [])
+        if isinstance(valeur, str):     # un seul élément : le registre rend une chaîne
+            valeur = [valeur]
+        return [str(c) for c in valeur or []]
+
+    def _enregistrer_recents(self, chemins: list[str]) -> None:
+        self.reglages.setValue(CLE_RECENTS, chemins[:NB_RECENTS])
+        self._remplir_recents()
+
+    def _ajouter_recent(self, chemin) -> None:
+        chemin = str(Path(chemin).resolve())
+        autres = [c for c in self.recents() if Path(c) != Path(chemin)]
+        self._enregistrer_recents([chemin, *autres])
+
+    def _remplir_recents(self) -> None:
+        self.menu_recents.clear()
+        recents = self.recents()
+        for numero, chemin in enumerate(recents, 1):
+            action = self.menu_recents.addAction(f'&{numero}  {Path(chemin).name}')
+            action.setToolTip(chemin)
+            action.setStatusTip(chemin)
+            action.triggered.connect(lambda _=False, c=chemin: self.ouvrir_recent(c))
+        if recents:
+            self.menu_recents.addSeparator()
+        self.menu_recents.addAction('&Vider la liste', lambda: self._enregistrer_recents([])
+                                    ).setEnabled(bool(recents))
+        self.menu_recents.setEnabled(bool(recents))
 
     def _remplir_liste(self, emplacement_choisi: int | None = None) -> None:
         sauvegarde = self.sauvegarde
@@ -249,6 +299,7 @@ class Fenetre(QMainWindow):
         except OSError as e:
             QMessageBox.critical(self, 'Enregistrement impossible', f'{chemin}\n\n{e}')
             return False
+        self._ajouter_recent(chemin)
         self._rafraichir_titre()
         message = f'Enregistré : {Path(chemin).name}'
         if bak:
