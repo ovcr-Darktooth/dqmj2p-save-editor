@@ -190,6 +190,18 @@ TEXTES = {
     '{description} supprimé.': '{description} deleted.',
     '{n} surnom(s) complété(s).': '{n} nickname(s) completed.',
     'Enregistrer sous': 'Save as',
+    "Extraire les &icônes d'une ROM…": 'Extract &icons from a ROM…',
+    'Choisir la ROM du jeu (japonaise ou patchée)': 'Choose the game ROM (Japanese or patched)',
+    'ROM DS (*.nds);;Tous les fichiers (*)': 'DS ROM (*.nds);;All files (*)',
+    'Extraction impossible': 'Cannot extract',
+    '{chemin} illisible : ce fichier est-il une ROM DS ?':
+        '{chemin} unreadable: is this file a DS ROM?',
+    '{chemin} introuvable dans la ROM': '{chemin} not found in the ROM',
+    '{archive} : archive FPK attendue': '{archive}: FPK archive expected',
+    'glyphe de famille vide : police inattendue': 'empty family glyph: unexpected font',
+    'font_16x16.NFTR : bloc CGLP introuvable': 'font_16x16.NFTR: CGLP block not found',
+    '{monstres} icônes de monstres et {familles} de familles extraites dans {dossier}.':
+        '{monstres} monster icons and {familles} family icons extracted to {dossier}.',
     'Enregistrement impossible': 'Cannot save',
     'Enregistré : {nom}': 'Saved: {nom}',
     '  (original gardé dans {nom})': '  (original kept in {nom})',

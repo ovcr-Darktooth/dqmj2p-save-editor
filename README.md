@@ -53,23 +53,21 @@ modifications non enregistrées.
 
 Les icônes des monstres et des familles sont des graphismes du jeu : elles ne
 sont pas dans ce dépôt. Sans elles, l'éditeur fonctionne et affiche des cases
-vides. Pour les extraire de votre ROM (japonaise d'origine ou patchée, en
-moins d'une seconde) :
+vides. Pour les extraire de votre ROM (japonaise d'origine ou patchée) :
+menu **Fichier → Extraire les icônes d'une ROM…**. Elles sont rangées là où
+l'éditeur les cherche (`editeur/icones/`, ou `icones/` à côté de l'exe) et
+s'affichent aussitôt.
+
+Même chose en ligne de commande :
 
 ```
-python outils/extraire_icones.py <votre ROM .nds>
-python outils/extraire_familles.py <votre ROM .nds>
+python outils/extraire_icones.py <votre ROM .nds> [dossier]
+python outils/extraire_familles.py <votre ROM .nds> [dossier\familles]
 ```
 
 Les icônes des monstres peuvent aussi venir d'un clone du projet
 [dqmj2pro-synthesis](https://github.com/ovcr-Darktooth/dqmj2pro-synthesis),
 qui les publie déjà : `python outils/importer_synthese.py <clone>`.
-
-Avec l'exe, les icônes se rangent dans le dossier `icones` à côté de
-`Editeur-DQMJ2P.exe` : copiez-y les PNG de `site/icons` de dqmj2pro-synthesis,
-ou donnez ce dossier aux outils d'extraction
-(`python outils/extraire_icones.py <ROM> <dossier de l'exe>\icones`, et
-`…\icones\familles` pour `extraire_familles.py`).
 
 ## Utilisation en Python
 
@@ -96,12 +94,12 @@ s.enregistrer()
 | `outils/importer_noms.py` | Resynchronise ces noms depuis le dépôt de traduction (`… <dépôt> en` pour l'anglais) |
 | `dqmj2p_save/langue.py` | Langue courante ; textes de l'interface traduits par `traduction_en.py` |
 | `editeur/icones/` | Icônes des monstres (`<id>.png`), à extraire (non versionnées) |
-| `outils/extraire_icones.py` | Les extrait d'une ROM (`MonsterIconDat.NICA`) |
-| `outils/rom_nds.py` | Lecture des fichiers d'une ROM DS, pour les extracteurs |
+| `editeur/extraction.py` | Extraction des icônes d'une ROM (menu Fichier), lecture NitroFS |
+| `outils/extraire_icones.py` | La même, en ligne de commande (`MonsterIconDat.NICA`) |
 | `dqmj2p_save/donnees/bestiaire.json` | Rang, famille, taille et synthèses spéciales |
 | `outils/importer_synthese.py` | Recopie icônes et bestiaire depuis le projet des synthèses |
 | `editeur/icones/familles/` | Icônes des familles, glyphes de la police du jeu (non versionnées) |
-| `outils/extraire_familles.py` | Les extrait d'une ROM (`font_16x16.NFTR` + palette des menus) |
+| `outils/extraire_familles.py` | Icônes des familles en ligne de commande (`font_16x16.NFTR` + palette des menus) |
 | `docs/format-sauvegarde.md` | Carte du format, avec ce qui reste inconnu |
 | `outils/construire_exe.py` | Construit l'exe (PyInstaller) |
 | `.github/workflows/release.yml` | Exe Windows à chaque PR ; release au push d'un tag `vX.Y.Z` (notes : `docs/notes-de-version/vX.Y.Z.md`) |
