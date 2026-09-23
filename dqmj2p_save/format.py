@@ -37,6 +37,12 @@ TABLE_EQUIPE = 0x7C                 # 3 × u16 espèce, puis 3 × u8 niveau
 TAILLE_EQUIPE = 0x85                # u8 : nombre de monstres dans l'équipe
 PROGRESSION = 0x87                  # u8 : bits d'avancement, cumulatifs (rôle exact inconnu)
 EQUIPE_IDS = 0xB4                   # 6 × u32 : ID de création des monstres
+# Une colonne (équipe ou réserve) a 3 places ; un monstre en occupe autant que
+# sa taille (1 à 3) mais n'a qu'une entrée, les entrées vides (0) étant tassées
+# en fin de colonne. Relevé sur des sauvegardes du jeu (Rhapthorne II, taille 3,
+# seul en équipe ; Tyrantosaure + Sanglinaire, 1 + 2, en réserve).
+PLACES_PAR_COLONNE = 3
+SURNOM_VIDE = b'\xe3\x1b'                # case d'équipe vide dans le résumé
 ROLES = ('equipe_1', 'equipe_2', 'equipe_3',
          'reserve_1', 'reserve_2', 'reserve_3')
 

@@ -217,3 +217,48 @@ class Meteo(unittest.TestCase):
         s = Sauvegarde.ouvrir(donnee('engloutile-brume.dsv'))
         s.teleporter("L'Arbirynthe")
         self.assertEqual(s.joueur['intemperie'], 0)
+
+
+class Composition(unittest.TestCase):
+    def test_lecture(self):
+        s = Sauvegarde.ouvrir(donnee('en-avant-boss-final.dsv'))
+        equipe, reserve = s.composition()
+        self.assertEqual([s.taille(m) for m in equipe], [3])       # Rhapthorne II
+        self.assertEqual(len(reserve), 3)
+
+    def test_echange_et_resume(self):
+        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        equipe, reserve = s.composition()
+        # Tyrantosaure (réserve) prend la place de Magmasse, qui part au ranch
+        s.definir_composition([equipe[0], equipe[1], reserve[0]], reserve[1:])
+        relue = Sauvegarde(s.en_octets())
+        e2, r2 = relue.composition()
+        self.assertEqual([m['id_creation'] for m in e2],
+                         [equipe[0]['id_creation'], equipe[1]['id_creation'], reserve[0]['id_creation']])
+        self.assertEqual(len(r2), 1)
+        self.assertEqual(relue.role(relue.monstre(equipe[2].emplacement)), 'ranch')
+        self.assertEqual(relue.copie[F.TABLE_EQUIPE + 4], reserve[0]['espece'] & 0xFF)
+        self.assertEqual(relue.copie[F.TAILLE_EQUIPE], 3)
+
+    def test_tassement_et_case_vide(self):
+        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        equipe, reserve = s.composition()
+        s.definir_composition([equipe[2]], [])
+        relue = Sauvegarde(s.en_octets())
+        self.assertEqual(relue.ids_equipe(), [equipe[2]['id_creation'], 0, 0, 0, 0, 0])
+        self.assertEqual(relue.copie[F.TAILLE_EQUIPE], 1)
+        self.assertEqual(bytes(relue.copie[F.RESUME_SURNOMS + 20: F.RESUME_SURNOMS + 22]),
+                         F.SURNOM_VIDE)
+
+    def test_refus(self):
+        from dqmj2p_save import ErreurSauvegarde
+        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        equipe, reserve = s.composition()
+        grand = next(m for m in s.monstres() if s.taille(m) == 2)   # Sanglinaire
+        with self.assertRaises(ErreurSauvegarde):
+            s.definir_composition([], reserve)
+        with self.assertRaises(ErreurSauvegarde):
+            s.definir_composition(equipe[:2] + [grand], [])          # 1 + 1 + 2 > 3
+        with self.assertRaises(ErreurSauvegarde):
+            s.definir_composition(equipe, [equipe[0]])
+        self.assertFalse(s.modifiee)

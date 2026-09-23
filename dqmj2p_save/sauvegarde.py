@@ -15,6 +15,7 @@ import struct
 from datetime import datetime
 from pathlib import Path
 
+from . import bestiaire
 from . import format as F
 from .monstre import Monstre
 from .vue import Joueur, Sac
@@ -128,6 +129,39 @@ class Sauvegarde:
         if self.copie[octet] != avant:
             self.modifiee = True
 
+    # ── Équipe et réserve ────────────────────────────────────────────────────
+
+    @staticmethod
+    def taille(monstre: Monstre) -> int:
+        """Places occupées dans une colonne d'équipe (1 si inconnue)."""
+        return bestiaire.fiche(monstre['espece']).taille or 1
+
+    def composition(self) -> tuple[list[Monstre], list[Monstre]]:
+        """(équipe, réserve), dans l'ordre du jeu, sans les cases vides."""
+        par_id = {m['id_creation']: m for m in self.monstres()}
+        ids = self.ids_equipe()
+        return ([par_id[c] for c in ids[:3] if c in par_id],
+                [par_id[c] for c in ids[3:] if c in par_id])
+
+    def definir_composition(self, equipe: list[Monstre], reserve: list[Monstre]) -> None:
+        """Réécrit équipe et réserve, tassées en tête de colonne. Refuse une
+        équipe vide, un monstre en double ou une colonne de plus de 3 places."""
+        if not equipe:
+            raise ErreurSauvegarde("l'équipe doit compter au moins un monstre")
+        ids = [m['id_creation'] for m in equipe + reserve]
+        if len(set(ids)) != len(ids):
+            raise ErreurSauvegarde('un monstre ne peut occuper deux cases')
+        for nom, colonne in (('équipe', equipe), ('réserve', reserve)):
+            places = sum(map(self.taille, colonne))
+            if places > F.PLACES_PAR_COLONNE:
+                raise ErreurSauvegarde(f'{nom} : {places} places occupées pour '
+                                       f'{F.PLACES_PAR_COLONNE} disponibles')
+        nouveau = ([m['id_creation'] for m in equipe] + [0] * (3 - len(equipe))
+                   + [m['id_creation'] for m in reserve] + [0] * (3 - len(reserve)))
+        if nouveau != self.ids_equipe():
+            struct.pack_into('<6I', self.copie, F.EQUIPE_IDS, *nouveau)
+            self.modifiee = True
+
     def ids_equipe(self) -> list[int]:
         return list(struct.unpack_from('<6I', self.copie, F.EQUIPE_IDS))
 
@@ -148,11 +182,14 @@ class Sauvegarde:
             struct.pack_into('<H', self.copie, F.TABLE_EQUIPE + 2 * i,
                              m['espece'] if m else 0)
             self.copie[F.TABLE_EQUIPE + 6 + i] = m['niveau'] if m else 0
+            debut = F.RESUME_SURNOMS + i * surnom.taille
             if m:
-                debut = F.RESUME_SURNOMS + i * surnom.taille
                 source = m.base + surnom.offset
                 self.copie[debut: debut + surnom.taille] = \
                     self.copie[source: source + surnom.taille]
+            else:
+                self.copie[debut: debut + surnom.taille] = \
+                    F.SURNOM_VIDE.ljust(surnom.taille, b'\0')
 
     # ── Écriture ─────────────────────────────────────────────────────────────
 
