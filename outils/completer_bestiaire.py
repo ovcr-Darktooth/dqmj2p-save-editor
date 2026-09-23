@@ -23,6 +23,7 @@ COMPLEMENT = RACINE / 'dqmj2p_save' / 'donnees' / 'complement_bestiaire.json'
 FAMILLES = {'Matériel': 'Matière', 'Mort-vivant': 'Zombie'}   # noms de la base -> ceux d'ici
 # Relevés en jeu, pour les espèces absentes de la base.
 MANUEL = {
+    133: {'famille': 'Nature'},     # Volapistil
     295: {'famille': 'Zombie'},     # Boumbone
 }
 
