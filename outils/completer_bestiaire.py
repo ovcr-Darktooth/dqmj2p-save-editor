@@ -25,7 +25,8 @@ FAMILLES = {'Matériel': 'Matière', 'Mort-vivant': 'Zombie'}   # noms de la bas
 MANUEL = {
     133: {'famille': 'Nature'},     # Volapistil
     295: {'famille': 'Zombie'},     # Boumbone
-    353: {'famille': 'Gluant'},     # Gluanuyeux
+    353: {'famille': 'Gluant'},     # Gluanuyeux (dressé, il donne un Gluant de métal)
+    451: {'famille': 'Bête'},       # Anaqueuda : la queue de l'Ailéopard, même famille
 }
 
 
