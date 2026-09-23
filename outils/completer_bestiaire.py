@@ -25,6 +25,7 @@ FAMILLES = {'Matériel': 'Matière', 'Mort-vivant': 'Zombie'}   # noms de la bas
 MANUEL = {
     133: {'famille': 'Nature'},     # Volapistil
     295: {'famille': 'Zombie'},     # Boumbone
+    353: {'famille': 'Gluant'},     # Gluanuyeux
 }
 
 
