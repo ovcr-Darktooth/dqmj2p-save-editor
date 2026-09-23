@@ -26,9 +26,10 @@ MANUEL = {
     133: {'famille': 'Nature'},     # Volapistil
     295: {'famille': 'Zombie'},     # Boumbone
     353: {'famille': 'Gluant'},     # Gluanuyeux (dressé, il donne un Gluant de métal)
-    451: {'famille': 'Bête'},       # Anaqueuda : la queue de l'Ailéopard, même famille
+    451: {'famille': 'Bête'},       # Anaqueuda : queue de l'Ailéopard, ni dressable ni synthétisable
     452: {'famille': 'Bête'},       # Nouveau-nhé
     455: {'famille': 'Bête'},       # Nouveau-nhé
+    456: {'famille': 'Nature'},     # Tentaculeux : tentacule du Khalamar, ni dressable ni synthétisable
 }
 
 
