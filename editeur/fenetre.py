@@ -3,7 +3,7 @@ from pathlib import Path
 
 from PySide6.QtCore import QLocale, QSettings, Qt
 from PySide6.QtGui import QAction, QActionGroup, QKeySequence
-from PySide6.QtWidgets import (QAbstractItemView, QFileDialog, QHeaderView,
+from PySide6.QtWidgets import (QAbstractItemView, QApplication, QFileDialog, QHeaderView,
                                QMainWindow, QMenu, QMessageBox, QSplitter, QTableWidget,
                                QTableWidgetItem, QTabWidget, QVBoxLayout, QWidget)
 
@@ -11,7 +11,7 @@ from dqmj2p_save import ErreurSauvegarde, Sauvegarde
 from dqmj2p_save import bestiaire, langue, noms
 from dqmj2p_save.langue import tr
 
-from . import icones
+from . import extraction, icones
 from .bibliotheque import PageBibliotheque
 from .equipe import PanneauEquipe, TYPE_MIME, emplacement_depuis, glisser
 from .fiche import Fiche
@@ -21,6 +21,7 @@ from .sac import PageSac
 # Textes traduits à l'affichage (tr) : la langue peut changer en cours de route.
 TITRE = 'Éditeur de sauvegardes DQMJ2P'
 FILTRE = 'Sauvegardes DS (*.dsv *.sav);;Tous les fichiers (*)'
+FILTRE_ROM = 'ROM DS (*.nds);;Tous les fichiers (*)'
 LIBELLES_ROLES = {'equipe_1': 'Équipe 1', 'equipe_2': 'Équipe 2',
                   'equipe_3': 'Équipe 3', 'reserve_1': 'Réserve 1',
                   'reserve_2': 'Réserve 2', 'reserve_3': 'Réserve 3',
@@ -146,6 +147,8 @@ class Fenetre(QMainWindow):
             menu, tr('&Enregistrer'), QKeySequence.Save, self.enregistrer)
         self.action_enregistrer_sous = self._action(
             menu, tr('Enregistrer &sous…'), QKeySequence.SaveAs, self.enregistrer_sous)
+        menu.addSeparator()
+        self._action(menu, tr("Extraire les &icônes d'une ROM…"), None, self.extraire_icones)
         menu.addSeparator()
         self._action(menu, tr('&Quitter'), QKeySequence.Quit, self.close)
 
@@ -401,15 +404,44 @@ class Fenetre(QMainWindow):
         self.statusBar().showMessage(message)
         return True
 
+    # ── Icônes ───────────────────────────────────────────────────────────────
+
+    def extraire_icones(self) -> None:
+        """Extrait les icônes des monstres et des familles d'une ROM choisie par
+        l'utilisateur, dans le dossier où l'éditeur les cherche."""
+        chemin, _ = QFileDialog.getOpenFileName(
+            self, tr('Choisir la ROM du jeu (japonaise ou patchée)'), '', tr(FILTRE_ROM))
+        if not chemin:
+            return
+        QApplication.setOverrideCursor(Qt.WaitCursor)
+        try:
+            rom = Path(chemin).read_bytes()
+            monstres = extraction.extraire_icones(rom, icones.DOSSIER)
+            familles = extraction.extraire_familles(rom, icones.FAMILLES)
+        except (OSError, extraction.ErreurExtraction) as e:
+            QApplication.restoreOverrideCursor()
+            QMessageBox.critical(self, tr('Extraction impossible'), f'{chemin}\n\n{e}')
+            return
+        QApplication.restoreOverrideCursor()
+        for fonction in (icones.image, icones.icone, icones.famille):
+            fonction.cache_clear()
+        self._reconstruire().statusBar().showMessage(tr(
+            '{monstres} icônes de monstres et {familles} de familles extraites dans {dossier}.',
+            monstres=monstres, familles=familles, dossier=icones.DOSSIER))
+
     # ── Langue ───────────────────────────────────────────────────────────────
 
     def _changer_langue(self, code: str) -> None:
-        """Enregistre la langue et reconstruit la fenêtre dans cette langue. La
-        sauvegarde ouverte passe telle quelle, modifications non enregistrées
-        comprises."""
+        """Enregistre la langue et reconstruit la fenêtre dans cette langue."""
         if code == langue.courante():
             return
         self.reglages.setValue(CLE_LANGUE, code)
+        self._reconstruire()
+
+    def _reconstruire(self) -> 'Fenetre':
+        """Remplace cette fenêtre par une nouvelle (langue ou icônes changées).
+        La sauvegarde ouverte passe telle quelle, modifications non
+        enregistrées comprises."""
         nouvelle = Fenetre(self.reglages)
         nouvelle.restoreGeometry(self.saveGeometry())
         if self.sauvegarde is not None:
@@ -420,6 +452,7 @@ class Fenetre(QMainWindow):
         self._remplacee = True
         self.close()
         self.deleteLater()
+        return nouvelle
 
     # ── Divers ───────────────────────────────────────────────────────────────
 

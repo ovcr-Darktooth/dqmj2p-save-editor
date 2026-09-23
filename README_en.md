@@ -53,22 +53,20 @@ otherwise.
 
 Monster and family icons are game graphics: they are not in this repository.
 Without them, the editor works and shows empty boxes. To extract them from
-your ROM (original Japanese or patched, in under a second):
+your ROM (original Japanese or patched): **File → Extract icons from a ROM…**
+menu. They are stored where the editor looks for them (`editeur/icones/`, or
+`icones/` next to the exe) and show up right away.
+
+Same thing from the command line:
 
 ```
-python outils/extraire_icones.py <your .nds ROM>
-python outils/extraire_familles.py <your .nds ROM>
+python outils/extraire_icones.py <your .nds ROM> [folder]
+python outils/extraire_familles.py <your .nds ROM> [folder\familles]
 ```
 
 Monster icons can also come from a clone of the
 [dqmj2pro-synthesis](https://github.com/ovcr-Darktooth/dqmj2pro-synthesis)
 project, which already publishes them: `python outils/importer_synthese.py <clone>`.
-
-With the exe, icons go in the `icones` folder next to `Editeur-DQMJ2P.exe`:
-copy the PNG files from `site/icons` of dqmj2pro-synthesis there, or give that
-folder to the extraction tools
-(`python outils/extraire_icones.py <ROM> <exe folder>\icones`, and
-`…\icones\familles` for `extraire_familles.py`).
 
 ## Using it from Python
 
@@ -99,12 +97,12 @@ s.enregistrer()                         # save
 | `outils/importer_noms.py` | Resyncs these names from a translation repository (`… <repo> en` for English) |
 | `dqmj2p_save/langue.py` | Current language; interface text translated by `traduction_en.py` |
 | `editeur/icones/` | Monster icons (`<id>.png`), to extract (not versioned) |
-| `outils/extraire_icones.py` | Extracts them from a ROM (`MonsterIconDat.NICA`) |
-| `outils/rom_nds.py` | Reads files from a DS ROM, for the extractors |
+| `editeur/extraction.py` | Extracts icons from a ROM (File menu), reads NitroFS |
+| `outils/extraire_icones.py` | The same, from the command line (`MonsterIconDat.NICA`) |
 | `dqmj2p_save/donnees/bestiaire.json` | Rank, family, size and special syntheses |
 | `outils/importer_synthese.py` | Copies icons and bestiary from the synthesis project |
 | `editeur/icones/familles/` | Family icons, glyphs from the game font (not versioned) |
-| `outils/extraire_familles.py` | Extracts them from a ROM (`font_16x16.NFTR` + menu palette) |
+| `outils/extraire_familles.py` | Family icons from the command line (`font_16x16.NFTR` + menu palette) |
 | `docs/format-sauvegarde.md` | Map of the format, with what is still unknown (in French) |
 | `outils/construire_exe.py` | Builds the exe (PyInstaller) |
 | `.github/workflows/release.yml` | Windows exe on every PR; release when a `vX.Y.Z` tag is pushed (notes: `docs/notes-de-version/vX.Y.Z.md`) |

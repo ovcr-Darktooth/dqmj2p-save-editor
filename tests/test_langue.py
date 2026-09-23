@@ -146,7 +146,7 @@ def _constantes_traduites() -> set[str]:
 
 def _constantes_editeur() -> set[str]:
     from editeur import bibliotheque, fenetre, fiche, joueur, synthese
-    return {fenetre.TITRE, fenetre.FILTRE, *fenetre.LIBELLES_ROLES.values(),
+    return {fenetre.TITRE, fenetre.FILTRE, fenetre.FILTRE_ROM, *fenetre.LIBELLES_ROLES.values(),
             *fenetre.COLONNES, *fiche.ONGLETS, *joueur.JOURS,
             bibliotheque.FAMILLE_INCONNUE, *bibliotheque.ETATS,
             *bibliotheque.PageMonstres.COLONNES, 'Attribut', 'Attributs', 'Compétences',
