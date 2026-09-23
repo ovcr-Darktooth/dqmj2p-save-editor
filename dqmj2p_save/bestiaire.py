@@ -10,6 +10,9 @@ from functools import cache
 from pathlib import Path
 
 FICHIER = Path(__file__).parent / 'donnees' / 'bestiaire.json'
+# Familles et rangs manquants, repris de la base de la traduction
+# (outils/completer_bestiaire.py) ; ne remplace aucune valeur de FICHIER.
+COMPLEMENT = Path(__file__).parent / 'donnees' / 'complement_bestiaire.json'
 
 
 @dataclass(frozen=True)
@@ -29,8 +32,15 @@ class Recette:
 @cache
 def _donnees() -> tuple[dict[int, Fiche], tuple[Recette, ...]]:
     brut = json.loads(FICHIER.read_text(encoding='utf-8'))
+    monstres = brut['monstres']
+    if COMPLEMENT.exists():
+        for i, valeurs in json.loads(COMPLEMENT.read_text(encoding='utf-8')).items():
+            fiche = monstres.setdefault(i, {'rang': None, 'famille': None, 'taille': None})
+            for cle, valeur in valeurs.items():
+                if fiche.get(cle) is None:
+                    fiche[cle] = valeur
     fiches = {int(i): Fiche(m['rang'], m['famille'], m['taille'])
-              for i, m in brut['monstres'].items()}
+              for i, m in monstres.items()}
     recettes = tuple(Recette(r['resultat'], tuple(r['parents']), r['patch'])
                      for r in brut['recettes'])
     return fiches, recettes

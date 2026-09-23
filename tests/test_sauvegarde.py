@@ -139,12 +139,12 @@ class Bibliotheque(unittest.TestCase):
         from collections import Counter
         from dqmj2p_save import bestiaire
         biblio = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv')).bibliotheque
-        familles = {50: 'Dragon'}           # Butanosaure, absent de bestiaire.json
-        famille = lambda e: familles.get(e) or bestiaire.fiche(e).famille
+        famille = lambda e: bestiaire.fiche(e).famille
         self.assertEqual(Counter(map(famille, biblio.especes_dressees())),
                          {'Gluant': 7, 'Dragon': 15, 'Nature': 12, 'Bête': 15,
                           'Matière': 14, 'Démon': 8, 'Zombie': 6})
-        self.assertEqual(Counter(map(famille, biblio.especes_vues()))['Gluant'], 14)
+        vues = Counter(map(famille, biblio.especes_vues()))
+        self.assertEqual((vues['Gluant'], vues['Dragon'], vues['Démon']), (14, 22, 19))
 
     def test_dressees_vues_et_possedees(self):
         for chemin in ECRITES_PAR_LE_JEU:
