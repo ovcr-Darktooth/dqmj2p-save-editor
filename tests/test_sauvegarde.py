@@ -109,6 +109,41 @@ class Edition(unittest.TestCase):
             s.monstres()[0]['id_creation'] = 1
 
 
+    def test_supprimer_un_monstre_du_ranch(self):
+        s = Sauvegarde(donnee('moitie-jeu.dsv').read_bytes())
+        avant = s.monstres()
+        ids = [m['id_creation'] for m in avant]
+        equipe = s.ids_equipe()
+        victime = next(m for m in avant if s.role(m) == 'ranch')
+        cid = victime['id_creation']      # après, l'emplacement contient le suivant
+        s.supprimer(victime)
+        apres = s.monstres()
+        attendus = [i for i in ids if i != cid]
+        self.assertEqual([m['id_creation'] for m in apres], attendus)
+        self.assertEqual([m.emplacement for m in apres], list(range(len(attendus))))
+        self.assertEqual(s.monstre(len(attendus)).octets, bytes(F.TAILLE_MONSTRE))
+        self.assertEqual(s.ids_equipe(), equipe)
+        self.assertTrue(copie_valide(Sauvegarde(s.en_octets()).copie))
+
+    def test_supprimer_un_monstre_d_equipe_ou_de_reserve(self):
+        s = Sauvegarde(donnee('moitie-jeu.dsv').read_bytes())
+        equipe, reserve = s.composition()
+        membre = (reserve or equipe)[0]
+        cid = membre['id_creation']
+        s.supprimer(membre)
+        self.assertNotIn(cid, s.ids_equipe())
+        self.assertEqual(sum(1 for c in s.ids_equipe() if c), len(equipe) + len(reserve) - 1)
+        relu = Sauvegarde(s.en_octets())
+        self.assertEqual(len(relu.monstres()), 24)
+
+    def test_dernier_monstre_d_equipe_protege(self):
+        s = Sauvegarde(donnee('moitie-jeu.dsv').read_bytes())
+        while len(s.composition()[0]) > 1:
+            s.supprimer(s.composition()[0][-1])
+        with self.assertRaises(ErreurSauvegarde):
+            s.supprimer(s.composition()[0][0])
+
+
 class Fichiers(unittest.TestCase):
     def test_sav_brut_accepte(self):
         origine = donnee('histoire.dsv').read_bytes()[:F.TAILLE_BRUTE]

@@ -111,6 +111,29 @@ class Sauvegarde:
         self.modifiee = True
         return copie
 
+    def supprimer(self, monstre: Monstre) -> None:
+        """Retire un monstre, comme le jeu quand une synthèse en consomme un :
+        les suivants descendent d'un emplacement (les vivants restent en
+        0..N-1) et le dernier emplacement est vidé. Le monstre quitte aussi
+        l'équipe ou la réserve ; refusé s'il est le dernier de l'équipe."""
+        cid = monstre['id_creation']
+        if not monstre.present:
+            raise ErreurSauvegarde(f'emplacement {monstre.emplacement} déjà vide')
+        equipe, reserve = self.composition()
+        restants = [[m for m in colonne if m['id_creation'] != cid]
+                    for colonne in (equipe, reserve)]
+        if not restants[0]:
+            raise ErreurSauvegarde("c'est le dernier monstre de l'équipe : placez-en "
+                                   "un autre dans l'équipe avant de le supprimer")
+        if restants != [equipe, reserve]:
+            self.definir_composition(*restants)
+        dernier = len(self.monstres()) - 1
+        debut = monstre.base
+        fin = F.DEBUT_MONSTRES + (dernier + 1) * F.TAILLE_MONSTRE
+        self.copie[debut: fin - F.TAILLE_MONSTRE] = self.copie[debut + F.TAILLE_MONSTRE: fin]
+        self.copie[fin - F.TAILLE_MONSTRE: fin] = bytes(F.TAILLE_MONSTRE)
+        self.modifiee = True
+
     def teleporter(self, point: str) -> None:
         """Place le joueur sur un point de F.POINTS_TELEPORTATION, relevé en
         jeu, et met à jour la carte du résumé de l'écran de chargement."""

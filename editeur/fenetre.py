@@ -4,7 +4,7 @@ from pathlib import Path
 from PySide6.QtCore import QSettings, Qt
 from PySide6.QtGui import QAction, QKeySequence
 from PySide6.QtWidgets import (QAbstractItemView, QFileDialog, QHeaderView,
-                               QMainWindow, QMessageBox, QSplitter, QTableWidget,
+                               QMainWindow, QMenu, QMessageBox, QSplitter, QTableWidget,
                                QTableWidgetItem, QTabWidget, QVBoxLayout, QWidget)
 
 from dqmj2p_save import ErreurSauvegarde, Sauvegarde
@@ -135,6 +135,15 @@ class Fenetre(QMainWindow):
             self._action(menu, "Surnoms abrégés → &nom complet de l'espèce", None,
                          self.restaurer_surnoms),
         ]
+        self.action_supprimer = self._action(menu, '&Supprimer le monstre sélectionné…',
+                                             None, self.supprimer)
+        self.actions_sauvegarde.append(self.action_supprimer)
+        # Suppr n'agit que dans la liste (pas dans un champ de saisie).
+        self.action_supprimer.setShortcut(QKeySequence.Delete)
+        self.action_supprimer.setShortcutContext(Qt.WidgetWithChildrenShortcut)
+        self.liste.addAction(self.action_supprimer)
+        self.liste.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.liste.customContextMenuRequested.connect(self._menu_liste)
 
         self.setAcceptDrops(True)
         self.resize(1080, 620)
@@ -281,6 +290,41 @@ class Fenetre(QMainWindow):
         self._rafraichir_titre()
         self.statusBar().showMessage(
             f'{copie["surnom"]} dupliqué dans le ranch (emplacement {copie.emplacement}).')
+
+    def _menu_liste(self, position) -> None:
+        if self.sauvegarde is None or self.liste.itemAt(position) is None:
+            return
+        menu = QMenu(self)
+        menu.addAction(self.actions_sauvegarde[0])          # Dupliquer
+        menu.addAction(self.action_supprimer)
+        menu.exec(self.liste.viewport().mapToGlobal(position))
+
+    def supprimer(self) -> None:
+        monstre = self.fiche.monstre
+        if monstre is None:
+            return
+        role = LIBELLES_ROLES[self.sauvegarde.role(monstre)]
+        description = (f"{monstre['surnom']} ({noms.table('especes')[monstre['espece']]}, "
+                       f"niveau {monstre['niveau']}, {role.lower()})")
+        colonne = "l'équipe" if role.startswith('Équipe') else 'la réserve'
+        avertissement = '' if role == 'Ranch' else f'\n\nIl quittera aussi {colonne}.'
+        choix = QMessageBox.warning(
+            self, 'Supprimer un monstre',
+            f'Supprimer définitivement {description} ?{avertissement}\n\n'
+            "La sauvegarde n'est modifiée sur le disque qu'à l'enregistrement.",
+            QMessageBox.Yes | QMessageBox.Cancel, QMessageBox.Cancel)
+        if choix != QMessageBox.Yes:
+            return
+        try:
+            self.sauvegarde.supprimer(monstre)
+        except ErreurSauvegarde as e:
+            QMessageBox.warning(self, 'Suppression impossible', str(e))
+            return
+        emplacement = min(monstre.emplacement, len(self.sauvegarde.monstres()) - 1)
+        self.panneau_equipe.afficher(self.sauvegarde)
+        self._remplir_liste(emplacement)
+        self._rafraichir_titre()
+        self.statusBar().showMessage(f'{description} supprimé.')
 
     def restaurer_surnoms(self) -> None:
         renommes = self.sauvegarde.restaurer_surnoms()
