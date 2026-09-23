@@ -6,8 +6,8 @@ DeSmuME et DraStic.
 
 > **État : en construction.** Édition du joueur (nom, temps de jeu, or,
 > statistiques), du sac et des monstres (surnom, espèce, stats, lignée,
-> compétences, arme), avec les noms français. Consultation de la
-> bibliothèque (monstres vus et dressés, attributs, compétences).
+> compétences, arme), avec les noms du patch français ou anglais. Consultation
+> de la bibliothèque (monstres vus et dressés, attributs, compétences).
 
 ## Principe
 
@@ -29,6 +29,15 @@ sauvegarde sur la fenêtre, ou lancer :
 ```
 python -m editeur partie.dsv
 ```
+
+### Langue
+
+Menu **Langue / Language** : français ou anglais. Choisissez la langue du patch
+installé sur votre ROM : l'interface et les noms des monstres, compétences,
+attributs et objets sont alors ceux du jeu. Le choix compte aussi pour
+« Surnoms abrégés → nom complet de l'espèce », qui compare les surnoms aux noms
+d'espèce de cette langue. Changer de langue garde la sauvegarde ouverte et ses
+modifications non enregistrées.
 
 ### Icônes (facultatif)
 
@@ -67,8 +76,9 @@ s.enregistrer()
 |---|---|
 | `dqmj2p_save/` | Cœur, sans interface, bibliothèque standard uniquement |
 | `editeur/` | Interface graphique (PySide6) |
-| `dqmj2p_save/noms/fr/` | Noms des espèces et compétences (ligne N = ID N) |
-| `outils/importer_noms.py` | Resynchronise ces noms depuis le dépôt de traduction |
+| `dqmj2p_save/noms/fr/`, `noms/en/` | Noms des espèces et compétences de chaque patch (ligne N = ID N) |
+| `outils/importer_noms.py` | Resynchronise ces noms depuis le dépôt de traduction (`… <dépôt> en` pour l'anglais) |
+| `dqmj2p_save/langue.py` | Langue courante ; textes de l'interface traduits par `traduction_en.py` |
 | `editeur/icones/` | Icônes des monstres (`<id>.png`), à extraire (non versionnées) |
 | `outils/extraire_icones.py` | Les extrait d'une ROM (`MonsterIconDat.NICA`) |
 | `outils/rom_nds.py` | Lecture des fichiers d'une ROM DS, pour les extracteurs |
@@ -91,6 +101,7 @@ leur documentation.
 
 Les noms français viennent de la traduction
 [DQMJ2Pro_Translation_FR](https://github.com/ovcr-Darktooth/DQMJ2Pro_Translation_FR),
+les noms anglais de [DQMJ2Pro_Translation](https://github.com/saneezore07/DQMJ2Pro_Translation),
 les synthèses du projet [dqmj2pro-synthesis](https://github.com/ovcr-Darktooth/dqmj2pro-synthesis),
 dont `tools/extract_icons.py` a décodé le format des icônes (`MonsterIconDat.NICA`)
 repris par `outils/extraire_icones.py`.

@@ -10,12 +10,20 @@ from PySide6.QtWidgets import (QAbstractItemView, QCheckBox, QComboBox, QFrame,
 
 from dqmj2p_save import bestiaire, noms
 from dqmj2p_save import format as F
+from dqmj2p_save.langue import tr
 
 from . import icones
 from .sac import _sans_accents
 
 FAMILLE_INCONNUE = 'Famille inconnue'
-ETATS = ('Toutes les espèces', 'Dressées', 'Vues', 'Vues, pas dressées', 'Jamais vues')
+# Filtre d'état : libellé -> test (vue, dressée).
+ETATS = {
+    'Toutes les espèces': lambda vue, dressee: True,
+    'Dressées': lambda vue, dressee: dressee,
+    'Vues': lambda vue, dressee: vue,
+    'Vues, pas dressées': lambda vue, dressee: vue and not dressee,
+    'Jamais vues': lambda vue, dressee: not vue,
+}
 
 
 def _cellule(valeur, alignement=Qt.AlignLeft | Qt.AlignVCenter) -> QTableWidgetItem:
@@ -61,7 +69,7 @@ def _table(colonnes: tuple[str, ...], etiree: int) -> QTableWidget:
 
 
 def _bouton_actions(actions: list[tuple[str, callable]]) -> QToolButton:
-    bouton = QToolButton(text='Lignes affichées', popupMode=QToolButton.InstantPopup)
+    bouton = QToolButton(text=tr('Lignes affichées'), popupMode=QToolButton.InstantPopup)
     menu = QMenu(bouton)
     for texte, slot in actions:
         menu.addAction(texte, slot)
@@ -82,14 +90,18 @@ class PageMonstres(QWidget):
         self.dressees: set[int] = set()
         self._remplissage = False
 
-        self.recherche = QLineEdit(placeholderText='Rechercher une espèce…',
+        self.recherche = QLineEdit(placeholderText=tr('Rechercher une espèce…'),
                                    clearButtonEnabled=True)
+        # Données : la famille telle que la nomme bestiaire (None : toutes).
         self.famille = QComboBox()
-        familles = sorted({f for i in range(len(self.especes))
-                           if (f := bestiaire.fiche(i).famille)})
-        self.famille.addItems(['Toutes les familles', *familles, FAMILLE_INCONNUE])
+        self.famille.addItem(tr('Toutes les familles'), None)
+        familles = {f for i in range(len(self.especes)) if (f := bestiaire.fiche(i).famille)}
+        for famille in sorted(familles, key=tr):
+            self.famille.addItem(tr(famille), famille)
+        self.famille.addItem(tr(FAMILLE_INCONNUE), FAMILLE_INCONNUE)
         self.etat = QComboBox()
-        self.etat.addItems(ETATS)
+        for libelle, test in ETATS.items():
+            self.etat.addItem(tr(libelle), test)
         for filtre in (self.recherche.textChanged, self.famille.currentIndexChanged,
                        self.etat.currentIndexChanged):
             filtre.connect(self._filtrer)
@@ -98,13 +110,13 @@ class PageMonstres(QWidget):
         barre.addWidget(self.famille)
         barre.addWidget(self.etat)
         barre.addWidget(_bouton_actions([
-            ('Marquer comme vues', lambda: self._marquer_affichees('vue', True)),
-            ('Marquer comme dressées', lambda: self._marquer_affichees('dressee', True)),
-            ('Retirer « dressée »', lambda: self._marquer_affichees('dressee', False)),
-            ('Tout décocher (jamais vues)', lambda: self._marquer_affichees('vue', False)),
+            (tr('Marquer comme vues'), lambda: self._marquer_affichees('vue', True)),
+            (tr('Marquer comme dressées'), lambda: self._marquer_affichees('dressee', True)),
+            (tr('Retirer « dressée »'), lambda: self._marquer_affichees('dressee', False)),
+            (tr('Tout décocher (jamais vues)'), lambda: self._marquer_affichees('vue', False)),
         ]))
 
-        self.table = _table(self.COLONNES, self.COLONNES.index('Espèce'))
+        self.table = _table(tuple(map(tr, self.COLONNES)), self.COLONNES.index('Espèce'))
         self.table.verticalHeader().setDefaultSectionSize(icones.CASE + 4)
         self.table.setIconSize(icones.TAILLE_CASE)
         self.table.itemChanged.connect(self._case_changee)
@@ -121,7 +133,7 @@ class PageMonstres(QWidget):
         # Espèces sans nom : cachées, sauf si la sauvegarde les a vues. Au-delà
         # des bits de la bibliothèque, les « espèces » X et XY sont des variantes.
         ids = [i for i in range(1, F.NB_BITS_ESPECES)
-               if self.especes[i] != noms.INUTILISE or i in self.vues]
+               if not self.especes.inutilise(i) or i in self.vues]
         self._remplissage = True
         self.table.setSortingEnabled(False)
         self.table.setRowCount(len(ids))
@@ -130,9 +142,9 @@ class PageMonstres(QWidget):
             fiche = bestiaire.fiche(id_)
             numero = _cellule(id_, Qt.AlignRight | Qt.AlignVCenter)
             numero.setData(Qt.UserRole, fiche.famille or FAMILLE_INCONNUE)
-            famille = _cellule(fiche.famille or '', centre)
+            famille = _cellule(tr(fiche.famille) if fiche.famille else '', centre)
             famille.setData(Qt.DecorationRole, icones.famille(fiche.famille))
-            famille.setToolTip(fiche.famille or FAMILLE_INCONNUE)
+            famille.setToolTip(tr(fiche.famille or FAMILLE_INCONNUE))
             famille.setForeground(Qt.transparent)    # l'icône suffit, le texte sert au tri
             espece = _cellule(self.especes[id_])
             espece.setIcon(icones.icone(id_))
@@ -189,25 +201,23 @@ class PageMonstres(QWidget):
 
     def _filtrer(self) -> None:
         motif = _sans_accents(self.recherche.text())
-        famille = self.famille.currentText() if self.famille.currentIndex() else None
-        etat = self.etat.currentText()
+        famille = self.famille.currentData()
+        etat = self.etat.currentData()
         for ligne in range(self.table.rowCount()):
             numero = self.table.item(ligne, 0)
             id_ = numero.data(Qt.DisplayRole)
-            vue, dressee = id_ in self.vues, id_ in self.dressees
             visible = (motif in _sans_accents(self.table.item(ligne, 2).text())
                        and famille in (None, numero.data(Qt.UserRole))
-                       and {'Dressées': dressee, 'Vues': vue,
-                            'Vues, pas dressées': vue and not dressee,
-                            'Jamais vues': not vue}.get(etat, True))
+                       and etat(id_ in self.vues, id_ in self.dressees))
             self.table.setRowHidden(ligne, not visible)
         self._compter()
 
     def _compter(self) -> None:
         affichees = sum(not self.table.isRowHidden(l) for l in range(self.table.rowCount()))
-        self.compteur.setText(
-            f'{len(self.vues - {0})} espèces vues, {len(self.dressees - {0})} dressées'
-            f' — {affichees} affichée(s) sur {self.table.rowCount()}')
+        self.compteur.setText(tr(
+            '{vues} espèces vues, {dressees} dressées — {affichees} affichée(s) sur {total}',
+            vues=len(self.vues - {0}), dressees=len(self.dressees - {0}),
+            affichees=affichees, total=self.table.rowCount()))
 
 
 class PageListe(QWidget):
@@ -224,19 +234,19 @@ class PageListe(QWidget):
         self.vus: set[int] = set()
         self._remplissage = False
 
-        self.recherche = QLineEdit(placeholderText='Rechercher…', clearButtonEnabled=True)
+        self.recherche = QLineEdit(placeholderText=tr('Rechercher…'), clearButtonEnabled=True)
         self.recherche.textChanged.connect(self._filtrer)
-        self.seulement_vus = QCheckBox('Vus seulement')
+        self.seulement_vus = QCheckBox(tr('Vus seulement'))
         self.seulement_vus.toggled.connect(self._filtrer)
         barre = QHBoxLayout()
         barre.addWidget(self.recherche, 1)
         barre.addWidget(self.seulement_vus)
         barre.addWidget(_bouton_actions([
-            ('Marquer comme vus', lambda: self._marquer_affiches(True)),
-            ('Tout décocher', lambda: self._marquer_affiches(False)),
+            (tr('Marquer comme vus'), lambda: self._marquer_affiches(True)),
+            (tr('Tout décocher'), lambda: self._marquer_affiches(False)),
         ]))
 
-        self.table = _table(('ID', singulier, 'Vu'), 1)
+        self.table = _table((tr('ID'), tr(singulier), tr('Vu')), 1)
         self.table.itemChanged.connect(self._case_changee)
         self.compteur = QLabel()
         disposition = QVBoxLayout(self)
@@ -260,7 +270,7 @@ class PageListe(QWidget):
         self.bibliotheque = bibliotheque
         self._lire()
         ids = [i for i in range(1, len(self.table_noms))
-               if self.table_noms[i] != noms.INUTILISE or i in self.vus]
+               if not self.table_noms.inutilise(i) or i in self.vus]
         self._remplissage = True
         self.table.setSortingEnabled(False)
         self.table.setRowCount(len(ids))
@@ -310,13 +320,14 @@ class PageListe(QWidget):
     def _afficher_description(self) -> None:
         lignes = self.table.selectionModel().selectedRows()
         if not lignes:
-            self.titre_description.setText('Description')
-            self.description.setText(f'Sélectionnez un {self.singulier.lower()} '
-                                     'pour lire sa description.')
+            self.titre_description.setText(tr('Description'))
+            self.description.setText(tr('Sélectionnez un attribut pour lire sa description.')
+                                     if self.singulier == 'Attribut' else
+                                     tr('Sélectionnez une compétence pour lire sa description.'))
             return
         id_ = self._id(lignes[0].row())
         self.titre_description.setText(self.table_noms[id_])
-        self.description.setText(self.aide(id_) or '(pas de description)')
+        self.description.setText(self.aide(id_) or tr('(pas de description)'))
 
     def _filtrer(self) -> None:
         motif = _sans_accents(self.recherche.text())
@@ -332,8 +343,9 @@ class PageListe(QWidget):
 
     def _compter(self) -> None:
         affiches = sum(not self.table.isRowHidden(l) for l in range(self.table.rowCount()))
-        self.compteur.setText(f'{len(self.vus)} vus — {affiches} affiché(s) '
-                              f'sur {self.table.rowCount()}')
+        self.compteur.setText(tr('{vus} vus — {affiches} affiché(s) sur {total}',
+                                 vus=len(self.vus), affiches=affiches,
+                                 total=self.table.rowCount()))
 
 
 class PageBibliotheque(QTabWidget):
@@ -348,7 +360,7 @@ class PageBibliotheque(QTabWidget):
                                      'marquer_competence')
         for page, titre in ((self.monstres, 'Monstres'), (self.attributs, 'Attributs'),
                             (self.competences, 'Compétences')):
-            self.addTab(page, titre)
+            self.addTab(page, tr(titre))
             page.modifiee.connect(self.modifiee)
         self.setEnabled(False)
 

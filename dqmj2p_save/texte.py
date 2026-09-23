@@ -9,6 +9,7 @@ projet de traduction) :
 Le texte se termine par 0x00 ou par le marqueur E3 1B ; ce qui suit est du
 résidu. La limite du jeu compte des caractères, pas des octets.
 """
+from .langue import tr
 
 # '\0' = entrée sans caractère.
 TABLE = (
@@ -92,11 +93,12 @@ def caracteres_invalides(texte: str) -> str:
 def encoder(texte: str, taille: int) -> bytes:
     """Texte -> octets, complété par des 0 jusqu'à taille."""
     if len(texte) > LONGUEUR_MAX:
-        raise ValueError(f'{LONGUEUR_MAX} caractères au plus')
+        raise ValueError(tr('{n} caractères au plus', n=LONGUEUR_MAX))
     invalides = caracteres_invalides(texte)
     if invalides:
-        raise ValueError(f'caractères absents de la police du jeu : {invalides}')
+        raise ValueError(tr('caractères absents de la police du jeu : {caracteres}',
+                            caracteres=invalides))
     brut = b''.join(_ENCODAGE[c] for c in texte)
     if len(brut) >= taille:
-        raise ValueError(f'trop long une fois codé ({len(brut)} octets)')
+        raise ValueError(tr('trop long une fois codé ({n} octets)', n=len(brut)))
     return brut.ljust(taille, b'\0')

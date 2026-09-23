@@ -11,6 +11,7 @@ import struct
 from dataclasses import dataclass
 
 from . import texte
+from .langue import tr
 
 # ── Fichier ──────────────────────────────────────────────────────────────────
 
@@ -95,14 +96,17 @@ class Champ:
             try:
                 return texte.encoder(valeur, self.taille)
             except ValueError as e:
-                raise ValueError(f'{self.cle} : {e}') from None
+                raise ValueError(tr('{champ} : {erreur}', champ=tr(self.libelle),
+                                    erreur=e)) from None
         if self.type == 'octets':
             if len(valeur) != self.taille:
                 raise ValueError(f'{self.cle} : {self.taille} octets attendus, '
                                  f'{len(valeur)} reçus')
             return bytes(valeur)
         if not self.minimum <= valeur <= self.maximum:
-            raise ValueError(f'{self.cle} : {valeur} hors de {self.minimum}..{self.maximum}')
+            raise ValueError(tr('{champ} : {valeur} hors de {minimum}..{maximum}',
+                                champ=tr(self.libelle), valeur=valeur,
+                                minimum=self.minimum, maximum=self.maximum))
         return struct.pack(_FORMATS[self.type], valeur)
 
 

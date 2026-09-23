@@ -1,10 +1,14 @@
 """Tables de noms (espèces, compétences, attributs, objets), indexées par ID.
 
-Fichiers texte dans noms/<langue>/ : la ligne N est le nom de l'ID N, la ligne
-0 correspond à « aucun ». Mise à jour : outils/importer_noms.py.
+Fichiers texte dans noms/<langue>/ (un dossier par patch de traduction) : la
+ligne N est le nom de l'ID N, la ligne 0 correspond à « aucun ». Sans langue
+précisée, c'est celle de langue.courante(). Mise à jour : outils/importer_noms.py.
 """
 from functools import cache
 from pathlib import Path
+
+from . import langue
+from .langue import tr
 
 DOSSIER = Path(__file__).parent / 'noms'
 AUCUN = '(aucun)'
@@ -12,23 +16,31 @@ INUTILISE = '(inutilisé)'
 
 
 class TableNoms:
-    def __init__(self, noms: list[str]):
+    def __init__(self, noms: list[str], langue_: str = langue.PAR_DEFAUT):
         self.noms = noms
+        self.langue = langue_
 
     def __len__(self) -> int:
         return len(self.noms)
 
     def __getitem__(self, id_: int) -> str:
         if id_ == 0:
-            return AUCUN
+            return self._marque(AUCUN)
         if 0 < id_ < len(self.noms):
-            return self.noms[id_].strip() or INUTILISE
+            return self.noms[id_].strip() or self._marque(INUTILISE)
         return f'#{id_}'
 
     def choix(self) -> list[tuple[int, str]]:
         """(ID, nom) de toutes les entrées, lignes vides comprises : une
         sauvegarde peut contenir un ID que la traduction n'a pas nommé."""
         return [(i, self[i]) for i in range(len(self.noms))]
+
+    def inutilise(self, id_: int) -> bool:
+        """Vrai pour une entrée sans nom (ID réservé par le jeu)."""
+        return 0 < id_ < len(self.noms) and not self.noms[id_].strip()
+
+    def _marque(self, texte: str) -> str:
+        return langue.catalogue(self.langue).get(texte, texte)
 
 
 # Numéro de carte (sauvegarde, 0x3A68) -> lieu. La table du jeu qui relie
@@ -63,7 +75,9 @@ METEO = {
 
 
 def carte(numero: int) -> str:
-    return CARTES.get(numero, 'lieu inconnu')
+    """Nom du lieu, dans la langue courante (noms du patch anglais : voir
+    traduction_en.py)."""
+    return tr(CARTES.get(numero, 'lieu inconnu'))
 
 
 # Codes de contrôle des textes du jeu : {315} retour à la ligne, {231} à {233}
@@ -71,27 +85,31 @@ def carte(numero: int) -> str:
 _CODES_TEXTE = {'{315}': '\n', '{231}': '⊕', '{232}': '⊖', '{233}': '⊘'}
 
 
-def _aide(nom_table: str, id_: int, langue: str) -> str:
-    lignes = table(nom_table, langue).noms
+def _aide(nom_table: str, id_: int, langue_: str | None) -> str:
+    lignes = table(nom_table, langue_).noms
     texte = lignes[id_] if 0 <= id_ < len(lignes) else ''
     for code, remplacement in _CODES_TEXTE.items():
         texte = texte.replace(code, remplacement)
     return texte
 
 
-def aide_objet(id_: int, langue: str = 'fr') -> str:
+def aide_objet(id_: int, langue_: str | None = None) -> str:
     """Description d'un objet telle que le jeu l'affiche (msg_itemhelp)."""
-    return _aide('objets_aide', id_, langue)
+    return _aide('objets_aide', id_, langue_)
 
 
-def aide_attribut(id_: int, langue: str = 'fr') -> str:
+def aide_attribut(id_: int, langue_: str | None = None) -> str:
     """Description d'un attribut, celle de la bibliothèque (msg_library)."""
-    return _aide('attributs_aide', id_, langue)
+    return _aide('attributs_aide', id_, langue_)
+
+
+def table(nom: str, langue_: str | None = None) -> TableNoms:
+    """nom : 'especes', 'competences', 'attributs', 'objets', 'objets_aide'
+    ou 'attributs_aide' ; langue_ : 'fr', 'en', ou None pour la courante."""
+    return _table(nom, langue_ or langue.courante())
 
 
 @cache
-def table(nom: str, langue: str = 'fr') -> TableNoms:
-    """nom : 'especes', 'competences', 'attributs', 'objets', 'objets_aide'
-    ou 'attributs_aide'."""
-    chemin = DOSSIER / langue / f'{nom}.txt'
-    return TableNoms(chemin.read_text(encoding='utf-8').splitlines())
+def _table(nom: str, langue_: str) -> TableNoms:
+    chemin = DOSSIER / langue_ / f'{nom}.txt'
+    return TableNoms(chemin.read_text(encoding='utf-8').splitlines(), langue_)

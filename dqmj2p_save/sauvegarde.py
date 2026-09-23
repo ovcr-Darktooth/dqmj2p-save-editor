@@ -17,6 +17,7 @@ from pathlib import Path
 
 from . import bestiaire
 from . import format as F
+from .langue import tr
 from .monstre import Monstre
 from .vue import Bibliotheque, Joueur, Sac
 
@@ -48,19 +49,20 @@ class Sauvegarde:
         elif len(contenu) > F.TAILLE_BRUTE and contenu.endswith(F.MARQUEUR_DSV):
             self.pied = bytes(contenu[F.TAILLE_BRUTE:])
         else:
-            raise ErreurSauvegarde(
-                f'{len(contenu)} octets : ni un .sav brut ({F.TAILLE_BRUTE} octets) '
-                f'ni un .dsv (pied de page {F.MARQUEUR_DSV.decode()}).')
+            raise ErreurSauvegarde(tr(
+                '{taille} octets : ni un .sav brut ({attendu} octets) '
+                'ni un .dsv (pied de page {marqueur}).', taille=len(contenu),
+                attendu=F.TAILLE_BRUTE, marqueur=F.MARQUEUR_DSV.decode()))
 
         self.chemin = chemin
         self.brut = bytearray(contenu[:F.TAILLE_BRUTE])
         valides = [i for i, off in enumerate(F.COPIES)
                    if copie_valide(self.brut[off: off + F.TAILLE_COPIE])]
         if not valides:
-            raise ErreurSauvegarde(
-                'Aucune des deux copies n\'est valide (en-tête SIZ ou sommes de '
-                'contrôle incorrects) : ce n\'est pas une sauvegarde DQMJ2P, ou '
-                'elle est vide ou corrompue.')
+            raise ErreurSauvegarde(tr(
+                "Aucune des deux copies n'est valide (en-tête SIZ ou sommes de "
+                "contrôle incorrects) : ce n'est pas une sauvegarde DQMJ2P, ou "
+                'elle est vide ou corrompue.'))
         # Les deux copies sont identiques dans les sauvegardes réelles ; si
         # elles divergent, la première valide fait foi.
         self.index_copie = valides[0]
@@ -101,7 +103,7 @@ class Sauvegarde:
         emplacements 0..N-1 : la copie va en N."""
         emplacement = len(self.monstres())
         if emplacement >= F.NB_MONSTRES:
-            raise ErreurSauvegarde(f'ranch plein ({F.NB_MONSTRES} monstres)')
+            raise ErreurSauvegarde(tr('ranch plein ({n} monstres)', n=F.NB_MONSTRES))
         copie = self.monstre(emplacement)
         self.copie[copie.base: copie.base + F.TAILLE_MONSTRE] = modele.octets
         # Champs en lecture seule pour l'utilisateur : écriture directe.
@@ -118,13 +120,13 @@ class Sauvegarde:
         l'équipe ou la réserve ; refusé s'il est le dernier de l'équipe."""
         cid = monstre['id_creation']
         if not monstre.present:
-            raise ErreurSauvegarde(f'emplacement {monstre.emplacement} déjà vide')
+            raise ErreurSauvegarde(tr('emplacement {n} déjà vide', n=monstre.emplacement))
         equipe, reserve = self.composition()
         restants = [[m for m in colonne if m['id_creation'] != cid]
                     for colonne in (equipe, reserve)]
         if not restants[0]:
-            raise ErreurSauvegarde("c'est le dernier monstre de l'équipe : placez-en "
-                                   "un autre dans l'équipe avant de le supprimer")
+            raise ErreurSauvegarde(tr("c'est le dernier monstre de l'équipe : placez-en "
+                                      "un autre dans l'équipe avant de le supprimer"))
         if restants != [equipe, reserve]:
             self.definir_composition(*restants)
         dernier = len(self.monstres()) - 1
@@ -171,15 +173,16 @@ class Sauvegarde:
         """Réécrit équipe et réserve, tassées en tête de colonne. Refuse une
         équipe vide, un monstre en double ou une colonne de plus de 3 places."""
         if not equipe:
-            raise ErreurSauvegarde("l'équipe doit compter au moins un monstre")
+            raise ErreurSauvegarde(tr("l'équipe doit compter au moins un monstre"))
         ids = [m['id_creation'] for m in equipe + reserve]
         if len(set(ids)) != len(ids):
-            raise ErreurSauvegarde('un monstre ne peut occuper deux cases')
-        for nom, colonne in (('équipe', equipe), ('réserve', reserve)):
+            raise ErreurSauvegarde(tr('un monstre ne peut occuper deux cases'))
+        for nom, colonne in ((tr('équipe'), equipe), (tr('réserve'), reserve)):
             places = sum(map(self.taille, colonne))
             if places > F.PLACES_PAR_COLONNE:
-                raise ErreurSauvegarde(f'{nom} : {places} places occupées pour '
-                                       f'{F.PLACES_PAR_COLONNE} disponibles')
+                raise ErreurSauvegarde(tr('{colonne} : {places} places occupées pour '
+                                          '{total} disponibles', colonne=nom,
+                                          places=places, total=F.PLACES_PAR_COLONNE))
         nouveau = ([m['id_creation'] for m in equipe] + [0] * (3 - len(equipe))
                    + [m['id_creation'] for m in reserve] + [0] * (3 - len(reserve)))
         if nouveau != self.ids_equipe():

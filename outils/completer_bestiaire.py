@@ -47,14 +47,14 @@ def main() -> None:
     lignes = [r for r in csv.reader(base.open(encoding='utf-8'))
               if r and r[0] not in ('Rank', 'Rang')]
     par_nom = {r[2].casefold(): r for r in lignes}
-    especes = noms.table('especes')
+    especes = noms.table('especes', 'fr')     # la base de la traduction est en français
     # bestiaire.json seul : bestiaire.fiche() inclut déjà l'ancien complément.
     origine = json.loads(bestiaire.FICHIER.read_text(encoding='utf-8'))['monstres']
 
     complement, introuvables = {}, []
     for id_ in range(1, F.NB_BITS_ESPECES):     # au-delà : variantes X et XY
         fiche = origine.get(str(id_), {})
-        if especes[id_] == noms.INUTILISE or (fiche.get('famille') and fiche.get('rang')):
+        if especes.inutilise(id_) or (fiche.get('famille') and fiche.get('rang')):
             continue
         ligne = par_nom.get(especes[id_].casefold())
         valeurs = {'rang': ligne[0], 'famille': FAMILLES.get(ligne[4], ligne[4])} if ligne else {}
