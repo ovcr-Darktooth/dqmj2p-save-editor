@@ -3,13 +3,16 @@
 Les icônes font 40 px de large et 40, 80 ou 120 px de haut selon la taille du
 monstre. Une icône absente n'est pas une erreur : on affiche une case vide.
 """
+import sys
 from functools import cache
 from pathlib import Path
 
 from PySide6.QtCore import QSize, Qt
 from PySide6.QtGui import QIcon, QPainter, QPixmap
 
-DOSSIER = Path(__file__).parent / 'icones'
+# Exe Windows (PyInstaller) : icones/ à côté de l'exe, où l'on peut les déposer.
+DOSSIER = (Path(sys.executable).parent if getattr(sys, 'frozen', False)
+           else Path(__file__).parent) / 'icones'
 CASE = 40                           # côté de la case dans les listes
 
 

@@ -1,0 +1,71 @@
+# Exe Windows de l'éditeur.
+# - Pull request / lancement manuel : tests, puis exe joint au run (artefact).
+# - Tag vX.Y.Z : même chose, puis release GitHub avec le zip de l'exe et les
+#   notes de docs/notes-de-version/vX.Y.Z.md.
+name: Exe Windows et release
+
+on:
+  push:
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write         # création de la release
+
+jobs:
+  exe:
+    runs-on: windows-latest
+    env:
+      QT_QPA_PLATFORM: offscreen    # tests de l'interface sans écran
+      PYTHONUTF8: '1'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Dépendances
+        run: python -m pip install PySide6 pyinstaller
+
+      - name: Version du tag
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: bash
+        run: |
+          version=$(python -c "import dqmj2p_save; print(dqmj2p_save.__version__)")
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::tag $GITHUB_REF_NAME, mais le code est en version $version"
+            exit 1
+          fi
+          test -f "docs/notes-de-version/$GITHUB_REF_NAME.md"
+
+      - name: Tests
+        run: python -m unittest discover tests
+
+      - name: Exe
+        run: python outils/construire_exe.py
+
+      - name: Zip
+        shell: pwsh
+        run: |
+          $nom = if ($env:GITHUB_REF_TYPE -eq 'tag') { $env:GITHUB_REF_NAME } else { 'test' }
+          $dossier = "Editeur-DQMJ2P-$nom"
+          New-Item -ItemType Directory -Path "$dossier/icones" | Out-Null
+          Copy-Item dist/Editeur-DQMJ2P.exe, README.md, README_en.md, LICENSE $dossier
+          Copy-Item editeur/icones/SOURCE.txt "$dossier/icones/"
+          Compress-Archive -Path $dossier -DestinationPath "$dossier-windows.zip"
+          "ZIP=$dossier-windows.zip" | Out-File -Append $env:GITHUB_ENV
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Editeur-DQMJ2P-windows
+          path: ${{ env.ZIP }}
+
+      - name: Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ github.ref_name }}
+          body_path: docs/notes-de-version/${{ github.ref_name }}.md
+          files: ${{ env.ZIP }}

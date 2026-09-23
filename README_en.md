@@ -20,7 +20,14 @@ and saved without changes comes out byte-for-byte identical.
 Before each write, a timestamped copy of the original is kept
 (`game.dsv.20260922-153000.bak`).
 
-## Running the editor
+## Download (Windows)
+
+Get the zip of the latest version from the
+[Releases](https://github.com/ovcr-Darktooth/dqmj2p-save-editor/releases),
+unzip it and run `Editeur-DQMJ2P.exe`: Python is not required. Windows may
+show a SmartScreen warning (unsigned exe): "More info", then "Run anyway".
+
+## Running the editor from source
 
 Double-click `Lancer-Editeur.bat`. The first time, it creates a `.venv`
 environment and installs PySide6 into it. You can also drop a save onto the
@@ -56,6 +63,12 @@ python outils/extraire_familles.py <your .nds ROM>
 Monster icons can also come from a clone of the
 [dqmj2pro-synthesis](https://github.com/ovcr-Darktooth/dqmj2pro-synthesis)
 project, which already publishes them: `python outils/importer_synthese.py <clone>`.
+
+With the exe, icons go in the `icones` folder next to `Editeur-DQMJ2P.exe`:
+copy the PNG files from `site/icons` of dqmj2pro-synthesis there, or give that
+folder to the extraction tools
+(`python outils/extraire_icones.py <ROM> <exe folder>\icones`, and
+`…\icones\familles` for `extraire_familles.py`).
 
 ## Using it from Python
 
@@ -93,6 +106,8 @@ s.enregistrer()                         # save
 | `editeur/icones/familles/` | Family icons, glyphs from the game font (not versioned) |
 | `outils/extraire_familles.py` | Extracts them from a ROM (`font_16x16.NFTR` + menu palette) |
 | `docs/format-sauvegarde.md` | Map of the format, with what is still unknown (in French) |
+| `outils/construire_exe.py` | Builds the exe (PyInstaller) |
+| `.github/workflows/release.yml` | Windows exe on every PR; release when a `vX.Y.Z` tag is pushed (notes: `docs/notes-de-version/vX.Y.Z.md`) |
 | `tests/` | `python -m unittest discover tests` |
 
 Tests on real saves read `tests/donnees/*.dsv`. These files are not
