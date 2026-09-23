@@ -190,6 +190,21 @@ en jeu, rien n'est modifiable) :
 - **Compétences, `0x3718`** : les 619 compétences portées par les monstres des
   sauvegardes y sont toutes. Même synthèse : bit 144 (Bonus Attaque Ⅲ).
 
+**Écriture validée en jeu le 23/09/2026** (`biblio-suppr-test`) : ajouts et
+retraits dans les quatre champs, y compris une espèce vue retirée et une
+espèce dressée ramenée à « vue ». La bibliothèque du jeu les affiche tels
+quels, et une sauvegarde faite en jeu les conserve à l'identique.
+
+**Suppression de monstres validée le même jour** : deux monstres retirés du
+ranch, le suivant descendu de deux emplacements, les deux derniers vidés. Le
+jeu les affiche correctement et réécrit le ranch sans changement.
+
+En appuyant sur la tablette du ranch, le jeu a affiché une seule fois « vous
+avez dressé 30 monstres » et annoncé une récompense, sans nouveau monstre dans
+la sauvegarde suivante. Octets changés hors temps et position : `0x3966`
+(0 → 3, change aussi dans d'autres sessions), `0x399D` bit 4, `0x39B7` bit 6,
+`0x3A56` bit 7, `0x3A5E` bit 7. Le drapeau du message est l'un d'eux.
+
 ## Méthode pour la suite
 
 Pour identifier un champ : sauvegarder dans le jeu, faire **une seule** action
