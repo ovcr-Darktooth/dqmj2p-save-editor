@@ -42,7 +42,12 @@ Offsets de base relevés par **Ceris White** (`save_converter.py`, projet
 | `0x1CC-0x1DB` | 16 o | **À cartographier** (`00 01 00 02 03 04 05 07 0B 09 08 7F…`, ressemble à un ordre ou à des index) |
 | `0x1DC` | 3 × u16 | Victoires, monstres dressés, monstres synthétisés |
 | `0x1E8` | 100 × 0x84 | Enregistrements de monstres |
-| `0x3638-0x3A67` | | **À cartographier** |
+| `0x3638` | 512 bits | Bibliothèque des monstres : bit n = espèce n (voir ci-dessous) |
+| `0x3678` | 512 bits | Indexé par espèce, rôle inconnu : vide en milieu de jeu, 80 espèces en fin de jeu |
+| `0x36B8-0x36F7` | | **À cartographier** (quasi vide) |
+| `0x36F8` | 256 bits | Bibliothèque des attributs : bit n = attribut n (`msg_tokusei`) |
+| `0x3718` | 256 bits | Bibliothèque des compétences : bit n = compétence n (`noms.competences`) |
+| `0x3738-0x3A67` | | **À cartographier** |
 | `0x3A68` | u8 | Carte actuelle (table `noms.CARTES`, relevée en jeu : 14 L'Arbirynthe, 17 Prairia, 24 Arène, 37 Escarpic, 47 Engloutîle, 57 Archéopolis, 85 Albatros extérieur, 88 Albatros intérieur, 151 Avablanche) |
 | `0x3A6C` | u32 | Horloge jour/nuit, en 1/30 s de jeu en plein air (0 en ville) : nuit à partir de 10 800, retour à 0 à 18 000 |
 | `0x3A69` | u8 | Carte précédente : au chargement, le jeu y met la carte du résumé (`0x86`) |
@@ -160,6 +165,25 @@ Voir `CHAMPS_MONSTRE` dans `format.py` pour la liste complète. En résumé :
 `+0x1D`, `+0x1F`, `+0x33`, `+0x3E` (2 o). Les octets `+0x10`, `+0x62` et
 `+0x76`, autrefois inconnus, sont la fin des surnoms sur 20 octets (le
 convertisseur d'origine les lisait sur 16).
+
+## Bibliothèque
+
+Trois champs de bits, repérés sur les 18 sauvegardes de test (pas encore validés
+en jeu, rien n'est modifiable) :
+
+- **Monstres, `0x3638`** : contient toutes les espèces possédées, dans toutes
+  les sauvegardes. La synthèse d'une Phalène géante (espèce 110) a allumé le
+  bit 110. En milieu de jeu, 144 espèces sont marquées pour 65 dressages et
+  41 synthèses, dont des Gluants jamais possédés : c'est sans doute « vu »
+  plutôt que « obtenu ». Aucun second champ d'espèces ne suit la même logique ;
+  reste à savoir comment le jeu distingue vu et dressé.
+- **Attributs, `0x36F8`** : les attributs de chaque espèce possédée
+  (`Database_FR/monster_database.csv`) y sont toujours, sauf dans
+  `histoire.dsv` (partie randomisée ?). Même synthèse : bits 12 (Défense
+  paralysante) et 189 (Pré-Vent contraire), les deux attributs nouveaux de la
+  Phalène géante. 97 attributs marqués pour 33 possédés : attributs vus.
+- **Compétences, `0x3718`** : les 619 compétences portées par les monstres des
+  sauvegardes y sont toutes. Même synthèse : bit 144 (Bonus Attaque Ⅲ).
 
 ## Méthode pour la suite
 
