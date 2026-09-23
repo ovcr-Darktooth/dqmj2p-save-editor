@@ -1,0 +1,256 @@
+Aucun
+Double esquive
+Corps d'acier
+Tensio-actif
+Double dose
+Avantage critique
+Laminage
+Droit au but
+Dernier mot
+Prems
+Contre-attaque
+Défense toxique
+Défense paralysante
+As de la cavale
+Récupération régulière
+Régénération magique
+Professionnel de santé
+Maestroflamme
+Maestrobang
+Maestrotornade
+Maestroglace
+Maestrofoudre
+Maestroélec
+Desperado
+Embuscade
+Économagie
+Avaromagie
+Maître d'armes
+Doublo
+Triplo
+Distributor
+Gigantis
+Petit tueur
+Paralysite
+Toxicite
+Confusite
+Dormite
+Deuxième chance
+Charme fou
+Trouille
+Chanceux
+Malchanceux
+Surtension
+Sous-tension
+Réflexo
+Contre-action
+Tout ou rien
+Moins une
+Pari Parade
+Contre-attaque farouche
+Grincheux
+Atout dressage
+Expérientissimo
+Banco
+Butinor
+Lèvetard
+Quiquequoi
+Titillor
+Désenchantement
+Protection critique parfaite
+Sorts de prix
+Attallergie
+Somnambulle
+Paralysite
+Frénésie
+Volonté de fer
+Laminage
+Aspirmagie
+Drain de PM
+Morsubite
+Maestrocrame
+Hypnose
+Aura
+Intimidation
+Timidité
+Immobilisme
+Avantage tactique
+Génie tactique
+Don du dressage
+Loterie PV
+Loterie PM
+Loterie Attaque
+Loterie Défense
+Loterie Agilité
+Loterie Sagesse
+Gambit PV
+Gambit PM
+Perturbonde
+Vague de soulagement
+Génie du dressage
+Flamme imparable
+Bang imparable
+Tornade imparable
+Glace imparable
+Foudre imparable
+Élec imparable
+Raptitude imparable
+Lame-en-peine imparable
+Souffle de feu imparable
+Souffle glacial imparable
+Kill imparable
+Illusion imparable
+Poison imparable
+Aspirmagie imparable
+Antimagie imparable
+Hygiaphone imparable
+Antidanse imparable
+Confusion imparable
+Inaction imparable
+Paralysie imparable
+Sommeil imparable
+Affaiblo imparable
+Altération imparable
+Décéléro imparable
+Simplet imparable
+Sabotemage imparable
+Crame imparable
+Lest imparable
+Attaque imparable
+Agit 2-3x
+Agit 0-4x
+Corps de métal léger
+Corps d'acier résistant
+Pré-Décuplo
+Pré-Protection
+Pré-Accélération
+Pré-Tension
+Pré-Brouillard noir
+Maximum PV +5
+Maximum PV +10
+Maximum PV +15
+Maximum PV +20
+Maximum PV +22
+Maximum PV +24
+Maximum PV +26
+Maximum PV +28
+Maximum PV +30
+Maximum PV +35
+Maximum PM +5
+Maximum PM +10
+Maximum PM +15
+Maximum PM +20
+Maximum PM +22
+Maximum PM +24
+Maximum PM +26
+Maximum PM +28
+Maximum PM +30
+Maximum PM +35
+Attaque +3
+Attaque +5
+Attaque +10
+Attaque +12
+Attaque +15
+Attaque +18
+Attaque +21
+Attaque +24
+Attaque +27
+Attaque +30
+Défense +3
+Défense +5
+Défense +10
+Défense +12
+Défense +15
+Défense +18
+Défense +21
+Défense +24
+Défense +27
+Défense +30
+Agilité +3
+Agilité +5
+Agilité +10
+Agilité +12
+Agilité +15
+Agilité +18
+Agilité +21
+Agilité +24
+Agilité +27
+Agilité +30
+Sagesse +3
+Sagesse +5
+Sagesse +10
+Sagesse +12
+Sagesse +15
+Sagesse +18
+Sagesse +21
+Sagesse +24
+Sagesse +27
+Sagesse +30
+Pré-Tilt
+Pré-Vent contraire
+Pré-Sceau magique
+Tilt incertain
+Vent contraire incertain
+Sceau magique incertain
+Tension super rare
+Isolation rare
+Brume de bataille rare
+
+
+
+
+Défense Flamme
+Défense Bang
+Défense Tornade
+Défense Glace
+Défense Foudre
+Défense Élec
+Défense Raptitude
+Défense Crame
+Défense Lame-en-peine
+Défense Lest
+Défense Souffle de feu
+Défense Souffle glacial
+Défense Kill
+Défense Illusion
+Défense Poison
+Défense Aspirmagie
+Défense Antimagie
+Défense Hygiaphone
+Défense Antidanse
+Défense Confusion
+Défense Inaction
+Défense Paralysie
+Défense Sommeil
+Défense Affaiblo
+Défense Altération
+Défense Décéléro
+Défense Simplet
+Défense Sabotemage
+Méga corps (2-3x)
+Méga corps (2x)
+Méga corps (1-3x)
+Méga corps (0-4x)
+Méga corps (1-2x)
+Lanceur renégat
+Destructeur désespéré
+Brouillard d'outremonde incertain
+Brise-brèche incertain
+Giga corps (2-3x)
+Giga corps (2x)
+Giga corps (1-3x)
+Giga corps (0-4x)
+Giga corps (1-2x)
+Décuplo incertain
+Protection incertaine
+Accélération incertaine
+Tension incertaine
+Chance Brouillard noir
+Chance Brouillard d'outremonde
+Brise-brèche rare
+Maestrogravité
+
+
+
+
+

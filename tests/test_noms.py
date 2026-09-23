@@ -49,3 +49,12 @@ class AideObjets(unittest.TestCase):
         self.assertEqual(noms.aide_objet(130), 'Attaque +28\nAssez efficace contre les Matériels.')
         self.assertIn('⊕', noms.aide_objet(30))              # Positif mag'
         self.assertEqual(noms.aide_objet(9999), '')
+
+
+class Attributs(unittest.TestCase):
+    def test_noms_et_descriptions(self):
+        attributs = noms.table('attributs')
+        self.assertEqual(attributs[12], 'Défense paralysante')
+        self.assertEqual(noms.aide_attribut(1), "Double l'esquive des\nattaques ennemies.")
+        self.assertEqual(attributs[250], 'Maestrogravité')
+        self.assertIn('Lest', noms.aide_attribut(250))

@@ -239,6 +239,20 @@ POINTS_TELEPORTATION = {
     'Escarpic': bytes.fromhex('25970000bc0a000066e20000fd000000526404007b180c00fc030000'),
 }
 
+# ── Bibliothèque ─────────────────────────────────────────────────────────────
+# Champs de bits : le bit n (octet n // 8, bit n % 8) concerne l'ID n.
+# Vus / dressés relevés en jeu le 23/09/2026 (bibliothèque de moitie-jeu, par
+# famille). Attributs et compétences : déduits des monstres possédés, sur
+# toutes les sauvegardes de test. Lecture seule tant que l'écriture n'a pas
+# été essayée en jeu.
+
+BIBLIO_DRESSES = 0x3578             # espèces obtenues (dressage ou synthèse)
+BIBLIO_VUS = 0x3638                 # espèces vues ; contient les dressées
+BIBLIO_ATTRIBUTS = 0x36F8           # attributs vus (msg_tokusei)
+BIBLIO_COMPETENCES = 0x3718         # compétences vues
+NB_BITS_ESPECES = 512
+NB_BITS_ATTRIBUTS = NB_BITS_COMPETENCES = 256
+
 # ── Sac ──────────────────────────────────────────────────────────────────────
 # Quantité possédée de chaque objet, indexée par son ID (armes comprises).
 # Relevé sur une partie dont le contenu du sac était connu.

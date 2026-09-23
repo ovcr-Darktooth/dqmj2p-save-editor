@@ -133,5 +133,37 @@ class Fichiers(unittest.TestCase):
             self.assertFalse(s.modifiee)
 
 
+class Bibliotheque(unittest.TestCase):
+    def test_moitie_jeu_comme_en_jeu(self):
+        # Relevé dans la bibliothèque du jeu le 23/09/2026, par famille.
+        from collections import Counter
+        from dqmj2p_save import bestiaire
+        biblio = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv')).bibliotheque
+        familles = {50: 'Dragon'}           # Butanosaure, absent de bestiaire.json
+        famille = lambda e: familles.get(e) or bestiaire.fiche(e).famille
+        self.assertEqual(Counter(map(famille, biblio.especes_dressees())),
+                         {'Gluant': 7, 'Dragon': 15, 'Nature': 12, 'Bête': 15,
+                          'Matière': 14, 'Démon': 8, 'Zombie': 6})
+        self.assertEqual(Counter(map(famille, biblio.especes_vues()))['Gluant'], 14)
+
+    def test_dressees_vues_et_possedees(self):
+        for chemin in ECRITES_PAR_LE_JEU:
+            with self.subTest(chemin.name):
+                s = Sauvegarde.ouvrir(chemin)
+                dressees = s.bibliotheque.especes_dressees()
+                self.assertLessEqual(dressees, s.bibliotheque.especes_vues())
+                self.assertLessEqual({m['espece'] for m in s.monstres()}, dressees)
+
+    def test_synthese_d_une_phalene_geante(self):
+        # Entre moitie-jeu et apres-test-jeu : espèce 110 synthétisée, avec
+        # deux attributs nouveaux et la compétence Bonus Attaque III.
+        avant = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv')).bibliotheque
+        apres = Sauvegarde.ouvrir(donnee('apres-test-jeu.dsv')).bibliotheque
+        self.assertEqual(apres.especes_dressees() - avant.especes_dressees(), {110})
+        self.assertEqual(apres.especes_vues() - avant.especes_vues(), {110})
+        self.assertEqual(apres.attributs() - avant.attributs(), {12, 189})
+        self.assertEqual(apres.competences() - avant.competences(), {144})
+
+
 if __name__ == '__main__':
     unittest.main()

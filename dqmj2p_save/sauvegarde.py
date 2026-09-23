@@ -18,7 +18,7 @@ from pathlib import Path
 from . import bestiaire
 from . import format as F
 from .monstre import Monstre
-from .vue import Joueur, Sac
+from .vue import Bibliotheque, Joueur, Sac
 
 
 class ErreurSauvegarde(Exception):
@@ -69,6 +69,7 @@ class Sauvegarde:
         self.modifiee = False
         self.joueur = Joueur(self)
         self.sac = Sac(self)
+        self.bibliotheque = Bibliotheque(self)
 
     @classmethod
     def ouvrir(cls, chemin) -> 'Sauvegarde':

@@ -1,0 +1,255 @@
+
+Double l'esquive des{315}attaques ennemies.
+Réduit à 1/3 les dégâts{315}subis des ennemis.
+Permet d'utiliser la tension.
+Agit deux fois de suite{315}sans ordre précis donné.
+Double les chances de{315}coup critique.
+Inflige 1 dégât de plus aux{315}ennemis au corps de métal.
+Annule Double esquive{315}chez l'ennemi.
+Attaque en dernier au combat.
+Attaque en premier au combat.
+Peut contre-attaquer quand{315}il est attaqué.
+Peut empoisonner l'ennemi{315}qui l'attaque.
+S'il est attaqué, le monstre peut{315}paralyser les ennemis.
+La fuite réussit toujours{315}au combat.
+Récupère un peu de PV à{315}chaque action au combat.
+Récupère un peu de PM à{315}chaque action au combat.
+Améliore les soins et{315}baisse le coût en PM.
+Renforce la magie Flamme et{315}baisse le coût en PM.
+Renforce la magie Bang et{315}baisse le coût en PM.
+Renforce la magie Tornade et{315}baisse le coût en PM.
+Renforce la magie Glace et{315}baisse le coût en PM.
+Renforce la magie Foudre et{315}baisse le coût en PM.
+Renforce la magie Élec et{315}baisse le coût en PM.
+Augmente les coups critiques{315}quand les PV sont très bas.
+Double les attaques{315}préventives.
+Réduit le coût en PM à 3/4.
+Réduit le coût en PM à 1/2.
+Permet d'équiper tout{315}type d'arme.
+Augmente les dégâts des{315}attaques et talents.
+Frappe tous les ennemis et{315}accroît les dégâts des talents.
+Peut lancer plusieurs{315}attaques d'affilée.
+Inflige de gros dégâts aux{315}monstres géants.
+Inflige de lourds dégâts{315}aux monstres de taille normale.
+Peut paralyser l'ennemi{315}en attaquant.
+Peut empoisonner l'ennemi{315}en attaquant.
+Peut semer la confusion{315}en attaquant.
+Peut endormir les ennemis si l'attaque{315}est réussie.
+Faible chance de ressusciter{315}après la mort.
+Peut éblouir les ennemis et les{315}immobiliser au début d'un combat.
+Peut parfois paniquer{315}et ne pas agir.
+Chance accrue si PV bas.
+Chance réduite si PV élevés.
+Peut monter la tension de{315}ses alliés en début de combat.
+Si la tension d'un ennemi{315}monte au combat, celle de tous{315}baisse automatiquement.
+Réflexion active en{315}permanence, non annulable.
+Riposte active en{315}permanence, non annulable.
+Rate souvent mais peut{315}porter un coup critique.
+Peut survivre à un coup{315}fatal avec 1 PV.
+Subit plus de dégâts, mais{315}parfois n'en subit aucun.
+Peut riposter avec une force{315}exceptionnelle si attaqué.
+Peut baisser la tension de{315}tous les ennemis au combat.
+Peut remplir davantage la{315}jauge de dressage à l'attaque.
+L'expérience reçue après un{315}combat augmente de 10％.{315}Plus l'équipe a de monstres avec{315}cet attribut, plus elle grimpe.
+Le nombre de pièces d'or reçues après{315}un combat augmente de 20％.{315}Si plusieurs monstres de l'équipe{315}possèdent cet attribut, ce pourcentage{315}augmente.
+La chance de recevoir des objets{315}après un combat augmente.{315}Plus l'équipe a de monstres avec{315}cet attribut, plus elle grimpe.
+Le monstre peut parfois s'endormir{315}au début du combat.
+Le monstre peut parfois être confus{315}au début du combat.
+Peut parfois monter la tension{315}de tous les ennemis en{315}début de combat.
+Les PM baissent peu à peu{315}au combat.
+Annule les coups et sorts{315}critiques ennemis.
+Double la consommation de PM.
+Augmente les dégâts subis.
+Endormi, peut attaquer{315}tous les ennemis.
+Paralysé, peut paralyser{315}l'ennemi qui l'attaque.
+Confus, peut frapper au hasard{315}un allié ou ennemi par Massacre.
+Envoûté, augmente sa{315}propre tension.
+Gros dégâts aux monstres{315}de métal.
+Peut voler les PM de{315}l'attaquant.
+Peut voler les PM de{315}l'ennemi attaqué.
+Peut envoyer l'ennemi{315}dans l'au-delà.
+Renforce la magie Crame et{315}baisse le coût en PM.
+Par un regard perçant, peut{315}figer les ennemis en{315}début de combat.
+Sa présence imposante peut{315}figer les ennemis en{315}début de combat.
+Peut intimider les ennemis et les pétrifier{315}au début d'un combat.
+Peut parfois devenir trop{315}timide et refuser d'agir.
+Peut parfois désobéir aux{315}ordres et ne pas agir.
+Sans ordre précis, agit{315}une à deux fois de suite.
+Sans ordre précis, agit{315}une à trois fois de suite.
+Peut remplir bien plus la{315}jauge de dressage à l'attaque.
+Les PV max peuvent varier{315}au combat.
+Les PM max peuvent varier{315}au combat.
+L'Attaque peut varier{315}au combat.
+La Défense peut varier{315}au combat.
+L'Agilité peut varier{315}au combat.
+La Sagesse peut varier{315}en combat.
+Les PV max sont multipliés par 1,5{315}en combat, mais Attaque et Défense{315}tombent à 1.
+Les PM max sont multipliés par 2{315}en combat, mais Attaque et Sagesse{315}tombent à 1.
+La Perturbonde{315}se lance parfois en combat.
+La Vague de soulagement{315}se lance parfois en combat.
+Seul attribut de dressage{315}pouvant être appris.{315}La jauge de dressage monte très légèrement{315}lors d'une démonstration de force.
+Réduit la résistance ennemie à la{315}magie de type Flamme.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie à la{315}magie de type Bang.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie à la{315}magie de type Tornade.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie à la{315}magie de type Glace.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie à la{315}magie de type Foudre.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie à la{315}magie de type Élec.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie à la {315}Raptitude.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie à la {315}Lame-en-peine.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie au {315}Souffle de feu.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie au {315}Souffle glacial.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie à la{315}magie de type Kill.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie à la{315}magie de type Illusion.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie au {315}Poison.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie aux {315}sorts d'Aspirmagie.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie à la{315}magie de type Antimagie.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie à l'{315}Hygiaphone.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie à l'{315}Antidanse.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie à la {315}Confusion.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie à l'{315}Inaction.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie à la {315}Paralysie.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie au {315}Sommeil.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie à la{315}magie de type Affaiblo.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie à la{315}magie de type Altération.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie à la{315}magie de type Décéléro.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie à la{315}magie de type Simplet.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie à la {315}Faille magique.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie à la{315}magie de type Crame.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit la résistance ennemie à la{315}magie de type Lest.{315}Sans effet sur les ennemis{315}qui y résistent.
+Réduit toutes les résistances{315}de l'ennemi.
+Agit 2 à 3 fois par tour.{315}Actions restantes conservées{315}même sur ordre.
+Agit 0 à 4 fois par tour.{315}Actions restantes conservées{315}même sur ordre.
+Réduit de moitié les dégâts reçus,{315}mais double la consommation de PM.
+Réduit les dégâts reçus au quart,{315}mais quadruple la consommation de PM.
+Peut parfois lancer Décuplo sur soi{315}au début du combat.
+Peut parfois lancer Protection sur soi{315}au début du combat.
+Peut parfois lancer Accélération sur soi{315}au début du combat.
+Peut parfois augmenter sa Tension{315}au début du combat.
+Peut lancer une Brume noire{315}en début de combat.
+PV maximum +5.
+PV maximum +10.
+PV maximum +15.
+PV maximum +20.
+PV maximum +22.
+PV maximum +24.
+PV maximum +26.
+PV maximum +28.
+PV maximum +30.
+PV maximum +35.
+PM maximum +5.
+PM maximum +10.
+PM maximum +15.
+PM maximum +20.
+PM maximum +22.
+PM maximum +24.
+PM maximum +26.
+PM maximum +28.
+PM maximum +30.
+PM maximum +35.
+Attaque +3.
+Attaque +5.
+Attaque +10.
+Attaque +12.
+Attaque +15.
+Attaque +18.
+Attaque +21.
+Attaque +24.
+Attaque +27.
+Attaque +30.
+Défense +3.
+Défense +5.
+Défense +10.
+Défense +12.
+Défense +15.
+Défense +18
+Défense +21
+Défense +24
+Défense +27
+Défense +30
+Agilité +3
+Agilité +5
+Agilité +10
+Agilité +12
+Agilité +15
+Agilité +18
+Agilité +21
+Agilité +24
+Agilité +27
+Agilité +30
+Sagesse +3
+Sagesse +5
+Sagesse +10
+Sagesse +12
+Sagesse +15
+Sagesse +18
+Sagesse +21
+Sagesse +24
+Sagesse +27
+Sagesse +30
+Peut lancer Décuplomagie sur soi{315}en début de combat
+Peut lancer Rétrosouffle{315}en début de combat
+Peut lancer Antimagie{315}en début de combat
+Peut lancer Décuplomagie sur soi{315}en combat
+Peut lancer Rétrosouffle{315}en combat
+Peut lancer Antimagie{315}en combat
+Peut monter sa Tension{315}à Haute tension en combat
+Peut lancer Barrière magique{315}en combat
+Peut lancer Brume protectrice{315}en combat
+
+
+
+
+Résiste mieux aux sorts{315}de type Flamme
+Résiste mieux aux sorts{315}de type Bang
+Résiste mieux aux sorts{315}de type Tornade
+Résiste mieux aux sorts{315}de type Glace
+Résiste mieux aux sorts{315}de type Foudre
+Résiste mieux aux sorts{315}de type Élec
+Résiste mieux à la Raptitude
+Résiste mieux aux sorts{315}de type Crame
+Résiste mieux à la{315}Lame-en-peine
+Résiste mieux aux sorts{315}de type Lest
+Résiste mieux au{315}Souffle de feu
+Résiste mieux au{315}Souffle glacial
+Résiste mieux aux sorts{315}de type Kill
+Résiste mieux aux sorts{315}de type Illusion
+Résiste mieux au Poison
+Résiste mieux à l'Aspirmagie
+Résiste mieux aux sorts{315}de type Antimagie
+Résiste mieux à l'Hygiaphone
+Résiste mieux à l'Antidanse
+Résiste mieux à la Confusion
+Réduit le risque de rater un tour
+Résiste mieux à la Paralysie
+Résiste mieux au Sommeil
+Résiste mieux aux sorts{315}de type Affaiblo
+Résiste aux sorts{315}de type Altération
+Augmente la résistance au Décéléro.
+Résiste mieux aux sorts{315}de type Simplet
+Résiste mieux à la Faille magique{315}et l'Aura de peur
+Augmente les dégâts infligés par les{315}attaques et les aptitudes. Permet{315}d'agir 2 à 3 fois par tour sans que{315}les ordres n'annulent les actions.
+Augmente les dégâts infligés par les{315}attaques et les aptitudes. Permet{315}d'agir 2 fois par tour sans que les{315}ordres n'annulent les actions.
+Augmente les dégâts infligés par les{315}attaques et les aptitudes. Permet{315}d'agir 1 à 3 fois par tour sans que{315}les ordres n'annulent les actions.
+Augmente les dégâts infligés par les{315}attaques et les aptitudes. Permet{315}d'agir 0 à 4 fois par tour sans que{315}les ordres n'annulent les actions.
+Augmente les dégâts infligés par les{315}attaques et les aptitudes. Permet{315}d'agir 1 à 2 fois par tour sans que{315}les ordres n'annulent les actions.
+Double le taux de{315}coup critique magique
+Coups critiques magiques accrus{315}quand les PV sont bas
+Peut lancer Brume de l'au-delà{315}en début de combat
+Peut sceller les Briseurs{315}en début de combat
+L'attaque touche tous les ennemis et{315}les dégâts des aptitudes augmentent.{315}Peut agir 2 à 3 fois par tour sans que{315}les ordres n'annulent les actions.
+L'attaque touche tous les ennemis et{315}les dégâts des aptitudes augmentent.{315}Peut agir 2 fois par tour sans que{315}les ordres n'annulent les actions.
+L'attaque touche tous les ennemis et{315}les dégâts des aptitudes augmentent.{315}Peut agir 1 à 3 fois par tour sans que{315}les ordres n'annulent les actions.
+L'attaque touche tous les ennemis et{315}les dégâts des aptitudes augmentent.{315}Peut agir 0 à 4 fois par tour sans que{315}les ordres n'annulent les actions.
+L'attaque touche tous les ennemis et{315}les dégâts des aptitudes augmentent.{315}Peut agir 1 à 2 fois par tour sans que{315}les ordres n'annulent les actions.
+Peut lancer Décuplo sur soi{315}en combat
+Peut lancer Protection sur soi{315}en combat
+Peut lancer Accélération sur soi{315}en combat
+Peut augmenter sa Tension{315}en combat
+Peut lancer Brume noire{315}en combat
+Peut lancer Brume de l'au-delà{315}en combat
+Peut sceller les Briseurs{315}en combat
+Renforce les sorts de type Lest{315}et réduit leur coût en PM
+
+
+
+

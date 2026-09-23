@@ -6,7 +6,8 @@ DeSmuME et DraStic.
 
 > **État : en construction.** Édition du joueur (nom, temps de jeu, or,
 > statistiques), du sac et des monstres (surnom, espèce, stats, lignée,
-> compétences, arme), avec les noms français.
+> compétences, arme), avec les noms français. Consultation de la
+> bibliothèque (monstres vus et dressés, attributs, compétences).
 
 ## Principe
 

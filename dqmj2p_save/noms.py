@@ -1,4 +1,4 @@
-"""Tables de noms (espèces, compétences), indexées par ID.
+"""Tables de noms (espèces, compétences, attributs, objets), indexées par ID.
 
 Fichiers texte dans noms/<langue>/ : la ligne N est le nom de l'ID N, la ligne
 0 correspond à « aucun ». Mise à jour : outils/importer_noms.py.
@@ -71,17 +71,27 @@ def carte(numero: int) -> str:
 _CODES_TEXTE = {'{315}': '\n', '{231}': '⊕', '{232}': '⊖', '{233}': '⊘'}
 
 
-def aide_objet(id_: int, langue: str = 'fr') -> str:
-    """Description d'un objet telle que le jeu l'affiche (msg_itemhelp)."""
-    lignes = table('objets_aide', langue).noms
+def _aide(nom_table: str, id_: int, langue: str) -> str:
+    lignes = table(nom_table, langue).noms
     texte = lignes[id_] if 0 <= id_ < len(lignes) else ''
     for code, remplacement in _CODES_TEXTE.items():
         texte = texte.replace(code, remplacement)
     return texte
 
 
+def aide_objet(id_: int, langue: str = 'fr') -> str:
+    """Description d'un objet telle que le jeu l'affiche (msg_itemhelp)."""
+    return _aide('objets_aide', id_, langue)
+
+
+def aide_attribut(id_: int, langue: str = 'fr') -> str:
+    """Description d'un attribut, celle de la bibliothèque (msg_library)."""
+    return _aide('attributs_aide', id_, langue)
+
+
 @cache
 def table(nom: str, langue: str = 'fr') -> TableNoms:
-    """nom : 'especes', 'competences', 'objets' ou 'objets_aide'."""
+    """nom : 'especes', 'competences', 'attributs', 'objets', 'objets_aide'
+    ou 'attributs_aide'."""
     chemin = DOSSIER / langue / f'{nom}.txt'
     return TableNoms(chemin.read_text(encoding='utf-8').splitlines())

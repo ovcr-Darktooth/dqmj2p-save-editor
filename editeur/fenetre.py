@@ -11,6 +11,7 @@ from dqmj2p_save import ErreurSauvegarde, Sauvegarde
 from dqmj2p_save import bestiaire, noms
 
 from . import icones
+from .bibliotheque import PageBibliotheque
 from .equipe import PanneauEquipe, TYPE_MIME, emplacement_depuis, glisser
 from .fiche import Fiche
 from .joueur import PageJoueur
@@ -85,6 +86,7 @@ class Fenetre(QMainWindow):
         self.page_joueur.liaison.modifiee.connect(self._rafraichir_titre)
         self.page_sac = PageSac()
         self.page_sac.modifiee.connect(self._rafraichir_titre)
+        self.page_bibliotheque = PageBibliotheque()
         for liaison in (self.fiche.liaison, self.page_joueur.liaison):
             liaison.erreur.connect(lambda message: self.statusBar().showMessage(message, 8000))
 
@@ -110,6 +112,7 @@ class Fenetre(QMainWindow):
         self.onglets.addTab(self.page_joueur, 'Joueur')
         self.onglets.addTab(separation, 'Monstres')
         self.onglets.addTab(self.page_sac, 'Sac')
+        self.onglets.addTab(self.page_bibliotheque, 'Bibliothèque')
         self.setCentralWidget(self.onglets)
 
         menu = self.menuBar().addMenu('&Fichier')
@@ -177,6 +180,7 @@ class Fenetre(QMainWindow):
         self.panneau_equipe.afficher(sauvegarde)
         self.page_joueur.afficher(sauvegarde.joueur)
         self.page_sac.afficher(sauvegarde.sac)
+        self.page_bibliotheque.afficher(sauvegarde.bibliotheque)
         self._ajouter_recent(sauvegarde.chemin)
         self._rafraichir_titre()
         self.statusBar().showMessage(f'{len(self.monstres)} monstres chargés.')
