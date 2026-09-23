@@ -31,9 +31,12 @@ MANUEL = {
     452: {'famille': 'Bête'},       # Nouveau-nhé
     455: {'famille': 'Bête'},       # Nouveau-nhé
     456: {'famille': 'Nature'},     # Tentaculeux : tentacule du Khalamar, ni dressable ni synthétisable
+    # Seigneur Hyurde et Bête du Malin : géants de boss. Placés au ranch (test du
+    # 23/09/2026), le jeu les montre avec une icône « ? » et des stats « ???? » :
+    # pas des monstres jouables.
     481: {'taille': 3},             # Seigneur Hyurde : icône de 120 px, géant
     482: {'taille': 3},             # Bête du Malin : icône de 120 px, géant
-    487: {'famille': 'Zombie', 'taille': 1},    # Chevalier Karbon
+    487: {'famille': 'Zombie', 'taille': 1},    # Chevalier Karbon : jouable, vérifié au ranch
 }
 
 
