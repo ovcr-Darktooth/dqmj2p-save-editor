@@ -87,6 +87,7 @@ class Fenetre(QMainWindow):
         self.page_sac = PageSac()
         self.page_sac.modifiee.connect(self._rafraichir_titre)
         self.page_bibliotheque = PageBibliotheque()
+        self.page_bibliotheque.modifiee.connect(self._rafraichir_titre)
         for liaison in (self.fiche.liaison, self.page_joueur.liaison):
             liaison.erreur.connect(lambda message: self.statusBar().showMessage(message, 8000))
 

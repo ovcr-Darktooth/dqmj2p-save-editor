@@ -165,5 +165,33 @@ class Bibliotheque(unittest.TestCase):
         self.assertEqual(apres.competences() - avant.competences(), {144})
 
 
+    def test_ecriture_et_contrainte_vue_dressee(self):
+        origine = donnee('moitie-jeu.dsv').read_bytes()
+        s = Sauvegarde(origine)
+        b = s.bibliotheque
+        self.assertNotIn(2, b.especes_vues())               # Gluanbulle
+        b.marquer_dressee(2)
+        self.assertIn(2, b.especes_dressees())
+        self.assertIn(2, b.especes_vues())                  # dressée => vue
+        b.marquer_vue(1, False)                             # Gluant, dressé
+        self.assertNotIn(1, b.especes_dressees() | b.especes_vues())
+        b.marquer_attribut(200); b.marquer_competence(200)
+        relu = Sauvegarde(s.en_octets()).bibliotheque       # sommes recalculées
+        self.assertEqual(relu.especes_dressees(), b.especes_dressees())
+        self.assertIn(200, relu.attributs() & relu.competences())
+        # Retour en arrière : fichier identique à l'original.
+        b.marquer_dressee(2, False); b.marquer_vue(2, False)
+        b.marquer_dressee(1)
+        b.marquer_attribut(200, False); b.marquer_competence(200, False)
+        self.assertEqual(s.en_octets(), origine)
+
+    def test_id_hors_limites_refuse(self):
+        b = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv')).bibliotheque
+        for ecrire, id_ in ((b.marquer_vue, 0), (b.marquer_vue, 512),
+                            (b.marquer_attribut, 256), (b.marquer_competence, -1)):
+            with self.assertRaises(ValueError):
+                ecrire(id_)
+
+
 if __name__ == '__main__':
     unittest.main()

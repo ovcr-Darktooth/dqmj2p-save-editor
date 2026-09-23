@@ -243,8 +243,7 @@ POINTS_TELEPORTATION = {
 # Champs de bits : le bit n (octet n // 8, bit n % 8) concerne l'ID n.
 # Vus / dressés relevés en jeu le 23/09/2026 (bibliothèque de moitie-jeu, par
 # famille). Attributs et compétences : déduits des monstres possédés, sur
-# toutes les sauvegardes de test. Lecture seule tant que l'écriture n'a pas
-# été essayée en jeu.
+# toutes les sauvegardes de test. Écriture pas encore validée en jeu.
 
 BIBLIO_DRESSES = 0x3578             # espèces obtenues (dressage ou synthèse)
 BIBLIO_VUS = 0x3638                 # espèces vues ; contient les dressées
