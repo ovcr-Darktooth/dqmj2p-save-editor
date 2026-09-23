@@ -1,5 +1,7 @@
 # Éditeur de sauvegardes DQMJ2 Professional
 
+*[English version](README_en.md)*
+
 Éditeur graphique de sauvegardes pour *Dragon Quest Monsters: Joker 2
 Professional* (Nintendo DS). Il accepte les `.sav` bruts et les `.dsv` de
 DeSmuME et DraStic.
