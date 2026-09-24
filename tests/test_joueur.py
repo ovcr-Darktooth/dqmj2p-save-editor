@@ -330,6 +330,14 @@ class Iles(unittest.TestCase):
             with self.subTest(chemin.name):
                 self.assertTrue(Sauvegarde.ouvrir(chemin).histoire_coherente())
 
+    def test_apres_le_championnat(self):
+        # Partie principale juste après le championnat des dresseurs :
+        # avancement 9 -> 0x0B, toujours au chapitre 7, anneau pas évolué.
+        s = Sauvegarde.ouvrir(donnee('apres-championnat.dsv'))
+        self.assertEqual((s.chapitre, s.avancement), (7, 0x0B))
+        self.assertTrue(s.histoire_coherente())
+        self.assertFalse(s.dressage_geants)
+
     def test_incoherences_signalees(self):
         s = Sauvegarde.ouvrir(donnee('random.dsv'))          # chapitre 0, avancement 1
         s.dressage_geants = True                             # avancement 0B
