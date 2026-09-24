@@ -13,6 +13,7 @@ from dqmj2p_save.langue import tr
 
 from . import extraction, icones
 from .bibliotheque import PageBibliotheque
+from .defilement import ZoneDefilante
 from .equipe import PanneauEquipe, TYPE_MIME, emplacement_depuis, glisser
 from .fiche import Fiche
 from .joueur import PageJoueur
@@ -138,7 +139,7 @@ class Fenetre(QMainWindow):
         self.liste.setMinimumWidth(480)
 
         self.onglets = QTabWidget()
-        self.onglets.addTab(self.page_joueur, tr('Joueur'))
+        self.onglets.addTab(ZoneDefilante(self.page_joueur), tr('Joueur'))
         self.page_monstres = separation
         self.onglets.addTab(separation, tr('Monstres'))
         self.onglets.addTab(self.page_syntheses, tr('Synthèses'))
