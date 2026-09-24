@@ -151,12 +151,18 @@ class PageJoueur(QWidget):
         # visitées restent : revenir en arrière n'a pas été essayé en jeu.
         origine = sauvegarde.chapitre
         self.carte_iles.clear()
+        # Chaque palier dit ce qu'il ajoute : la liste complète serait trop longue.
         paliers = sorted(set(F.CHAPITRE_CARTE.values()) | {origine})
         for chapitre in (c for c in paliers if c >= origine):
-            iles = [tr(i) for i, seuil in F.CHAPITRE_CARTE.items() if seuil <= chapitre]
-            self.carte_iles.addItem(
-                tr('{iles}  (chapitre {n})', iles=', '.join(iles) if iles else tr('Aucune île'),
-                   n=chapitre), chapitre)
+            if chapitre == origine:
+                iles = [tr(i) for i, seuil in F.CHAPITRE_CARTE.items() if seuil <= chapitre]
+                texte = tr('Chapitre {n} (actuel) : {iles}', n=chapitre,
+                           iles=tr('{nombre} île(s)', nombre=len(iles)) if iles
+                           else tr('Aucune île'))
+            else:
+                iles = [tr(i) for i, seuil in F.CHAPITRE_CARTE.items() if seuil == chapitre]
+                texte = tr('Chapitre {n} : + {iles}', n=chapitre, iles=', '.join(iles))
+            self.carte_iles.addItem(texte, chapitre)
         self.carte_iles.setEnabled(self.carte_iles.count() > 1)
         # La liste déroulante ne coupe pas le plus long palier.
         largeur = max(self.carte_iles.fontMetrics().horizontalAdvance(

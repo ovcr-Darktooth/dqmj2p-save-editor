@@ -253,9 +253,24 @@ Relevé le 24/09/2026 sur `moitie-jeu` (partie arrêtée à Archéopolis) :
   jeu** : au chapitre 8 elle montre Nécropolis, au 9 aussi Ténébria, au 10
   aussi l'Île des Pipits. **Toutes les îles en dépendent**, pas seulement
   celles de fin : sur la partie du randomizer (chapitre 0), passer au
-  chapitre 10 affiche toutes les îles sur la carte (24/09/2026), sans les
-  ajouter au sort Téléportation. Les chapitres des autres îles restent à
-  relever. Trouvé d'abord par dichotomie comme un « bit
+  chapitre 10 affiche toutes les îles sur la carte, sans les ajouter au sort
+  Téléportation. Relevé chapitre par chapitre le 24/09/2026 :
+
+  | Chapitre | Île ajoutée à la carte |
+  |---|---|
+  | 2 (probable) | L'Arbirynthe, Prairia |
+  | 3 | Arène |
+  | 4 | Avablanche |
+  | 5 | Escarpic |
+  | 6 | Engloutîle |
+  | 7 | Archéopolis |
+  | 8 | Nécropolis |
+  | 9 | Ténébria |
+  | 10 | Île des Pipits |
+
+  Au chapitre 1, la carte n'est accessible qu'après un dressage imposé par
+  l'histoire, qui fait lui-même passer au chapitre 2 (et l'avancement de 1 à
+  2) : d'où le « probable ». Trouvé d'abord par dichotomie comme un « bit
   `0x08` » : l'allumer faisait passer `moitie-jeu` du chapitre 7 au 15, ce
   qui montrait les trois îles mais sautait tous les chapitres suivants. Il
   faut écrire la valeur voulue, jamais un masque. Avancer le chapitre peut

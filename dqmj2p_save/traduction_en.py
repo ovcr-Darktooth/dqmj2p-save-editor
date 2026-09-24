@@ -295,7 +295,9 @@ TEXTES = {
     'Case vide': 'Empty slot',
     "L'ordre des boutons doit reprendre les mêmes boutons.":
         'The button order must keep the same buttons.',
-    '{iles}  (chapitre {n})': '{iles}  (chapter {n})',
+    'Chapitre {n} (actuel) : {iles}': 'Chapter {n} (current): {iles}',
+    'Chapitre {n} : + {iles}': 'Chapter {n}: + {iles}',
+    '{nombre} île(s)': '{nombre} island(s)',
     'Aucune île': 'No island',
     'Déjà visitée dans cette partie.': 'Already visited in this game.',
     "Faire glisser la poignée, ou la molette (5 s par cran). L'horloge ne tourne qu'en "

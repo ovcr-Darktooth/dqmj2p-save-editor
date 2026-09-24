@@ -219,11 +219,18 @@ DUREE_CYCLE = 18_000
 INDICATEUR_NUIT = (0x39A1, 0x20)
 # Chapitre de l'histoire (u8) : 0 au début, 4, 7 à mi-parcours, 9 après
 # Rapthorne 2, 10 en fin de jeu. La carte des îles (affichée en sortant d'une
-# zone par son entrée) en dépend : relevé en jeu le 24/09/2026 sur moitie-jeu,
-# le chapitre 8 y ajoute Nécropolis, le 9 Ténébria, le 10 l'Île des Pipits.
+# zone par son entrée) en dépend pour toutes les îles : relevé en jeu le
+# 24/09/2026, chapitre par chapitre, sur la partie du randomizer (chapitre 2 :
+# L'Arbirynthe et Prairia, probable, la carte n'étant accessible qu'après un
+# dressage imposé qui fait passer du chapitre 1 au 2 ; puis une île par
+# chapitre), et sur moitie-jeu pour les îles de fin. Seule la carte change :
+# le sort Téléportation a sa propre liste (TELEPORTATION).
 # L'avancer peut faire sauter des événements de l'histoire.
 CHAPITRE = 0x3951
-CHAPITRE_CARTE = {'Nécropolis': 8, 'Ténébria': 9, 'Île des Pipits': 10}
+CHAPITRE_CARTE = {
+    "L'Arbirynthe": 2, 'Prairia': 2, 'Arène': 3, 'Avablanche': 4, 'Escarpic': 5,
+    'Engloutîle': 6, 'Archéopolis': 7, 'Nécropolis': 8, 'Ténébria': 9, 'Île des Pipits': 10,
+}
 # Chaque zone dans la liste du sort Téléportation, dans l'ordre de la liste
 # en jeu (l'Albatros, 0x39A9 bit 0x04, y est toujours). Allumé par la première
 # visite, qui fait aussi passer le point de l'île en « visité » sur la carte.
