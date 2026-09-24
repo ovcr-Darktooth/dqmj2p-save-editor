@@ -1,10 +1,14 @@
 """Onglet Synthèses : synthèses spéciales que permettent les monstres de
 l'équipe, de la réserve et du ranch, tout de suite ou bientôt (analyse de
 dqmj2p_save.syntheses). Un clic sur le nom d'un monstre l'ouvre dans l'onglet
-Monstres."""
+Monstres.
+
+Sous chaque synthèse possible ou bientôt possible, « Ensuite » déplie les
+synthèses que son enfant permettra, et ainsi de suite : un arbre qui monte
+d'un niveau à chaque dépliage (calculé à la demande)."""
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (QCheckBox, QComboBox, QFrame, QHBoxLayout, QLabel,
-                               QScrollArea, QVBoxLayout, QWidget)
+                               QScrollArea, QToolButton, QVBoxLayout, QWidget)
 
 from dqmj2p_save import noms, syntheses
 from dqmj2p_save.langue import tr
@@ -27,6 +31,9 @@ INCOMPLETES = {
 TITRES = {POSSIBLE: 'Possibles maintenant', BIENTOT: 'Bientôt possibles',
           INCOMPLETE: 'Incomplètes'}
 AUCUNE = 'Aucune synthèse spéciale à portée avec ces réglages.'
+AIDE_SUITES = ("Synthèses que permettra l'enfant de celle-ci, avec les monstres qu'elle "
+               "ne consomme pas. L'enfant naît au niveau 1 : il faudra le monter au "
+               'niveau 10.')
 
 
 def _espece(espece: int, gras: bool = False, absent: bool = False) -> QWidget:
@@ -61,6 +68,7 @@ class PageSyntheses(QWidget):
     def __init__(self):
         super().__init__()
         self.sauvegarde = None
+        self._dressees: set[int] = set()
         self.polarite = QCheckBox(tr(IGNORER_POLARITE))
         self.polarite.setChecked(True)
         self.polarite.setToolTip(tr(AIDE_POLARITE))
@@ -117,7 +125,8 @@ class PageSyntheses(QWidget):
 
         contenu = QWidget()
         disposition = QVBoxLayout(contenu)
-        dressees = self.sauvegarde.bibliotheque.especes_dressees()
+        self._dressees = self.sauvegarde.bibliotheque.especes_dressees()
+        monstres = tuple(self.sauvegarde.monstres())
         for etat, liste in par_etat.items():
             if not liste:
                 continue
@@ -125,7 +134,7 @@ class PageSyntheses(QWidget):
             entete.setStyleSheet('font-weight: bold; font-size: 110%; margin-top: 8px')
             disposition.addWidget(entete)
             for analyse in liste:
-                disposition.addWidget(self._carte(analyse, analyse.recette.resultat in dressees))
+                disposition.addWidget(self._carte(analyse, monstres))
         if not retenues:
             disposition.addWidget(QLabel(tr(AUCUNE)))
         disposition.addStretch()
@@ -135,7 +144,9 @@ class PageSyntheses(QWidget):
 
     # ── Une synthèse ─────────────────────────────────────────────────────────
 
-    def _carte(self, analyse: syntheses.Analyse, deja_dressee: bool) -> QWidget:
+    def _carte(self, analyse: syntheses.Analyse, disponibles: tuple) -> QWidget:
+        """Une synthèse ; disponibles : monstres dont elle dispose (ceux de la
+        sauvegarde, ou ce qu'il en reste plus les enfants à créer)."""
         carte = QFrame()
         carte.setFrameShape(QFrame.StyledPanel)
         colonne = QVBoxLayout(carte)
@@ -158,7 +169,7 @@ class PageSyntheses(QWidget):
             ligne.addWidget(_etiquette(tr('patch'),
                                        tr('Recette ajoutée par le patch de traduction')),
                             0, Qt.AlignVCenter)
-        if deja_dressee:
+        if analyse.recette.resultat in self._dressees:
             ligne.addWidget(_etiquette(tr('déjà dressé'),
                                        tr('Espèce déjà dressée (bibliothèque)')),
                             0, Qt.AlignVCenter)
@@ -170,10 +181,44 @@ class PageSyntheses(QWidget):
         details.setWordWrap(True)
         details.linkActivated.connect(lambda lien: self.selectionner.emit(int(lien)))
         colonne.addWidget(details)
+        if analyse.etat != INCOMPLETE:
+            self._ajouter_suites(colonne, analyse, disponibles)
         return carte
+
+    def _ajouter_suites(self, colonne: QVBoxLayout, analyse, disponibles) -> None:
+        suites = syntheses.suites(analyse, disponibles, self.polarite.isChecked())
+        if not suites:
+            return
+        bouton = QToolButton()
+        bouton.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
+        bouton.setArrowType(Qt.RightArrow)
+        bouton.setAutoRaise(True)
+        bouton.setCheckable(True)
+        bouton.setText(tr('Ensuite, avec {espece} : {n} synthèse(s)',
+                          espece=noms.table('especes')[analyse.recette.resultat],
+                          n=len(suites)))
+        bouton.setToolTip(tr(AIDE_SUITES))
+        enfants = QWidget()
+        disposition = QVBoxLayout(enfants)
+        disposition.setContentsMargins(24, 0, 0, 0)
+        enfants.hide()
+
+        def basculer(ouvert: bool) -> None:
+            if ouvert and not disposition.count():         # construit au premier dépliage
+                for suite in suites:
+                    disposition.addWidget(self._carte(suite.analyse, suite.disponibles))
+            bouton.setArrowType(Qt.DownArrow if ouvert else Qt.RightArrow)
+            enfants.setVisible(ouvert)
+
+        bouton.toggled.connect(basculer)
+        colonne.addWidget(bouton, 0, Qt.AlignLeft)
+        colonne.addWidget(enfants)
 
     def _lien(self, monstre) -> str:
         from .fenetre import LIBELLES_ROLES
+        if isinstance(monstre, syntheses.MonstreAVenir):
+            return '<i>' + _html(tr('{espece} (à créer, puis niv. {niveau})',
+                                    espece=_nom(monstre), niveau=syntheses.NIVEAU_MIN)) + '</i>'
         role = tr(LIBELLES_ROLES[self.sauvegarde.role(monstre)])
         texte = tr('{surnom} (niv. {niveau}, {role})', surnom=_nom(monstre),
                    niveau=monstre['niveau'], role=role)

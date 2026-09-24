@@ -133,6 +133,41 @@ class Tri(unittest.TestCase):
 
 
 
+class Suites(unittest.TestCase):
+    """Arbre des synthèses : Gigluante (20) + Gluante (17) -> Gigluant (21) ;
+    Gigluante + Gigluant -> Roi gluant moucheté (29) ; Œuf (371) + Roi gluant
+    moucheté -> Monstruœuf (383)."""
+    GIGLUANTE, GIGLUANT, OEUF, MONSTRUOEUF = 20, 21, 371, 383
+
+    def premiere(self, monstres):
+        return next(a for a in syntheses.analyser(monstres)
+                    if a.recette.parents == (self.GIGLUANTE, GLUANTE))
+
+    def suite(self, suites, parents):
+        return next((s for s in suites if s.analyse.recette.parents == parents), None)
+
+    def test_monte_de_niveau_en_niveau(self):
+        monstres = sauvegarde({'espece': self.GIGLUANTE}, {'espece': self.GIGLUANTE},
+                              {'espece': GLUANTE}, {'espece': self.OEUF}).monstres()
+        depart = self.premiere(monstres)
+        self.assertEqual(depart.etat, POSSIBLE)
+        deuxieme = self.suite(syntheses.suites(depart, monstres),
+                              (self.GIGLUANTE, self.GIGLUANT))
+        self.assertEqual(deuxieme.analyse.recette.resultat, ROI_GLUANT_MOUCHETE)
+        self.assertEqual(deuxieme.analyse.etat, POSSIBLE)
+        self.assertIs(deuxieme.analyse.monstres[1], deuxieme.enfant)
+        # Il ne reste que l'Œuf : les deux Gigluantes et la Gluante sont consommées.
+        self.assertEqual([m['espece'] for m in deuxieme.disponibles], [self.OEUF])
+        troisieme = self.suite(syntheses.suites(deuxieme.analyse, deuxieme.disponibles),
+                               (self.OEUF, ROI_GLUANT_MOUCHETE))
+        self.assertEqual(troisieme.analyse.recette.resultat, self.MONSTRUOEUF)
+
+    def test_un_parent_consomme_ne_resert_pas(self):
+        monstres = sauvegarde({'espece': self.GIGLUANTE}, {'espece': GLUANTE}).monstres()
+        suites = syntheses.suites(self.premiere(monstres), monstres)
+        self.assertIsNone(self.suite(suites, (self.GIGLUANTE, self.GIGLUANT)))
+
+
 class Onglet(unittest.TestCase):
     """Onglet Synthèses de l'éditeur, sans écran."""
 
@@ -155,6 +190,18 @@ class Onglet(unittest.TestCase):
         self.assertTrue(page.resume.text().startswith('1 '))
         page.polarite.setChecked(False)          # même polarité : plus possible
         self.assertTrue(page.resume.text().startswith('0 '))
+
+    def test_deplier_les_suites(self):
+        from PySide6.QtWidgets import QFrame, QToolButton
+        from editeur.syntheses import PageSyntheses
+        page = PageSyntheses()
+        page.afficher(sauvegarde({'espece': 20}, {'espece': 20}, {'espece': GLUANTE},
+                                 {'espece': 371}))
+        boutons = page.zone.widget().findChildren(QToolButton)
+        self.assertTrue(boutons)
+        avant = len(page.zone.widget().findChildren(QFrame))
+        boutons[0].setChecked(True)             # construit le niveau du dessus
+        self.assertGreater(len(page.zone.widget().findChildren(QFrame)), avant)
 
 
 if __name__ == '__main__':

@@ -12,7 +12,8 @@ Graphical save editor for *Dragon Quest Monsters: Joker 2 Professional*
 > unlocked, marked "new"). Right to scout giant monsters (may block the story of an early save) and to use them.
 > Syntheses tab: the special syntheses that the monsters in the party, on
 > standby and in storage already allow, or soon will (polarity ignored by
-> default, as the English patch allows).
+> default, as the English patch allows), and as a tree the syntheses their
+> offspring will allow next.
 
 ## How it works
 

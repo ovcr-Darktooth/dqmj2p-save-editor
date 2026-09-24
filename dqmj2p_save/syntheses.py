@@ -18,10 +18,15 @@ Chaque recette de bestiaire reçoit un état :
   INCOMPLETE  il manque des espèces (Analyse.manquants), au moins un parent
               étant possédé.
 Les recettes dont on ne possède aucun parent ne sont pas renvoyées.
+
+suites() fait monter d'un niveau dans l'arbre des synthèses : l'enfant d'une
+synthèse possible (ou bientôt possible) prend la place des parents qu'elle
+consomme, et l'on cherche ce qu'il permet à son tour. En descendant de suite
+en suite, on suit une lignée jusqu'aux espèces les plus hautes.
 """
 from collections import Counter
 from dataclasses import dataclass
-from itertools import product
+from itertools import count, product
 
 from . import bestiaire
 from .monstre import Monstre
@@ -150,6 +155,55 @@ def analyser_recette(recette: bestiaire.Recette, monstres: list[Monstre],
     etat = INCOMPLETE if manquants else BIENTOT
     return Analyse(recette, etat, tuple(choisis), tuple(manquants), trop_bas=trop_bas,
                    a_synthetiser=tuple(a_synthetiser), possedes=possedes)
+
+
+class MonstreAVenir:
+    """Enfant d'une synthèse pas encore faite, utilisable comme parent dans
+    analyser_recette. Il naît au niveau 1 : on le compte au niveau NIVEAU_MIN
+    (il faudra l'y monter) et neutre (sa polarité n'est pas encore tirée)."""
+    _numeros = count(1)
+
+    def __init__(self, analyse: Analyse):
+        self.analyse = analyse
+        self.emplacement = -next(self._numeros)     # distinct des emplacements réels
+        parents = list({m.emplacement: m for m in analyse.monstres if m}.values())
+        lignee = [m['espece'] for m in parents] if len(parents) == 2 else [0, 0]
+        self._champs = {'espece': analyse.recette.resultat, 'niveau': NIVEAU_MIN,
+                        'polarite': NEUTRE, 'parent_1': lignee[0], 'parent_2': lignee[1],
+                        'surnom': ''}
+
+    def __getitem__(self, cle: str):
+        return self._champs[cle]
+
+
+@dataclass(frozen=True)
+class Suite:
+    """Synthèse rendue possible par l'enfant d'une synthèse précédente.
+    disponibles : monstres restants après cette suite, pour aller plus haut."""
+    analyse: Analyse
+    enfant: MonstreAVenir
+    disponibles: tuple
+
+
+def consommes(analyse: Analyse) -> set[int]:
+    """Emplacements des monstres qu'une synthèse fait disparaître."""
+    return {m.emplacement for m in analyse.monstres if m}
+
+
+def suites(analyse: Analyse, disponibles, ignorer_polarite: bool = True) -> list[Suite]:
+    """Synthèses (possibles ou bientôt possibles) qui utilisent l'enfant de
+    `analyse`, avec les monstres de `disponibles` qu'elle ne consomme pas."""
+    utilises = consommes(analyse)
+    enfant = MonstreAVenir(analyse)
+    reste = [m for m in disponibles if m.emplacement not in utilises] + [enfant]
+    resultat = []
+    for recette in dict.fromkeys(bestiaire.sert_a(enfant['espece'])):
+        a = analyser_recette(recette, reste, ignorer_polarite)
+        if a and a.etat != INCOMPLETE and any(m is enfant for m in a.monstres):
+            apres = consommes(a)
+            resultat.append(Suite(a, enfant, tuple(m for m in reste
+                                                   if m.emplacement not in apres)))
+    return sorted(resultat, key=lambda s: ETATS.index(s.analyse.etat))
 
 
 def analyser(monstres: list[Monstre], ignorer_polarite: bool = True) -> list[Analyse]:

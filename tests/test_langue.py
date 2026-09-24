@@ -155,7 +155,8 @@ def _constantes_editeur() -> set[str]:
             'Équipe', 'Réserve', 'Obtenu par', 'Sert à créer',
             synthese.AUCUNE_RECETTE, synthese.AUCUN_USAGE, syntheses.IGNORER_POLARITE,
             syntheses.AIDE_POLARITE, syntheses.MASQUER_DRESSEES, *syntheses.INCOMPLETES,
-            *syntheses.TITRES.values(), syntheses.AUCUNE}
+            *syntheses.TITRES.values(), syntheses.AUCUNE,
+            syntheses.AIDE_SUITES}
 
 
 def _champs(modele: str) -> set[str]:

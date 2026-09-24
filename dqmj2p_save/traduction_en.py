@@ -389,6 +389,12 @@ TEXTES = {
     'Même polarité : il faut deux polarités opposées, ou un parent neutre.':
         'Same polarity: opposite polarities are needed, or a neutral parent.',
     'Manque : {especes}': 'Missing: {especes}',
+    'Ensuite, avec {espece} : {n} synthèse(s)': 'Next, with {espece}: {n} synthesis(es)',
+    "Synthèses que permettra l'enfant de celle-ci, avec les monstres qu'elle ne consomme "
+    "pas. L'enfant naît au niveau 1 : il faudra le monter au niveau 10.":
+        'Syntheses that the offspring of this one will allow, with the monsters it does '
+        'not use up. The offspring is born at level 1: it will need to reach level 10.',
+    '{espece} (à créer, puis niv. {niveau})': '{espece} (to create, then Lv. {niveau})',
 
     # ── Onglet Sac ───────────────────────────────────────────────────────────
     'Rechercher dans les noms et descriptions…': 'Search names and descriptions…',
