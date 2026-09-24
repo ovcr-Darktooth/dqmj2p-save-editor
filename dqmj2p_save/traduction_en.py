@@ -25,6 +25,11 @@ TEXTES = {
     'Prairia': 'Doubtback',
     'Arène': 'Arena',
     'Avablanche': 'Iceolation',
+    'Nécropolis': 'Necropolis',
+    'Ténébria': 'Dark World',
+    'Ténébria (autre zone)': 'Dark World (other area)',
+    'Île des Pipits': 'Pipisle',
+    'Palais Blanc': 'Blanc Palace',
     'Avablanche (autre zone)': 'Iceolation (other area)',
     'Avablanche (fin de zone)': 'Iceolation (end of area)',
     'Avablanche (fin de zone, sort)': 'Iceolation (end of area, exit)',
@@ -234,6 +239,23 @@ TEXTES = {
         '{n} — {lieu}   (previous: {n_avant} — {lieu_avant})',
     '{meteo} en cours': '{meteo} in progress',
     'Aucune intempérie connue sur cette carte': 'No known weather on this map',
+    'Carte des îles': 'Island map',
+    "Le jeu y ajoute les îles au fil des chapitres de l'histoire : l'avancer peut "
+    "faire sauter des événements. On ne peut pas revenir en deçà du chapitre de la "
+    'partie.': 'The game adds the islands as the story chapters go by: moving the '
+               'chapter forward may skip events. It cannot go below the chapter of '
+               'the game.',
+    'Sort Téléportation': 'Zoom spell',
+    "Une zone cochée entre dans la liste du sort (dans l'ordre du jeu), sans changer "
+    "de chapitre ; une île s'affiche aussi comme visitée sur la carte. Les zones déjà "
+    'visitées restent cochées : le jeu les remettrait.':
+        "A ticked area joins the spell list (in the game's order), without changing "
+        'the chapter; an island also shows as visited on the map. Areas already '
+        'visited stay ticked: the game would put them back.',
+    'Zones': 'Areas',
+    '{iles}  (chapitre {n})': '{iles}  (chapter {n})',
+    'Aucune île': 'No island',
+    'Déjà visitée dans cette partie.': 'Already visited in this game.',
     "Faire glisser la poignée, ou la molette (5 s par cran). L'horloge ne tourne qu'en "
     'plein air.': 'Drag the handle, or use the mouse wheel (5 s per notch). The clock '
                   'only runs outdoors.',

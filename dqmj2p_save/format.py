@@ -217,6 +217,36 @@ DUREE_CYCLE = 18_000
 # sauvegardes faites de nuit, éteint de jour. Le jeu le recalcule à partir de
 # l'horloge (une horloge de jour avec le bit allumé démarre de jour).
 INDICATEUR_NUIT = (0x39A1, 0x20)
+# Chapitre de l'histoire (u8) : 0 au début, 4, 7 à mi-parcours, 9 après
+# Rapthorne 2, 10 en fin de jeu. La carte des îles (affichée en sortant d'une
+# zone par son entrée) en dépend : relevé en jeu le 24/09/2026 sur moitie-jeu,
+# le chapitre 8 y ajoute Nécropolis, le 9 Ténébria, le 10 l'Île des Pipits.
+# L'avancer peut faire sauter des événements de l'histoire.
+CHAPITRE = 0x3951
+CHAPITRE_CARTE = {'Nécropolis': 8, 'Ténébria': 9, 'Île des Pipits': 10}
+# Chaque zone dans la liste du sort Téléportation, dans l'ordre de la liste
+# en jeu (l'Albatros, 0x39A9 bit 0x04, y est toujours). Allumé par la première
+# visite, qui fait aussi passer le point de l'île en « visité » sur la carte.
+# Validés en jeu le 24/09/2026 en les allumant sur des parties qui ne les
+# avaient pas (randomizer au chapitre 0, moitie-jeu pour les îles de fin).
+# Éteindre celui d'une zone où l'on est déjà passé ne la retire pas : le jeu
+# le rallume.
+TELEPORTATION = {
+    "L'Arbirynthe": (0x39A9, 0x10),
+    'Prairia': (0x39A9, 0x20),
+    'Arène': (0x39AB, 0x08),
+    'Avablanche': (0x39A9, 0x40),
+    'Escarpic': (0x39A9, 0x80),
+    'Engloutîle': (0x39AA, 0x04),
+    'Archéopolis': (0x39AA, 0x02),
+    'Nécropolis': (0x39AA, 0x08),
+    'Ténébria': (0x39AA, 0x10),
+    'Île des Pipits': (0x39D9, 0x40),
+    'Palais Blanc': (0x39D9, 0x80),
+}
+# Îles de fin de partie : leurs points de téléportation ne sont proposés
+# qu'une fois l'île dans la liste. Le Palais Blanc n'est pas sur la carte.
+ILES_FIN_DE_PARTIE = ('Nécropolis', 'Ténébria', 'Île des Pipits', 'Palais Blanc')
 CHAMP_JOUEUR = {c.cle: c for c in CHAMPS_JOUEUR}
 
 # Bloc de position complet (0x3A68-0x3A83 : carte, carte précédente,
@@ -241,6 +271,11 @@ POINTS_TELEPORTATION = {
     'Engloutîle': bytes.fromhex('2f250000410b0000ae6700007e9300009ae1fbff00801600fc030000'),
     'Archéopolis': bytes.fromhex('392f000000000000c3f5ffff00000000666a010000400b00bc000000'),
     'Escarpic': bytes.fromhex('25970000bc0a000066e20000fd000000526404007b180c00fc030000'),
+    # Îles de fin de partie (24/09/2026) : arrivée par le sort (Ténébria, Île
+    # des Pipits) ou par la carte des îles (Nécropolis), sans bouger.
+    'Nécropolis': bytes.fromhex('43430000000000000000000000000000c5ebffff00400b00bc000000'),
+    'Ténébria': bytes.fromhex('4f4300000000000000000000000000000080010000400b00b4000000'),
+    'Île des Pipits': bytes.fromhex('884f00000000000000000000000000003373020000c0f4ffa4000000'),
 }
 
 # ── Bibliothèque ─────────────────────────────────────────────────────────────

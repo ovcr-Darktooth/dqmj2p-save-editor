@@ -155,6 +155,37 @@ class Sauvegarde:
         if self.copie[octet] != avant:
             self.modifiee = True
 
+    def _drapeau(self, drapeau: tuple[int, int]) -> bool:
+        octet, bit = drapeau
+        return bool(self.copie[octet] & bit)
+
+    def _regler_drapeau(self, drapeau: tuple[int, int], actif: bool) -> None:
+        if self._drapeau(drapeau) != actif:
+            octet, bit = drapeau
+            self.copie[octet] ^= bit
+            self.modifiee = True
+
+    @property
+    def chapitre(self) -> int:
+        """Chapitre de l'histoire (voir F.CHAPITRE)."""
+        return self.copie[F.CHAPITRE]
+
+    @chapitre.setter
+    def chapitre(self, valeur: int) -> None:
+        if self.copie[F.CHAPITRE] != valeur:
+            self.copie[F.CHAPITRE] = valeur
+            self.modifiee = True
+
+    def zone_visitee(self, zone: str) -> bool:
+        """La zone (clé de F.TELEPORTATION) est dans la liste du sort
+        Téléportation."""
+        return self._drapeau(F.TELEPORTATION[zone])
+
+    def ouvrir_zone(self, zone: str, actif: bool = True) -> None:
+        """Ajoute (ou retire) la zone à la liste du sort Téléportation, sans
+        toucher au chapitre (la carte des îles en dépend, pas cette liste)."""
+        self._regler_drapeau(F.TELEPORTATION[zone], actif)
+
     # ── Équipe et réserve ────────────────────────────────────────────────────
 
     @staticmethod

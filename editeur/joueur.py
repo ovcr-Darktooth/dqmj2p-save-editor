@@ -1,7 +1,7 @@
 """Onglet Joueur : nom, temps de jeu, or et statistiques de partie, plus la
 date de sauvegarde, l'emplacement dans le monde et la téléportation vers des
-points relevés en jeu."""
-from PySide6.QtWidgets import (QCheckBox, QComboBox, QFormLayout, QGroupBox,
+points relevés en jeu, et le déblocage des îles de fin de partie."""
+from PySide6.QtWidgets import (QCheckBox, QComboBox, QFormLayout, QGridLayout, QGroupBox,
                                QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget)
 
 from dqmj2p_save import format as F
@@ -61,8 +61,6 @@ class PageJoueur(QWidget):
         self.intemperie.toggled.connect(self._regler_intemperie)
         formulaire.addRow(tr('Météo'), self.intemperie)
         self.points = QComboBox()
-        for point in F.POINTS_TELEPORTATION:
-            self.points.addItem(tr(point), point)
         bouton = QPushButton(tr('Téléporter'))
         bouton.clicked.connect(self._teleporter)
         ligne = QHBoxLayout()
@@ -74,12 +72,43 @@ class PageJoueur(QWidget):
         aide.setWordWrap(True)
         formulaire.addRow(aide)
         disposition.addWidget(infos)
+
+        iles = QGroupBox(tr('Zones'))
+        formulaire = QFormLayout(iles)
+        self.carte_iles = QComboBox()
+        self.carte_iles.activated.connect(self._regler_chapitre)
+        formulaire.addRow(tr('Carte des îles'), self.carte_iles)
+        aide = QLabel(tr("Le jeu y ajoute les îles au fil des chapitres de l'histoire : "
+                         "l'avancer peut faire sauter des événements. On ne peut pas "
+                         "revenir en deçà du chapitre de la partie."))
+        aide.setWordWrap(True)
+        aide.setEnabled(False)                      # texte grisé, comme une légende
+        formulaire.addRow(aide)
+        grille = QGridLayout()
+        self.cases_zones = {}
+        for rang, zone in enumerate(F.TELEPORTATION):
+            case = QCheckBox(tr(zone))
+            case.toggled.connect(lambda actif, zone=zone: self._ouvrir_zone(zone, actif))
+            grille.addWidget(case, rang // 4, rang % 4)
+            self.cases_zones[zone] = case
+        grille.setColumnStretch(4, 1)
+        formulaire.addRow(tr('Sort Téléportation'), grille)
+        aide = QLabel(tr("Une zone cochée entre dans la liste du sort (dans l'ordre du "
+                         "jeu), sans changer de chapitre ; une île s'affiche aussi comme "
+                         "visitée sur la carte. Les zones déjà visitées restent cochées : "
+                         "le jeu les remettrait."))
+        aide.setWordWrap(True)
+        aide.setEnabled(False)
+        formulaire.addRow(aide)
+        disposition.addWidget(iles)
         disposition.addStretch()
         self.setEnabled(False)
 
     def afficher(self, joueur) -> None:
         self.liaison.afficher(joueur)
         self._afficher_emplacement()
+        self._afficher_iles(joueur.sauvegarde)
+        self._remplir_points()
         self.setEnabled(True)
 
     def _teleporter(self) -> None:
@@ -101,6 +130,52 @@ class PageJoueur(QWidget):
             return
         joueur['intemperie'] = int(active)
         self.liaison.modifiee.emit()
+
+    def _ouvrir_zone(self, zone: str, actif: bool) -> None:
+        self.liaison.vue.sauvegarde.ouvrir_zone(zone, actif)
+        self._remplir_points()
+        self.liaison.modifiee.emit()
+
+    def _regler_chapitre(self) -> None:
+        sauvegarde = self.liaison.vue.sauvegarde
+        chapitre = self.carte_iles.currentData()
+        if sauvegarde.chapitre != chapitre:
+            sauvegarde.chapitre = chapitre
+            self.liaison.modifiee.emit()
+
+    def _afficher_iles(self, sauvegarde) -> None:
+        # Le chapitre ne descend pas sous celui de la partie, et les îles déjà
+        # visitées restent : revenir en arrière n'a pas été essayé en jeu.
+        origine = sauvegarde.chapitre
+        self.carte_iles.clear()
+        paliers = sorted(set(F.CHAPITRE_CARTE.values()) | {origine})
+        for chapitre in (c for c in paliers if c >= origine):
+            iles = [tr(i) for i, seuil in F.CHAPITRE_CARTE.items() if seuil <= chapitre]
+            self.carte_iles.addItem(
+                tr('{iles}  (chapitre {n})', iles=', '.join(iles) if iles else tr('Aucune île'),
+                   n=chapitre), chapitre)
+        self.carte_iles.setEnabled(self.carte_iles.count() > 1)
+        # La liste déroulante ne coupe pas le plus long palier.
+        largeur = max(self.carte_iles.fontMetrics().horizontalAdvance(
+            self.carte_iles.itemText(i)) for i in range(self.carte_iles.count()))
+        self.carte_iles.view().setMinimumWidth(largeur + 40)
+        for zone, case in self.cases_zones.items():
+            visitee = sauvegarde.zone_visitee(zone)
+            case.blockSignals(True)
+            case.setChecked(visitee)
+            case.blockSignals(False)
+            case.setEnabled(not visitee)
+            case.setToolTip(tr('Déjà visitée dans cette partie.') if visitee else '')
+
+    def _remplir_points(self) -> None:
+        """Points de téléportation, sans ceux des îles pas encore ouvertes."""
+        sauvegarde = self.liaison.vue.sauvegarde
+        choisi = self.points.currentData()
+        self.points.clear()
+        for point in F.POINTS_TELEPORTATION:
+            if point not in F.ILES_FIN_DE_PARTIE or sauvegarde.zone_visitee(point):
+                self.points.addItem(tr(point), point)
+        self.points.setCurrentIndex(max(0, self.points.findData(choisi)))
 
     def _afficher_emplacement(self) -> None:
         joueur = self.liaison.vue

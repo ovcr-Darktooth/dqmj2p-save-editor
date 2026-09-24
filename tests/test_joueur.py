@@ -219,6 +219,61 @@ class Meteo(unittest.TestCase):
         self.assertEqual(s.joueur['intemperie'], 0)
 
 
+
+class Iles(unittest.TestCase):
+    def test_chapitre_releve_en_jeu(self):
+        for nom, chapitre in (('histoire.dsv', 4), ('moitie-jeu.dsv', 7),
+                              ('en-avant-rapthorne-2.dsv', 9), ('en-fin-de-jeu.dsv', 10)):
+            with self.subTest(nom):
+                self.assertEqual(Sauvegarde.ouvrir(donnee(nom)).chapitre, chapitre)
+
+    def test_teleportation_relevee_en_jeu(self):
+        fin = Sauvegarde.ouvrir(donnee('en-fin-de-jeu.dsv'))
+        milieu = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        debut = Sauvegarde.ouvrir(donnee('random.dsv'))     # randomizer, chapitre 0
+        for zone in F.TELEPORTATION:
+            with self.subTest(zone):
+                self.assertTrue(fin.zone_visitee(zone))
+                self.assertEqual(milieu.zone_visitee(zone), zone not in F.ILES_FIN_DE_PARTIE)
+                self.assertFalse(debut.zone_visitee(zone))
+
+    def test_bits_distincts(self):
+        self.assertEqual(len(set(F.TELEPORTATION.values())), len(F.TELEPORTATION))
+
+    def test_ouvrir_une_ile_sans_changer_de_chapitre(self):
+        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        avant = bytes(s.copie)
+        s.ouvrir_zone('Ténébria')
+        self.assertEqual(s.chapitre, 7)
+        self.assertTrue(s.zone_visitee('Ténébria'))
+        self.assertFalse(s.zone_visitee('Nécropolis'))
+        self.assertEqual([i for i in range(len(avant)) if avant[i] != s.copie[i]],
+                         [F.TELEPORTATION['Ténébria'][0]])
+        s.ouvrir_zone('Ténébria', False)
+        self.assertEqual(bytes(s.copie), avant)
+
+    def test_chapitre_ne_touche_qu_un_octet(self):
+        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        avant = bytes(s.copie)
+        s.chapitre = F.CHAPITRE_CARTE['Ténébria']
+        self.assertEqual([i for i in range(len(avant)) if avant[i] != s.copie[i]],
+                         [F.CHAPITRE])
+        self.assertEqual(Sauvegarde(s.en_octets()).chapitre, 9)
+
+    def test_fin_de_jeu_deja_ouverte(self):
+        s = Sauvegarde.ouvrir(donnee('en-fin-de-jeu.dsv'))
+        for zone in F.TELEPORTATION:
+            s.ouvrir_zone(zone)
+        self.assertEqual(s.chapitre, 10)
+        self.assertFalse(s.modifiee)
+
+    def test_points_des_zones(self):
+        for zone in F.TELEPORTATION:
+            if zone in F.POINTS_TELEPORTATION:
+                with self.subTest(zone):
+                    self.assertEqual(noms.carte(F.POINTS_TELEPORTATION[zone][0]), zone)
+
+
 class Composition(unittest.TestCase):
     def test_lecture(self):
         s = Sauvegarde.ouvrir(donnee('en-avant-boss-final.dsv'))

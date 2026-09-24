@@ -39,7 +39,8 @@ Offsets de base relevés par **Ceris White** (`save_converter.py`, projet
 | `0xB0` | u32 | Or en banque |
 | `0xB4` | 6 × u32 | ID de création : équipe 1-3, puis réserve 1-3 |
 | `0xCC` | 256 × u8 | Sac : quantité possédée de chaque objet, indexée par ID d'objet (armes comprises) |
-| `0x1CC-0x1DB` | 16 o | **À cartographier** (`00 01 00 02 03 04 05 07 0B 09 08 7F…`, ressemble à un ordre ou à des index) |
+| `0x1CC` | 12 × u8 | Ordre des boutons de l'écran du bas (grille 4 × 3, ligne par ligne) : ID du bouton, `7F` = case vide (voir « Boutons ») |
+| `0x1D8-0x1DB` | 4 o | **À cartographier** (`0C 0D 7F 7F` en milieu de jeu, `0C 0D 0E 0F` en fin de jeu : autres boutons ?) |
 | `0x1DC` | 3 × u16 | Victoires, monstres dressés, monstres synthétisés |
 | `0x1E8` | 100 × 0x84 | Enregistrements de monstres |
 | `0x3578` | 512 bits | Bibliothèque des monstres, **dressés** : bit n = espèce n (voir ci-dessous) |
@@ -49,7 +50,7 @@ Offsets de base relevés par **Ceris White** (`save_converter.py`, projet
 | `0x36B8-0x36F7` | | **À cartographier** (quasi vide) |
 | `0x36F8` | 256 bits | Bibliothèque des attributs : bit n = attribut n (`msg_tokusei`) |
 | `0x3718` | 256 bits | Bibliothèque des compétences : bit n = compétence n (`noms.competences`) |
-| `0x3738-0x3A67` | | **À cartographier** |
+| `0x3738-0x3A67` | | Drapeaux d'événements, **à cartographier** (voir « Zones ») |
 | `0x3A68` | u8 | Carte actuelle (table `noms.CARTES`, relevée en jeu : 14 L'Arbirynthe, 17 Prairia, 24 Arène, 37 Escarpic, 47 Engloutîle, 57 Archéopolis, 85 Albatros extérieur, 88 Albatros intérieur, 151 Avablanche) |
 | `0x3A6C` | u32 | Horloge jour/nuit, en 1/30 s de jeu en plein air (0 en ville) : nuit à partir de 10 800, retour à 0 à 18 000 |
 | `0x3A69` | u8 | Carte précédente : au chargement, le jeu y met la carte du résumé (`0x86`) |
@@ -204,6 +205,77 @@ avez dressé 30 monstres » et annoncé une récompense, sans nouveau monstre da
 la sauvegarde suivante. Octets changés hors temps et position : `0x3966`
 (0 → 3, change aussi dans d'autres sessions), `0x399D` bit 4, `0x39B7` bit 6,
 `0x3A56` bit 7, `0x3A5E` bit 7. Le drapeau du message est l'un d'eux.
+
+## Zones
+
+Relevé le 24/09/2026 sur `moitie-jeu` (partie arrêtée à Archéopolis) :
+
+- **`0x3951` : chapitre de l'histoire** (u8) : 0 au début, 4, 7 à
+  mi-parcours, 9 après Rapthorne 2, 10 en fin de jeu. La carte des îles
+  (affichée en sortant d'une zone par son entrée) en dépend, **validé en
+  jeu** : au chapitre 8 elle montre Nécropolis, au 9 aussi Ténébria, au 10
+  aussi l'Île des Pipits. Trouvé d'abord par dichotomie comme un « bit
+  `0x08` » : l'allumer faisait passer `moitie-jeu` du chapitre 7 au 15, ce
+  qui montrait les trois îles mais sautait tous les chapitres suivants. Il
+  faut écrire la valeur voulue, jamais un masque. Avancer le chapitre peut
+  faire sauter des événements de l'histoire.
+- **Chaque zone dans la liste du sort Téléportation** (`TELEPORTATION`),
+  allumé par la première visite, qui fait aussi passer le point d'une île en
+  « visité » (moins marqué) sur la carte des îles. La liste en jeu suit
+  l'ordre du jeu, pas celui des bits :
+
+  | Zone | Bit |
+  |---|---|
+  | Albatros (toujours présent) | `0x39A9` `0x04` |
+  | L'Arbirynthe | `0x39A9` `0x10` |
+  | Prairia | `0x39A9` `0x20` |
+  | Arène | `0x39AB` `0x08` |
+  | Avablanche | `0x39A9` `0x40` |
+  | Escarpic | `0x39A9` `0x80` |
+  | Engloutîle | `0x39AA` `0x04` |
+  | Archéopolis | `0x39AA` `0x02` |
+  | Nécropolis | `0x39AA` `0x08` |
+  | Ténébria | `0x39AA` `0x10` |
+  | Île des Pipits | `0x39D9` `0x40` |
+  | Palais Blanc (pas de point sur la carte des îles) | `0x39D9` `0x80` |
+
+  **Validés en jeu** : les onze allumés ensemble sur la sauvegarde du
+  randomizer (chapitre 0, rien que l'Albatros), puis Avablanche, Escarpic,
+  Engloutîle et Archéopolis départagés par deux essais de deux bits ; les îles
+  de fin allumées seules sur `moitie-jeu`. Un autre éditeur (conçu pour
+  Joker 2) les propose comme « zones débloquables » et donne les mêmes bits.
+  Éteindre celui d'une zone déjà visitée ne la retire pas : éteint, celui de
+  l'Arbirynthe est revenu à la sauvegarde suivante. La première visite de
+  l'Île des Pipits allume aussi `0x3950` bit `0x01`, `0x39F2` bit `0x08`,
+  `0x3A29` bit `0x20` et `0x3A2A` (`3F`), sans rôle connu ; celle de Ténébria
+  `0x39A8` bit `0x08`.
+- Cartes : 67 Nécropolis, 79 Ténébria (arrivée de la Téléportation), 131 une
+  autre zone de Ténébria, 136 Île des Pipits. Points de téléportation relevés
+  sans bouger : arrivée du sort pour Ténébria et l'Île des Pipits, arrivée par
+  la carte des îles pour Nécropolis. Pas encore de point pour le Palais Blanc.
+- L'éditeur (onglet Joueur, cadre « Zones ») règle séparément la carte des
+  îles (choix du chapitre, jamais sous celui de la partie ni au-delà de 10) et
+  la liste du sort Téléportation (une case par zone, sans toucher au
+  chapitre). Les îles
+  déjà visitées restent cochées : retirer ces bits d'une partie avancée n'a
+  pas été essayé. La Téléportation seule a été validée pour Ténébria au
+  chapitre 7 (l'île apparaît dans la liste sans être sur la carte), et la
+  téléportation de l'éditeur vers Ténébria au chapitre 7 donne une zone
+  normale, avec ses monstres.
+- Les bits de `0x39C0-0x3A67` allumés en fin de jeu comprennent les sous-cartes
+  découvertes : ajoutés à `moitie-jeu`, toutes celles d'Archéopolis se sont
+  affichées. Pas encore isolés.
+
+## Boutons
+
+L'écran du bas du menu affiche une grille de 4 × 3 boutons, dont l'ordre est
+enregistré en `0x1CC` (relevé sur `moitie-jeu` et `en-fin-de-jeu`, dont les
+ordres diffèrent : les 10 boutons communs concordent). IDs observés : `00`
+bâton, `01` Objets (sac), `02` épée, `03` flèches croisées, `04` épées
+croisées, `05` liste, `06` statue, `07` parchemin, `08` Compétences de
+dressage (aile), `09` bulle, `0A` pion, `0B` slime. `06` et `0A` n'existent
+qu'en fin de jeu. Libellés à compléter ; modification pas encore validée en
+jeu.
 
 ## Méthode pour la suite
 
