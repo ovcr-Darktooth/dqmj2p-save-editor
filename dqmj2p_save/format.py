@@ -253,9 +253,11 @@ TELEPORTATION = {
 # « Dresser » reste grisé ; les deux ensemble, il est actif. Compteur à 0x0A :
 # grisé. Le bit 0x3996 0x01, que met un autre éditeur, ne joue aucun rôle.
 DRESSAGE_GEANTS = (0x39A7, 0x01)
-# Compteur d'avancement de l'histoire (u8) : 1 au début, 4 au chapitre 4, 7
-# puis 9 au chapitre 7, 0x0B après la scène de Lionyx (chapitre 8), 0x0C et
-# 0x0D ensuite. L'avancer peut faire sauter des événements de l'histoire.
+# Compteur d'avancement de l'histoire (u8), plus fin que le chapitre : 1 au
+# début, 4 au chapitre 4, 7 en arrivant à Archéopolis, 8 et 9 après son boss
+# puis Lionyx maléfique (probable), 0x0A retour de Lionyx (supposé), 0x0B
+# anneau évolué (chapitre 8), 0x0C et 0x0D ensuite. L'avancer peut faire
+# sauter des événements de l'histoire.
 AVANCEMENT = 0x393C
 AVANCEMENT_GEANTS = 0x0B
 # Îles de fin de partie : leurs points de téléportation ne sont proposés

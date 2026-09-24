@@ -219,9 +219,21 @@ au chapitre 8 : Lionyx, revenu à la vie, fait évoluer l'anneau de dresseur
 monstres géants ! »). Il tient à **deux conditions à la fois** :
 
 - **`0x39A7` bit `0x01`** : l'anneau a évolué ;
-- **`0x393C` ≥ `0x0B`** : compteur d'avancement de l'histoire (u8). Il vaut
-  1 au début, 2, 4 (chapitre 4), 5, 6, 7 puis 9 au chapitre 7, `0B` après la
-  scène de Lionyx, puis `0C` et `0D`.
+- **`0x393C` ≥ `0x0B`** : compteur d'avancement de l'histoire (u8), plus fin
+  que le chapitre. Il vaut 1 au début, 2, 4 (chapitre 4), 5, 6, puis :
+
+  | Valeur | Étape |
+  |---|---|
+  | `07` | arrivée à Archéopolis (`moitie-jeu`, chapitre 7) |
+  | `08` | boss d'Archéopolis battu (probable) |
+  | `09` | Lionyx maléfique battu à Nécropolis (probable ; partie principale, 14 h 33, toujours chapitre 7) |
+  | `0A` | retour à la vie de Lionyx, scène `d088` (supposé) |
+  | `0B` | Lionyx fait évoluer l'anneau, scène `d092` (chapitre 8) |
+  | `0C`, `0D` | chapitre 9 et au-delà |
+
+  Les étapes probables viennent de ce qu'a joué le joueur entre `07` et `09`
+  (boss d'Archéopolis, Nécropolis, Lionyx maléfique) ; `0A` de l'ordre des
+  scènes.
 
 **Validé en jeu le 24/09/2026** sur une partie au chapitre 7 (avancement 9),
 devant un Vercule (de nuit dans son nid) : les deux ensemble rendent
