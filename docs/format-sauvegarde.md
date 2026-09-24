@@ -237,7 +237,9 @@ Relevé le 24/09/2026 sur `moitie-jeu` (partie arrêtée à Archéopolis) :
   sort Téléportation (une case par île, sans toucher au chapitre). Les îles
   déjà visitées restent cochées : retirer ces bits d'une partie avancée n'a
   pas été essayé. La Téléportation seule a été validée pour Ténébria au
-  chapitre 7 (l'île apparaît dans la liste sans être sur la carte).
+  chapitre 7 (l'île apparaît dans la liste sans être sur la carte), et la
+  téléportation de l'éditeur vers Ténébria au chapitre 7 donne une zone
+  normale, avec ses monstres.
 - Les bits de `0x39A9` et `0x39AB` qu'un éditeur conçu pour Joker 2 présente
   comme « zones débloquables » (L'Arbirynthe `0x10`, Prairia `0x20`, Arène
   `0x39AB` bit `0x08`) sont recalculés : éteint, celui de l'Arbirynthe ne
