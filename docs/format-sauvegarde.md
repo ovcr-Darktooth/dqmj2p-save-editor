@@ -219,12 +219,33 @@ Relevé le 24/09/2026 sur `moitie-jeu` (partie arrêtée à Archéopolis) :
   qui montrait les trois îles mais sautait tous les chapitres suivants. Il
   faut écrire la valeur voulue, jamais un masque. Avancer le chapitre peut
   faire sauter des événements de l'histoire.
-- **Chaque île dans la liste du sort Téléportation** (`TELEPORTATION_ILES`),
-  allumé par la première visite, qui fait aussi passer son point en « visité »
-  (moins marqué) sur la carte des îles : Nécropolis `0x39AA` bit `0x08`,
-  Ténébria `0x39AA` bit `0x10`, Île des Pipits `0x39D9` bit `0x40`, Palais
-  Blanc `0x39D9` bit `0x80` (pas de point sur la carte des îles). **Validés
-  en jeu** en les allumant seuls sur `moitie-jeu`. La première visite de
+- **Chaque zone dans la liste du sort Téléportation** (`TELEPORTATION`),
+  allumé par la première visite, qui fait aussi passer le point d'une île en
+  « visité » (moins marqué) sur la carte des îles. La liste en jeu suit
+  l'ordre du jeu, pas celui des bits :
+
+  | Zone | Bit |
+  |---|---|
+  | Albatros (toujours présent) | `0x39A9` `0x04` |
+  | L'Arbirynthe | `0x39A9` `0x10` |
+  | Prairia | `0x39A9` `0x20` |
+  | Arène | `0x39AB` `0x08` |
+  | Avablanche | `0x39A9` `0x40` |
+  | Escarpic | `0x39A9` `0x80` |
+  | Engloutîle | `0x39AA` `0x04` |
+  | Archéopolis | `0x39AA` `0x02` |
+  | Nécropolis | `0x39AA` `0x08` |
+  | Ténébria | `0x39AA` `0x10` |
+  | Île des Pipits | `0x39D9` `0x40` |
+  | Palais Blanc (pas de point sur la carte des îles) | `0x39D9` `0x80` |
+
+  **Validés en jeu** : les onze allumés ensemble sur la sauvegarde du
+  randomizer (chapitre 0, rien que l'Albatros), puis Avablanche, Escarpic,
+  Engloutîle et Archéopolis départagés par deux essais de deux bits ; les îles
+  de fin allumées seules sur `moitie-jeu`. Un autre éditeur (conçu pour
+  Joker 2) les propose comme « zones débloquables » et donne les mêmes bits.
+  Éteindre celui d'une zone déjà visitée ne la retire pas : éteint, celui de
+  l'Arbirynthe est revenu à la sauvegarde suivante. La première visite de
   l'Île des Pipits allume aussi `0x3950` bit `0x01`, `0x39F2` bit `0x08`,
   `0x3A29` bit `0x20` et `0x3A2A` (`3F`), sans rôle connu ; celle de Ténébria
   `0x39A8` bit `0x08`.
@@ -232,18 +253,15 @@ Relevé le 24/09/2026 sur `moitie-jeu` (partie arrêtée à Archéopolis) :
   autre zone de Ténébria, 136 Île des Pipits. Points de téléportation relevés
   sans bouger : arrivée du sort pour Ténébria et l'Île des Pipits, arrivée par
   la carte des îles pour Nécropolis. Pas encore de point pour le Palais Blanc.
-- L'éditeur (onglet Joueur) règle séparément la carte des îles (choix du
-  chapitre, jamais sous celui de la partie ni au-delà de 10) et la liste du
-  sort Téléportation (une case par île, sans toucher au chapitre). Les îles
+- L'éditeur (onglet Joueur, cadre « Zones ») règle séparément la carte des
+  îles (choix du chapitre, jamais sous celui de la partie ni au-delà de 10) et
+  la liste du sort Téléportation (une case par zone, sans toucher au
+  chapitre). Les îles
   déjà visitées restent cochées : retirer ces bits d'une partie avancée n'a
   pas été essayé. La Téléportation seule a été validée pour Ténébria au
   chapitre 7 (l'île apparaît dans la liste sans être sur la carte), et la
   téléportation de l'éditeur vers Ténébria au chapitre 7 donne une zone
   normale, avec ses monstres.
-- Les bits de `0x39A9` et `0x39AB` qu'un éditeur conçu pour Joker 2 présente
-  comme « zones débloquables » (L'Arbirynthe `0x10`, Prairia `0x20`, Arène
-  `0x39AB` bit `0x08`) sont recalculés : éteint, celui de l'Arbirynthe ne
-  retire pas la zone et le jeu le rallume à la sauvegarde suivante.
 - Les bits de `0x39C0-0x3A67` allumés en fin de jeu comprennent les sous-cartes
   découvertes : ajoutés à `moitie-jeu`, toutes celles d'Archéopolis se sont
   affichées. Pas encore isolés.

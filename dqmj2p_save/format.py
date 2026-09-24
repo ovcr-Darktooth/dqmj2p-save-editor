@@ -224,16 +224,29 @@ INDICATEUR_NUIT = (0x39A1, 0x20)
 # L'avancer peut faire sauter des événements de l'histoire.
 CHAPITRE = 0x3951
 CHAPITRE_CARTE = {'Nécropolis': 8, 'Ténébria': 9, 'Île des Pipits': 10}
-# Chaque île dans la liste du sort Téléportation, allumé par la première
-# visite, qui fait aussi passer son point en « visité » sur la carte. Validés
-# en jeu le 24/09/2026 en les allumant seuls sur moitie-jeu. Le Palais Blanc
-# n'a pas de point sur la carte des îles.
-TELEPORTATION_ILES = {
+# Chaque zone dans la liste du sort Téléportation, dans l'ordre de la liste
+# en jeu (l'Albatros, 0x39A9 bit 0x04, y est toujours). Allumé par la première
+# visite, qui fait aussi passer le point de l'île en « visité » sur la carte.
+# Validés en jeu le 24/09/2026 en les allumant sur des parties qui ne les
+# avaient pas (randomizer au chapitre 0, moitie-jeu pour les îles de fin).
+# Éteindre celui d'une zone où l'on est déjà passé ne la retire pas : le jeu
+# le rallume.
+TELEPORTATION = {
+    "L'Arbirynthe": (0x39A9, 0x10),
+    'Prairia': (0x39A9, 0x20),
+    'Arène': (0x39AB, 0x08),
+    'Avablanche': (0x39A9, 0x40),
+    'Escarpic': (0x39A9, 0x80),
+    'Engloutîle': (0x39AA, 0x04),
+    'Archéopolis': (0x39AA, 0x02),
     'Nécropolis': (0x39AA, 0x08),
     'Ténébria': (0x39AA, 0x10),
     'Île des Pipits': (0x39D9, 0x40),
     'Palais Blanc': (0x39D9, 0x80),
 }
+# Îles de fin de partie : leurs points de téléportation ne sont proposés
+# qu'une fois l'île dans la liste. Le Palais Blanc n'est pas sur la carte.
+ILES_FIN_DE_PARTIE = ('Nécropolis', 'Ténébria', 'Île des Pipits', 'Palais Blanc')
 CHAMP_JOUEUR = {c.cle: c for c in CHAMPS_JOUEUR}
 
 # Bloc de position complet (0x3A68-0x3A83 : carte, carte précédente,

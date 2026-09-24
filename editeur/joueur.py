@@ -1,7 +1,7 @@
 """Onglet Joueur : nom, temps de jeu, or et statistiques de partie, plus la
 date de sauvegarde, l'emplacement dans le monde et la téléportation vers des
 points relevés en jeu, et le déblocage des îles de fin de partie."""
-from PySide6.QtWidgets import (QCheckBox, QComboBox, QFormLayout, QGroupBox,
+from PySide6.QtWidgets import (QCheckBox, QComboBox, QFormLayout, QGridLayout, QGroupBox,
                                QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget)
 
 from dqmj2p_save import format as F
@@ -73,7 +73,7 @@ class PageJoueur(QWidget):
         formulaire.addRow(aide)
         disposition.addWidget(infos)
 
-        iles = QGroupBox(tr('Îles de fin de partie'))
+        iles = QGroupBox(tr('Zones'))
         formulaire = QFormLayout(iles)
         self.carte_iles = QComboBox()
         self.carte_iles.activated.connect(self._regler_chapitre)
@@ -84,18 +84,19 @@ class PageJoueur(QWidget):
         aide.setWordWrap(True)
         aide.setEnabled(False)                      # texte grisé, comme une légende
         formulaire.addRow(aide)
-        ligne = QHBoxLayout()
-        self.cases_iles = {}
-        for ile in F.TELEPORTATION_ILES:
-            case = QCheckBox(tr(ile))
-            case.toggled.connect(lambda actif, ile=ile: self._ouvrir_ile(ile, actif))
-            ligne.addWidget(case)
-            self.cases_iles[ile] = case
-        ligne.addStretch()
-        formulaire.addRow(tr('Sort Téléportation'), ligne)
-        aide = QLabel(tr("Une île cochée entre dans la liste du sort et s'affiche comme "
-                         "visitée sur la carte, sans changer de chapitre. Les îles déjà "
-                         "visitées restent cochées."))
+        grille = QGridLayout()
+        self.cases_zones = {}
+        for rang, zone in enumerate(F.TELEPORTATION):
+            case = QCheckBox(tr(zone))
+            case.toggled.connect(lambda actif, zone=zone: self._ouvrir_zone(zone, actif))
+            grille.addWidget(case, rang // 4, rang % 4)
+            self.cases_zones[zone] = case
+        grille.setColumnStretch(4, 1)
+        formulaire.addRow(tr('Sort Téléportation'), grille)
+        aide = QLabel(tr("Une zone cochée entre dans la liste du sort (dans l'ordre du "
+                         "jeu), sans changer de chapitre ; une île s'affiche aussi comme "
+                         "visitée sur la carte. Les zones déjà visitées restent cochées : "
+                         "le jeu les remettrait."))
         aide.setWordWrap(True)
         aide.setEnabled(False)
         formulaire.addRow(aide)
@@ -130,8 +131,8 @@ class PageJoueur(QWidget):
         joueur['intemperie'] = int(active)
         self.liaison.modifiee.emit()
 
-    def _ouvrir_ile(self, ile: str, actif: bool) -> None:
-        self.liaison.vue.sauvegarde.ouvrir_ile(ile, actif)
+    def _ouvrir_zone(self, zone: str, actif: bool) -> None:
+        self.liaison.vue.sauvegarde.ouvrir_zone(zone, actif)
         self._remplir_points()
         self.liaison.modifiee.emit()
 
@@ -158,8 +159,8 @@ class PageJoueur(QWidget):
         largeur = max(self.carte_iles.fontMetrics().horizontalAdvance(
             self.carte_iles.itemText(i)) for i in range(self.carte_iles.count()))
         self.carte_iles.view().setMinimumWidth(largeur + 40)
-        for ile, case in self.cases_iles.items():
-            visitee = sauvegarde.ile_visitee(ile)
+        for zone, case in self.cases_zones.items():
+            visitee = sauvegarde.zone_visitee(zone)
             case.blockSignals(True)
             case.setChecked(visitee)
             case.blockSignals(False)
@@ -172,7 +173,7 @@ class PageJoueur(QWidget):
         choisi = self.points.currentData()
         self.points.clear()
         for point in F.POINTS_TELEPORTATION:
-            if point not in F.TELEPORTATION_ILES or sauvegarde.ile_visitee(point):
+            if point not in F.ILES_FIN_DE_PARTIE or sauvegarde.zone_visitee(point):
                 self.points.addItem(tr(point), point)
         self.points.setCurrentIndex(max(0, self.points.findData(choisi)))
 

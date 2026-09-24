@@ -239,7 +239,6 @@ TEXTES = {
         '{n} — {lieu}   (previous: {n_avant} — {lieu_avant})',
     '{meteo} en cours': '{meteo} in progress',
     'Aucune intempérie connue sur cette carte': 'No known weather on this map',
-    'Îles de fin de partie': 'Late-game islands',
     'Carte des îles': 'Island map',
     "Le jeu y ajoute les îles au fil des chapitres de l'histoire : l'avancer peut "
     "faire sauter des événements. On ne peut pas revenir en deçà du chapitre de la "
@@ -247,10 +246,13 @@ TEXTES = {
                'chapter forward may skip events. It cannot go below the chapter of '
                'the game.',
     'Sort Téléportation': 'Zoom spell',
-    "Une île cochée entre dans la liste du sort et s'affiche comme visitée sur la "
-    'carte, sans changer de chapitre. Les îles déjà visitées restent cochées.':
-        'A ticked island joins the spell list and shows as visited on the map, '
-        'without changing the chapter. Islands already visited stay ticked.',
+    "Une zone cochée entre dans la liste du sort (dans l'ordre du jeu), sans changer "
+    "de chapitre ; une île s'affiche aussi comme visitée sur la carte. Les zones déjà "
+    'visitées restent cochées : le jeu les remettrait.':
+        "A ticked area joins the spell list (in the game's order), without changing "
+        'the chapter; an island also shows as visited on the map. Areas already '
+        'visited stay ticked: the game would put them back.',
+    'Zones': 'Areas',
     '{iles}  (chapitre {n})': '{iles}  (chapter {n})',
     'Aucune île': 'No island',
     'Déjà visitée dans cette partie.': 'Already visited in this game.',

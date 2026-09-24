@@ -176,15 +176,15 @@ class Sauvegarde:
             self.copie[F.CHAPITRE] = valeur
             self.modifiee = True
 
-    def ile_visitee(self, ile: str) -> bool:
-        """L'île (clé de F.TELEPORTATION_ILES) est dans la liste du sort
+    def zone_visitee(self, zone: str) -> bool:
+        """La zone (clé de F.TELEPORTATION) est dans la liste du sort
         Téléportation."""
-        return self._drapeau(F.TELEPORTATION_ILES[ile])
+        return self._drapeau(F.TELEPORTATION[zone])
 
-    def ouvrir_ile(self, ile: str, actif: bool = True) -> None:
-        """Ajoute (ou retire) l'île à la liste du sort Téléportation, sans
+    def ouvrir_zone(self, zone: str, actif: bool = True) -> None:
+        """Ajoute (ou retire) la zone à la liste du sort Téléportation, sans
         toucher au chapitre (la carte des îles en dépend, pas cette liste)."""
-        self._regler_drapeau(F.TELEPORTATION_ILES[ile], actif)
+        self._regler_drapeau(F.TELEPORTATION[zone], actif)
 
     # ── Équipe et réserve ────────────────────────────────────────────────────
 

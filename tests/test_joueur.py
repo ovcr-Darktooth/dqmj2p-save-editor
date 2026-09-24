@@ -230,21 +230,26 @@ class Iles(unittest.TestCase):
     def test_teleportation_relevee_en_jeu(self):
         fin = Sauvegarde.ouvrir(donnee('en-fin-de-jeu.dsv'))
         milieu = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
-        for ile in F.TELEPORTATION_ILES:
-            with self.subTest(ile):
-                self.assertTrue(fin.ile_visitee(ile))
-                self.assertFalse(milieu.ile_visitee(ile))
+        debut = Sauvegarde.ouvrir(donnee('random.dsv'))     # randomizer, chapitre 0
+        for zone in F.TELEPORTATION:
+            with self.subTest(zone):
+                self.assertTrue(fin.zone_visitee(zone))
+                self.assertEqual(milieu.zone_visitee(zone), zone not in F.ILES_FIN_DE_PARTIE)
+                self.assertFalse(debut.zone_visitee(zone))
+
+    def test_bits_distincts(self):
+        self.assertEqual(len(set(F.TELEPORTATION.values())), len(F.TELEPORTATION))
 
     def test_ouvrir_une_ile_sans_changer_de_chapitre(self):
         s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
         avant = bytes(s.copie)
-        s.ouvrir_ile('Ténébria')
+        s.ouvrir_zone('Ténébria')
         self.assertEqual(s.chapitre, 7)
-        self.assertTrue(s.ile_visitee('Ténébria'))
-        self.assertFalse(s.ile_visitee('Nécropolis'))
+        self.assertTrue(s.zone_visitee('Ténébria'))
+        self.assertFalse(s.zone_visitee('Nécropolis'))
         self.assertEqual([i for i in range(len(avant)) if avant[i] != s.copie[i]],
-                         [F.TELEPORTATION_ILES['Ténébria'][0]])
-        s.ouvrir_ile('Ténébria', False)
+                         [F.TELEPORTATION['Ténébria'][0]])
+        s.ouvrir_zone('Ténébria', False)
         self.assertEqual(bytes(s.copie), avant)
 
     def test_chapitre_ne_touche_qu_un_octet(self):
@@ -257,16 +262,16 @@ class Iles(unittest.TestCase):
 
     def test_fin_de_jeu_deja_ouverte(self):
         s = Sauvegarde.ouvrir(donnee('en-fin-de-jeu.dsv'))
-        for ile in F.TELEPORTATION_ILES:
-            s.ouvrir_ile(ile)
+        for zone in F.TELEPORTATION:
+            s.ouvrir_zone(zone)
         self.assertEqual(s.chapitre, 10)
         self.assertFalse(s.modifiee)
 
-    def test_points_des_iles(self):
-        for ile in F.TELEPORTATION_ILES:
-            if ile in F.POINTS_TELEPORTATION:
-                with self.subTest(ile):
-                    self.assertEqual(noms.carte(F.POINTS_TELEPORTATION[ile][0]), ile)
+    def test_points_des_zones(self):
+        for zone in F.TELEPORTATION:
+            if zone in F.POINTS_TELEPORTATION:
+                with self.subTest(zone):
+                    self.assertEqual(noms.carte(F.POINTS_TELEPORTATION[zone][0]), zone)
 
 
 class Composition(unittest.TestCase):
