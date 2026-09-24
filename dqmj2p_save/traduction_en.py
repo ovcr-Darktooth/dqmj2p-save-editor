@@ -352,6 +352,44 @@ TEXTES = {
     'patch': 'patch',
     'Recette ajoutée par le patch de traduction': 'Recipe added by the translation patch',
 
+    # ── Onglet Synthèses ─────────────────────────────────────────────────────
+    'Synthèses': 'Syntheses',
+    'Ignorer la polarité (sexe)': 'Ignore polarity (gender)',
+    'Le patch anglais permet de désactiver la polarité pour les synthèses : deux '
+    'parents de même polarité peuvent alors être synthétisés.':
+        'The English patch can turn off polarity for synthesis: two parents with '
+        'the same polarity can then be synthesized.',
+    'Masquer les espèces déjà dressées': 'Hide species already scouted',
+    'Incomplètes : aucune': 'Incomplete: none',
+    'Incomplètes : il manque 1 monstre': 'Incomplete: 1 monster missing',
+    'Incomplètes : il manque 1 ou 2 monstres': 'Incomplete: 1 or 2 monsters missing',
+    'Incomplètes : toutes': 'Incomplete: all',
+    'Possibles maintenant': 'Possible now',
+    'Bientôt possibles': 'Possible soon',
+    'Incomplètes': 'Incomplete',
+    'Aucune synthèse spéciale à portée avec ces réglages.':
+        'No special synthesis within reach with these settings.',
+    "Monstres de l'équipe, de la réserve et du ranch. Chaque parent doit être au moins "
+    "au niveau {niveau}. Une synthèse à 4 se fait avec deux monstres nés chacun d'une "
+    'des paires.':
+        'Monsters in the party, on standby and in storage. Each parent must be at least '
+        'level {niveau}. A 4-monster synthesis uses two monsters, each born from one of '
+        'the pairs.',
+    '{possibles} possibles, {bientot} bientôt, {incompletes} incomplètes':
+        '{possibles} possible, {bientot} soon, {incompletes} incomplete',
+    'Aucun monstre disponible de cette espèce': 'No available monster of this species',
+    'déjà dressé': 'scouted',
+    'Espèce déjà dressée (bibliothèque)': 'Species already scouted (library)',
+    '{surnom} (niv. {niveau}, {role})': '{surnom} (Lv. {niveau}, {role})',
+    'Intermédiaires : {monstres}': 'Intermediates: {monstres}',
+    'Avec : {monstres}': 'With: {monstres}',
+    "D'abord : synthétiser {a} + {b} (l'enfant garde cette lignée)":
+        'First: synthesize {a} + {b} (the offspring keeps this lineage)',
+    'Niveau {niveau} requis : {monstres}': 'Level {niveau} required: {monstres}',
+    'Même polarité : il faut deux polarités opposées, ou un parent neutre.':
+        'Same polarity: opposite polarities are needed, or a neutral parent.',
+    'Manque : {especes}': 'Missing: {especes}',
+
     # ── Onglet Sac ───────────────────────────────────────────────────────────
     'Rechercher dans les noms et descriptions…': 'Search names and descriptions…',
     'Objets possédés seulement': 'Owned items only',

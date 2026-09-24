@@ -50,6 +50,11 @@ def fiche(espece: int) -> Fiche:
     return _donnees()[0].get(espece, Fiche(None, None, None))
 
 
+def recettes() -> tuple[Recette, ...]:
+    """Toutes les synthèses spéciales."""
+    return _donnees()[1]
+
+
 def obtenu_par(espece: int) -> list[Recette]:
     """Synthèses spéciales qui donnent cette espèce."""
     return [r for r in _donnees()[1] if r.resultat == espece]
