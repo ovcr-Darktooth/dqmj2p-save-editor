@@ -40,7 +40,7 @@ Offsets de base relevés par **Ceris White** (`save_converter.py`, projet
 | `0xB4` | 6 × u32 | ID de création : équipe 1-3, puis réserve 1-3 |
 | `0xCC` | 256 × u8 | Sac : quantité possédée de chaque objet, indexée par ID d'objet (armes comprises) |
 | `0x1CC` | 12 × u8 | Ordre des boutons de l'écran du bas (grille 4 × 3, ligne par ligne) : ID du bouton, `7F` = case vide (voir « Boutons ») |
-| `0x1D8-0x1DB` | 4 o | **À cartographier** (`0C 0D 7F 7F` en milieu de jeu, `0C 0D 0E 0F` en fin de jeu : autres boutons ?) |
+| `0x1D8` | 4 × u8 | Sorts du sous-menu Compétences de dressage, mêmes IDs (`0C` à `0F`), `7F` = pas encore appris |
 | `0x1DC` | 3 × u16 | Victoires, monstres dressés, monstres synthétisés |
 | `0x1E8` | 100 × 0x84 | Enregistrements de monstres |
 | `0x3578` | 512 bits | Bibliothèque des monstres, **dressés** : bit n = espèce n (voir ci-dessous) |
@@ -269,13 +269,31 @@ Relevé le 24/09/2026 sur `moitie-jeu` (partie arrêtée à Archéopolis) :
 ## Boutons
 
 L'écran du bas du menu affiche une grille de 4 × 3 boutons, dont l'ordre est
-enregistré en `0x1CC` (relevé sur `moitie-jeu` et `en-fin-de-jeu`, dont les
-ordres diffèrent : les 10 boutons communs concordent). IDs observés : `00`
-bâton, `01` Objets (sac), `02` épée, `03` flèches croisées, `04` épées
-croisées, `05` liste, `06` statue, `07` parchemin, `08` Compétences de
-dressage (aile), `09` bulle, `0A` pion, `0B` slime. `06` et `0A` n'existent
-qu'en fin de jeu. Libellés à compléter ; modification pas encore validée en
-jeu.
+enregistré en `0x1CC`, ligne par ligne ; `7F` marque une case vide. L'ID d'un
+bouton est sa ligne dans `msg_menu` (le titre affiché en haut de l'écran du
+bas, pour le bouton sélectionné, l'a confirmé sur deux boutons) :
+
+| ID | Bouton | ID | Bouton |
+|---|---|---|---|
+| `00` | Sorts et aptitudes | `08` | Compétences de dressage |
+| `01` | Objets | `09` | Manuel du dresseur |
+| `02` | Équipement | `0A` | Monstrequinque |
+| `03` | Changer de monstres | `0B` | Combats tombola |
+| `04` | Changer de tactique | `0C` | Téléportation |
+| `05` | Attribuer les compétences | `0D` | Téléportaïaut |
+| `06` | Soigner tous | `0E` | Détectrésor |
+| `07` | Sauvegarder | `0F` | Invisibilité |
+
+Ordre d'une partie neuve (sauvegarde du randomizer) : `01 00 02 03 04 05 07
+0B 09 08`, puis deux cases vides ; Soigner tous et Monstrequinque s'obtiennent
+plus tard. Les quatre sorts (`0C` à `0F`) sont dans le sous-menu Compétences
+de dressage, rangés en `0x1D8`.
+
+**Validé en jeu le 24/09/2026** sur `moitie-jeu` : grille réordonnée, puis
+une case vide au milieu et un bouton dans la dernière case ; la grille
+s'affiche comme écrit (captures de l'écran du bas) et chaque bouton ouvre son
+menu. L'éditeur (onglet Menu) échange les cases par glisser-déposer, sans
+ajouter ni retirer de bouton ; il ne touche pas aux sorts.
 
 ## Méthode pour la suite
 

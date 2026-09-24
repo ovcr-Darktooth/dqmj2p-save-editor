@@ -16,6 +16,7 @@ from .bibliotheque import PageBibliotheque
 from .equipe import PanneauEquipe, TYPE_MIME, emplacement_depuis, glisser
 from .fiche import Fiche
 from .joueur import PageJoueur
+from .menu import PageMenu
 from .sac import PageSac
 
 # Textes traduits à l'affichage (tr) : la langue peut changer en cours de route.
@@ -110,6 +111,8 @@ class Fenetre(QMainWindow):
         self.page_sac.modifiee.connect(self._rafraichir_titre)
         self.page_bibliotheque = PageBibliotheque()
         self.page_bibliotheque.modifiee.connect(self._rafraichir_titre)
+        self.page_menu = PageMenu()
+        self.page_menu.modifiee.connect(self._rafraichir_titre)
         for liaison in (self.fiche.liaison, self.page_joueur.liaison):
             liaison.erreur.connect(lambda message: self.statusBar().showMessage(message, 8000))
 
@@ -136,6 +139,7 @@ class Fenetre(QMainWindow):
         self.onglets.addTab(separation, tr('Monstres'))
         self.onglets.addTab(self.page_sac, tr('Sac'))
         self.onglets.addTab(self.page_bibliotheque, tr('Bibliothèque'))
+        self.onglets.addTab(self.page_menu, tr('Menu'))
         self.setCentralWidget(self.onglets)
 
         menu = self.menuBar().addMenu(tr('&Fichier'))
@@ -236,6 +240,7 @@ class Fenetre(QMainWindow):
         self.page_joueur.afficher(sauvegarde.joueur)
         self.page_sac.afficher(sauvegarde.sac)
         self.page_bibliotheque.afficher(sauvegarde.bibliotheque)
+        self.page_menu.afficher(sauvegarde)
         self._rafraichir_titre()
 
     # ── Fichiers récents ─────────────────────────────────────────────────────

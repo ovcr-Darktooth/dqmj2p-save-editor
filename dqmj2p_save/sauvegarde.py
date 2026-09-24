@@ -176,6 +176,27 @@ class Sauvegarde:
             self.copie[F.CHAPITRE] = valeur
             self.modifiee = True
 
+    @property
+    def boutons(self) -> list[int]:
+        """Grille des boutons de l'écran du bas (voir F.BOUTONS)."""
+        return list(self.copie[F.BOUTONS: F.BOUTONS + F.NB_CASES_BOUTONS])
+
+    def ranger_boutons(self, cases: list[int]) -> None:
+        """Nouvel ordre de la grille : les mêmes boutons et cases vides,
+        autrement placés (on n'ajoute ni ne retire de bouton)."""
+        if sorted(cases) != sorted(self.boutons):
+            raise ErreurSauvegarde(tr("L'ordre des boutons doit reprendre les mêmes "
+                                      'boutons.'))
+        if list(cases) != self.boutons:
+            self.copie[F.BOUTONS: F.BOUTONS + F.NB_CASES_BOUTONS] = bytes(cases)
+            self.modifiee = True
+
+    def echanger_boutons(self, a: int, b: int) -> None:
+        """Échange le contenu de deux cases de la grille."""
+        cases = self.boutons
+        cases[a], cases[b] = cases[b], cases[a]
+        self.ranger_boutons(cases)
+
     def zone_visitee(self, zone: str) -> bool:
         """La zone (clé de F.TELEPORTATION) est dans la liste du sort
         Téléportation."""
