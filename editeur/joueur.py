@@ -111,7 +111,10 @@ class PageJoueur(QWidget):
         aide = QLabel(tr("Coché, les monstres géants peuvent être dressés en combat. Le "
                          "jeu l'accorde au chapitre 8, quand Lionyx fait évoluer l'anneau de "
                          "dresseur : plus tôt, cocher avance aussi l'histoire jusqu'à ce "
-                         "moment, ce qui peut faire sauter des événements."))
+                         "moment. Attention, ça peut bloquer la progression, en particulier "
+                         "si le boss du cercueil, dans le Vercule, n'est pas encore battu : "
+                         "le Vercule recrache alors le héros dès l'entrée. Les autres étapes "
+                         "sautées n'ont pas été testées."))
         aide.setWordWrap(True)
         aide.setEnabled(False)
         formulaire.addRow(aide)

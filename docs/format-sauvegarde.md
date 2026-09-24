@@ -254,8 +254,17 @@ Le bit `0x3996` `0x01`, que met un autre éditeur pour accorder ce droit, n'a
 aucun effet ; il s'allume lui aussi au chapitre 8.
 
 L'éditeur (onglet Joueur, cadre « Dressage ») allume le drapeau et monte le
-compteur à `0B` s'il est en dessous, ce qui peut faire sauter des événements
-de l'histoire ; décocher n'éteint que le drapeau.
+compteur à `0B` s'il est en dessous ; décocher n'éteint que le drapeau.
+
+**Risque pour l'histoire** (24/09/2026) : sur la partie du randomizer
+(chapitre 0, compteur `01`), cocher a permis de dresser le Vercule, mais en
+entrant dans le Vercule, où l'histoire fait affronter le boss du cercueil, le
+héros a été recraché dès l'entrée (les monstres de l'intérieur restaient
+visibles) : la progression est bloquée. En cause, très probablement, le
+compteur monté d'un coup à `0B` (le drapeau seul n'a pas été essayé). Cocher
+avant d'avoir battu ce boss est donc à éviter ; les autres étapes sautées
+(`09` → `0B` sur la partie principale : retour de Lionyx) n'ont pas été
+testées.
 
 ### Savestates DeSmuME
 

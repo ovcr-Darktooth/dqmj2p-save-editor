@@ -256,8 +256,8 @@ TEXTES = {
     'Zones': 'Areas',
     'Dressage': 'Scouting',
     'Monstres géants (3 places)': 'Giant monsters (3 slots)',
-    "Coché, les monstres géants peuvent être dressés en combat. Le jeu l'accorde au chapitre 8, quand Lionyx fait évoluer l'anneau de dresseur : plus tôt, cocher avance aussi l'histoire jusqu'à ce moment, ce qui peut faire sauter des événements.":
-        'When checked, giant monsters can be scouted in battle. The game grants it in chapter 8, when Leonyx upgrades the scout ring: earlier on, checking it also moves the story up to that point, which may skip events.',
+    "Coché, les monstres géants peuvent être dressés en combat. Le jeu l'accorde au chapitre 8, quand Lionyx fait évoluer l'anneau de dresseur : plus tôt, cocher avance aussi l'histoire jusqu'à ce moment. Attention, ça peut bloquer la progression, en particulier si le boss du cercueil, dans le Vercule, n'est pas encore battu : le Vercule recrache alors le héros dès l'entrée. Les autres étapes sautées n'ont pas été testées.":
+        'When checked, giant monsters can be scouted in battle. The game grants it in chapter 8, when Leonyx upgrades the scout ring: earlier on, checking it also moves the story up to that point. Beware, this can block progress, especially if the coffin boss inside the Vercule has not been beaten yet: the Vercule then spits the hero out at the entrance. The other skipped steps have not been tested.',
 
     # ── Onglet Menu : boutons de l'écran du bas (noms du patch anglais) ────
     'Menu': 'Menu',
