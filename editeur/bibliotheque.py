@@ -1,5 +1,5 @@
 """Onglet Bibliothèque : monstres vus et dressés, attributs et compétences
-vus, comme la bibliothèque du jeu. Chaque case se coche ou se décoche ; les
+vus, comme la bibliothèque du jeu, et entrées du Manuel du dresseur. Chaque case se coche ou se décoche ; les
 actions « Lignes affichées » s'appliquent à tout ce que laissent passer les
 filtres."""
 from PySide6.QtCore import Qt, Signal
@@ -68,8 +68,8 @@ def _table(colonnes: tuple[str, ...], etiree: int) -> QTableWidget:
     return table
 
 
-def _bouton_actions(actions: list[tuple[str, callable]]) -> QToolButton:
-    bouton = QToolButton(text=tr('Lignes affichées'), popupMode=QToolButton.InstantPopup)
+def _bouton_actions(actions: list[tuple[str, callable]], texte: str | None = None) -> QToolButton:
+    bouton = QToolButton(text=texte or tr('Lignes affichées'), popupMode=QToolButton.InstantPopup)
     menu = QMenu(bouton)
     for texte, slot in actions:
         menu.addAction(texte, slot)
@@ -348,6 +348,121 @@ class PageListe(QWidget):
                                  total=self.table.rowCount()))
 
 
+class PageManuel(QWidget):
+    """Manuel du dresseur : entrées débloquées, et marquées « nouveau »."""
+    modifiee = Signal()
+    COLONNES = ('N°', 'Entrée', 'Débloquée', 'Nouveau')
+    DEBLOQUEE, NOUVELLE = COLONNES.index('Débloquée'), COLONNES.index('Nouveau')
+
+    def __init__(self):
+        super().__init__()
+        self.titres = noms.table('manuel')
+        self.manuel = None
+        self.debloquees: set[int] = set()
+        self.nouvelles: set[int] = set()
+        self._remplissage = False
+
+        barre = QHBoxLayout()
+        barre.addStretch(1)
+        barre.addWidget(_bouton_actions([
+            (tr('Tout débloquer'), lambda: self._marquer_tout('debloquer', True)),
+            (tr('Tout marquer comme lu'), lambda: self._marquer_tout('marquer_nouvelle', False)),
+            (tr('Tout marquer « nouveau »'), lambda: self._marquer_tout('marquer_nouvelle', True)),
+            (tr('Tout verrouiller'), lambda: self._marquer_tout('debloquer', False)),
+        ], tr('Toutes les entrées')))
+
+        self.table = _table(tuple(map(tr, self.COLONNES)), self.COLONNES.index('Entrée'))
+        self.table.itemChanged.connect(self._case_changee)
+        self.table.itemSelectionChanged.connect(self._afficher_texte)
+        self.titre_texte = QLabel(styleSheet='font-weight: bold')
+        self.texte = QLabel(wordWrap=True)
+        self.texte.setMinimumHeight(self.texte.fontMetrics().lineSpacing() * 6)
+        encadre = QFrame(frameShape=QFrame.StyledPanel)
+        colonne = QVBoxLayout(encadre)
+        colonne.addWidget(self.titre_texte)
+        colonne.addWidget(self.texte)
+        self.compteur = QLabel()
+
+        disposition = QVBoxLayout(self)
+        disposition.addLayout(barre)
+        disposition.addWidget(self.table)
+        disposition.addWidget(encadre)
+        disposition.addWidget(self.compteur)
+        self._afficher_texte()
+
+    def afficher(self, manuel) -> None:
+        self.manuel = manuel
+        self._lire()
+        self._remplissage = True
+        self.table.setSortingEnabled(False)
+        self.table.setRowCount(F.NB_ENTREES_MANUEL)
+        for ligne, entree in enumerate(range(1, F.NB_ENTREES_MANUEL + 1)):
+            titre = _cellule(self.titres[entree])
+            titre.setToolTip(noms.aide_manuel(entree))
+            cellules = (_cellule(entree, Qt.AlignRight | Qt.AlignVCenter), titre,
+                        Case(entree in self.debloquees), Case(entree in self.nouvelles))
+            for colonne, cellule in enumerate(cellules):
+                self.table.setItem(ligne, colonne, cellule)
+        self.table.setSortingEnabled(True)
+        self._remplissage = False
+        self._compter()
+
+    def _lire(self) -> None:
+        self.debloquees = self.manuel.debloquees()
+        self.nouvelles = self.manuel.nouvelles()
+
+    def _id(self, ligne: int) -> int:
+        return self.table.item(ligne, 0).data(Qt.DisplayRole)
+
+    def _synchroniser(self) -> None:
+        """Recoche toutes les cases d'après la sauvegarde (« nouveau » coche
+        aussi « débloquée », verrouiller décoche aussi « nouveau »)."""
+        self._lire()
+        self._remplissage = True
+        self.table.setSortingEnabled(False)
+        for ligne in range(self.table.rowCount()):
+            entree = self._id(ligne)
+            self.table.item(ligne, self.DEBLOQUEE).cocher(entree in self.debloquees)
+            self.table.item(ligne, self.NOUVELLE).cocher(entree in self.nouvelles)
+        self.table.setSortingEnabled(True)
+        self._remplissage = False
+        self._compter()
+        self.modifiee.emit()
+
+    def _case_changee(self, cellule: QTableWidgetItem) -> None:
+        if self._remplissage or self.manuel is None:
+            return
+        colonne = cellule.column()
+        if colonne not in (self.DEBLOQUEE, self.NOUVELLE):
+            return
+        marquer = (self.manuel.debloquer if colonne == self.DEBLOQUEE
+                   else self.manuel.marquer_nouvelle)
+        marquer(self._id(cellule.row()), cellule.cochee())
+        self._synchroniser()
+
+    def _marquer_tout(self, methode: str, valeur: bool) -> None:
+        marquer = getattr(self.manuel, methode)
+        for entree in range(1, F.NB_ENTREES_MANUEL + 1):
+            marquer(entree, valeur)
+        self._synchroniser()
+
+    def _afficher_texte(self) -> None:
+        lignes = self.table.selectionModel().selectedRows()
+        if not lignes:
+            self.titre_texte.setText(tr('Texte'))
+            self.texte.setText(tr('Sélectionnez une entrée pour lire son texte.'))
+            return
+        entree = self._id(lignes[0].row())
+        self.titre_texte.setText(self.titres[entree])
+        self.texte.setText(noms.aide_manuel(entree) or tr('(pas de description)'))
+
+    def _compter(self) -> None:
+        self.compteur.setText(tr('{debloquees} entrées débloquées sur {total}, '
+                                 '{nouvelles} marquée(s) « nouveau »',
+                                 debloquees=len(self.debloquees), total=F.NB_ENTREES_MANUEL,
+                                 nouvelles=len(self.nouvelles)))
+
+
 class PageBibliotheque(QTabWidget):
     modifiee = Signal()
 
@@ -358,13 +473,16 @@ class PageBibliotheque(QTabWidget):
                                    'marquer_attribut', noms.aide_attribut)
         self.competences = PageListe('competences', 'Compétence', 'competences',
                                      'marquer_competence')
+        self.manuel = PageManuel()
         for page, titre in ((self.monstres, 'Monstres'), (self.attributs, 'Attributs'),
-                            (self.competences, 'Compétences')):
+                            (self.competences, 'Compétences'),
+                            (self.manuel, 'Manuel du dresseur')):
             self.addTab(page, tr(titre))
             page.modifiee.connect(self.modifiee)
         self.setEnabled(False)
 
-    def afficher(self, bibliotheque) -> None:
+    def afficher(self, sauvegarde) -> None:
         for page in (self.monstres, self.attributs, self.competences):
-            page.afficher(bibliotheque)
+            page.afficher(sauvegarde.bibliotheque)
+        self.manuel.afficher(sauvegarde.manuel)
         self.setEnabled(True)

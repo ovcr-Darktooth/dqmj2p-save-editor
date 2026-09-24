@@ -9,7 +9,8 @@ DeSmuME et DraStic.
 > **État : en construction.** Édition du joueur (nom, temps de jeu, or,
 > statistiques), du sac et des monstres (surnom, espèce, stats, lignée,
 > compétences, arme), avec les noms du patch français ou anglais. Consultation
-> de la bibliothèque (monstres vus et dressés, attributs, compétences).
+> de la bibliothèque (monstres vus et dressés, attributs, compétences) et du
+> Manuel du dresseur (entrées débloquées, marquées « nouveau »).
 
 ## Principe
 

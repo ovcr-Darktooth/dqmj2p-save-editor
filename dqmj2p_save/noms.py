@@ -129,9 +129,14 @@ def aide_attribut(id_: int, langue_: str | None = None) -> str:
     return _aide('attributs_aide', id_, langue_)
 
 
+def aide_manuel(id_: int, langue_: str | None = None) -> str:
+    """Texte d'une entrée du Manuel du dresseur (msg_traveler)."""
+    return _aide('manuel_aide', id_, langue_)
+
+
 def table(nom: str, langue_: str | None = None) -> TableNoms:
-    """nom : 'especes', 'competences', 'attributs', 'objets', 'objets_aide'
-    ou 'attributs_aide' ; langue_ : 'fr', 'en', ou None pour la courante."""
+    """nom : 'especes', 'competences', 'attributs', 'objets', 'objets_aide',
+    'attributs_aide', 'manuel' ou 'manuel_aide' ; langue_ : 'fr', 'en', ou None pour la courante."""
     return _table(nom, langue_ or langue.courante())
 
 

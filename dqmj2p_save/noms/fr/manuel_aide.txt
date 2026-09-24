@@ -1,0 +1,48 @@
+????????
+Ce manuel ne sert à rien, on est{315}d'accord. Mais félicitations.. tu joues{315}à Joker 2 Pro EN FRANÇAIS !!{315}{315}Vous n'avez pas assez de PM pour{315}continuer de lire ce message...
+Vos monstres combattent fidèlement à{315}vos côtés. Trois peuvent former{315}l'équipe active.{315}{315}Vous pouvez garder jusqu'à 100 monstres.{315}Au-delà, libérez-en à l'enclos pour en{315}dresser d'autres.
+Ramenez vos monstres blessés à l'Albatros{315}pour les guérir totalement.{315}Les monstres morts y reviennent à la vie.{315}Au combat, utilisez des objets pour{315}soutenir vos monstres et leur rendre{315}PV et PM.
+Le rang dépend des stats de vos monstres,{315}comme les PV et l'attaque.{315}Compétences et talents comptent aussi.{315}{315}Il s'affiche en ☆ au-dessus de l'équipe.
+La Téléportation ramène aussitôt le{315}héros dans une région déjà visitée.{315}Elle marche même dans les grottes,{315}mais pas dans certains lieux, comme{315}l'Albatros.
+Vous pouvez sauvegarder presque partout{315}et à tout moment.{315}De rares scènes l'interdisent.{315}Sauvegardez avant les passages{315}importants.
+Appuyez sur Y pour lire l'effet des{315}objets. Le héros en utilise en{315}explorant, d'autres en combat ; ils{315}disparaissent après usage.{315}Les armes s'équipent sur les monstres{315}et accroissent l'attaque.
+L'ultime tournoi de dressage se joue{315}en Wi-Fi Nintendo.{315}Des joueurs du monde entier s'y classent{315}chaque jour, à domicile et à l'extérieur.
+Affrontez sans fil les joueurs croisés.{315}Gardez et transmettez vos combats{315}en souvenir.{315}Attention : les monstres de rang S ou{315}plus ne se dressent pas.
+Échangez sans fil des monstres élevés{315}par d'autres joueurs ou dans{315}DQM : Joker 2.{315}{315}Avec DQM : Joker 2, seuls les monstres{315}de rang A ou moins passent, et leur{315}niveau retombe à 1.
+Les monstres croisés en Combats tombola{315}sont des Invités, marqués "Invité"{315}près de leur nom.{315}Ils rejoignent l'équipe et servent en{315}Combats tombola, mais pas au{315}Championnat du Monde en Wi-Fi.
+Quand la marque "Invité" quitte la{315}lignée, elle quitte aussi le monstre.{315}Synthétisez-le avec des monstres sans{315}marque : il la perdra et deviendra{315}vraiment vôtre.{315}{315}Sans la marque, il peut jouer au{315}Championnat du Monde en Wi-Fi.
+Choisissez "Dresser" en combat : vos{315}monstres lancent une attaque de dressage{315}pour rallier l'ennemi.{315}Réessayez jusqu'à ce qu'il se fâche.
+Les trois monstres à droite de l'écran{315}inférieur dans "Changer de monstres"{315}sont les remplaçants de votre équipe.{315}Ils vous suivent dans l'aventure, mais{315}restent hors de l'équipe active.
+En combat, appuyez sur Y pour échanger{315}un monstre actif et un remplaçant.{315}Bien géré (remplacer un monstre très{315}affaibli), l'échange augmente beaucoup{315}vos chances de victoire.
+En combat, appuyez sur Y pour échanger{315}actifs et remplaçants.{315}{315}Faites reposer les blessés et usez{315}bien de vos remplaçants : les combats{315}deviennent plus faciles.
+Les piliers de pierre bleus sont des{315}points de soin. Ils rendent PV et PM{315}de l'équipe et raniment les monstres{315}vaincus.{315}{315}Après usage, quittez la zone pour le{315}réactiver.
+Des monstres gigantesques, hors normes,{315}vivent sur cette île.{315}Les affronter maintenant ne vous{315}laisserait aucune chance.{315}{315}Plus fort, vous pourrez les défier ;{315}d'ici là, mieux vaut les éviter.
+Des monstres gigantesques vivent sur{315}cette île.{315}Les affronter maintenant finirait mal.{315}{315}Un jour, plus fort, vous les défierez ;{315}d'ici là, restez à l'écart.
+Attribuez vos points de compétence{315}pour apprendre aptitudes et talents.
+Achetez et vendez objets et armes.{315}Un moyen d'étoffer le choix existerait...？
+Déposez ici votre or.{315}Si votre équipe est décimée, l'or porté{315}chute de moitié, mais l'or déposé{315}reste intact.
+Enregistrez vos combinaisons préférées.{315}Elles remplacent aussitôt l'équipe{315}active ou les remplaçants.{315}Pratique pour des équipes de combat{315}sans fil, Wi-Fi ou tombola.
+Le Combat virtuel oppose librement vos{315}propres monstres.{315}{315}Réglez à votre gré alliés et ennemis{315}pour analyser les schémas adverses ou{315}tester vos monstres.
+De retour dans une région explorée, la{315}météo peut avoir changé, modifiant{315}les lieux.{315}{315}Elle varie parfois sur la carte du{315}monde.
+Les monstres ont 8 familles :{315}Gluants, Dragons, Naturels, Bêtes,{315}Matières, Démons, Morts-vivants, ？？？.{315}Chacune a un déclencheur de tension{315}au combat.
+Ainsi, un Gluant se tend si on{315}l'affaiblit, par ex. avec Altération.{315}Un Mort-vivant se tend si un allié{315}tombe.{315}Trouvez les déclencheurs des autres{315}familles.
+La synthèse fusionne deux monstres{315}pour en créer un nouveau.{315}{315}Les deux fusionnés sont les parents,{315}le nouveau est leur enfant.{315}L'enfant surpasse ses parents :{315}synthétisez souvent.
+Pour synthétiser, il faut deux parents{315}de polarité {231} et {232}.{315}Ils peuvent l'être dès le niveau 10.{315}{315}Le rang va de F à A ; plus il est{315}élevé, plus le monstre est fort.{315}Visez des rangs supérieurs.
+Un monstre synthétisé hérite jusqu'à{315}3 compétences parentales.{315}Il reçoit aussi la moitié de leurs{315}points de compétence, attribués{315}ou non.
+Un monstre plafonne au niveau 50.{315}Mais synthèses répétées et parents{315}de haut niveau en créent qui vont{315}plus loin.
+La synthèse évolutive crée des monstres{315}"Puissants" ou "Suprêmes".{315}Fusionnez un rang F, E ou D de niveau{315}20+ avec un de même espèce pour un{315}"Puissant".{315}Un rang C, B ou A de niveau 50+ avec{315}un de même espèce donne un "Suprême".
+Utilise les compétences pour rendre{315}tous les PV.{315}Si les PM manquent, les soins cessent là.
+Rend tous les PV et PM de vos monstres.{315}Utilisable 3 fois en exploration ;{315}revenez à l'Albatros pour recharger.
+Test d'Aptitude 1 : amenez un monstre{315}au talent Grincheux.{315}{315}Le Blaireau Bongo et le Tortumastok{315}l'ont.
+Test d'Aptitude 2 : amenez 2 monstres{315}de la famille des Dragons.{315}Placez-en 2 et parlez-moi.{315}Komodor, Dragronce et Chargosaure{315}en sont.
+Test d'Aptitude 3 : amenez un monstre{315}portant la mention Invité.{315}Un monstre de Combat tombola ou de{315}distribution officielle convient.
+Test d'Aptitude 4 : amenez les talents{315}Pré-Protection et Protection incertaine.{315}Un ou deux monstres les portent.{315}La Fourmic-Mac et le Hachâlereux les ont.
+Test d'Aptitude 5 : amenez le talent{315}Lanceur renégat.{315}{315}Le Mirliflore et le Cérbélier l'ont.
+Test d'Aptitude 6 : amenez un monstre{315}Puissant.{315}Montez un monstre F-D au-delà du{315}niveau 20 et fusionnez-le avec le même :{315}voilà un Puissant.{315}L'autre suffit au niveau 10.
+Test d'Aptitude 7 : amenez un monstre{315}au talent Chance.{315}On en trouve vers la Côte, je crois.
+Test d'Aptitude 8 : amenez le talent{315}Sommeil imparable.{315}Donnez Protection Sommeil ou Cauchemar{315}à un monstre, puis assez de points{315}pour l'obtenir.
+Test d'Aptitude 9 : amenez le talent{315}Paralysite.{315}{315}Le Charretier Blindé et le Machine à{315}Tuer l'ont.
+Test d'Aptitude 10 : amenez une équipe{315}de rang ☆6 ou plus.{315}{315}Formez-la et parlez-moi.{315}Vérifiez le rang au menu principal (X).
+Test d'Aptitude 11 : amenez le talent{315}Petit tueur.{315}Deïckenz et le Saint-Berneur puissant{315}l'ont.
+Test d'Aptitude 12 : amenez le talent{315}Laminage.{315}{315}Le Chasseur de Têtes puissant et le{315}Rouage-Gorge suprême l'ont.
+Test d'Aptitude 13 : amenez une équipe{315}de rang ☆7 ou plus.{315}{315}Formez-la et parlez-moi.{315}Vérifiez le rang au menu principal (X).

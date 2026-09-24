@@ -19,7 +19,8 @@ from dqmj2p_save.sauvegarde import calculer_sommes
 from dqmj2p_save.traduction_en import TEXTES
 
 RACINE = Path(__file__).resolve().parents[1]
-TABLES = ('especes', 'competences', 'objets', 'objets_aide', 'attributs', 'attributs_aide')
+TABLES = ('especes', 'competences', 'objets', 'objets_aide', 'attributs', 'attributs_aide',
+          'manuel', 'manuel_aide')
 
 
 class EnAnglais(unittest.TestCase):
@@ -149,7 +150,8 @@ def _constantes_editeur() -> set[str]:
     return {fenetre.TITRE, fenetre.FILTRE, fenetre.FILTRE_ROM, *fenetre.LIBELLES_ROLES.values(),
             *fenetre.COLONNES, *fiche.ONGLETS, *joueur.JOURS,
             bibliotheque.FAMILLE_INCONNUE, *bibliotheque.ETATS,
-            *bibliotheque.PageMonstres.COLONNES, 'Attribut', 'Attributs', 'Compétences',
+            *bibliotheque.PageMonstres.COLONNES, *bibliotheque.PageManuel.COLONNES,
+            'Manuel du dresseur', 'Attribut', 'Attributs', 'Compétences',
             'Équipe', 'Réserve', 'Obtenu par', 'Sert à créer',
             synthese.AUCUNE_RECETTE, synthese.AUCUN_USAGE}
 

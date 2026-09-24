@@ -19,7 +19,7 @@ from . import bestiaire
 from . import format as F
 from .langue import tr
 from .monstre import Monstre
-from .vue import Bibliotheque, Joueur, Sac
+from .vue import Bibliotheque, Joueur, Manuel, Sac
 
 
 class ErreurSauvegarde(Exception):
@@ -72,6 +72,7 @@ class Sauvegarde:
         self.joueur = Joueur(self)
         self.sac = Sac(self)
         self.bibliotheque = Bibliotheque(self)
+        self.manuel = Manuel(self)
 
     @classmethod
     def ouvrir(cls, chemin) -> 'Sauvegarde':

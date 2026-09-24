@@ -23,6 +23,10 @@ TABLES = {                          # fichier de la traduction -> table ici
 # Descriptions des attributs : msg_library les range à partir de sa ligne 16
 # (attribut 1 à la ligne 17), après les textes propres à la bibliothèque.
 DESCRIPTIONS_ATTRIBUTS = ('msg_library.txt', 16, 'attributs_aide.txt')
+# Manuel du dresseur : msg_traveler donne les titres des entrées (lignes 0 à
+# 47, ligne 0 : aucune), puis leurs textes, dans le même ordre, à partir de la
+# ligne 51.
+MANUEL = ('msg_traveler.txt', 48, 51, 'manuel.txt', 'manuel_aide.txt')
 DEPOTS = {                          # langue -> dépôt de la traduction
     'fr': 'https://github.com/ovcr-Darktooth/DQMJ2Pro_Translation_FR',
     'en': 'https://github.com/saneezore07/DQMJ2Pro_Translation',
@@ -46,11 +50,21 @@ def main() -> None:
     lignes = (source / nom_source).read_text(encoding='utf-8').splitlines()[decalage:]
     (cible / nom_cible).write_text('\n'.join(lignes) + '\n', encoding='utf-8')
     print(f'{nom_cible} : {len(lignes)} descriptions')
+    importer_manuel(source, cible)
     commit = subprocess.run(['git', '-C', str(depot), 'rev-parse', '--short', 'HEAD'],
                             capture_output=True, text=True).stdout.strip()
     (cible / 'SOURCE.txt').write_text(
         f'Noms issus de {DEPOTS[langue]}\n'
         f'(Translation/STRINGS), commit {commit or "inconnu"}.\n', encoding='utf-8')
+
+
+def importer_manuel(source: Path, cible: Path) -> None:
+    nom_source, nb_titres, debut_textes, titres, textes = MANUEL
+    lignes = (source / nom_source).read_text(encoding='utf-8').splitlines()
+    for nom_cible, extrait in ((titres, lignes[:nb_titres]),
+                               (textes, lignes[debut_textes: debut_textes + nb_titres])):
+        (cible / nom_cible).write_text('\n'.join(extrait) + '\n', encoding='utf-8')
+        print(f'{nom_cible} : {len(extrait)} lignes')
 
 
 if __name__ == '__main__':

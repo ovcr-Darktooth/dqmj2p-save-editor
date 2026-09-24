@@ -8,7 +8,8 @@ Graphical save editor for *Dragon Quest Monsters: Joker 2 Professional*
 > **Status: work in progress.** Editing of the player (name, play time, gold,
 > stats), the bag and monsters (nickname, species, stats, lineage, skills,
 > weapon), with the names of the French or English patch. Library viewing
-> (monsters seen and scouted, traits, skills).
+> (monsters seen and scouted, traits, skills) and Scout's Handbook (entries
+> unlocked, marked "new").
 
 ## How it works
 

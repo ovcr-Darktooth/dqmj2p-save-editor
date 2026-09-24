@@ -16,9 +16,10 @@ from dqmj2p_save.sauvegarde import copie_valide
 
 DONNEES = Path(__file__).parent / 'donnees'
 REELLES = sorted(DONNEES.glob('*.dsv'))
-# Éditées avec l'ancienne chaîne save_converter, qui laissait le résumé
-# d'équipe incohérent : elles ne reflètent pas ce qu'écrit le jeu.
-EDITEES_HORS_JEU = {'random-edit.dsv', 'random-lvl50.dsv'}
+# Éditées avec l'ancienne chaîne save_converter ou un autre éditeur, qui
+# laissaient le résumé d'équipe incohérent : elles ne reflètent pas ce
+# qu'écrit le jeu (manuel-validation : resauvegardée en jeu, résumé resté faux).
+EDITEES_HORS_JEU = {'random-edit.dsv', 'random-lvl50.dsv', 'manuel-validation.dsv'}
 ECRITES_PAR_LE_JEU = [p for p in REELLES if p.name not in EDITEES_HORS_JEU]
 
 
@@ -226,6 +227,71 @@ class Bibliotheque(unittest.TestCase):
                             (b.marquer_attribut, 256), (b.marquer_competence, -1)):
             with self.assertRaises(ValueError):
                 ecrire(id_)
+
+
+class Manuel(unittest.TestCase):
+    """manuel-*.sav : la même partie, Manuel du dresseur vide, complet, puis
+    complet avec les entrées marquées « nouveau » (24/09/2026)."""
+
+    def test_trois_etats_du_manuel(self):
+        toutes = set(range(1, F.NB_ENTREES_MANUEL + 1))
+        for nom, debloquees, nouvelles in (('manuel-vide.sav', set(), set()),
+                                           ('manuel-complet.sav', toutes, set()),
+                                           ('manuel-complet-nouveau.sav', toutes,
+                                            set(range(1, 46)))):
+            with self.subTest(nom):
+                m = Sauvegarde.ouvrir(donnee(nom)).manuel
+                self.assertEqual(m.debloquees(), debloquees)
+                self.assertEqual(m.nouvelles(), nouvelles)
+
+    def test_debut_de_partie(self):
+        # random.dsv : partie neuve, seuls Professionnels et Zoom déjà lus.
+        from dqmj2p_save import noms
+        m = Sauvegarde.ouvrir(donnee('random.dsv')).manuel
+        titres = noms.table('manuel', 'fr')
+        self.assertEqual(titres[1], 'Professionnels')
+        self.assertEqual(m.debloquees(), set(range(1, 11)) | {13})
+        self.assertEqual({titres[e] for e in m.debloquees() - m.nouvelles()},
+                         {'Professionnels', 'Zoom'})
+
+    def test_nouvelles_debloquees(self):
+        for chemin in ECRITES_PAR_LE_JEU:
+            with self.subTest(chemin.name):
+                m = Sauvegarde.ouvrir(chemin).manuel
+                self.assertLessEqual(m.nouvelles(), m.debloquees())
+
+    def test_ecriture_reproduit_le_jeu(self):
+        # Vide -> complet -> complet et nouveau : mêmes données que les
+        # sauvegardes de référence, somme data comprise. Le résumé d'équipe
+        # (et donc la somme d'en-tête) n'y est pas celui du jeu : ignoré.
+        def donnees(octets):
+            return octets[F.SOMME_DATA: F.SOMME_DATA + 4] + octets[F.DEBUT_DATA: F.TAILLE_COPIE]
+        s = Sauvegarde.ouvrir(donnee('manuel-vide.sav'))
+        for entree in range(1, F.NB_ENTREES_MANUEL + 1):
+            s.manuel.debloquer(entree)
+        complet = donnee('manuel-complet.sav').read_bytes()
+        self.assertEqual(donnees(s.en_octets()), donnees(complet))
+        for entree in range(1, 46):
+            s.manuel.marquer_nouvelle(entree)
+        nouveau = donnee('manuel-complet-nouveau.sav').read_bytes()
+        self.assertEqual(donnees(s.en_octets()), donnees(nouveau))
+
+    def test_validation_en_jeu(self):
+        # Écrite par l'éditeur, affichée telle quelle en jeu puis sauvegardée
+        # par le jeu : les deux champs sont conservés.
+        m = Sauvegarde.ouvrir(donnee('manuel-validation.dsv')).manuel
+        self.assertEqual(m.debloquees(), set(range(1, 11)) | {20, 33, 46, 47})
+        self.assertEqual(m.nouvelles(), {2, 20, 46, 47})
+
+    def test_contrainte_nouvelle_debloquee(self):
+        m = Sauvegarde.ouvrir(donnee('manuel-vide.sav')).manuel
+        m.marquer_nouvelle(47)
+        self.assertEqual((m.debloquees(), m.nouvelles()), ({47}, {47}))
+        m.debloquer(47, False)
+        self.assertEqual((m.debloquees(), m.nouvelles()), (set(), set()))
+        for entree in (0, F.NB_ENTREES_MANUEL + 1):
+            with self.assertRaises(ValueError):
+                m.debloquer(entree)
 
 
 if __name__ == '__main__':

@@ -292,6 +292,18 @@ BIBLIO_COMPETENCES = 0x3718         # compétences vues
 NB_BITS_ESPECES = 512
 NB_BITS_ATTRIBUTS = NB_BITS_COMPETENCES = 256
 
+# ── Manuel du dresseur ───────────────────────────────────────────────────────
+# Deux champs de bits de 64 entrées : le bit n concerne l'entrée n + 1 du
+# manuel (noms.table('manuel'), titres de msg_traveler). Relevé le 24/09/2026
+# sur trois sauvegardes (manuel vide, complet, complet et tout « nouveau ») :
+# 47 entrées, bits 0 à 46. Nouvelles ⊆ débloquées dans les sauvegardes du jeu.
+# Écriture validée en jeu le 24/09/2026 (affichage, puis conservé après une
+# sauvegarde en jeu).
+# 0x3A50-0x3A53, juste avant, est un autre champ (FF partout), non touché.
+MANUEL_DEBLOQUEES = 0x3A54          # entrées présentes dans le manuel
+MANUEL_NOUVELLES = 0x3A5C           # entrées marquées « nouveau » (pas lues)
+NB_ENTREES_MANUEL = 47
+
 # ── Sac ──────────────────────────────────────────────────────────────────────
 # Quantité possédée de chaque objet, indexée par son ID (armes comprises).
 # Relevé sur une partie dont le contenu du sac était connu.
