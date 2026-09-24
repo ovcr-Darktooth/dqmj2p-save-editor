@@ -275,15 +275,25 @@ class Iles(unittest.TestCase):
             with self.subTest(nom):
                 self.assertEqual(Sauvegarde.ouvrir(donnee(nom)).dressage_geants, attendu)
 
-    def test_bit_de_l_autre_editeur_sans_effet(self):
-        # manuel-vide-geants : 0x3996 bit 0x01 allumé par un autre éditeur ;
-        # en jeu, « Dresser » restait grisé.
+    def test_bit_de_l_autre_editeur_ne_suffit_pas(self):
+        # manuel-vide-geants : seul 0x3996 bit 0x01 (géants utilisables)
+        # allumé par un autre éditeur ; en jeu, « Dresser » restait grisé.
         self.assertFalse(Sauvegarde.ouvrir(donnee('manuel-vide-geants.sav')).dressage_geants)
+
+    def test_partie_neuve_trois_reglages(self):
+        # random : chapitre 0, avancement 1. Validé en jeu : Vercule dressé,
+        # puis visible et équipable une fois 0x3996 bit 0x01 allumé.
+        s = Sauvegarde.ouvrir(donnee('random.dsv'))
+        avant = bytes(s.copie)
+        s.dressage_geants = True
+        self.assertEqual({i: s.copie[i] for i in range(len(avant)) if avant[i] != s.copie[i]},
+                         {F.AVANCEMENT: 0x0B, 0x3996: avant[0x3996] | 0x01,
+                          0x39A7: avant[0x39A7] | 0x01})
 
     def test_dressage_des_geants_valide_en_jeu(self):
         # geant-vercule : partie au chapitre 7 (avancement 9), devant un
-        # Vercule. Validé en jeu : ces deux octets seuls rendent « Dresser »
-        # actif.
+        # Vercule, géants déjà utilisables (0x3996 bit 0x01). Validé en jeu :
+        # ces deux octets seuls rendent « Dresser » actif.
         s = Sauvegarde.ouvrir(donnee('geant-vercule.dsv'))
         avant = bytes(s.copie)
         self.assertFalse(s.dressage_geants)

@@ -250,11 +250,18 @@ seulement des bits (essais sur les candidats « éteints jusqu'au chapitre 7,
 allumés à partir du 9 ») ne marchait pas, justement parce que `0x393C` est un
 compteur et non un drapeau.
 
-Le bit `0x3996` `0x01`, que met un autre éditeur pour accorder ce droit, n'a
-aucun effet ; il s'allume lui aussi au chapitre 8.
+Un troisième bit, **`0x3996` `0x01`**, rend les **géants utilisables** : sans
+lui, un géant dressé occupe ses 3 cases du ranch avec des « ? » et ne peut
+pas entrer dans l'équipe ; allumé, il s'affiche et s'équipe normalement
+(validé en jeu sur le Vercule dressé dans la partie du randomizer). Un autre
+éditeur n'allume que ce bit pour « accorder le droit de dresser », ce qui ne
+suffit pas. Il s'allume lui aussi au chapitre 8. Il était resté allumé dans
+toutes les sauvegardes de la dichotomie (la première version de l'éditeur
+l'allumait), d'où son absence des essais.
 
-L'éditeur (onglet Joueur, cadre « Dressage ») allume le drapeau et monte le
-compteur à `0B` s'il est en dessous ; décocher n'éteint que le drapeau.
+L'éditeur (onglet Joueur, cadre « Dressage ») allume l'anneau et les géants
+utilisables, et monte le compteur à `0B` s'il est en dessous ; décocher
+n'éteint que l'anneau (les géants déjà dressés restent utilisables).
 
 **Risque pour l'histoire** (24/09/2026) : sur la partie du randomizer
 (chapitre 0, compteur `01`), cocher a permis de dresser le Vercule, mais en

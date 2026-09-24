@@ -251,8 +251,13 @@ TELEPORTATION = {
 # dichotomie en jeu (Vercule de nuit, ROM de test), à partir d'un savestate
 # DeSmuME pris juste après la scène : drapeau seul, ou compteur seul à 0x0B,
 # « Dresser » reste grisé ; les deux ensemble, il est actif. Compteur à 0x0A :
-# grisé. Le bit 0x3996 0x01, que met un autre éditeur, ne joue aucun rôle.
+# grisé. Le bit 0x3996 0x01, que met un autre éditeur, ne donne pas le droit.
 DRESSAGE_GEANTS = (0x39A7, 0x01)
+# Géants utilisables : sans ce bit, un géant dressé occupe ses 3 cases du
+# ranch avec des « ? » et ne peut pas entrer dans l'équipe ; allumé, il
+# s'affiche et s'équipe normalement (validé en jeu le 24/09/2026 sur un
+# Vercule dressé). Allumé lui aussi au chapitre 8.
+GEANTS_UTILISABLES = (0x3996, 0x01)
 # Compteur d'avancement de l'histoire (u8), plus fin que le chapitre : 1 au
 # début, 4 au chapitre 4, 7 en arrivant à Archéopolis, 8 et 9 après son boss
 # puis Lionyx maléfique (probable), 0x0A retour de Lionyx (supposé), 0x0B

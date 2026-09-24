@@ -210,19 +210,25 @@ class Sauvegarde:
 
     @property
     def dressage_geants(self) -> bool:
-        """Les monstres géants (3 places) peuvent être dressés : drapeau de
-        l'anneau et avancement suffisant (voir F.DRESSAGE_GEANTS)."""
+        """Les monstres géants (3 places) peuvent être dressés et utilisés :
+        drapeau de l'anneau, avancement suffisant et géants utilisables (voir
+        F.DRESSAGE_GEANTS et F.GEANTS_UTILISABLES)."""
         return (self._drapeau(F.DRESSAGE_GEANTS)
-                and self.copie[F.AVANCEMENT] >= F.AVANCEMENT_GEANTS)
+                and self.copie[F.AVANCEMENT] >= F.AVANCEMENT_GEANTS
+                and self._drapeau(F.GEANTS_UTILISABLES))
 
     @dressage_geants.setter
     def dressage_geants(self, actif: bool) -> None:
         """Accorder le droit monte aussi l'avancement jusqu'à
-        F.AVANCEMENT_GEANTS s'il est en dessous ; le retirer n'éteint que le
-        drapeau de l'anneau (l'avancement ne recule jamais)."""
-        if actif and self.copie[F.AVANCEMENT] < F.AVANCEMENT_GEANTS:
-            self.copie[F.AVANCEMENT] = F.AVANCEMENT_GEANTS
-            self.modifiee = True
+        F.AVANCEMENT_GEANTS s'il est en dessous et rend les géants
+        utilisables ; le retirer n'éteint que le drapeau de l'anneau
+        (l'avancement ne recule jamais, et les géants déjà dressés restent
+        utilisables)."""
+        if actif:
+            if self.copie[F.AVANCEMENT] < F.AVANCEMENT_GEANTS:
+                self.copie[F.AVANCEMENT] = F.AVANCEMENT_GEANTS
+                self.modifiee = True
+            self._regler_drapeau(F.GEANTS_UTILISABLES, True)
         self._regler_drapeau(F.DRESSAGE_GEANTS, actif)
 
     # ── Équipe et réserve ────────────────────────────────────────────────────
