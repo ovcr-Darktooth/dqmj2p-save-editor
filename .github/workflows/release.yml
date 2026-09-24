@@ -47,15 +47,10 @@ jobs:
         run: python outils/construire_exe.py
 
       - name: Zip
-        shell: pwsh
+        shell: bash
         run: |
-          $nom = if ($env:GITHUB_REF_TYPE -eq 'tag') { $env:GITHUB_REF_NAME } else { 'test' }
-          $dossier = "Editeur-DQMJ2P-$nom"
-          New-Item -ItemType Directory -Path "$dossier/icones" | Out-Null
-          Copy-Item dist/Editeur-DQMJ2P.exe, README.md, README_en.md, LICENSE $dossier
-          Copy-Item editeur/icones/SOURCE.txt "$dossier/icones/"
-          Compress-Archive -Path $dossier -DestinationPath "$dossier-windows.zip"
-          "ZIP=$dossier-windows.zip" | Out-File -Append $env:GITHUB_ENV
+          if [ "$GITHUB_REF_TYPE" = tag ]; then nom=$GITHUB_REF_NAME; else nom=test; fi
+          echo "ZIP=$(python outils/preparer_zip.py "$nom")" >> "$GITHUB_ENV"
 
       - uses: actions/upload-artifact@v4
         with:
