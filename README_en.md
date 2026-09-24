@@ -51,7 +51,8 @@ otherwise.
 
 ### Icons (optional)
 
-Monster and family icons are game graphics: they are not in this repository.
+Monster, family and menu button icons are game graphics: they are not in this
+repository.
 Without them, the editor works and shows empty boxes. To extract them from
 your ROM (original Japanese or patched): **File → Extract icons from a ROM…**
 menu. They are stored where the editor looks for them (`editeur/icones/`, or
@@ -63,6 +64,7 @@ Same thing from the command line (the release zip includes these scripts in
 ```
 python outils/extraire_icones.py <your .nds ROM> [folder]
 python outils/extraire_familles.py <your .nds ROM> [folder\familles]
+python outils/extraire_boutons.py <your .nds ROM> [folder\boutons]
 ```
 
 Monster icons can also come from a clone of the
@@ -104,6 +106,8 @@ s.enregistrer()                         # save
 | `outils/importer_synthese.py` | Copies icons and bestiary from the synthesis project |
 | `editeur/icones/familles/` | Family icons, glyphs from the game font (not versioned) |
 | `outils/extraire_familles.py` | Family icons from the command line (`font_16x16.NFTR` + menu palette) |
+| `editeur/icones/boutons/` | Menu button icons (`<id>.png`), to extract (not versioned) |
+| `outils/extraire_boutons.py` | Menu button icons from the command line (`menu_icon_data.cch` + `.cpl`) |
 | `docs/format-sauvegarde.md` | Map of the format, with what is still unknown (in French) |
 | `outils/construire_exe.py` | Builds the exe (PyInstaller) |
 | `outils/preparer_zip.py` | Prepares the release zip (exe, extraction scripts, `EXTRAIRE-ICONES.txt`) |

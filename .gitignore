@@ -17,3 +17,4 @@ tests/donnees/*
 # Graphismes du jeu (extraits de la ROM) : jamais versionnés, voir README
 editeur/icones/*.png
 editeur/icones/familles/
+editeur/icones/boutons/

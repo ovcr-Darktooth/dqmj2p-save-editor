@@ -1,11 +1,12 @@
 """Mini-ROM DS pour les tests d'extraction : juste ce que lisent les extracteurs
-(NitroFS à plat avec MonsterIconDat.NICA, font_16x16.NFTR et
-main_status_bg.pal), rempli de motifs connus. Aucune donnée du jeu."""
+(NitroFS à plat avec MonsterIconDat.NICA, font_16x16.NFTR, main_status_bg.pal
+et menu_icon_data.cch/.cpl), rempli de motifs connus. Aucune donnée du jeu."""
 import struct
 
 ESPECES = (1, 49, 31)               # 31 : monstre de taille 3 (trois blocs)
 TAILLES = {31: 3}
 NB_GLYPHES = 580                    # familles : glyphes 565 à 572
+NB_BOUTONS = 12
 
 
 def _palette() -> bytes:
@@ -52,6 +53,22 @@ def _police() -> bytes:
     return b'RTFN' + bytes(12) + cglp
 
 
+def icone_bouton(bouton: int) -> bytes:
+    """5 x 5 tuiles, chacune avec son motif (u16 largeur, u16 hauteur, tuiles)."""
+    return struct.pack('<HH', 5, 5) + bytes((t * 11 + bouton + o) & 0xFF
+                                            for t in range(25) for o in range(32))
+
+
+def _table(magie: bytes, zero: bool, entrees: list[bytes]) -> bytes:
+    entete = magie + (bytes(4) if zero else b'') + struct.pack('<I', len(entrees))
+    debut = len(entete) + 4 * len(entrees)
+    debuts, corps = [], bytearray()
+    for entree in entrees:
+        debuts.append(debut + len(corps))
+        corps += entree
+    return entete + struct.pack(f'<{len(debuts)}I', *debuts) + bytes(corps)
+
+
 def rom() -> bytes:
     icones = {}
     for espece in ESPECES:
@@ -60,7 +77,11 @@ def rom() -> bytes:
     icones['ic_9999.NCGR'] = _ncgr(1)           # icône hors bestiaire, ignorée
     icones['ic_9999.NCLD'] = _palette()
     fichiers = {'MonsterIconDat.NICA': _fpk(icones), 'font_16x16.NFTR': _police(),
-                'main_status_bg.pal': _palette() * 4}
+                'main_status_bg.pal': _palette() * 4,
+                'menu_icon_data.cch': _table(b'FHCC', True, [icone_bouton(b) for b in
+                                                             range(NB_BOUTONS)]),
+                'menu_icon_data.cpl': _table(b'FLPC', False, [b'\x10\x01\0\0' + _palette()]
+                                             * NB_BOUTONS)}
 
     # FNT : un seul dossier (la racine), ses fichiers numérotés à partir de 0.
     liste = b''.join(bytes([len(n)]) + n.encode('latin1') for n in fichiers) + b'\0'

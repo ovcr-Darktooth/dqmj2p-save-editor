@@ -205,8 +205,9 @@ TEXTES = {
     '{archive} : archive FPK attendue': '{archive}: FPK archive expected',
     'glyphe de famille vide : police inattendue': 'empty family glyph: unexpected font',
     'font_16x16.NFTR : bloc CGLP introuvable': 'font_16x16.NFTR: CGLP block not found',
-    '{monstres} icônes de monstres et {familles} de familles extraites dans {dossier}.':
-        '{monstres} monster icons and {familles} family icons extracted to {dossier}.',
+    '{monstres} icônes de monstres, {familles} de familles et {boutons} de boutons '
+    'extraites dans {dossier}.': '{monstres} monster icons, {familles} family icons and '
+                                 '{boutons} button icons extracted to {dossier}.',
     'Enregistrement impossible': 'Cannot save',
     'Enregistré : {nom}': 'Saved: {nom}',
     '  (original gardé dans {nom})': '  (original kept in {nom})',
@@ -269,6 +270,9 @@ TEXTES = {
     'Monstrequinque': 'Monster Mender',
     'Combats tombola': 'Tag Mode',
     'Bouton {id:02X}': 'Button {id:02X}',
+    '{magie} attendu en tête de fichier': '{magie} expected at the start of the file',
+    "{a} icônes pour {b} palettes : ce n'est pas le menu attendu":
+        '{a} icons for {b} palettes: not the expected menu',
     "Boutons de l'écran du bas, disposés comme dans le jeu.":
         'Bottom-screen buttons, laid out as in the game.',
     'Glisser un bouton sur une autre case pour les échanger ; une case vide peut rester '

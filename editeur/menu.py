@@ -1,6 +1,7 @@
 """Onglet Menu : ordre des boutons de l'écran du bas, grille de 4 × 3 cases
-comme dans le jeu. Glisser un bouton sur une autre case échange les deux ;
-une case vide peut rester au milieu de la grille (validé en jeu)."""
+comme dans le jeu, avec les icônes du jeu si elles ont été extraites de la
+ROM (sinon le nom seul). Glisser un bouton sur une autre case échange les
+deux ; une case vide peut rester au milieu de la grille (validé en jeu)."""
 from PySide6.QtCore import QMimeData, QPoint, QRect, Qt, Signal
 from PySide6.QtGui import QColor, QDrag, QPainter, QPen
 from PySide6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget
@@ -9,10 +10,11 @@ from dqmj2p_save import format as F
 from dqmj2p_save import noms
 from dqmj2p_save.langue import tr
 
+from . import icones
 from .equipe import FOND_CASE, FOND_CASE_SURVOL, OR
 
 TYPE_MIME = 'application/x-dqmj2p-bouton'      # contenu : numéro de la case
-LARGEUR, HAUTEUR = 150, 64
+LARGEUR, HAUTEUR = 136, 124                  # icône 40x40 agrandie deux fois, et le nom
 FOND_VIDE = QColor('#2a2f3a')
 
 
@@ -53,10 +55,18 @@ class GrilleBoutons(QWidget):
             p.setBrush(FOND_CASE_SURVOL if case == self.survol else
                        FOND_VIDE if vide else FOND_CASE)
             p.drawRoundedRect(rect, 6, 6)
-            if not vide:
-                p.setPen(QColor('white'))
+            if vide:
+                continue
+            p.setPen(QColor('white'))
+            image = icones.bouton(bouton)
+            if image.isNull():
                 p.drawText(rect.adjusted(6, 4, -6, -4), Qt.AlignCenter | Qt.TextWordWrap,
                            noms.bouton(bouton))
+                continue
+            p.drawPixmap(rect.center().x() - image.width() // 2, rect.top() + 4, image)
+            texte = rect.adjusted(4, image.height() + 4, -4, -2)
+            p.drawText(texte, Qt.AlignHCenter | Qt.AlignVCenter | Qt.TextWordWrap,
+                       noms.bouton(bouton))
         p.end()
 
     def event(self, evenement):

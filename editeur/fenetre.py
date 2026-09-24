@@ -412,8 +412,9 @@ class Fenetre(QMainWindow):
     # ── Icônes ───────────────────────────────────────────────────────────────
 
     def extraire_icones(self) -> None:
-        """Extrait les icônes des monstres et des familles d'une ROM choisie par
-        l'utilisateur, dans le dossier où l'éditeur les cherche."""
+        """Extrait les icônes des monstres, des familles et des boutons du menu
+        d'une ROM choisie par l'utilisateur, dans le dossier où l'éditeur les
+        cherche."""
         chemin, _ = QFileDialog.getOpenFileName(
             self, tr('Choisir la ROM du jeu (japonaise ou patchée)'), '', tr(FILTRE_ROM))
         if not chemin:
@@ -423,16 +424,18 @@ class Fenetre(QMainWindow):
             rom = Path(chemin).read_bytes()
             monstres = extraction.extraire_icones(rom, icones.DOSSIER)
             familles = extraction.extraire_familles(rom, icones.FAMILLES)
+            boutons = extraction.extraire_boutons(rom, icones.BOUTONS)
         except (OSError, extraction.ErreurExtraction) as e:
             QApplication.restoreOverrideCursor()
             QMessageBox.critical(self, tr('Extraction impossible'), f'{chemin}\n\n{e}')
             return
         QApplication.restoreOverrideCursor()
-        for fonction in (icones.image, icones.icone, icones.famille):
+        for fonction in (icones.image, icones.icone, icones.famille, icones.bouton):
             fonction.cache_clear()
         self._reconstruire().statusBar().showMessage(tr(
-            '{monstres} icônes de monstres et {familles} de familles extraites dans {dossier}.',
-            monstres=monstres, familles=familles, dossier=icones.DOSSIER))
+            '{monstres} icônes de monstres, {familles} de familles et {boutons} de '
+            'boutons extraites dans {dossier}.',
+            monstres=monstres, familles=familles, boutons=boutons, dossier=icones.DOSSIER))
 
     # ── Langue ───────────────────────────────────────────────────────────────
 

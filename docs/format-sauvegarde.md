@@ -293,7 +293,9 @@ de dressage, rangés en `0x1D8`.
 une case vide au milieu et un bouton dans la dernière case ; la grille
 s'affiche comme écrit (captures de l'écran du bas) et chaque bouton ouvre son
 menu. L'éditeur (onglet Menu) échange les cases par glisser-déposer, sans
-ajouter ni retirer de bouton ; il ne touche pas aux sorts.
+ajouter ni retirer de bouton ; il ne touche pas aux sorts. Il affiche les
+icônes du jeu, extraites de la ROM (`menu_icon_data.cch` et `.cpl`, une icône
+de 40 × 40 par ID, voir `editeur/extraction.py`).
 
 ## Méthode pour la suite
 

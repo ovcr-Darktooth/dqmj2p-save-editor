@@ -1,7 +1,8 @@
 EXTRAIRE LES ICÔNES DE VOTRE ROM                       (English below)
 ==================================
 
-Les icônes des monstres et des familles sont des graphismes du jeu : elles ne
+Les icônes des monstres, des familles et des boutons du menu sont des
+graphismes du jeu : elles ne
 sont pas fournies. Deux façons de les extraire de votre ROM (japonaise
 d'origine ou patchée, fichier .nds) :
 
@@ -20,18 +21,20 @@ d'origine ou patchée, fichier .nds) :
 
           python scripts\outils\extraire_icones.py "C:\chemin\vers\jeu.nds" icones
           python scripts\outils\extraire_familles.py "C:\chemin\vers\jeu.nds" icones\familles
+          python scripts\outils\extraire_boutons.py "C:\chemin\vers\jeu.nds" icones\boutons
 
    c. Relancez l'éditeur : les icônes s'affichent.
 
 Les icônes vont dans le dossier icones\ à côté de l'exe (monstres : <id>.png,
-familles : icones\familles\). Vous pouvez aussi y copier les PNG de site/icons
+familles : icones\familles\, boutons du menu : icones\boutons\). Vous pouvez aussi y copier les PNG de site/icons
 du projet https://github.com/ovcr-Darktooth/dqmj2pro-synthesis.
 
 
 EXTRACTING THE ICONS FROM YOUR ROM
 ==================================
 
-Monster and family icons are game graphics: they are not included. Two ways
+Monster, family and menu button icons are game graphics: they are not
+included. Two ways
 to extract them from your ROM (original Japanese or patched, .nds file):
 
 1. The easiest, nothing to install: in the editor, File > Extract icons
@@ -49,9 +52,10 @@ to extract them from your ROM (original Japanese or patched, .nds file):
 
           python scripts\outils\extraire_icones.py "C:\path\to\game.nds" icones
           python scripts\outils\extraire_familles.py "C:\path\to\game.nds" icones\familles
+          python scripts\outils\extraire_boutons.py "C:\path\to\game.nds" icones\boutons
 
    c. Restart the editor: the icons show up.
 
 Icons go in the icones\ folder next to the exe (monsters: <id>.png,
-families: icones\familles\). You can also copy the PNG files from site/icons
+families: icones\familles\, menu buttons: icones\boutons\). You can also copy the PNG files from site/icons
 of the https://github.com/ovcr-Darktooth/dqmj2pro-synthesis project there.
