@@ -178,6 +178,22 @@ class Sauvegarde:
             self.modifiee = True
 
     @property
+    def avancement(self) -> int:
+        """Compteur d'avancement de l'histoire (voir F.AVANCEMENT)."""
+        return self.copie[F.AVANCEMENT]
+
+    def histoire_coherente(self) -> bool:
+        """Chapitre et avancement forment une paire que le jeu écrit (voir
+        F.AVANCEMENT_MIN_PAR_CHAPITRE) : faux si l'un a été avancé sans
+        l'autre, par la carte des îles ou le dressage des géants."""
+        chapitre, avancement = self.chapitre, self.avancement
+        avancement_min = max((v for c, v in F.AVANCEMENT_MIN_PAR_CHAPITRE.items()
+                              if chapitre >= c), default=0)
+        chapitre_min = max((c for a, c in F.CHAPITRE_MIN_PAR_AVANCEMENT.items()
+                            if avancement >= a), default=0)
+        return avancement >= avancement_min and chapitre >= chapitre_min
+
+    @property
     def boutons(self) -> list[int]:
         """Grille des boutons de l'écran du bas (voir F.BOUTONS)."""
         return list(self.copie[F.BOUTONS: F.BOUTONS + F.NB_CASES_BOUTONS])
@@ -207,6 +223,35 @@ class Sauvegarde:
         """Ajoute (ou retire) la zone à la liste du sort Téléportation, sans
         toucher au chapitre (la carte des îles en dépend, pas cette liste)."""
         self._regler_drapeau(F.TELEPORTATION[zone], actif)
+
+    @property
+    def dressage_geants(self) -> bool:
+        """Les monstres géants (3 places) peuvent être dressés : drapeau de
+        l'anneau et avancement suffisant (voir F.DRESSAGE_GEANTS)."""
+        return (self._drapeau(F.DRESSAGE_GEANTS)
+                and self.copie[F.AVANCEMENT] >= F.AVANCEMENT_GEANTS)
+
+    @dressage_geants.setter
+    def dressage_geants(self, actif: bool) -> None:
+        """Accorder le droit monte aussi l'avancement jusqu'à
+        F.AVANCEMENT_GEANTS s'il est en dessous ; le retirer n'éteint que le
+        drapeau de l'anneau (l'avancement ne recule jamais). Ne touche pas
+        à geants_utilisables."""
+        if actif and self.copie[F.AVANCEMENT] < F.AVANCEMENT_GEANTS:
+            self.copie[F.AVANCEMENT] = F.AVANCEMENT_GEANTS
+            self.modifiee = True
+        self._regler_drapeau(F.DRESSAGE_GEANTS, actif)
+
+    @property
+    def geants_utilisables(self) -> bool:
+        """Les monstres géants s'affichent au ranch et entrent dans l'équipe
+        (voir F.GEANTS_UTILISABLES) ; sans ce drapeau, un géant possédé
+        occupe ses cases avec des « ? »."""
+        return self._drapeau(F.GEANTS_UTILISABLES)
+
+    @geants_utilisables.setter
+    def geants_utilisables(self, actif: bool) -> None:
+        self._regler_drapeau(F.GEANTS_UTILISABLES, actif)
 
     # ── Équipe et réserve ────────────────────────────────────────────────────
 

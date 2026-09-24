@@ -254,6 +254,15 @@ TEXTES = {
         'the chapter; an island also shows as visited on the map. Areas already '
         'visited stay ticked: the game would put them back.',
     'Zones': 'Areas',
+    'Dressage': 'Scouting',
+    "⚠ Chapitre {chapitre} avec l'avancement {avancement} : le jeu n'écrit jamais cette combinaison (chapitre 8 : avancement 0B ; chapitre 9 : 0C ou 0D ; chapitre 10 : 0D). La carte des îles et le dressage des géants avancent l'histoire chacun de leur côté ; les conséquences n'ont pas été testées.":
+        '⚠ Chapter {chapitre} with story progress {avancement}: the game never writes this combination (chapter 8: progress 0B; chapter 9: 0C or 0D; chapter 10: 0D). The island map and giant scouting each move the story on their own; the consequences have not been tested.',
+    'Dresser les monstres géants': 'Scout giant monsters',
+    'Utiliser les monstres géants (3 places)': 'Use giant monsters (3 slots)',
+    "Coché, les géants possédés s'affichent au ranch et peuvent entrer dans l'équipe ; sinon, ils occupent leurs 3 cases avec des « ? ». Le jeu l'accorde lui aussi au chapitre 8. Ne change pas l'histoire.":
+        'When checked, owned giants show in the ranch and can join the party; otherwise they fill their 3 slots with "?". The game also grants it in chapter 8. Does not change the story.',
+    "Coché, les monstres géants peuvent être dressés en combat. Le jeu l'accorde au chapitre 8, quand Lionyx fait évoluer l'anneau de dresseur : plus tôt, cocher avance aussi l'histoire jusqu'à ce moment. Attention, ça peut bloquer la progression, en particulier si le boss du cercueil, dans le Vercule, n'est pas encore battu : le Vercule recrache alors le héros dès l'entrée. Les autres étapes sautées n'ont pas été testées.":
+        'When checked, giant monsters can be scouted in battle. The game grants it in chapter 8, when Leonyx upgrades the scout ring: earlier on, checking it also moves the story up to that point. Beware, this can block progress, especially if the coffin boss inside the Vercule has not been beaten yet: the Vercule then spits the hero out at the entrance. The other skipped steps have not been tested.',
 
     # ── Onglet Menu : boutons de l'écran du bas (noms du patch anglais) ────
     'Menu': 'Menu',

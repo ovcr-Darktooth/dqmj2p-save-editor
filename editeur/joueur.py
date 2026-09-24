@@ -1,6 +1,7 @@
 """Onglet Joueur : nom, temps de jeu, or et statistiques de partie, plus la
 date de sauvegarde, l'emplacement dans le monde et la téléportation vers des
-points relevés en jeu, et le déblocage des îles de fin de partie."""
+points relevés en jeu, le déblocage des îles de fin de partie et le dressage
+des monstres géants."""
 from PySide6.QtWidgets import (QCheckBox, QComboBox, QFormLayout, QGridLayout, QGroupBox,
                                QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget)
 
@@ -101,6 +102,35 @@ class PageJoueur(QWidget):
         aide.setEnabled(False)
         formulaire.addRow(aide)
         disposition.addWidget(iles)
+
+        dressage = QGroupBox(tr('Dressage'))
+        formulaire = QFormLayout(dressage)
+        self.geants = QCheckBox(tr('Dresser les monstres géants'))
+        self.geants.toggled.connect(self._regler_geants)
+        formulaire.addRow(self.geants)
+        aide = QLabel(tr("Coché, les monstres géants peuvent être dressés en combat. Le "
+                         "jeu l'accorde au chapitre 8, quand Lionyx fait évoluer l'anneau de "
+                         "dresseur : plus tôt, cocher avance aussi l'histoire jusqu'à ce "
+                         "moment. Attention, ça peut bloquer la progression, en particulier "
+                         "si le boss du cercueil, dans le Vercule, n'est pas encore battu : "
+                         "le Vercule recrache alors le héros dès l'entrée. Les autres étapes "
+                         "sautées n'ont pas été testées."))
+        aide.setWordWrap(True)
+        aide.setEnabled(False)
+        formulaire.addRow(aide)
+        self.incoherence = QLabel(wordWrap=True, styleSheet='font-weight: bold')
+        formulaire.addRow(self.incoherence)
+        self.geants_utilisables = QCheckBox(tr('Utiliser les monstres géants (3 places)'))
+        self.geants_utilisables.toggled.connect(self._regler_geants_utilisables)
+        formulaire.addRow(self.geants_utilisables)
+        aide = QLabel(tr("Coché, les géants possédés s'affichent au ranch et peuvent entrer "
+                         "dans l'équipe ; sinon, ils occupent leurs 3 cases avec des « ? ». "
+                         "Le jeu l'accorde lui aussi au chapitre 8. Ne change pas "
+                         "l'histoire."))
+        aide.setWordWrap(True)
+        aide.setEnabled(False)
+        formulaire.addRow(aide)
+        disposition.addWidget(dressage)
         disposition.addStretch()
         self.setEnabled(False)
 
@@ -109,6 +139,12 @@ class PageJoueur(QWidget):
         self._afficher_emplacement()
         self._afficher_iles(joueur.sauvegarde)
         self._remplir_points()
+        for case, etat in ((self.geants, joueur.sauvegarde.dressage_geants),
+                           (self.geants_utilisables, joueur.sauvegarde.geants_utilisables)):
+            case.blockSignals(True)
+            case.setChecked(etat)
+            case.blockSignals(False)
+        self._verifier_histoire()
         self.setEnabled(True)
 
     def _teleporter(self) -> None:
@@ -136,12 +172,38 @@ class PageJoueur(QWidget):
         self._remplir_points()
         self.liaison.modifiee.emit()
 
+    def _regler_geants(self, actif: bool) -> None:
+        sauvegarde = self.liaison.vue.sauvegarde
+        if sauvegarde.dressage_geants != actif:
+            sauvegarde.dressage_geants = actif
+            self._verifier_histoire()
+            self.liaison.modifiee.emit()
+
+    def _regler_geants_utilisables(self, actif: bool) -> None:
+        sauvegarde = self.liaison.vue.sauvegarde
+        if sauvegarde.geants_utilisables != actif:
+            sauvegarde.geants_utilisables = actif
+            self.liaison.modifiee.emit()
+
     def _regler_chapitre(self) -> None:
         sauvegarde = self.liaison.vue.sauvegarde
         chapitre = self.carte_iles.currentData()
         if sauvegarde.chapitre != chapitre:
             sauvegarde.chapitre = chapitre
+            self._verifier_histoire()
             self.liaison.modifiee.emit()
+
+    def _verifier_histoire(self) -> None:
+        """Avertit quand chapitre (carte des îles) et avancement (dressage des
+        géants) forment une paire que le jeu n'écrit jamais."""
+        sauvegarde = self.liaison.vue.sauvegarde
+        self.incoherence.setVisible(not sauvegarde.histoire_coherente())
+        self.incoherence.setText(tr(
+            "⚠ Chapitre {chapitre} avec l'avancement {avancement} : le jeu n'écrit jamais "
+            "cette combinaison (chapitre 8 : avancement 0B ; chapitre 9 : 0C ou 0D ; "
+            "chapitre 10 : 0D). La carte des îles et le dressage des géants avancent "
+            "l'histoire chacun de leur côté ; les conséquences n'ont pas été testées.",
+            chapitre=sauvegarde.chapitre, avancement=f'{sauvegarde.avancement:02X}'))
 
     def _afficher_iles(self, sauvegarde) -> None:
         # Le chapitre ne descend pas sous celui de la partie, et les îles déjà

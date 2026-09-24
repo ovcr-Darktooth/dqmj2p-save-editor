@@ -267,6 +267,81 @@ class Iles(unittest.TestCase):
         self.assertEqual(s.chapitre, 10)
         self.assertFalse(s.modifiee)
 
+    def test_dressage_des_geants(self):
+        # Accordé au chapitre 8 (scène de Lionyx) : jamais avant, toujours après.
+        for nom, attendu in (('random.dsv', False), ('histoire.dsv', False),
+                             ('moitie-jeu.dsv', False), ('en-avant-rapthorne-2.dsv', True),
+                             ('en-fin-de-jeu.dsv', True)):
+            with self.subTest(nom):
+                s = Sauvegarde.ouvrir(donnee(nom))
+                self.assertEqual(s.dressage_geants, attendu)
+                self.assertEqual(s.geants_utilisables, attendu)
+
+    def test_bit_de_l_autre_editeur_ne_suffit_pas(self):
+        # manuel-vide-geants : seul 0x3996 bit 0x01 (géants utilisables)
+        # allumé par un autre éditeur ; en jeu, « Dresser » restait grisé.
+        s = Sauvegarde.ouvrir(donnee('manuel-vide-geants.sav'))
+        self.assertTrue(s.geants_utilisables)
+        self.assertFalse(s.dressage_geants)
+
+    def test_dresser_et_utiliser_sont_independants(self):
+        # random : chapitre 0, avancement 1. Validé en jeu : Vercule dressé
+        # (anneau + avancement), puis visible et équipable une fois 0x3996
+        # bit 0x01 allumé.
+        s = Sauvegarde.ouvrir(donnee('random.dsv'))
+        avant = bytes(s.copie)
+        diff = lambda: {i: s.copie[i] for i in range(len(avant)) if avant[i] != s.copie[i]}
+        s.dressage_geants = True
+        self.assertFalse(s.geants_utilisables)
+        self.assertEqual(diff(), {F.AVANCEMENT: 0x0B, 0x39A7: avant[0x39A7] | 0x01})
+        s.geants_utilisables = True
+        self.assertEqual(diff(), {F.AVANCEMENT: 0x0B, 0x39A7: avant[0x39A7] | 0x01,
+                                  0x3996: avant[0x3996] | 0x01})
+        s.dressage_geants = False
+        self.assertTrue(s.geants_utilisables)
+        s.geants_utilisables = False
+        self.assertEqual(diff(), {F.AVANCEMENT: 0x0B})      # l'avancement ne recule pas
+
+    def test_dressage_des_geants_valide_en_jeu(self):
+        # geant-vercule : partie au chapitre 7 (avancement 9), devant un
+        # Vercule, géants déjà utilisables (0x3996 bit 0x01). Validé en jeu :
+        # ces deux octets seuls rendent « Dresser » actif.
+        s = Sauvegarde.ouvrir(donnee('geant-vercule.dsv'))
+        avant = bytes(s.copie)
+        self.assertFalse(s.dressage_geants)
+        s.dressage_geants = True
+        self.assertTrue(s.dressage_geants)
+        self.assertEqual({i: s.copie[i] for i in range(len(avant)) if avant[i] != s.copie[i]},
+                         {F.AVANCEMENT: 0x0B, 0x39A7: 0xC1})
+        # Décocher n'éteint que l'anneau : l'avancement ne recule pas.
+        s.dressage_geants = False
+        self.assertFalse(s.dressage_geants)
+        self.assertEqual(s.copie[F.AVANCEMENT], 0x0B)
+        self.assertEqual(s.copie[0x39A7], 0xC0)
+
+    def test_avancement_deja_suffisant(self):
+        s = Sauvegarde.ouvrir(donnee('en-fin-de-jeu.dsv'))
+        s.dressage_geants = False
+        s.dressage_geants = True
+        self.assertEqual(s.en_octets(), donnee('en-fin-de-jeu.dsv').read_bytes())
+
+    def test_histoire_coherente_dans_les_sauvegardes_du_jeu(self):
+        for chemin in ECRITES_PAR_LE_JEU:
+            with self.subTest(chemin.name):
+                self.assertTrue(Sauvegarde.ouvrir(chemin).histoire_coherente())
+
+    def test_incoherences_signalees(self):
+        s = Sauvegarde.ouvrir(donnee('random.dsv'))          # chapitre 0, avancement 1
+        s.dressage_geants = True                             # avancement 0B
+        self.assertFalse(s.histoire_coherente())
+        s.chapitre = 8
+        self.assertTrue(s.histoire_coherente())
+        s.chapitre = 10                                      # îles de fin sans l'histoire
+        self.assertFalse(s.histoire_coherente())
+        m = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))      # chapitre 7, avancement 7
+        m.chapitre = 9
+        self.assertFalse(m.histoire_coherente())
+
     def test_points_des_zones(self):
         for zone in F.TELEPORTATION:
             if zone in F.POINTS_TELEPORTATION:
