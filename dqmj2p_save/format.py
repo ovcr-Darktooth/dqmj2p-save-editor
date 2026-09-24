@@ -223,6 +223,15 @@ INDICATEUR_NUIT = (0x39A1, 0x20)
 # jeu, puis validé seul sur moitie-jeu : les îles apparaissent, Ténébria a ses
 # monstres et le jeu garde le bit à la sauvegarde suivante.
 ILES_FIN_DE_PARTIE = (0x3951, 0x08)
+# Chaque île dans la liste du sort Téléportation, allumé par la première
+# visite (24/09/2026). Validés en jeu en les allumant sur une partie qui ne
+# les avait pas : Ténébria et l'Île des Pipits seuls, Nécropolis avec
+# d'autres bits.
+TELEPORTATION_ILES = {
+    'Nécropolis': (0x39AA, 0x08),
+    'Ténébria': (0x39AA, 0x10),
+    'Île des Pipits': (0x39D9, 0x40),
+}
 CHAMP_JOUEUR = {c.cle: c for c in CHAMPS_JOUEUR}
 
 # Bloc de position complet (0x3A68-0x3A83 : carte, carte précédente,
@@ -247,6 +256,11 @@ POINTS_TELEPORTATION = {
     'Engloutîle': bytes.fromhex('2f250000410b0000ae6700007e9300009ae1fbff00801600fc030000'),
     'Archéopolis': bytes.fromhex('392f000000000000c3f5ffff00000000666a010000400b00bc000000'),
     'Escarpic': bytes.fromhex('25970000bc0a000066e20000fd000000526404007b180c00fc030000'),
+    # Îles de fin de partie (24/09/2026) : arrivée par le sort (Ténébria, Île
+    # des Pipits) ou par la carte des îles (Nécropolis), sans bouger.
+    'Nécropolis': bytes.fromhex('43430000000000000000000000000000c5ebffff00400b00bc000000'),
+    'Ténébria': bytes.fromhex('4f4300000000000000000000000000000080010000400b00b4000000'),
+    'Île des Pipits': bytes.fromhex('884f00000000000000000000000000003373020000c0f4ffa4000000'),
 }
 
 # ── Bibliothèque ─────────────────────────────────────────────────────────────

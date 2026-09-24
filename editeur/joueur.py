@@ -61,8 +61,6 @@ class PageJoueur(QWidget):
         self.intemperie.toggled.connect(self._regler_intemperie)
         formulaire.addRow(tr('Météo'), self.intemperie)
         self.points = QComboBox()
-        for point in F.POINTS_TELEPORTATION:
-            self.points.addItem(tr(point), point)
         bouton = QPushButton(tr('Téléporter'))
         bouton.clicked.connect(self._teleporter)
         ligne = QHBoxLayout()
@@ -75,16 +73,25 @@ class PageJoueur(QWidget):
         formulaire.addRow(aide)
         disposition.addWidget(infos)
 
-        progression = QGroupBox(tr('Progression'))
-        colonne = QVBoxLayout(progression)
-        self.iles = QCheckBox(tr("Nécropolis, Ténébria et l'Île des Pipits sur la carte des îles"))
-        self.iles.toggled.connect(self._debloquer_iles)
-        colonne.addWidget(self.iles)
-        self.aide_iles = QLabel()
-        self.aide_iles.setWordWrap(True)
-        self.aide_iles.setEnabled(False)            # texte grisé, comme une légende
-        colonne.addWidget(self.aide_iles)
-        disposition.addWidget(progression)
+        iles = QGroupBox(tr('Îles de fin de partie'))
+        colonne = QVBoxLayout(iles)
+        ligne = QHBoxLayout()
+        self.cases_iles = {}
+        for ile in F.TELEPORTATION_ILES:
+            case = QCheckBox(tr(ile))
+            case.toggled.connect(lambda actif, ile=ile: self._ouvrir_ile(ile, actif))
+            ligne.addWidget(case)
+            self.cases_iles[ile] = case
+        ligne.addStretch()
+        colonne.addLayout(ligne)
+        aide = QLabel(tr("Une île cochée entre dans la liste du sort Téléportation et "
+                         "s'affiche comme visitée. La carte des îles, commune aux trois, "
+                         "les montre toutes dès qu'une est cochée. Les îles déjà "
+                         "visitées dans la partie restent cochées."))
+        aide.setWordWrap(True)
+        aide.setEnabled(False)                      # texte grisé, comme une légende
+        colonne.addWidget(aide)
+        disposition.addWidget(iles)
         disposition.addStretch()
         self.setEnabled(False)
 
@@ -92,6 +99,7 @@ class PageJoueur(QWidget):
         self.liaison.afficher(joueur)
         self._afficher_emplacement()
         self._afficher_iles(joueur.sauvegarde)
+        self._remplir_points()
         self.setEnabled(True)
 
     def _teleporter(self) -> None:
@@ -114,25 +122,37 @@ class PageJoueur(QWidget):
         joueur['intemperie'] = int(active)
         self.liaison.modifiee.emit()
 
-    def _debloquer_iles(self, actif: bool) -> None:
+    def _ouvrir_ile(self, ile: str, actif: bool) -> None:
         sauvegarde = self.liaison.vue.sauvegarde
-        if sauvegarde.iles_debloquees == actif:
-            return
-        sauvegarde.debloquer_iles(actif)
+        sauvegarde.ouvrir_ile(ile, actif)
+        # Plus aucune île cochée : la carte redevient ce qu'elle était.
+        if not actif and not self._carte_d_origine and not any(
+                sauvegarde.ile_visitee(i) for i in F.TELEPORTATION_ILES):
+            sauvegarde.debloquer_iles(False)
+        self._remplir_points()
         self.liaison.modifiee.emit()
 
     def _afficher_iles(self, sauvegarde) -> None:
-        # Les îles déjà atteintes par l'histoire restent : retirer le drapeau
-        # d'une partie avancée n'a pas été essayé en jeu.
-        deja = sauvegarde.iles_debloquees
-        self.iles.blockSignals(True)
-        self.iles.setChecked(deja)
-        self.iles.blockSignals(False)
-        self.iles.setEnabled(not deja)
-        self.aide_iles.setText(
-            tr("Déjà débloquées par l'histoire dans cette partie.") if deja else
-            tr("Les îles apparaissent en sortant d'une zone par son entrée ; elles "
-               "rejoignent la liste de Téléportation à la première visite."))
+        # Les îles déjà visitées restent : retirer leurs drapeaux d'une partie
+        # avancée n'a pas été essayé en jeu.
+        self._carte_d_origine = sauvegarde.iles_debloquees
+        for ile, case in self.cases_iles.items():
+            visitee = sauvegarde.ile_visitee(ile)
+            case.blockSignals(True)
+            case.setChecked(visitee)
+            case.blockSignals(False)
+            case.setEnabled(not visitee)
+            case.setToolTip(tr('Déjà visitée dans cette partie.') if visitee else '')
+
+    def _remplir_points(self) -> None:
+        """Points de téléportation, sans ceux des îles pas encore ouvertes."""
+        sauvegarde = self.liaison.vue.sauvegarde
+        choisi = self.points.currentData()
+        self.points.clear()
+        for point in F.POINTS_TELEPORTATION:
+            if point not in F.TELEPORTATION_ILES or sauvegarde.ile_visitee(point):
+                self.points.addItem(tr(point), point)
+        self.points.setCurrentIndex(max(0, self.points.findData(choisi)))
 
     def _afficher_emplacement(self) -> None:
         joueur = self.liaison.vue

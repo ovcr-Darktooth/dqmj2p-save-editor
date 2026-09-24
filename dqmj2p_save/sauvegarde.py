@@ -155,19 +155,36 @@ class Sauvegarde:
         if self.copie[octet] != avant:
             self.modifiee = True
 
+    def _drapeau(self, drapeau: tuple[int, int]) -> bool:
+        octet, bit = drapeau
+        return bool(self.copie[octet] & bit)
+
+    def _regler_drapeau(self, drapeau: tuple[int, int], actif: bool) -> None:
+        if self._drapeau(drapeau) != actif:
+            octet, bit = drapeau
+            self.copie[octet] ^= bit
+            self.modifiee = True
+
     @property
     def iles_debloquees(self) -> bool:
         """Nécropolis, Ténébria et l'Île des Pipits sont sur la carte des îles."""
-        octet, bit = F.ILES_FIN_DE_PARTIE
-        return bool(self.copie[octet] & bit)
+        return self._drapeau(F.ILES_FIN_DE_PARTIE)
 
     def debloquer_iles(self, actif: bool = True) -> None:
         """Ajoute (ou retire) les trois îles de fin de partie à la carte."""
-        if self.iles_debloquees == actif:
-            return
-        octet, bit = F.ILES_FIN_DE_PARTIE
-        self.copie[octet] ^= bit
-        self.modifiee = True
+        self._regler_drapeau(F.ILES_FIN_DE_PARTIE, actif)
+
+    def ile_visitee(self, ile: str) -> bool:
+        """L'île (clé de F.TELEPORTATION_ILES) est dans la liste du sort
+        Téléportation."""
+        return self._drapeau(F.TELEPORTATION_ILES[ile])
+
+    def ouvrir_ile(self, ile: str, actif: bool = True) -> None:
+        """Ajoute (ou retire) l'île à la liste du sort Téléportation. L'ajout
+        débloque aussi la carte des îles, commune aux trois."""
+        if actif:
+            self.debloquer_iles()
+        self._regler_drapeau(F.TELEPORTATION_ILES[ile], actif)
 
     # ── Équipe et réserve ────────────────────────────────────────────────────
 

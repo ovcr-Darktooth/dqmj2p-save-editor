@@ -55,9 +55,12 @@ CARTES = {
     37: 'Escarpic',
     47: 'Engloutîle',
     57: 'Archéopolis',
+    67: 'Nécropolis',
+    79: 'Ténébria',
     85: 'Albatros (extérieur)',
     88: 'Albatros (intérieur, ranch)',
-    131: 'Ténébria',
+    131: 'Ténébria (autre zone)',
+    136: 'Île des Pipits',
     151: 'Avablanche',
 }
 

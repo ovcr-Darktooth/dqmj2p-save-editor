@@ -243,6 +243,32 @@ class Iles(unittest.TestCase):
         s.debloquer_iles()
         self.assertFalse(s.modifiee)
 
+    def test_teleportation_relevee_en_jeu(self):
+        fin = Sauvegarde.ouvrir(donnee('en-fin-de-jeu.dsv'))
+        milieu = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        for ile in F.TELEPORTATION_ILES:
+            with self.subTest(ile):
+                self.assertTrue(fin.ile_visitee(ile))
+                self.assertFalse(milieu.ile_visitee(ile))
+
+    def test_ouvrir_une_ile_debloque_la_carte(self):
+        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        avant = bytes(s.copie)
+        s.ouvrir_ile('Île des Pipits')
+        self.assertTrue(s.iles_debloquees)
+        self.assertTrue(s.ile_visitee('Île des Pipits'))
+        self.assertFalse(s.ile_visitee('Ténébria'))
+        self.assertEqual([i for i in range(len(avant)) if avant[i] != s.copie[i]],
+                         [F.ILES_FIN_DE_PARTIE[0], F.TELEPORTATION_ILES['Île des Pipits'][0]])
+        s.ouvrir_ile('Île des Pipits', False)
+        self.assertFalse(s.ile_visitee('Île des Pipits'))
+        self.assertTrue(s.iles_debloquees)          # la carte, elle, reste
+
+    def test_points_des_iles(self):
+        for ile in F.TELEPORTATION_ILES:
+            with self.subTest(ile):
+                self.assertEqual(noms.carte(F.POINTS_TELEPORTATION[ile][0]), ile)
+
 class Composition(unittest.TestCase):
     def test_lecture(self):
         s = Sauvegarde.ouvrir(donnee('en-avant-boss-final.dsv'))

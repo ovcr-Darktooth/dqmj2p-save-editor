@@ -218,11 +218,22 @@ et éteints dans celle-ci :
   apparaissent ; Ténébria (carte 131) a ses monstres, et le jeu conserve le
   bit à la sauvegarde. Y aller allume de lui-même `0x39AA` bit `0x10` et
   `0x39A8` bit `0x08`.
-  L'éditeur le propose (onglet Joueur, « Progression », `ILES_FIN_DE_PARTIE`),
-  seulement pour l'ajouter : le retirer d'une partie avancée n'a pas été essayé.
-- **`0x39AA` bit `0x10`** : Ténébria dans la liste du sort Téléportation
-  (validé en jeu). `0x39AA` bit `0x08` : probablement Nécropolis (apparue dans
-  un essai qui l'allumait avec 77 autres bits).
+- **Chaque île dans la liste du sort Téléportation** (`TELEPORTATION_ILES`),
+  allumé par la première visite, qui fait aussi passer son point en « visité »
+  (moins marqué) sur la carte des îles : Nécropolis `0x39AA` bit `0x08`,
+  Ténébria `0x39AA` bit `0x10`, Île des Pipits `0x39D9` bit `0x40`. Validés
+  en jeu en les allumant sur une partie qui ne les avait pas (Ténébria et
+  l'Île des Pipits seuls). La première visite de l'Île des Pipits allume aussi
+  `0x3950` bit `0x01`, `0x39F2` bit `0x08`, `0x3A29` bit `0x20` et `0x3A2A`
+  (`3F`), sans rôle connu.
+- Cartes : 67 Nécropolis, 79 Ténébria (arrivée de la Téléportation), 131 une
+  autre zone de Ténébria, 136 Île des Pipits. Points de téléportation relevés
+  sans bouger : arrivée du sort pour Ténébria et l'Île des Pipits, arrivée par
+  la carte des îles pour Nécropolis.
+- L'éditeur propose une case par île (onglet Joueur) : elle allume le bit de
+  Téléportation de l'île et, s'il ne l'est pas, celui de la carte. Les îles
+  déjà visitées restent cochées : retirer ces bits d'une partie avancée n'a
+  pas été essayé.
 - Les bits de `0x39A9` et `0x39AB` qu'un éditeur conçu pour Joker 2 présente
   comme « zones débloquables » (L'Arbirynthe `0x10`, Prairia `0x20`, Arène
   `0x39AB` bit `0x08`) sont recalculés : éteint, celui de l'Arbirynthe ne

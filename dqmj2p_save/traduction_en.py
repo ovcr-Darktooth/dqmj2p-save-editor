@@ -25,7 +25,10 @@ TEXTES = {
     'Prairia': 'Doubtback',
     'Arène': 'Arena',
     'Avablanche': 'Iceolation',
+    'Nécropolis': 'Necropolis',
     'Ténébria': 'Dark World',
+    'Ténébria (autre zone)': 'Dark World (other area)',
+    'Île des Pipits': 'Pipisle',
     'Avablanche (autre zone)': 'Iceolation (other area)',
     'Avablanche (fin de zone)': 'Iceolation (end of area)',
     'Avablanche (fin de zone, sort)': 'Iceolation (end of area, exit)',
@@ -235,15 +238,14 @@ TEXTES = {
         '{n} — {lieu}   (previous: {n_avant} — {lieu_avant})',
     '{meteo} en cours': '{meteo} in progress',
     'Aucune intempérie connue sur cette carte': 'No known weather on this map',
-    'Progression': 'Progress',
-    "Nécropolis, Ténébria et l'Île des Pipits sur la carte des îles":
-        'Necropolis, Dark World and Pipisle on the island map',
-    "Déjà débloquées par l'histoire dans cette partie.":
-        'Already unlocked by the story in this game.',
-    "Les îles apparaissent en sortant d'une zone par son entrée ; elles rejoignent la "
-    'liste de Téléportation à la première visite.':
-        'The islands show up when leaving an area by its entrance; they join the '
-        'Zoom list on the first visit.',
+    'Îles de fin de partie': 'Late-game islands',
+    "Une île cochée entre dans la liste du sort Téléportation et s'affiche comme "
+    "visitée. La carte des îles, commune aux trois, les montre toutes dès qu'une est "
+    'cochée. Les îles déjà visitées dans la partie restent cochées.':
+        'A ticked island joins the Zoom list and shows as visited. The island map, '
+        'shared by all three, shows them all as soon as one is ticked. Islands already '
+        'visited in the game stay ticked.',
+    'Déjà visitée dans cette partie.': 'Already visited in this game.',
     "Faire glisser la poignée, ou la molette (5 s par cran). L'horloge ne tourne qu'en "
     'plein air.': 'Drag the handle, or use the mouse wheel (5 s per notch). The clock '
                   'only runs outdoors.',
