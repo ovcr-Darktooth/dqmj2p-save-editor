@@ -241,11 +241,14 @@ TEXTES = {
     '{meteo} en cours': '{meteo} in progress',
     'Aucune intempérie connue sur cette carte': 'No known weather on this map',
     'Carte des îles': 'Island map',
-    "Le jeu y ajoute les îles au fil des chapitres de l'histoire : l'avancer peut "
-    "faire sauter des événements. On ne peut pas revenir en deçà du chapitre de la "
-    'partie.': 'The game adds the islands as the story chapters go by: moving the '
-               'chapter forward may skip events. It cannot go below the chapter of '
-               'the game.',
+    "Le jeu y ajoute les îles au fil des chapitres de l'histoire. Avancer le chapitre "
+    "ne fait qu'afficher les îles : l'histoire n'y est pas préparée (à Engloutîle, les "
+    "tentacules à battre pour avancer manquaient), ce qui peut bloquer la progression. "
+    "On ne peut pas revenir en deçà du chapitre de la partie.":
+        'The game adds the islands as the story chapters go by. Moving the chapter '
+        'forward only shows the islands: the story is not set up there (on Unshore, '
+        'the tentacles to beat in order to progress were missing), which may block '
+        'progress. It cannot go below the chapter of the game.',
     'Sort Téléportation': 'Zoom spell',
     "Une zone cochée entre dans la liste du sort (dans l'ordre du jeu), sans changer "
     "de chapitre ; une île s'affiche aussi comme visitée sur la carte. Les zones déjà "

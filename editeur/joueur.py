@@ -78,9 +78,11 @@ class PageJoueur(QWidget):
         self.carte_iles = QComboBox()
         self.carte_iles.activated.connect(self._regler_chapitre)
         formulaire.addRow(tr('Carte des îles'), self.carte_iles)
-        aide = QLabel(tr("Le jeu y ajoute les îles au fil des chapitres de l'histoire : "
-                         "l'avancer peut faire sauter des événements. On ne peut pas "
-                         "revenir en deçà du chapitre de la partie."))
+        aide = QLabel(tr("Le jeu y ajoute les îles au fil des chapitres de l'histoire. "
+                         "Avancer le chapitre ne fait qu'afficher les îles : l'histoire n'y "
+                         "est pas préparée (à Engloutîle, les tentacules à battre pour "
+                         "avancer manquaient), ce qui peut bloquer la progression. On ne "
+                         "peut pas revenir en deçà du chapitre de la partie."))
         aide.setWordWrap(True)
         aide.setEnabled(False)                      # texte grisé, comme une légende
         formulaire.addRow(aide)

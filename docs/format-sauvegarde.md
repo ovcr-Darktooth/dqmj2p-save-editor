@@ -270,7 +270,17 @@ Relevé le 24/09/2026 sur `moitie-jeu` (partie arrêtée à Archéopolis) :
 
   Au chapitre 1, la carte n'est accessible qu'après un dressage imposé par
   l'histoire, qui fait lui-même passer au chapitre 2 (et l'avancement de 1 à
-  2) : d'où le « probable ». Trouvé d'abord par dichotomie comme un « bit
+  2) : d'où le « probable ».
+
+  **Le chapitre n'ouvre que la carte.** Sur la même partie passée du
+  chapitre 2 au 6 (avancement resté à `02`), Engloutîle est accessible mais
+  les tentacules qu'il faut battre pour y avancer n'y sont pas : l'histoire
+  de l'île n'est pas préparée, la progression y est bloquée. À L'Arbirynthe,
+  en revanche, l'histoire reprend normalement (cinématiques, mécano) : elle
+  suit l'avancement et des compteurs propres à chaque île (`0x393F` a valu
+  1, 4 puis 5 au fil des événements de L'Arbirynthe), jamais le chapitre,
+  resté à 6. Les étapes suivantes n'ont pas été jouées. L'éditeur laisse
+  donc le choix du chapitre, avec un avertissement. Trouvé d'abord par dichotomie comme un « bit
   `0x08` » : l'allumer faisait passer `moitie-jeu` du chapitre 7 au 15, ce
   qui montrait les trois îles mais sautait tous les chapitres suivants. Il
   faut écrire la valeur voulue, jamais un masque. Avancer le chapitre peut
