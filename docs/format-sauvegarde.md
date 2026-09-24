@@ -251,7 +251,11 @@ Relevé le 24/09/2026 sur `moitie-jeu` (partie arrêtée à Archéopolis) :
   mi-parcours, 9 après Rapthorne 2, 10 en fin de jeu. La carte des îles
   (affichée en sortant d'une zone par son entrée) en dépend, **validé en
   jeu** : au chapitre 8 elle montre Nécropolis, au 9 aussi Ténébria, au 10
-  aussi l'Île des Pipits. Trouvé d'abord par dichotomie comme un « bit
+  aussi l'Île des Pipits. **Toutes les îles en dépendent**, pas seulement
+  celles de fin : sur la partie du randomizer (chapitre 0), passer au
+  chapitre 10 affiche toutes les îles sur la carte (24/09/2026), sans les
+  ajouter au sort Téléportation. Les chapitres des autres îles restent à
+  relever. Trouvé d'abord par dichotomie comme un « bit
   `0x08` » : l'allumer faisait passer `moitie-jeu` du chapitre 7 au 15, ce
   qui montrait les trois îles mais sautait tous les chapitres suivants. Il
   faut écrire la valeur voulue, jamais un masque. Avancer le chapitre peut
