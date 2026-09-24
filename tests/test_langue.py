@@ -138,7 +138,7 @@ def _textes_du_code() -> set[str]:
 def _constantes_traduites() -> set[str]:
     """Textes rangés dans des tables et traduits à l'affichage."""
     textes = {noms.AUCUN, noms.INUTILISE, 'lieu inconnu', *noms.CARTES.values(),
-              *noms.METEO.values(), *F.POINTS_TELEPORTATION,
+              *noms.METEO.values(), *F.POINTS_TELEPORTATION, *noms.BOUTONS.values(),
               *(c.libelle for c in F.CHAMPS_MONSTRE + F.CHAMPS_JOUEUR)}
     textes |= {bestiaire.fiche(i).famille for i in range(F.NB_BITS_ESPECES)} - {None}
     return textes

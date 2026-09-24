@@ -2,7 +2,7 @@
 Valeurs de référence relevées en jeu sur moitie-jeu.dsv."""
 import unittest
 
-from dqmj2p_save import Sauvegarde, noms, texte
+from dqmj2p_save import ErreurSauvegarde, Sauvegarde, noms, texte
 from dqmj2p_save import format as F
 
 from test_sauvegarde import ECRITES_PAR_LE_JEU, donnee
@@ -272,6 +272,44 @@ class Iles(unittest.TestCase):
             if zone in F.POINTS_TELEPORTATION:
                 with self.subTest(zone):
                     self.assertEqual(noms.carte(F.POINTS_TELEPORTATION[zone][0]), zone)
+
+
+class Boutons(unittest.TestCase):
+    def test_releves_en_jeu(self):
+        self.assertEqual(Sauvegarde.ouvrir(donnee('random.dsv')).boutons,
+                         [*F.ORDRE_BOUTONS_NEUF, F.BOUTON_VIDE, F.BOUTON_VIDE])
+        fin = Sauvegarde.ouvrir(donnee('en-fin-de-jeu.dsv')).boutons
+        self.assertEqual(sorted(fin), list(range(12)))
+        self.assertTrue(all(b in noms.BOUTONS for b in fin))
+
+    def test_echange_ne_touche_que_la_grille(self):
+        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        avant = bytes(s.copie)
+        s.echanger_boutons(0, 11)                   # Objets vers une case vide
+        self.assertEqual(s.boutons[11], 0x01)
+        self.assertEqual(s.boutons[0], F.BOUTON_VIDE)
+        self.assertEqual([i for i in range(len(avant)) if avant[i] != s.copie[i]],
+                         [F.BOUTONS, F.BOUTONS + 11])
+
+    def test_essais_valides_en_jeu(self):
+        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        s.ranger_boutons(list(bytes.fromhex('08090b0705' '7f' '0302' '0001' '7f' '04')))
+        self.assertEqual(s.boutons[5], F.BOUTON_VIDE)
+
+    def test_on_ne_change_pas_les_boutons(self):
+        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        cases = s.boutons
+        cases[10] = 0x06                            # Soigner tous, pas encore obtenu
+        with self.assertRaises(ErreurSauvegarde):
+            s.ranger_boutons(cases)
+        self.assertFalse(s.modifiee)
+
+    def test_ordre_du_jeu(self):
+        fin = Sauvegarde.ouvrir(donnee('en-fin-de-jeu.dsv'))
+        self.assertEqual(F.ordre_boutons_du_jeu(fin.boutons),
+                         [*F.ORDRE_BOUTONS_NEUF, 0x06, 0x0A])
+        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        self.assertEqual(F.ordre_boutons_du_jeu(s.boutons), s.boutons)
 
 
 class Composition(unittest.TestCase):

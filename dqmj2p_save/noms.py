@@ -78,6 +78,28 @@ METEO = {
 }
 
 
+# Boutons du menu de l'écran du bas (format.BOUTONS) : ID = ligne de msg_menu.
+BOUTONS = {
+    0x00: 'Sorts et aptitudes',
+    0x01: 'Objets',
+    0x02: 'Équipement',
+    0x03: 'Changer de monstres',
+    0x04: 'Changer de tactique',
+    0x05: 'Attribuer les compétences',
+    0x06: 'Soigner tous',
+    0x07: 'Sauvegarder',
+    0x08: 'Compétences de dressage',
+    0x09: 'Manuel du dresseur',
+    0x0A: 'Monstrequinque',
+    0x0B: 'Combats tombola',
+}
+
+
+def bouton(id_: int) -> str:
+    """Nom du bouton, dans la langue courante (noms des patchs)."""
+    return tr(BOUTONS[id_]) if id_ in BOUTONS else tr('Bouton {id:02X}', id=id_)
+
+
 def carte(numero: int) -> str:
     """Nom du lieu, dans la langue courante (noms du patch anglais : voir
     traduction_en.py)."""

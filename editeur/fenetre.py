@@ -16,6 +16,7 @@ from .bibliotheque import PageBibliotheque
 from .equipe import PanneauEquipe, TYPE_MIME, emplacement_depuis, glisser
 from .fiche import Fiche
 from .joueur import PageJoueur
+from .menu import PageMenu
 from .sac import PageSac
 
 # Textes traduits à l'affichage (tr) : la langue peut changer en cours de route.
@@ -110,6 +111,8 @@ class Fenetre(QMainWindow):
         self.page_sac.modifiee.connect(self._rafraichir_titre)
         self.page_bibliotheque = PageBibliotheque()
         self.page_bibliotheque.modifiee.connect(self._rafraichir_titre)
+        self.page_menu = PageMenu()
+        self.page_menu.modifiee.connect(self._rafraichir_titre)
         for liaison in (self.fiche.liaison, self.page_joueur.liaison):
             liaison.erreur.connect(lambda message: self.statusBar().showMessage(message, 8000))
 
@@ -136,6 +139,7 @@ class Fenetre(QMainWindow):
         self.onglets.addTab(separation, tr('Monstres'))
         self.onglets.addTab(self.page_sac, tr('Sac'))
         self.onglets.addTab(self.page_bibliotheque, tr('Bibliothèque'))
+        self.onglets.addTab(self.page_menu, tr('Menu'))
         self.setCentralWidget(self.onglets)
 
         menu = self.menuBar().addMenu(tr('&Fichier'))
@@ -236,6 +240,7 @@ class Fenetre(QMainWindow):
         self.page_joueur.afficher(sauvegarde.joueur)
         self.page_sac.afficher(sauvegarde.sac)
         self.page_bibliotheque.afficher(sauvegarde.bibliotheque)
+        self.page_menu.afficher(sauvegarde)
         self._rafraichir_titre()
 
     # ── Fichiers récents ─────────────────────────────────────────────────────
@@ -407,8 +412,9 @@ class Fenetre(QMainWindow):
     # ── Icônes ───────────────────────────────────────────────────────────────
 
     def extraire_icones(self) -> None:
-        """Extrait les icônes des monstres et des familles d'une ROM choisie par
-        l'utilisateur, dans le dossier où l'éditeur les cherche."""
+        """Extrait les icônes des monstres, des familles et des boutons du menu
+        d'une ROM choisie par l'utilisateur, dans le dossier où l'éditeur les
+        cherche."""
         chemin, _ = QFileDialog.getOpenFileName(
             self, tr('Choisir la ROM du jeu (japonaise ou patchée)'), '', tr(FILTRE_ROM))
         if not chemin:
@@ -418,16 +424,18 @@ class Fenetre(QMainWindow):
             rom = Path(chemin).read_bytes()
             monstres = extraction.extraire_icones(rom, icones.DOSSIER)
             familles = extraction.extraire_familles(rom, icones.FAMILLES)
+            boutons = extraction.extraire_boutons(rom, icones.BOUTONS)
         except (OSError, extraction.ErreurExtraction) as e:
             QApplication.restoreOverrideCursor()
             QMessageBox.critical(self, tr('Extraction impossible'), f'{chemin}\n\n{e}')
             return
         QApplication.restoreOverrideCursor()
-        for fonction in (icones.image, icones.icone, icones.famille):
+        for fonction in (icones.image, icones.icone, icones.famille, icones.bouton):
             fonction.cache_clear()
         self._reconstruire().statusBar().showMessage(tr(
-            '{monstres} icônes de monstres et {familles} de familles extraites dans {dossier}.',
-            monstres=monstres, familles=familles, dossier=icones.DOSSIER))
+            '{monstres} icônes de monstres, {familles} de familles et {boutons} de '
+            'boutons extraites dans {dossier}.',
+            monstres=monstres, familles=familles, boutons=boutons, dossier=icones.DOSSIER))
 
     # ── Langue ───────────────────────────────────────────────────────────────
 

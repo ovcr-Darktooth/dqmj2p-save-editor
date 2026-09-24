@@ -25,6 +25,7 @@ FICHIERS = {                        # source -> chemin dans le dossier du zip
     'editeur/icones/SOURCE.txt': 'icones/SOURCE.txt',
     'outils/extraire_icones.py': 'scripts/outils/extraire_icones.py',
     'outils/extraire_familles.py': 'scripts/outils/extraire_familles.py',
+    'outils/extraire_boutons.py': 'scripts/outils/extraire_boutons.py',
     'editeur/__init__.py': 'scripts/editeur/__init__.py',
     'editeur/extraction.py': 'scripts/editeur/extraction.py',
 }

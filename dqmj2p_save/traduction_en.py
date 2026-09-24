@@ -205,8 +205,9 @@ TEXTES = {
     '{archive} : archive FPK attendue': '{archive}: FPK archive expected',
     'glyphe de famille vide : police inattendue': 'empty family glyph: unexpected font',
     'font_16x16.NFTR : bloc CGLP introuvable': 'font_16x16.NFTR: CGLP block not found',
-    '{monstres} icônes de monstres et {familles} de familles extraites dans {dossier}.':
-        '{monstres} monster icons and {familles} family icons extracted to {dossier}.',
+    '{monstres} icônes de monstres, {familles} de familles et {boutons} de boutons '
+    'extraites dans {dossier}.': '{monstres} monster icons, {familles} family icons and '
+                                 '{boutons} button icons extracted to {dossier}.',
     'Enregistrement impossible': 'Cannot save',
     'Enregistré : {nom}': 'Saved: {nom}',
     '  (original gardé dans {nom})': '  (original kept in {nom})',
@@ -253,6 +254,41 @@ TEXTES = {
         'the chapter; an island also shows as visited on the map. Areas already '
         'visited stay ticked: the game would put them back.',
     'Zones': 'Areas',
+
+    # ── Onglet Menu : boutons de l'écran du bas (noms du patch anglais) ────
+    'Menu': 'Menu',
+    'Sorts et aptitudes': 'Spells and Abilities',
+    'Objets': 'Items',
+    'Équipement': 'Equipment',
+    'Changer de monstres': 'Switch Monsters',
+    'Changer de tactique': 'Change Tactics',
+    'Attribuer les compétences': 'Skill Allocation',
+    'Soigner tous': 'Heal All',
+    'Sauvegarder': 'Save',
+    'Compétences de dressage': 'Scouting Skills',
+    'Manuel du dresseur': "Scout's Handbook",
+    'Monstrequinque': 'Monster Mender',
+    'Combats tombola': 'Tag Mode',
+    'Bouton {id:02X}': 'Button {id:02X}',
+    '{magie} attendu en tête de fichier': '{magie} expected at the start of the file',
+    "{a} icônes pour {b} palettes : ce n'est pas le menu attendu":
+        '{a} icons for {b} palettes: not the expected menu',
+    "Boutons de l'écran du bas, disposés comme dans le jeu.":
+        'Bottom-screen buttons, laid out as in the game.',
+    'Glisser un bouton sur une autre case pour les échanger ; une case vide peut rester '
+    'au milieu de la grille. Seuls les boutons déjà obtenus dans la partie sont là. Les '
+    'sorts du sous-menu Compétences de dressage ne sont pas modifiés.':
+        'Drag a button onto another slot to swap them; an empty slot may stay in the '
+        'middle of the grid. Only the buttons already obtained in the game are there. '
+        'The spells in the Scouting Skills submenu are left unchanged.',
+    "Ordre d'une partie neuve": 'New game order',
+    'Les boutons obtenus plus tard (Soigner tous, Monstrequinque) suivent, dans les '
+    'cases vides.': 'Buttons obtained later (Heal All, Monster Mender) follow, in the '
+                    'empty slots.',
+    'Bouton {id:02X} — glisser pour le déplacer': 'Button {id:02X} — drag to move it',
+    'Case vide': 'Empty slot',
+    "L'ordre des boutons doit reprendre les mêmes boutons.":
+        'The button order must keep the same buttons.',
     '{iles}  (chapitre {n})': '{iles}  (chapter {n})',
     'Aucune île': 'No island',
     'Déjà visitée dans cette partie.': 'Already visited in this game.',

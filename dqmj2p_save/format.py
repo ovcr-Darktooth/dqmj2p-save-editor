@@ -302,3 +302,26 @@ QUANTITE_MAX = 99                   # plafond du jeu (le format permettrait 255)
 
 CHAMPS_SAC = {i: Champ(f'objet_{i}', SAC + i, 'u8', f'Objet {i}', noms='objets')
               for i in range(1, NB_OBJETS)}
+
+# ── Menu de l'écran du bas ───────────────────────────────────────────────────
+# Grille de 4 × 3 boutons, ligne par ligne : ID du bouton (noms.BOUTONS, dans
+# l'ordre de msg_menu), BOUTON_VIDE pour une case vide. Validé en jeu le
+# 24/09/2026 : ordre changé et cases vides au milieu, chaque bouton ouvrant le
+# bon menu. Suivent 4 octets pour les sorts du sous-menu Compétences de
+# dressage (0x0C Téléportation à 0x0F Invisibilité), non modifiés.
+BOUTONS = 0x1CC
+COLONNES_BOUTONS, LIGNES_BOUTONS = 4, 3
+NB_CASES_BOUTONS = COLONNES_BOUTONS * LIGNES_BOUTONS
+BOUTON_VIDE = 0x7F
+# Ordre d'une partie neuve (sauvegarde du randomizer, chapitre 0). Soigner
+# tous (0x06) et Monstrequinque (0x0A) s'obtiennent plus tard.
+ORDRE_BOUTONS_NEUF = (0x01, 0x00, 0x02, 0x03, 0x04, 0x05, 0x07, 0x0B, 0x09, 0x08)
+
+
+def ordre_boutons_du_jeu(cases: list[int]) -> list[int]:
+    """Les mêmes boutons rangés comme dans une partie neuve, les autres à la
+    suite, puis les cases vides."""
+    presents = [b for b in cases if b != BOUTON_VIDE]
+    ordre = [b for b in ORDRE_BOUTONS_NEUF if b in presents]
+    ordre += sorted(b for b in presents if b not in ORDRE_BOUTONS_NEUF)
+    return ordre + [BOUTON_VIDE] * (len(cases) - len(ordre))

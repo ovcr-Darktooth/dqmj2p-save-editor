@@ -51,8 +51,8 @@ modifications non enregistrées.
 
 ### Icônes (facultatif)
 
-Les icônes des monstres et des familles sont des graphismes du jeu : elles ne
-sont pas dans ce dépôt. Sans elles, l'éditeur fonctionne et affiche des cases
+Les icônes des monstres, des familles et des boutons du menu sont des
+graphismes du jeu : elles ne sont pas dans ce dépôt. Sans elles, l'éditeur fonctionne et affiche des cases
 vides. Pour les extraire de votre ROM (japonaise d'origine ou patchée) :
 menu **Fichier → Extraire les icônes d'une ROM…**. Elles sont rangées là où
 l'éditeur les cherche (`editeur/icones/`, ou `icones/` à côté de l'exe) et
@@ -64,6 +64,7 @@ Même chose en ligne de commande (le zip de la release contient ces scripts dans
 ```
 python outils/extraire_icones.py <votre ROM .nds> [dossier]
 python outils/extraire_familles.py <votre ROM .nds> [dossier\familles]
+python outils/extraire_boutons.py <votre ROM .nds> [dossier\boutons]
 ```
 
 Les icônes des monstres peuvent aussi venir d'un clone du projet
@@ -101,6 +102,8 @@ s.enregistrer()
 | `outils/importer_synthese.py` | Recopie icônes et bestiaire depuis le projet des synthèses |
 | `editeur/icones/familles/` | Icônes des familles, glyphes de la police du jeu (non versionnées) |
 | `outils/extraire_familles.py` | Icônes des familles en ligne de commande (`font_16x16.NFTR` + palette des menus) |
+| `editeur/icones/boutons/` | Icônes des boutons du menu (`<id>.png`), à extraire (non versionnées) |
+| `outils/extraire_boutons.py` | Icônes des boutons en ligne de commande (`menu_icon_data.cch` + `.cpl`) |
 | `docs/format-sauvegarde.md` | Carte du format, avec ce qui reste inconnu |
 | `outils/construire_exe.py` | Construit l'exe (PyInstaller) |
 | `outils/preparer_zip.py` | Prépare le zip de la release (exe, scripts d'extraction, `EXTRAIRE-ICONES.txt`) |

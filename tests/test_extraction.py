@@ -66,6 +66,24 @@ class Extraction(unittest.TestCase):
         gluant = QImage(str(self.dossier / 'Gluant.png'))
         self.assertEqual((gluant.width(), gluant.height()), (7, 10))   # recadrée
 
+    def test_icones_des_boutons(self):
+        n = extraction.extraire_boutons(self.rom, self.dossier)
+        self.assertEqual(n, rom_synthetique.NB_BOUTONS)
+        image = QImage(str(self.dossier / '3.png'))
+        self.assertEqual((image.width(), image.height()), (40, 40))
+        # Tuiles rangées ligne par ligne : la 1 à droite de la 0, la 5 dessous.
+        tuiles = rom_synthetique.icone_bouton(3)[4:]
+        palette = extraction.couleurs_bgr555(rom_synthetique._palette())
+        for tuile, (x, y) in ((0, (0, 0)), (1, (8, 0)), (5, (0, 8)), (24, (32, 32))):
+            valeur = tuiles[tuile * 32] & 15
+            with self.subTest(tuile=tuile):
+                pixel = image.pixelColor(x, y)
+                if valeur == 0:
+                    self.assertEqual(pixel.alpha(), 0)
+                else:
+                    self.assertEqual((pixel.red(), pixel.green(), pixel.blue()),
+                                     palette[valeur])
+
     def test_pas_une_rom(self):
         with self.assertRaises(extraction.ErreurExtraction):
             extraction.extraire_icones(b'pas une ROM', self.dossier)
@@ -100,10 +118,11 @@ class MenuExtraction(unittest.TestCase):
         self.rom.write_bytes(rom_synthetique.rom())
         # Icônes écrites dans le dossier temporaire, pas dans editeur/icones.
         for nom, valeur in (('DOSSIER', self.dossier / 'icones'),
-                            ('FAMILLES', self.dossier / 'icones' / 'familles')):
+                            ('FAMILLES', self.dossier / 'icones' / 'familles'),
+                            ('BOUTONS', self.dossier / 'icones' / 'boutons')):
             self.addCleanup(setattr, icones, nom, getattr(icones, nom))
             setattr(icones, nom, valeur)
-        for fonction in (icones.image, icones.icone, icones.famille):
+        for fonction in (icones.image, icones.icone, icones.famille, icones.bouton):
             self.addCleanup(fonction.cache_clear)
             fonction.cache_clear()
         self.reglages = QSettings(str(self.dossier / 'reglages.ini'), QSettings.IniFormat)
@@ -129,7 +148,8 @@ class MenuExtraction(unittest.TestCase):
         self.assertIsNot(nouvelle, fenetre)                 # fenêtre redessinée
         self.assertFalse(icones.icone(1).isNull())
         self.assertFalse(icones.famille('Gluant').isNull())
-        self.assertIn('3 icônes de monstres et 8 de familles',
+        self.assertFalse(icones.bouton(8).isNull())
+        self.assertIn('3 icônes de monstres, 8 de familles et 12 de boutons',
                       nouvelle.statusBar().currentMessage())
 
     def test_annulation(self):

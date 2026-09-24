@@ -68,3 +68,15 @@ def famille(nom: str | None, facteur: int = 2) -> QPixmap:
         return QPixmap()
     source = QPixmap(str(chemin))
     return source.scaled(source.size() * facteur, Qt.IgnoreAspectRatio, Qt.FastTransformation)
+
+
+BOUTONS = DOSSIER / 'boutons'       # boutons du menu (outils/extraire_boutons.py)
+
+
+@cache
+def bouton(id_: int, facteur: int = 2) -> QPixmap:
+    """Icône du bouton de menu, agrandie sans lissage (nulle si absente)."""
+    source = QPixmap(str(BOUTONS / f'{id_}.png'))
+    if source.isNull():
+        return source
+    return source.scaled(source.size() * facteur, Qt.IgnoreAspectRatio, Qt.FastTransformation)

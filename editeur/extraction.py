@@ -20,6 +20,16 @@ après les kanji : 565 Gluant, 566 Dragon, 567 Nature, 568 Bête, 569 Matière,
 CGLP du format NFTR). Chaque valeur est un indice dans la palette des menus
 (1 contour noir, 11 bleu, 14 vert…), ici celle de l'écran de statut,
 main_status_bg.pal (16 premières couleurs, BGR555) ; 0 est transparent.
+
+Icônes des boutons du menu (écran du bas), dans l'ordre des ID de boutons
+(noms.BOUTONS) :
+
+- menu_icon_data.cch : « FHCC », u32 0, u32 nombre d'icônes (12), puis leurs
+  débuts (u32). Chaque icône : u16 largeur, u16 hauteur en tuiles (5 x 5),
+  puis les tuiles 4 bits par pixel, ligne par ligne (pas de rangement en
+  sprites comme les monstres) ;
+- menu_icon_data.cpl : « FLPC », u32 nombre de palettes, leurs débuts (u32) ;
+  chacune : 4 octets d'en-tête puis 16 couleurs BGR555, la 0 transparente.
 """
 import struct
 from pathlib import Path
@@ -31,6 +41,8 @@ from dqmj2p_save.langue import tr
 
 ARCHIVE = 'MonsterIconDat.NICA'     # à la racine du système de fichiers
 BLOC = [(0, 0, 4, 4), (4, 0, 1, 4), (0, 4, 4, 1), (4, 4, 1, 1)]   # x, y, l, h en tuiles
+ICONES_BOUTONS = 'menu_icon_data.cch'
+PALETTES_BOUTONS = 'menu_icon_data.cpl'
 GLYPHES = {'Gluant': 565, 'Dragon': 566, 'Nature': 567, 'Bête': 568,
            'Matière': 569, 'Démon': 570, 'Zombie': 571, '???': 572}
 FICHIERS = {'???': 'inconnue'}      # « ??? » n'est pas un nom de fichier sûr
@@ -189,3 +201,44 @@ def extraire_familles(rom: bytes, cible: Path) -> int:
     for famille, index in GLYPHES.items():
         glyphe(police, index, couleurs).save(str(cible / f'{FICHIERS.get(famille, famille)}.png'))
     return len(GLYPHES)
+
+
+# ── Icônes des boutons du menu ───────────────────────────────────────────────
+
+def _table(donnees: bytes, magie: bytes, debut_compte: int) -> list[int]:
+    if donnees[:4] != magie:
+        raise ErreurExtraction(tr('{magie} attendu en tête de fichier',
+                                  magie=magie.decode('latin1')))
+    nombre = struct.unpack_from('<I', donnees, debut_compte)[0]
+    return list(struct.unpack_from(f'<{nombre}I', donnees, debut_compte + 4))
+
+
+def decoder_bouton(icone: bytes, couleurs: list[tuple[int, int, int]]) -> QImage:
+    """Icône de bouton : u16 largeur, u16 hauteur en tuiles, tuiles 4 bits par
+    pixel rangées ligne par ligne."""
+    largeur, hauteur = struct.unpack_from('<HH', icone)
+    rgba = [bytes((*c, 0 if i == 0 else 255)) for i, c in enumerate(couleurs)]
+    image = bytearray(largeur * 8 * hauteur * 8 * 4)
+    for tuile in range(largeur * hauteur):
+        octets = icone[4 + tuile * 32: 4 + (tuile + 1) * 32]
+        for p in range(64):
+            valeur = (octets[p // 2] >> (4 if p % 2 else 0)) & 15
+            x = (tuile % largeur) * 8 + p % 8
+            y = (tuile // largeur) * 8 + p // 8
+            o = (y * largeur * 8 + x) * 4
+            image[o: o + 4] = rgba[valeur]
+    return QImage(bytes(image), largeur * 8, hauteur * 8, QImage.Format_RGBA8888).copy()
+
+
+def extraire_boutons(rom: bytes, cible: Path) -> int:
+    """Écrit <id bouton>.png dans cible ; renvoie le nombre d'icônes."""
+    cch, cpl = fichier_rom(rom, ICONES_BOUTONS), fichier_rom(rom, PALETTES_BOUTONS)
+    icones, palettes = _table(cch, b'FHCC', 8), _table(cpl, b'FLPC', 4)
+    if len(icones) != len(palettes):
+        raise ErreurExtraction(tr("{a} icônes pour {b} palettes : ce n'est pas le "
+                                  'menu attendu', a=len(icones), b=len(palettes)))
+    cible.mkdir(parents=True, exist_ok=True)
+    for bouton, (debut, debut_palette) in enumerate(zip(icones, palettes)):
+        couleurs = couleurs_bgr555(cpl[debut_palette + 4:])
+        decoder_bouton(cch[debut:], couleurs).save(str(cible / f'{bouton}.png'))
+    return len(icones)
