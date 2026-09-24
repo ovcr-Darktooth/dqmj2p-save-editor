@@ -264,8 +264,8 @@ TEXTES = {
         'the story.',
     'Zones': 'Areas',
     'Dressage': 'Scouting',
-    "⚠ Chapitre {chapitre} avec l'avancement {avancement} : le jeu n'écrit jamais cette combinaison (chapitre 8 : avancement 0B ; chapitre 9 : 0C ou 0D ; chapitre 10 : 0D). La carte des îles et le dressage des géants avancent l'histoire chacun de leur côté ; les conséquences n'ont pas été testées.":
-        '⚠ Chapter {chapitre} with story progress {avancement}: the game never writes this combination (chapter 8: progress 0B; chapter 9: 0C or 0D; chapter 10: 0D). The island map and giant scouting each move the story on their own; the consequences have not been tested.',
+    "⚠ Chapitre {chapitre} avec l'avancement {avancement} : le jeu n'écrit jamais cette combinaison (avancement 0B : chapitre 7 ou 8 ; chapitre 9 : 0C ou 0D ; chapitre 10 : 0D). La carte des îles et le dressage des géants avancent l'histoire chacun de leur côté ; les conséquences n'ont pas été testées.":
+        '⚠ Chapter {chapitre} with story progress {avancement}: the game never writes this combination (progress 0B: chapter 7 or 8; chapter 9: 0C or 0D; chapter 10: 0D). The island map and giant scouting each move the story on their own; the consequences have not been tested.',
     'Dresser les monstres géants': 'Scout giant monsters',
     'Utiliser les monstres géants (3 places)': 'Use giant monsters (3 slots)',
     "Coché, les géants possédés s'affichent au ranch et peuvent entrer dans l'équipe ; sinon, ils occupent leurs 3 cases avec des « ? ». Le jeu l'accorde lui aussi au chapitre 8. Ne change pas l'histoire.":

@@ -215,7 +215,7 @@ class PageJoueur(QWidget):
         self.incoherence.setVisible(not sauvegarde.histoire_coherente())
         self.incoherence.setText(tr(
             "⚠ Chapitre {chapitre} avec l'avancement {avancement} : le jeu n'écrit jamais "
-            "cette combinaison (chapitre 8 : avancement 0B ; chapitre 9 : 0C ou 0D ; "
+            "cette combinaison (avancement 0B : chapitre 7 ou 8 ; chapitre 9 : 0C ou 0D ; "
             "chapitre 10 : 0D). La carte des îles et le dressage des géants avancent "
             "l'histoire chacun de leur côté ; les conséquences n'ont pas été testées.",
             chapitre=sauvegarde.chapitre, avancement=f'{sauvegarde.avancement:02X}'))

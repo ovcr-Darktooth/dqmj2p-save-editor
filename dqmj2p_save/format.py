@@ -267,18 +267,20 @@ DRESSAGE_GEANTS = (0x39A7, 0x01)
 GEANTS_UTILISABLES = (0x3996, 0x01)
 # Compteur d'avancement de l'histoire (u8), plus fin que le chapitre : 1 au
 # début, 4 au chapitre 4, 7 en arrivant à Archéopolis, 8 et 9 après son boss
-# puis Lionyx maléfique (probable), 0x0A retour de Lionyx (supposé), 0x0B
-# anneau évolué (chapitre 8), 0x0C et 0x0D ensuite. L'avancer peut faire
-# sauter des événements de l'histoire.
+# puis Lionyx maléfique (probable), 0x0B après le championnat des dresseurs
+# (relevé en jeu le 24/09/2026 : 9 -> 0x0B d'un coup, toujours au chapitre
+# 7 ; 0x0A jamais vu), puis 0x0C et 0x0D. L'anneau n'évolue qu'après, au
+# chapitre 8. L'avancer peut faire sauter des événements de l'histoire.
 AVANCEMENT = 0x393C
 AVANCEMENT_GEANTS = 0x0B
 # Chapitre et avancement vont de pair : dans les 1 903 savestates DeSmuME et
 # toutes les sauvegardes du jeu, le chapitre 8 a toujours un avancement de
-# 0x0B, le 9 de 0x0C ou 0x0D, le 10 de 0x0D ; en dessous du chapitre 8,
-# jamais plus de 0x09. Minimums de l'un selon l'autre (0x0A, jamais observé,
-# est toléré au chapitre 8) ; hors de ces paires, l'éditeur avertit.
+# 0x0B, le 9 de 0x0C ou 0x0D, le 10 de 0x0D ; 0x0B apparaît dès la fin du
+# chapitre 7 (championnat), jamais avant. Minimums de l'un selon l'autre
+# (0x0A, jamais observé, est toléré au chapitre 8) ; hors de ces paires,
+# l'éditeur avertit.
 AVANCEMENT_MIN_PAR_CHAPITRE = {8: 0x0A, 9: 0x0C, 10: 0x0D}
-CHAPITRE_MIN_PAR_AVANCEMENT = {0x0B: 8, 0x0C: 9}
+CHAPITRE_MIN_PAR_AVANCEMENT = {0x0B: 7, 0x0C: 9}
 # Îles de fin de partie : leurs points de téléportation ne sont proposés
 # qu'une fois l'île dans la liste. Le Palais Blanc n'est pas sur la carte.
 ILES_FIN_DE_PARTIE = ('Nécropolis', 'Ténébria', 'Île des Pipits', 'Palais Blanc')

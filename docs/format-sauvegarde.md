@@ -227,19 +227,22 @@ monstres géants ! »). Il tient à **deux conditions à la fois** :
   | `07` | arrivée à Archéopolis (`moitie-jeu`, chapitre 7) |
   | `08` | boss d'Archéopolis battu (probable) |
   | `09` | Lionyx maléfique battu à Nécropolis (probable ; partie principale, 14 h 33, toujours chapitre 7) |
-  | `0A` | retour à la vie de Lionyx, scène `d088` (supposé) |
-  | `0B` | Lionyx fait évoluer l'anneau, scène `d092` (chapitre 8) |
+  | `0B` | championnat des dresseurs gagné (relevé : partie principale, 15 h 22, toujours chapitre 7) ; l'anneau n'a pas encore évolué |
   | `0C`, `0D` | chapitre 9 et au-delà |
+
+  `0A` n'a jamais été vu : le championnat fait passer de `09` à `0B` d'un
+  coup. La scène de l'anneau (`d092`, chapitre 8) vient après, avec
+  l'avancement déjà à `0B` : c'est elle qui allume `0x39A7`.
 
   Chapitre et avancement vont de pair : dans les 1 903 savestates et toutes
   les sauvegardes du jeu, chapitre 8 ↔ `0B`, chapitre 9 ↔ `0C` ou `0D`,
-  chapitre 10 ↔ `0D`, et jamais plus de `09` avant le chapitre 8. La carte des
-  îles (chapitre) et le dressage des géants (avancement) peuvent casser cette
-  paire : l'éditeur l'affiche alors en avertissement (onglet Joueur).
+  chapitre 10 ↔ `0D`, et `0B` n'apparaît pas avant la fin du chapitre 7
+  (championnat). La carte des îles (chapitre) et le dressage des géants
+  (avancement) peuvent casser cette paire : l'éditeur l'affiche alors en
+  avertissement (onglet Joueur).
 
   Les étapes probables viennent de ce qu'a joué le joueur entre `07` et `09`
-  (boss d'Archéopolis, Nécropolis, Lionyx maléfique) ; `0A` de l'ordre des
-  scènes.
+  (boss d'Archéopolis, Nécropolis, Lionyx maléfique).
 
 **Validé en jeu le 24/09/2026** sur une partie au chapitre 7 (avancement 9),
 devant un Vercule (de nuit dans son nid) : les deux ensemble rendent
