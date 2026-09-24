@@ -372,4 +372,17 @@ TEXTES = {
     'Sélectionnez une compétence pour lire sa description.':
         'Select a skill to read its description.',
     '{vus} vus — {affiches} affiché(s) sur {total}': '{vus} seen — {affiches} shown out of {total}',
+    'N°': 'No.',
+    'Entrée': 'Entry',
+    'Débloquée': 'Unlocked',
+    'Nouveau': 'New',
+    'Toutes les entrées': 'All entries',
+    'Tout débloquer': 'Unlock all',
+    'Tout marquer comme lu': 'Mark all as read',
+    'Tout marquer « nouveau »': 'Mark all as "new"',
+    'Tout verrouiller': 'Lock all',
+    'Texte': 'Text',
+    'Sélectionnez une entrée pour lire son texte.': 'Select an entry to read its text.',
+    '{debloquees} entrées débloquées sur {total}, {nouvelles} marquée(s) « nouveau »':
+        '{debloquees} of {total} entries unlocked, {nouvelles} marked "new"',
 }

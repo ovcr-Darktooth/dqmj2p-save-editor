@@ -97,3 +97,46 @@ class Bibliotheque:
 
     def marquer_competence(self, id_: int, vue: bool = True) -> None:
         self._ecrire('competences', id_, vue)
+
+
+class Manuel:
+    """Manuel du dresseur : entrées débloquées et marquées « nouveau », sous
+    forme d'ensembles de numéros d'entrée (1 à F.NB_ENTREES_MANUEL, ligne de
+    noms.table('manuel')). Une entrée nouvelle est toujours débloquée :
+    marquer nouvelle débloque, verrouiller retire aussi « nouveau »."""
+    CHAMPS = {'debloquees': F.MANUEL_DEBLOQUEES, 'nouvelles': F.MANUEL_NOUVELLES}
+
+    def __init__(self, sauvegarde):
+        self.sauvegarde = sauvegarde
+
+    def _entrees(self, champ: str) -> set[int]:
+        debut = self.CHAMPS[champ]
+        octets = self.sauvegarde.copie[debut: debut + 8]
+        return {n + 1 for n in range(F.NB_ENTREES_MANUEL) if octets[n // 8] >> (n % 8) & 1}
+
+    def _ecrire(self, champ: str, entree: int, allume: bool) -> None:
+        if not 1 <= entree <= F.NB_ENTREES_MANUEL:
+            raise ValueError(f'manuel : entrée {entree} hors de 1..{F.NB_ENTREES_MANUEL}')
+        n = entree - 1
+        octet, masque = self.CHAMPS[champ] + n // 8, 1 << (n % 8)
+        avant = self.sauvegarde.copie[octet]
+        apres = avant | masque if allume else avant & ~masque
+        if apres != avant:
+            self.sauvegarde.copie[octet] = apres
+            self.sauvegarde.modifiee = True
+
+    def debloquees(self) -> set[int]:
+        return self._entrees('debloquees')
+
+    def nouvelles(self) -> set[int]:
+        return self._entrees('nouvelles')
+
+    def debloquer(self, entree: int, debloquee: bool = True) -> None:
+        if not debloquee:
+            self._ecrire('nouvelles', entree, False)
+        self._ecrire('debloquees', entree, debloquee)
+
+    def marquer_nouvelle(self, entree: int, nouvelle: bool = True) -> None:
+        if nouvelle:
+            self._ecrire('debloquees', entree, True)
+        self._ecrire('nouvelles', entree, nouvelle)

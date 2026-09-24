@@ -239,7 +239,7 @@ class Fenetre(QMainWindow):
         self.panneau_equipe.afficher(sauvegarde)
         self.page_joueur.afficher(sauvegarde.joueur)
         self.page_sac.afficher(sauvegarde.sac)
-        self.page_bibliotheque.afficher(sauvegarde.bibliotheque)
+        self.page_bibliotheque.afficher(sauvegarde)
         self.page_menu.afficher(sauvegarde)
         self._rafraichir_titre()
 

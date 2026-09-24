@@ -50,7 +50,10 @@ Offsets de base relevés par **Ceris White** (`save_converter.py`, projet
 | `0x36B8-0x36F7` | | **À cartographier** (quasi vide) |
 | `0x36F8` | 256 bits | Bibliothèque des attributs : bit n = attribut n (`msg_tokusei`) |
 | `0x3718` | 256 bits | Bibliothèque des compétences : bit n = compétence n (`noms.competences`) |
-| `0x3738-0x3A67` | | Drapeaux d'événements, **à cartographier** (voir « Zones ») |
+| `0x3738-0x3A53` | | Drapeaux d'événements, **à cartographier** (voir « Zones ») |
+| `0x3A54` | 64 bits | Manuel du dresseur, entrées **débloquées** : bit n = entrée n + 1 (voir « Manuel du dresseur ») |
+| `0x3A5C` | 64 bits | Manuel du dresseur, entrées marquées **« nouveau »** (pas encore lues) |
+| `0x3A64-0x3A67` | | **À cartographier** |
 | `0x3A68` | u8 | Carte actuelle (table `noms.CARTES`, relevée en jeu : 14 L'Arbirynthe, 17 Prairia, 24 Arène, 37 Escarpic, 47 Engloutîle, 57 Archéopolis, 85 Albatros extérieur, 88 Albatros intérieur, 151 Avablanche) |
 | `0x3A6C` | u32 | Horloge jour/nuit, en 1/30 s de jeu en plein air (0 en ville) : nuit à partir de 10 800, retour à 0 à 18 000 |
 | `0x3A69` | u8 | Carte précédente : au chargement, le jeu y met la carte du résumé (`0x86`) |
@@ -204,7 +207,41 @@ En appuyant sur la tablette du ranch, le jeu a affiché une seule fois « vous
 avez dressé 30 monstres » et annoncé une récompense, sans nouveau monstre dans
 la sauvegarde suivante. Octets changés hors temps et position : `0x3966`
 (0 → 3, change aussi dans d'autres sessions), `0x399D` bit 4, `0x39B7` bit 6,
-`0x3A56` bit 7, `0x3A5E` bit 7. Le drapeau du message est l'un d'eux.
+`0x3A56` bit 7, `0x3A5E` bit 7. Le drapeau du message est l'un d'eux. Les deux
+derniers sont l'entrée 24 du Manuel du dresseur (Favorites), débloquée et
+nouvelle : la récompense était cette entrée.
+
+## Manuel du dresseur
+
+Deux champs de bits de 8 octets, relevés le 24/09/2026 sur trois sauvegardes
+de la même partie (`manuel-vide`, `manuel-complet`, `manuel-complet-nouveau`) :
+elles ne diffèrent qu'en `0x3A54-0x3A59` et `0x3A5C-0x3A61` (et les sommes).
+
+- **`0x3A54` : entrées débloquées.** Le bit n est l'entrée n + 1, dans l'ordre
+  des titres de `msg_traveler` (ligne 0 « ???????? », puis Professionnels,
+  Équipe… jusqu'à Mémo 13, ligne 47 ; leurs textes suivent à partir de la
+  ligne 51). Manuel complet : bits 0 à 46, soit **47 entrées**.
+- **`0x3A5C` : entrées « nouveau »**, même numérotation. La sauvegarde
+  « tout nouveau » n'allume que les bits 0 à 44 : Mémo 12 et Mémo 13 n'y
+  sont pas marqués.
+- Sur toutes les sauvegardes écrites par le jeu, nouvelles ⊆ débloquées. Une
+  partie neuve (`random`) a 11 entrées, dont Professionnels et Zoom déjà lues ;
+  les sauvegardes de fin de partie en ont 30, avec Monstrequinque (reçu tard)
+  encore « nouveau » avant le boss final.
+- `0x3A50-0x3A53`, juste avant, vaut `FF FF FF FF` dans toutes les
+  sauvegardes : autre champ, non touché.
+
+L'éditeur (onglet Bibliothèque, sous-onglet Manuel du dresseur) coche les deux
+états par entrée : marquer « nouveau » débloque, verrouiller retire aussi
+« nouveau ».
+
+**Validé en jeu le 24/09/2026.** `manuel-complet-nouveau` : les 47 entrées
+affichées, toutes « nouveau » sauf Mémo 12 et 13, comme ses bits. Puis une
+sauvegarde écrite par l'éditeur (`manuel-validation`) : entrées 1 à 10,
+Répartition, Soigner, Mémo 12 et 13 débloquées, Dresser absente ; « nouveau »
+sur Équipe, Répartition, Mémo 12 et 13 (le marqueur s'affiche donc aussi sur
+les Mémos). Une sauvegarde faite en jeu ensuite garde les deux champs à
+l'identique.
 
 ## Zones
 
