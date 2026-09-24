@@ -114,7 +114,7 @@ class PageJoueur(QWidget):
         self.geants.toggled.connect(self._regler_geants)
         formulaire.addRow(self.geants)
         aide = QLabel(tr("Coché, les monstres géants peuvent être dressés en combat. Le "
-                         "jeu l'accorde au chapitre 8, quand Lionyx fait évoluer l'anneau de "
+                         "jeu l'accorde à la fin du chapitre 7, quand Lionyx fait évoluer l'anneau de "
                          "dresseur : plus tôt, cocher avance aussi l'histoire jusqu'à ce "
                          "moment. Attention, ça peut bloquer la progression, en particulier "
                          "si le boss du cercueil, dans le Vercule, n'est pas encore battu : "
@@ -130,7 +130,7 @@ class PageJoueur(QWidget):
         formulaire.addRow(self.geants_utilisables)
         aide = QLabel(tr("Coché, les géants possédés s'affichent au ranch et peuvent entrer "
                          "dans l'équipe ; sinon, ils occupent leurs 3 cases avec des « ? ». "
-                         "Le jeu l'accorde lui aussi au chapitre 8. Ne change pas "
+                         "Le jeu l'accorde en même temps que le dressage. Ne change pas "
                          "l'histoire."))
         aide.setWordWrap(True)
         aide.setEnabled(False)

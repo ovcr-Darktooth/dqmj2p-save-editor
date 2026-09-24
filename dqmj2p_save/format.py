@@ -252,25 +252,28 @@ TELEPORTATION = {
     'Palais Blanc': (0x39D9, 0x80),
 }
 # Droit de dresser les monstres géants (ceux qui prennent 3 places dans
-# l'équipe), accordé par Lionyx au chapitre 8 (« l'anneau de dresseur a
+# l'équipe), accordé par Lionyx à la fin du chapitre 7 (« l'anneau de dresseur a
 # évolué », scène d092). Il faut à la fois le drapeau de l'anneau et le
 # compteur d'avancement à AVANCEMENT_GEANTS ou plus. Trouvé le 24/09/2026 par
 # dichotomie en jeu (Vercule de nuit, ROM de test), à partir d'un savestate
 # DeSmuME pris juste après la scène : drapeau seul, ou compteur seul à 0x0B,
 # « Dresser » reste grisé ; les deux ensemble, il est actif. Compteur à 0x0A :
 # grisé. Le bit 0x3996 0x01, que met un autre éditeur, ne donne pas le droit.
+# Confirmé le 24/09/2026 sur la partie principale, sauvegardée juste avant et
+# juste après la scène : elle allume 0x39A7 bit 0x01 et 0x3996 bit 0x01, et
+# rien ne change au chapitre (7) ni à l'avancement (0x0B).
 DRESSAGE_GEANTS = (0x39A7, 0x01)
 # Géants utilisables : sans ce bit, un géant dressé occupe ses 3 cases du
 # ranch avec des « ? » et ne peut pas entrer dans l'équipe ; allumé, il
 # s'affiche et s'équipe normalement (validé en jeu le 24/09/2026 sur un
-# Vercule dressé). Allumé lui aussi au chapitre 8.
+# Vercule dressé). Allumé par la même scène de Lionyx.
 GEANTS_UTILISABLES = (0x3996, 0x01)
 # Compteur d'avancement de l'histoire (u8), plus fin que le chapitre : 1 au
 # début, 4 au chapitre 4, 7 en arrivant à Archéopolis, 8 et 9 après son boss
 # puis Lionyx maléfique (probable), 0x0B après le championnat des dresseurs
 # (relevé en jeu le 24/09/2026 : 9 -> 0x0B d'un coup, toujours au chapitre
-# 7 ; 0x0A jamais vu), puis 0x0C et 0x0D. L'anneau n'évolue qu'après, au
-# chapitre 8. L'avancer peut faire sauter des événements de l'histoire.
+# 7 ; 0x0A jamais vu), puis 0x0C et 0x0D. L'anneau évolue juste après,
+# toujours au chapitre 7. L'avancer peut faire sauter des événements.
 AVANCEMENT = 0x393C
 AVANCEMENT_GEANTS = 0x0B
 # Chapitre et avancement vont de pair : dans les 1 903 savestates DeSmuME et
