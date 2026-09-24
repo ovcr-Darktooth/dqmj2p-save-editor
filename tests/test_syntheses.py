@@ -162,6 +162,25 @@ class Suites(unittest.TestCase):
                                (self.OEUF, ROI_GLUANT_MOUCHETE))
         self.assertEqual(troisieme.analyse.recette.resultat, self.MONSTRUOEUF)
 
+    def test_suites_d_une_synthese_incomplete(self):
+        # Sans Gluante, la première synthèse est incomplète ; une fois la
+        # Gluante trouvée, son enfant et la seconde Gigluante donnent la suite.
+        monstres = sauvegarde({'espece': self.GIGLUANTE}, {'espece': self.GIGLUANTE},
+                              {'espece': self.OEUF}).monstres()
+        depart = self.premiere(monstres)
+        self.assertEqual(depart.etat, INCOMPLETE)
+        deuxieme = self.suite(syntheses.suites(depart, monstres),
+                              (self.GIGLUANTE, self.GIGLUANT))
+        self.assertEqual(deuxieme.analyse.etat, POSSIBLE)
+        self.assertEqual([m['espece'] for m in deuxieme.disponibles], [self.OEUF])
+
+    def test_lignee_de_l_enfant(self):
+        # L'enfant d'une synthèse incomplète garde la lignée de la recette : il
+        # peut servir d'intermédiaire à une synthèse à 4.
+        depart = self.premiere(sauvegarde({'espece': self.GIGLUANTE}).monstres())
+        enfant = syntheses.MonstreAVenir(depart)
+        self.assertEqual((enfant['parent_1'], enfant['parent_2']), (self.GIGLUANTE, GLUANTE))
+
     def test_un_parent_consomme_ne_resert_pas(self):
         monstres = sauvegarde({'espece': self.GIGLUANTE}, {'espece': GLUANTE}).monstres()
         suites = syntheses.suites(self.premiere(monstres), monstres)

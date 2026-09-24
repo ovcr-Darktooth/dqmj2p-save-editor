@@ -390,6 +390,8 @@ TEXTES = {
         'Same polarity: opposite polarities are needed, or a neutral parent.',
     'Manque : {especes}': 'Missing: {especes}',
     'Ensuite, avec {espece} : {n} synthèse(s)': 'Next, with {espece}: {n} synthesis(es)',
+    'Ensuite, avec {espece} (une fois {manquants} trouvé) : {n} synthèse(s)':
+        'Next, with {espece} (once {manquants} is found): {n} synthesis(es)',
     "Synthèses que permettra l'enfant de celle-ci, avec les monstres qu'elle ne consomme "
     "pas. L'enfant naît au niveau 1 : il faudra le monter au niveau 10.":
         'Syntheses that the offspring of this one will allow, with the monsters it does '

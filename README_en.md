@@ -13,7 +13,8 @@ Graphical save editor for *Dragon Quest Monsters: Joker 2 Professional*
 > Syntheses tab: the special syntheses that the monsters in the party, on
 > standby and in storage already allow, or soon will (polarity ignored by
 > default, as the English patch allows), and as a tree the syntheses their
-> offspring will allow next.
+> offspring will allow next (even for an incomplete synthesis, once the
+> missing species are found).
 
 ## How it works
 

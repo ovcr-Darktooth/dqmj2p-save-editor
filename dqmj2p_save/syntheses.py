@@ -20,9 +20,10 @@ Chaque recette de bestiaire reçoit un état :
 Les recettes dont on ne possède aucun parent ne sont pas renvoyées.
 
 suites() fait monter d'un niveau dans l'arbre des synthèses : l'enfant d'une
-synthèse possible (ou bientôt possible) prend la place des parents qu'elle
-consomme, et l'on cherche ce qu'il permet à son tour. En descendant de suite
-en suite, on suit une lignée jusqu'aux espèces les plus hautes.
+synthèse prend la place des parents qu'elle consomme, et l'on cherche ce
+qu'il permet à son tour. Pour une synthèse incomplète, on suppose ses espèces
+manquantes trouvées. En descendant de suite en suite, on suit une lignée
+jusqu'aux espèces les plus hautes.
 """
 from collections import Counter
 from dataclasses import dataclass
@@ -166,8 +167,14 @@ class MonstreAVenir:
     def __init__(self, analyse: Analyse):
         self.analyse = analyse
         self.emplacement = -next(self._numeros)     # distinct des emplacements réels
-        parents = list({m.emplacement: m for m in analyse.monstres if m}.values())
-        lignee = [m['espece'] for m in parents] if len(parents) == 2 else [0, 0]
+        # Lignée : les parents de la recette, ou pour une synthèse à 4 les
+        # intermédiaires déjà nés (sinon leur espèce n'est pas encore connue).
+        if len(analyse.recette.parents) == 2:
+            lignee = list(analyse.recette.parents)
+        elif analyse.intermediaires_prets:
+            lignee = [m['espece'] for m in analyse.monstres]
+        else:
+            lignee = [0, 0]
         self._champs = {'espece': analyse.recette.resultat, 'niveau': NIVEAU_MIN,
                         'polarite': NEUTRE, 'parent_1': lignee[0], 'parent_2': lignee[1],
                         'surnom': ''}

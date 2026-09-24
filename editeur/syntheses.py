@@ -3,9 +3,10 @@ l'équipe, de la réserve et du ranch, tout de suite ou bientôt (analyse de
 dqmj2p_save.syntheses). Un clic sur le nom d'un monstre l'ouvre dans l'onglet
 Monstres.
 
-Sous chaque synthèse possible ou bientôt possible, « Ensuite » déplie les
-synthèses que son enfant permettra, et ainsi de suite : un arbre qui monte
-d'un niveau à chaque dépliage (calculé à la demande)."""
+Sous chaque synthèse, « Ensuite » déplie les synthèses que son enfant
+permettra (pour une incomplète, une fois ses espèces manquantes trouvées), et
+ainsi de suite : un arbre qui monte d'un niveau à chaque dépliage (calculé à
+la demande)."""
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (QCheckBox, QComboBox, QFrame, QHBoxLayout, QLabel,
                                QScrollArea, QToolButton, QVBoxLayout, QWidget)
@@ -181,8 +182,7 @@ class PageSyntheses(QWidget):
         details.setWordWrap(True)
         details.linkActivated.connect(lambda lien: self.selectionner.emit(int(lien)))
         colonne.addWidget(details)
-        if analyse.etat != INCOMPLETE:
-            self._ajouter_suites(colonne, analyse, disponibles)
+        self._ajouter_suites(colonne, analyse, disponibles)
         return carte
 
     def _ajouter_suites(self, colonne: QVBoxLayout, analyse, disponibles) -> None:
@@ -194,9 +194,15 @@ class PageSyntheses(QWidget):
         bouton.setArrowType(Qt.RightArrow)
         bouton.setAutoRaise(True)
         bouton.setCheckable(True)
-        bouton.setText(tr('Ensuite, avec {espece} : {n} synthèse(s)',
-                          espece=noms.table('especes')[analyse.recette.resultat],
-                          n=len(suites)))
+        especes = noms.table('especes')
+        if analyse.manquants:
+            bouton.setText(tr('Ensuite, avec {espece} (une fois {manquants} trouvé) : '
+                              '{n} synthèse(s)', espece=especes[analyse.recette.resultat],
+                              manquants=', '.join(especes[e] for e in analyse.manquants),
+                              n=len(suites)))
+        else:
+            bouton.setText(tr('Ensuite, avec {espece} : {n} synthèse(s)',
+                              espece=especes[analyse.recette.resultat], n=len(suites)))
         bouton.setToolTip(tr(AIDE_SUITES))
         enfants = QWidget()
         disposition = QVBoxLayout(enfants)

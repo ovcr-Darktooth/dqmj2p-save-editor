@@ -15,7 +15,8 @@ DeSmuME et DraStic.
 > et de les utiliser. Onglet Synthèses : les synthèses spéciales que
 > permettent déjà, ou bientôt, les monstres de l'équipe, de la réserve et du
 > ranch (polarité ignorée par défaut, comme le permet le patch anglais), et
-> en arbre les synthèses que leurs enfants permettront ensuite.
+> en arbre les synthèses que leurs enfants permettront ensuite (même pour une
+> synthèse incomplète, une fois les espèces manquantes trouvées).
 
 ## Principe
 
