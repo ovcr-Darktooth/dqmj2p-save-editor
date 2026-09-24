@@ -2,7 +2,6 @@
 date de sauvegarde, l'emplacement dans le monde et la téléportation vers des
 points relevés en jeu, le déblocage des îles de fin de partie et le dressage
 des monstres géants."""
-from PySide6.QtCore import QEvent
 from PySide6.QtWidgets import (QCheckBox, QComboBox, QFormLayout, QGridLayout, QGroupBox,
                                QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget)
 
@@ -152,15 +151,6 @@ class PageJoueur(QWidget):
             case.blockSignals(False)
         self._verifier_histoire()
         self.setEnabled(True)
-
-    def event(self, evenement):
-        # La hauteur minimale de Qt ignore le retour à la ligne des notes : les
-        # rangées se tassaient et la case Météo passait sous le cadran. On réserve la hauteur réelle pour cette largeur,
-        # à chaque redimensionnement comme à chaque texte qui change.
-        traite = super().event(evenement)
-        if evenement.type() in (QEvent.Resize, QEvent.LayoutRequest):
-            self.setMinimumHeight(self.layout().heightForWidth(self.width()))
-        return traite
 
     def _teleporter(self) -> None:
         joueur = self.liaison.vue

@@ -9,13 +9,14 @@ ainsi de suite : un arbre qui monte d'un niveau à chaque dépliage (calculé à
 la demande)."""
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (QCheckBox, QComboBox, QFrame, QHBoxLayout, QLabel,
-                               QScrollArea, QToolButton, QVBoxLayout, QWidget)
+                               QToolButton, QVBoxLayout, QWidget)
 
 from dqmj2p_save import noms, syntheses
 from dqmj2p_save.langue import tr
 from dqmj2p_save.syntheses import BIENTOT, INCOMPLETE, POSSIBLE
 
 from . import icones
+from .defilement import ZoneDefilante
 
 IGNORER_POLARITE = 'Ignorer la polarité (sexe)'
 AIDE_POLARITE = ('Le patch anglais permet de désactiver la polarité pour les '
@@ -87,20 +88,21 @@ class PageSyntheses(QWidget):
         for widget in (self.polarite, self.incompletes, self.dressees):
             options.addWidget(widget)
         options.addStretch()
-        options.addWidget(self.resume)
         note = QLabel(tr("Monstres de l'équipe, de la réserve et du ranch. Chaque parent "
                          'doit être au moins au niveau {niveau}. Une synthèse à 4 se fait '
                          "avec deux monstres nés chacun d'une des paires.",
                          niveau=syntheses.NIVEAU_MIN))
         note.setWordWrap(True)
-        self.zone = QScrollArea()
-        self.zone.setWidgetResizable(True)
-        self.zone.setFrameShape(QFrame.NoFrame)
-        self.zone.setWidget(QWidget())
+        # Le résumé sous les options, pas à leur droite : la ligne imposait sa
+        # largeur à toute la fenêtre.
+        ligne_note = QHBoxLayout()
+        ligne_note.addWidget(note, 1)
+        ligne_note.addWidget(self.resume, 0, Qt.AlignTop)
+        self.zone = ZoneDefilante(QWidget())
 
         disposition = QVBoxLayout(self)
         disposition.addLayout(options)
-        disposition.addWidget(note)
+        disposition.addLayout(ligne_note)
         disposition.addWidget(self.zone, 1)
 
     def afficher(self, sauvegarde) -> None:
