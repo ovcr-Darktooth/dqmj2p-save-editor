@@ -241,18 +241,27 @@ TEXTES = {
     '{meteo} en cours': '{meteo} in progress',
     'Aucune intempérie connue sur cette carte': 'No known weather on this map',
     'Carte des îles': 'Island map',
-    "Le jeu y ajoute les îles au fil des chapitres de l'histoire : l'avancer peut "
-    "faire sauter des événements. On ne peut pas revenir en deçà du chapitre de la "
-    'partie.': 'The game adds the islands as the story chapters go by: moving the '
-               'chapter forward may skip events. It cannot go below the chapter of '
-               'the game.',
+    "Le jeu y ajoute les îles au fil des chapitres de l'histoire. Avancer le chapitre "
+    "ne fait qu'afficher les îles : l'histoire n'y est pas préparée (à Engloutîle, les "
+    "tentacules à battre pour avancer manquaient), ce qui peut bloquer la progression. "
+    "On ne peut pas revenir en deçà du chapitre de la partie.":
+        'The game adds the islands as the story chapters go by. Moving the chapter '
+        'forward only shows the islands: the story is not set up there (on Unshore, '
+        'the tentacles to beat in order to progress were missing), which may block '
+        'progress. It cannot go below the chapter of the game.',
     'Sort Téléportation': 'Zoom spell',
     "Une zone cochée entre dans la liste du sort (dans l'ordre du jeu), sans changer "
     "de chapitre ; une île s'affiche aussi comme visitée sur la carte. Les zones déjà "
-    'visitées restent cochées : le jeu les remettrait.':
+    "visitées restent cochées : le jeu les remettrait. Attention, ouvrir Nécropolis, "
+    "Ténébria ou l'Île des Pipits (ou s'y téléporter) avant que l'histoire y mène peut "
+    "causer des soucis : seules l'arrivée et l'exploration ont été testées, pas la suite "
+    "de l'histoire.":
         "A ticked area joins the spell list (in the game's order), without changing "
         'the chapter; an island also shows as visited on the map. Areas already '
-        'visited stay ticked: the game would put them back.',
+        'visited stay ticked: the game would put them back. Beware, opening Necropolis, '
+        'Dark World or Pipisle (or teleporting there) before the story leads there may '
+        'cause problems: only arriving and exploring have been tested, not the rest of '
+        'the story.',
     'Zones': 'Areas',
     'Dressage': 'Scouting',
     "⚠ Chapitre {chapitre} avec l'avancement {avancement} : le jeu n'écrit jamais cette combinaison (chapitre 8 : avancement 0B ; chapitre 9 : 0C ou 0D ; chapitre 10 : 0D). La carte des îles et le dressage des géants avancent l'histoire chacun de leur côté ; les conséquences n'ont pas été testées.":
@@ -298,7 +307,9 @@ TEXTES = {
     'Case vide': 'Empty slot',
     "L'ordre des boutons doit reprendre les mêmes boutons.":
         'The button order must keep the same buttons.',
-    '{iles}  (chapitre {n})': '{iles}  (chapter {n})',
+    'Chapitre {n} (actuel) : {iles}': 'Chapter {n} (current): {iles}',
+    'Chapitre {n} : + {iles}': 'Chapter {n}: + {iles}',
+    '{nombre} île(s)': '{nombre} island(s)',
     'Aucune île': 'No island',
     'Déjà visitée dans cette partie.': 'Already visited in this game.',
     "Faire glisser la poignée, ou la molette (5 s par cran). L'horloge ne tourne qu'en "

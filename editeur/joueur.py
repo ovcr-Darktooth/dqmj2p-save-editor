@@ -79,9 +79,11 @@ class PageJoueur(QWidget):
         self.carte_iles = QComboBox()
         self.carte_iles.activated.connect(self._regler_chapitre)
         formulaire.addRow(tr('Carte des îles'), self.carte_iles)
-        aide = QLabel(tr("Le jeu y ajoute les îles au fil des chapitres de l'histoire : "
-                         "l'avancer peut faire sauter des événements. On ne peut pas "
-                         "revenir en deçà du chapitre de la partie."))
+        aide = QLabel(tr("Le jeu y ajoute les îles au fil des chapitres de l'histoire. "
+                         "Avancer le chapitre ne fait qu'afficher les îles : l'histoire n'y "
+                         "est pas préparée (à Engloutîle, les tentacules à battre pour "
+                         "avancer manquaient), ce qui peut bloquer la progression. On ne "
+                         "peut pas revenir en deçà du chapitre de la partie."))
         aide.setWordWrap(True)
         aide.setEnabled(False)                      # texte grisé, comme une légende
         formulaire.addRow(aide)
@@ -97,7 +99,10 @@ class PageJoueur(QWidget):
         aide = QLabel(tr("Une zone cochée entre dans la liste du sort (dans l'ordre du "
                          "jeu), sans changer de chapitre ; une île s'affiche aussi comme "
                          "visitée sur la carte. Les zones déjà visitées restent cochées : "
-                         "le jeu les remettrait."))
+                         "le jeu les remettrait. Attention, ouvrir Nécropolis, Ténébria ou "
+                         "l'Île des Pipits (ou s'y téléporter) avant que l'histoire y mène "
+                         "peut causer des soucis : seules l'arrivée et l'exploration ont été "
+                         "testées, pas la suite de l'histoire."))
         aide.setWordWrap(True)
         aide.setEnabled(False)
         formulaire.addRow(aide)
@@ -210,12 +215,18 @@ class PageJoueur(QWidget):
         # visitées restent : revenir en arrière n'a pas été essayé en jeu.
         origine = sauvegarde.chapitre
         self.carte_iles.clear()
+        # Chaque palier dit ce qu'il ajoute : la liste complète serait trop longue.
         paliers = sorted(set(F.CHAPITRE_CARTE.values()) | {origine})
         for chapitre in (c for c in paliers if c >= origine):
-            iles = [tr(i) for i, seuil in F.CHAPITRE_CARTE.items() if seuil <= chapitre]
-            self.carte_iles.addItem(
-                tr('{iles}  (chapitre {n})', iles=', '.join(iles) if iles else tr('Aucune île'),
-                   n=chapitre), chapitre)
+            if chapitre == origine:
+                iles = [tr(i) for i, seuil in F.CHAPITRE_CARTE.items() if seuil <= chapitre]
+                texte = tr('Chapitre {n} (actuel) : {iles}', n=chapitre,
+                           iles=tr('{nombre} île(s)', nombre=len(iles)) if iles
+                           else tr('Aucune île'))
+            else:
+                iles = [tr(i) for i, seuil in F.CHAPITRE_CARTE.items() if seuil == chapitre]
+                texte = tr('Chapitre {n} : + {iles}', n=chapitre, iles=', '.join(iles))
+            self.carte_iles.addItem(texte, chapitre)
         self.carte_iles.setEnabled(self.carte_iles.count() > 1)
         # La liste déroulante ne coupe pas le plus long palier.
         largeur = max(self.carte_iles.fontMetrics().horizontalAdvance(

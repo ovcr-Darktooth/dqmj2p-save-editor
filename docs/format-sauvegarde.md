@@ -330,7 +330,36 @@ Relevé le 24/09/2026 sur `moitie-jeu` (partie arrêtée à Archéopolis) :
   mi-parcours, 9 après Rapthorne 2, 10 en fin de jeu. La carte des îles
   (affichée en sortant d'une zone par son entrée) en dépend, **validé en
   jeu** : au chapitre 8 elle montre Nécropolis, au 9 aussi Ténébria, au 10
-  aussi l'Île des Pipits. Trouvé d'abord par dichotomie comme un « bit
+  aussi l'Île des Pipits. **Toutes les îles en dépendent**, pas seulement
+  celles de fin : sur la partie du randomizer (chapitre 0), passer au
+  chapitre 10 affiche toutes les îles sur la carte, sans les ajouter au sort
+  Téléportation. Relevé chapitre par chapitre le 24/09/2026 :
+
+  | Chapitre | Île ajoutée à la carte |
+  |---|---|
+  | 2 (probable) | L'Arbirynthe, Prairia |
+  | 3 | Arène |
+  | 4 | Avablanche |
+  | 5 | Escarpic |
+  | 6 | Engloutîle |
+  | 7 | Archéopolis |
+  | 8 | Nécropolis |
+  | 9 | Ténébria |
+  | 10 | Île des Pipits |
+
+  Au chapitre 1, la carte n'est accessible qu'après un dressage imposé par
+  l'histoire, qui fait lui-même passer au chapitre 2 (et l'avancement de 1 à
+  2) : d'où le « probable ».
+
+  **Le chapitre n'ouvre que la carte.** Sur la même partie passée du
+  chapitre 2 au 6 (avancement resté à `02`), Engloutîle est accessible mais
+  les tentacules qu'il faut battre pour y avancer n'y sont pas : l'histoire
+  de l'île n'est pas préparée, la progression y est bloquée. À L'Arbirynthe,
+  en revanche, l'histoire reprend normalement (cinématiques, mécano) : elle
+  suit l'avancement et des compteurs propres à chaque île (`0x393F` a valu
+  1, 4 puis 5 au fil des événements de L'Arbirynthe), jamais le chapitre,
+  resté à 6. Les étapes suivantes n'ont pas été jouées. L'éditeur laisse
+  donc le choix du chapitre, avec un avertissement. Trouvé d'abord par dichotomie comme un « bit
   `0x08` » : l'allumer faisait passer `moitie-jeu` du chapitre 7 au 15, ce
   qui montrait les trois îles mais sautait tous les chapitres suivants. Il
   faut écrire la valeur voulue, jamais un masque. Avancer le chapitre peut
@@ -377,7 +406,10 @@ Relevé le 24/09/2026 sur `moitie-jeu` (partie arrêtée à Archéopolis) :
   pas été essayé. La Téléportation seule a été validée pour Ténébria au
   chapitre 7 (l'île apparaît dans la liste sans être sur la carte), et la
   téléportation de l'éditeur vers Ténébria au chapitre 7 donne une zone
-  normale, avec ses monstres.
+  normale, avec ses monstres. **Seules l'arrivée et l'exploration ont été
+  testées** : ouvrir Nécropolis, Ténébria ou l'Île des Pipits, ou s'y
+  téléporter, avant que l'histoire y mène peut causer des soucis pour la
+  suite de l'histoire (non testée).
 - Les bits de `0x39C0-0x3A67` allumés en fin de jeu comprennent les sous-cartes
   découvertes : ajoutés à `moitie-jeu`, toutes celles d'Archéopolis se sont
   affichées. Pas encore isolés.
