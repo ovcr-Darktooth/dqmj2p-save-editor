@@ -96,7 +96,10 @@ class PageJoueur(QWidget):
         aide = QLabel(tr("Une zone cochée entre dans la liste du sort (dans l'ordre du "
                          "jeu), sans changer de chapitre ; une île s'affiche aussi comme "
                          "visitée sur la carte. Les zones déjà visitées restent cochées : "
-                         "le jeu les remettrait."))
+                         "le jeu les remettrait. Attention, ouvrir Nécropolis, Ténébria ou "
+                         "l'Île des Pipits (ou s'y téléporter) avant que l'histoire y mène "
+                         "peut causer des soucis : seules l'arrivée et l'exploration ont été "
+                         "testées, pas la suite de l'histoire."))
         aide.setWordWrap(True)
         aide.setEnabled(False)
         formulaire.addRow(aide)

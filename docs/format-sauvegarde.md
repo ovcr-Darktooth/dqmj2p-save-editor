@@ -298,7 +298,10 @@ Relevé le 24/09/2026 sur `moitie-jeu` (partie arrêtée à Archéopolis) :
   pas été essayé. La Téléportation seule a été validée pour Ténébria au
   chapitre 7 (l'île apparaît dans la liste sans être sur la carte), et la
   téléportation de l'éditeur vers Ténébria au chapitre 7 donne une zone
-  normale, avec ses monstres.
+  normale, avec ses monstres. **Seules l'arrivée et l'exploration ont été
+  testées** : ouvrir Nécropolis, Ténébria ou l'Île des Pipits, ou s'y
+  téléporter, avant que l'histoire y mène peut causer des soucis pour la
+  suite de l'histoire (non testée).
 - Les bits de `0x39C0-0x3A67` allumés en fin de jeu comprennent les sous-cartes
   découvertes : ajoutés à `moitie-jeu`, toutes celles d'Archéopolis se sont
   affichées. Pas encore isolés.

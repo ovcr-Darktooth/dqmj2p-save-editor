@@ -249,10 +249,16 @@ TEXTES = {
     'Sort Téléportation': 'Zoom spell',
     "Une zone cochée entre dans la liste du sort (dans l'ordre du jeu), sans changer "
     "de chapitre ; une île s'affiche aussi comme visitée sur la carte. Les zones déjà "
-    'visitées restent cochées : le jeu les remettrait.':
+    "visitées restent cochées : le jeu les remettrait. Attention, ouvrir Nécropolis, "
+    "Ténébria ou l'Île des Pipits (ou s'y téléporter) avant que l'histoire y mène peut "
+    "causer des soucis : seules l'arrivée et l'exploration ont été testées, pas la suite "
+    "de l'histoire.":
         "A ticked area joins the spell list (in the game's order), without changing "
         'the chapter; an island also shows as visited on the map. Areas already '
-        'visited stay ticked: the game would put them back.',
+        'visited stay ticked: the game would put them back. Beware, opening Necropolis, '
+        'Dark World or Pipisle (or teleporting there) before the story leads there may '
+        'cause problems: only arriving and exploring have been tested, not the rest of '
+        'the story.',
     'Zones': 'Areas',
 
     # ── Onglet Menu : boutons de l'écran du bas (noms du patch anglais) ────
