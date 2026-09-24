@@ -231,6 +231,12 @@ monstres géants ! »). Il tient à **deux conditions à la fois** :
   | `0B` | Lionyx fait évoluer l'anneau, scène `d092` (chapitre 8) |
   | `0C`, `0D` | chapitre 9 et au-delà |
 
+  Chapitre et avancement vont de pair : dans les 1 903 savestates et toutes
+  les sauvegardes du jeu, chapitre 8 ↔ `0B`, chapitre 9 ↔ `0C` ou `0D`,
+  chapitre 10 ↔ `0D`, et jamais plus de `09` avant le chapitre 8. La carte des
+  îles (chapitre) et le dressage des géants (avancement) peuvent casser cette
+  paire : l'éditeur l'affiche alors en avertissement (onglet Joueur).
+
   Les étapes probables viennent de ce qu'a joué le joueur entre `07` et `09`
   (boss d'Archéopolis, Nécropolis, Lionyx maléfique) ; `0A` de l'ordre des
   scènes.

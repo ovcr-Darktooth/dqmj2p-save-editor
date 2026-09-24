@@ -313,6 +313,23 @@ class Iles(unittest.TestCase):
         s.dressage_geants = True
         self.assertEqual(s.en_octets(), donnee('en-fin-de-jeu.dsv').read_bytes())
 
+    def test_histoire_coherente_dans_les_sauvegardes_du_jeu(self):
+        for chemin in ECRITES_PAR_LE_JEU:
+            with self.subTest(chemin.name):
+                self.assertTrue(Sauvegarde.ouvrir(chemin).histoire_coherente())
+
+    def test_incoherences_signalees(self):
+        s = Sauvegarde.ouvrir(donnee('random.dsv'))          # chapitre 0, avancement 1
+        s.dressage_geants = True                             # avancement 0B
+        self.assertFalse(s.histoire_coherente())
+        s.chapitre = 8
+        self.assertTrue(s.histoire_coherente())
+        s.chapitre = 10                                      # îles de fin sans l'histoire
+        self.assertFalse(s.histoire_coherente())
+        m = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))      # chapitre 7, avancement 7
+        m.chapitre = 9
+        self.assertFalse(m.histoire_coherente())
+
     def test_points_des_zones(self):
         for zone in F.TELEPORTATION:
             if zone in F.POINTS_TELEPORTATION:

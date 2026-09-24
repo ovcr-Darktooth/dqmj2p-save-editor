@@ -118,6 +118,8 @@ class PageJoueur(QWidget):
         aide.setWordWrap(True)
         aide.setEnabled(False)
         formulaire.addRow(aide)
+        self.incoherence = QLabel(wordWrap=True, styleSheet='font-weight: bold')
+        formulaire.addRow(self.incoherence)
         disposition.addWidget(dressage)
         disposition.addStretch()
         self.setEnabled(False)
@@ -130,6 +132,7 @@ class PageJoueur(QWidget):
         self.geants.blockSignals(True)
         self.geants.setChecked(joueur.sauvegarde.dressage_geants)
         self.geants.blockSignals(False)
+        self._verifier_histoire()
         self.setEnabled(True)
 
     def _teleporter(self) -> None:
@@ -161,6 +164,7 @@ class PageJoueur(QWidget):
         sauvegarde = self.liaison.vue.sauvegarde
         if sauvegarde.dressage_geants != actif:
             sauvegarde.dressage_geants = actif
+            self._verifier_histoire()
             self.liaison.modifiee.emit()
 
     def _regler_chapitre(self) -> None:
@@ -168,7 +172,20 @@ class PageJoueur(QWidget):
         chapitre = self.carte_iles.currentData()
         if sauvegarde.chapitre != chapitre:
             sauvegarde.chapitre = chapitre
+            self._verifier_histoire()
             self.liaison.modifiee.emit()
+
+    def _verifier_histoire(self) -> None:
+        """Avertit quand chapitre (carte des îles) et avancement (dressage des
+        géants) forment une paire que le jeu n'écrit jamais."""
+        sauvegarde = self.liaison.vue.sauvegarde
+        self.incoherence.setVisible(not sauvegarde.histoire_coherente())
+        self.incoherence.setText(tr(
+            "⚠ Chapitre {chapitre} avec l'avancement {avancement} : le jeu n'écrit jamais "
+            "cette combinaison (chapitre 8 : avancement 0B ; chapitre 9 : 0C ou 0D ; "
+            "chapitre 10 : 0D). La carte des îles et le dressage des géants avancent "
+            "l'histoire chacun de leur côté ; les conséquences n'ont pas été testées.",
+            chapitre=sauvegarde.chapitre, avancement=f'{sauvegarde.avancement:02X}'))
 
     def _afficher_iles(self, sauvegarde) -> None:
         # Le chapitre ne descend pas sous celui de la partie, et les îles déjà

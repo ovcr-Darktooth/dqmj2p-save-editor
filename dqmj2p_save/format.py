@@ -265,6 +265,13 @@ GEANTS_UTILISABLES = (0x3996, 0x01)
 # sauter des événements de l'histoire.
 AVANCEMENT = 0x393C
 AVANCEMENT_GEANTS = 0x0B
+# Chapitre et avancement vont de pair : dans les 1 903 savestates DeSmuME et
+# toutes les sauvegardes du jeu, le chapitre 8 a toujours un avancement de
+# 0x0B, le 9 de 0x0C ou 0x0D, le 10 de 0x0D ; en dessous du chapitre 8,
+# jamais plus de 0x09. Minimums de l'un selon l'autre (0x0A, jamais observé,
+# est toléré au chapitre 8) ; hors de ces paires, l'éditeur avertit.
+AVANCEMENT_MIN_PAR_CHAPITRE = {8: 0x0A, 9: 0x0C, 10: 0x0D}
+CHAPITRE_MIN_PAR_AVANCEMENT = {0x0B: 8, 0x0C: 9}
 # Îles de fin de partie : leurs points de téléportation ne sont proposés
 # qu'une fois l'île dans la liste. Le Palais Blanc n'est pas sur la carte.
 ILES_FIN_DE_PARTIE = ('Nécropolis', 'Ténébria', 'Île des Pipits', 'Palais Blanc')
