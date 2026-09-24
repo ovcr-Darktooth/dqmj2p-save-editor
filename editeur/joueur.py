@@ -105,7 +105,7 @@ class PageJoueur(QWidget):
 
         dressage = QGroupBox(tr('Dressage'))
         formulaire = QFormLayout(dressage)
-        self.geants = QCheckBox(tr('Monstres géants (3 places)'))
+        self.geants = QCheckBox(tr('Dresser les monstres géants'))
         self.geants.toggled.connect(self._regler_geants)
         formulaire.addRow(self.geants)
         aide = QLabel(tr("Coché, les monstres géants peuvent être dressés en combat. Le "
@@ -120,6 +120,16 @@ class PageJoueur(QWidget):
         formulaire.addRow(aide)
         self.incoherence = QLabel(wordWrap=True, styleSheet='font-weight: bold')
         formulaire.addRow(self.incoherence)
+        self.geants_utilisables = QCheckBox(tr('Utiliser les monstres géants (3 places)'))
+        self.geants_utilisables.toggled.connect(self._regler_geants_utilisables)
+        formulaire.addRow(self.geants_utilisables)
+        aide = QLabel(tr("Coché, les géants possédés s'affichent au ranch et peuvent entrer "
+                         "dans l'équipe ; sinon, ils occupent leurs 3 cases avec des « ? ». "
+                         "Le jeu l'accorde lui aussi au chapitre 8. Ne change pas "
+                         "l'histoire."))
+        aide.setWordWrap(True)
+        aide.setEnabled(False)
+        formulaire.addRow(aide)
         disposition.addWidget(dressage)
         disposition.addStretch()
         self.setEnabled(False)
@@ -129,9 +139,11 @@ class PageJoueur(QWidget):
         self._afficher_emplacement()
         self._afficher_iles(joueur.sauvegarde)
         self._remplir_points()
-        self.geants.blockSignals(True)
-        self.geants.setChecked(joueur.sauvegarde.dressage_geants)
-        self.geants.blockSignals(False)
+        for case, etat in ((self.geants, joueur.sauvegarde.dressage_geants),
+                           (self.geants_utilisables, joueur.sauvegarde.geants_utilisables)):
+            case.blockSignals(True)
+            case.setChecked(etat)
+            case.blockSignals(False)
         self._verifier_histoire()
         self.setEnabled(True)
 
@@ -165,6 +177,12 @@ class PageJoueur(QWidget):
         if sauvegarde.dressage_geants != actif:
             sauvegarde.dressage_geants = actif
             self._verifier_histoire()
+            self.liaison.modifiee.emit()
+
+    def _regler_geants_utilisables(self, actif: bool) -> None:
+        sauvegarde = self.liaison.vue.sauvegarde
+        if sauvegarde.geants_utilisables != actif:
+            sauvegarde.geants_utilisables = actif
             self.liaison.modifiee.emit()
 
     def _regler_chapitre(self) -> None:

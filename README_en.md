@@ -9,7 +9,7 @@ Graphical save editor for *Dragon Quest Monsters: Joker 2 Professional*
 > stats), the bag and monsters (nickname, species, stats, lineage, skills,
 > weapon), with the names of the French or English patch. Library viewing
 > (monsters seen and scouted, traits, skills) and Scout's Handbook (entries
-> unlocked, marked "new"). Right to scout giant monsters (may block the story of an early save).
+> unlocked, marked "new"). Right to scout giant monsters (may block the story of an early save) and to use them.
 
 ## How it works
 

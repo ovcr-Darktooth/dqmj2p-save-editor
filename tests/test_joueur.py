@@ -273,22 +273,34 @@ class Iles(unittest.TestCase):
                              ('moitie-jeu.dsv', False), ('en-avant-rapthorne-2.dsv', True),
                              ('en-fin-de-jeu.dsv', True)):
             with self.subTest(nom):
-                self.assertEqual(Sauvegarde.ouvrir(donnee(nom)).dressage_geants, attendu)
+                s = Sauvegarde.ouvrir(donnee(nom))
+                self.assertEqual(s.dressage_geants, attendu)
+                self.assertEqual(s.geants_utilisables, attendu)
 
     def test_bit_de_l_autre_editeur_ne_suffit_pas(self):
         # manuel-vide-geants : seul 0x3996 bit 0x01 (géants utilisables)
         # allumé par un autre éditeur ; en jeu, « Dresser » restait grisé.
-        self.assertFalse(Sauvegarde.ouvrir(donnee('manuel-vide-geants.sav')).dressage_geants)
+        s = Sauvegarde.ouvrir(donnee('manuel-vide-geants.sav'))
+        self.assertTrue(s.geants_utilisables)
+        self.assertFalse(s.dressage_geants)
 
-    def test_partie_neuve_trois_reglages(self):
-        # random : chapitre 0, avancement 1. Validé en jeu : Vercule dressé,
-        # puis visible et équipable une fois 0x3996 bit 0x01 allumé.
+    def test_dresser_et_utiliser_sont_independants(self):
+        # random : chapitre 0, avancement 1. Validé en jeu : Vercule dressé
+        # (anneau + avancement), puis visible et équipable une fois 0x3996
+        # bit 0x01 allumé.
         s = Sauvegarde.ouvrir(donnee('random.dsv'))
         avant = bytes(s.copie)
+        diff = lambda: {i: s.copie[i] for i in range(len(avant)) if avant[i] != s.copie[i]}
         s.dressage_geants = True
-        self.assertEqual({i: s.copie[i] for i in range(len(avant)) if avant[i] != s.copie[i]},
-                         {F.AVANCEMENT: 0x0B, 0x3996: avant[0x3996] | 0x01,
-                          0x39A7: avant[0x39A7] | 0x01})
+        self.assertFalse(s.geants_utilisables)
+        self.assertEqual(diff(), {F.AVANCEMENT: 0x0B, 0x39A7: avant[0x39A7] | 0x01})
+        s.geants_utilisables = True
+        self.assertEqual(diff(), {F.AVANCEMENT: 0x0B, 0x39A7: avant[0x39A7] | 0x01,
+                                  0x3996: avant[0x3996] | 0x01})
+        s.dressage_geants = False
+        self.assertTrue(s.geants_utilisables)
+        s.geants_utilisables = False
+        self.assertEqual(diff(), {F.AVANCEMENT: 0x0B})      # l'avancement ne recule pas
 
     def test_dressage_des_geants_valide_en_jeu(self):
         # geant-vercule : partie au chapitre 7 (avancement 9), devant un

@@ -265,9 +265,11 @@ suffit pas. Il s'allume lui aussi au chapitre 8. Il était resté allumé dans
 toutes les sauvegardes de la dichotomie (la première version de l'éditeur
 l'allumait), d'où son absence des essais.
 
-L'éditeur (onglet Joueur, cadre « Dressage ») allume l'anneau et les géants
-utilisables, et monte le compteur à `0B` s'il est en dessous ; décocher
-n'éteint que l'anneau (les géants déjà dressés restent utilisables).
+L'éditeur (onglet Joueur, cadre « Dressage ») sépare les deux :
+- « Dresser les monstres géants » allume l'anneau et monte le compteur à
+  `0B` s'il est en dessous ; décocher n'éteint que l'anneau ;
+- « Utiliser les monstres géants (3 places) » règle `0x3996` bit `0x01`,
+  sans toucher à l'histoire.
 
 **Risque pour l'histoire** (24/09/2026) : sur la partie du randomizer
 (chapitre 0, compteur `01`), cocher a permis de dresser le Vercule, mais en

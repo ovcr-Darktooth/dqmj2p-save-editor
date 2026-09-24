@@ -11,7 +11,8 @@ DeSmuME et DraStic.
 > compétences, arme), avec les noms du patch français ou anglais. Consultation
 > de la bibliothèque (monstres vus et dressés, attributs, compétences) et du
 > Manuel du dresseur (entrées débloquées, marquées « nouveau »). Droit de
-> dresser les monstres géants (peut bloquer l'histoire d'une partie peu avancée).
+> dresser les monstres géants (peut bloquer l'histoire d'une partie peu avancée)
+> et de les utiliser.
 
 ## Principe
 
