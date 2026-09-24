@@ -214,7 +214,7 @@ nouvelle : la récompense était cette entrée.
 ## Dressage des monstres géants
 
 Le droit de dresser les monstres géants (3 places dans l'équipe) est accordé
-au chapitre 8 : Lionyx, revenu à la vie, fait évoluer l'anneau de dresseur
+à la fin du chapitre 7 : Lionyx, revenu à la vie, fait évoluer l'anneau de dresseur
 (scène `d092` : « À partir d'aujourd'hui, tu seras en mesure de dresser des
 monstres géants ! »). Il tient à **deux conditions à la fois** :
 
@@ -231,8 +231,14 @@ monstres géants ! »). Il tient à **deux conditions à la fois** :
   | `0C`, `0D` | chapitre 9 et au-delà |
 
   `0A` n'a jamais été vu : le championnat fait passer de `09` à `0B` d'un
-  coup. La scène de l'anneau (`d092`, chapitre 8) vient après, avec
-  l'avancement déjà à `0B` : c'est elle qui allume `0x39A7`.
+  coup. La scène de l'anneau (`d092`) vient juste après, toujours au
+  chapitre 7, avec l'avancement déjà à `0B`.
+
+  **Confirmé en jeu le 24/09/2026** sur la partie principale, sauvegardée
+  juste avant et juste après la scène de Lionyx : elle allume `0x39A7` bit
+  `0x01` et `0x3996` bit `0x01` (géants utilisables, voir plus bas), sans
+  toucher au chapitre (7) ni à l'avancement (`0B`). C'est exactement ce
+  qu'écrit l'éditeur quand on coche les deux cases.
 
   Chapitre et avancement vont de pair : dans les 1 903 savestates et toutes
   les sauvegardes du jeu, chapitre 8 ↔ `0B`, chapitre 9 ↔ `0C` ou `0D`,
@@ -264,7 +270,7 @@ lui, un géant dressé occupe ses 3 cases du ranch avec des « ? » et ne peut
 pas entrer dans l'équipe ; allumé, il s'affiche et s'équipe normalement
 (validé en jeu sur le Vercule dressé dans la partie du randomizer). Un autre
 éditeur n'allume que ce bit pour « accorder le droit de dresser », ce qui ne
-suffit pas. Il s'allume lui aussi au chapitre 8. Il était resté allumé dans
+suffit pas. Il s'allume avec l'anneau, pendant la scène de Lionyx. Il était resté allumé dans
 toutes les sauvegardes de la dichotomie (la première version de l'éditeur
 l'allumait), d'où son absence des essais.
 

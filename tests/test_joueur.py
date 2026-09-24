@@ -338,6 +338,24 @@ class Iles(unittest.TestCase):
         self.assertTrue(s.histoire_coherente())
         self.assertFalse(s.dressage_geants)
 
+    def test_scene_de_lionyx(self):
+        # Partie principale juste avant et juste après la scène où Lionyx
+        # fait évoluer l'anneau : les deux bits des géants s'allument, rien
+        # d'autre ne change pour les géants, chapitre 7 et avancement 0x0B.
+        avant = Sauvegarde.ouvrir(donnee('avant-lionyx.dsv'))
+        apres = Sauvegarde.ouvrir(donnee('apres-lionyx.dsv'))
+        self.assertFalse(avant.dressage_geants or avant.geants_utilisables)
+        self.assertTrue(apres.dressage_geants and apres.geants_utilisables)
+        for s in (avant, apres):
+            self.assertEqual((s.chapitre, s.avancement), (7, 0x0B))
+        self.assertEqual(apres.copie[0x39A7], avant.copie[0x39A7] | 0x01)
+        self.assertEqual(apres.copie[0x3996], avant.copie[0x3996] | 0x01)
+        # L'éditeur, sur la sauvegarde d'avant, écrit les mêmes octets.
+        avant.dressage_geants = True
+        avant.geants_utilisables = True
+        for octet in (0x39A7, 0x3996, F.AVANCEMENT):
+            self.assertEqual(avant.copie[octet], apres.copie[octet])
+
     def test_incoherences_signalees(self):
         s = Sauvegarde.ouvrir(donnee('random.dsv'))          # chapitre 0, avancement 1
         s.dressage_geants = True                             # avancement 0B
