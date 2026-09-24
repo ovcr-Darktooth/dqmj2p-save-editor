@@ -77,10 +77,7 @@ class PageJoueur(QWidget):
         formulaire = QFormLayout(iles)
         self.carte_iles = QComboBox()
         self.carte_iles.activated.connect(self._regler_chapitre)
-        ligne = QHBoxLayout()
-        ligne.addWidget(self.carte_iles)
-        ligne.addStretch()
-        formulaire.addRow(tr('Carte des îles'), ligne)
+        formulaire.addRow(tr('Carte des îles'), self.carte_iles)
         aide = QLabel(tr("Le jeu y ajoute les îles au fil des chapitres de l'histoire : "
                          "l'avancer peut faire sauter des événements. On ne peut pas "
                          "revenir en deçà du chapitre de la partie."))
@@ -157,6 +154,10 @@ class PageJoueur(QWidget):
                 tr('{iles}  (chapitre {n})', iles=', '.join(iles) if iles else tr('Aucune île'),
                    n=chapitre), chapitre)
         self.carte_iles.setEnabled(self.carte_iles.count() > 1)
+        # La liste déroulante ne coupe pas le plus long palier.
+        largeur = max(self.carte_iles.fontMetrics().horizontalAdvance(
+            self.carte_iles.itemText(i)) for i in range(self.carte_iles.count()))
+        self.carte_iles.view().setMinimumWidth(largeur + 40)
         for ile, case in self.cases_iles.items():
             visitee = sauvegarde.ile_visitee(ile)
             case.blockSignals(True)
