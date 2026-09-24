@@ -12,7 +12,11 @@ DeSmuME et DraStic.
 > de la bibliothèque (monstres vus et dressés, attributs, compétences) et du
 > Manuel du dresseur (entrées débloquées, marquées « nouveau »). Droit de
 > dresser les monstres géants (peut bloquer l'histoire d'une partie peu avancée)
-> et de les utiliser.
+> et de les utiliser. Onglet Synthèses : les synthèses spéciales que
+> permettent déjà, ou bientôt, les monstres de l'équipe, de la réserve et du
+> ranch (polarité ignorée par défaut, comme le permet le patch anglais), et
+> en arbre les synthèses que leurs enfants permettront ensuite (même pour une
+> synthèse incomplète, une fois les espèces manquantes trouvées).
 
 ## Principe
 
@@ -102,6 +106,7 @@ s.enregistrer()
 | `editeur/extraction.py` | Extraction des icônes d'une ROM (menu Fichier), lecture NitroFS |
 | `outils/extraire_icones.py` | La même, en ligne de commande (`MonsterIconDat.NICA`) |
 | `dqmj2p_save/donnees/bestiaire.json` | Rang, famille, taille et synthèses spéciales |
+| `dqmj2p_save/syntheses.py` | Synthèses spéciales à portée des monstres possédés (onglet Synthèses) |
 | `outils/importer_synthese.py` | Recopie icônes et bestiaire depuis le projet des synthèses |
 | `editeur/icones/familles/` | Icônes des familles, glyphes de la police du jeu (non versionnées) |
 | `outils/extraire_familles.py` | Icônes des familles en ligne de commande (`font_16x16.NFTR` + palette des menus) |

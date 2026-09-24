@@ -146,14 +146,17 @@ def _constantes_traduites() -> set[str]:
 
 
 def _constantes_editeur() -> set[str]:
-    from editeur import bibliotheque, fenetre, fiche, joueur, synthese
+    from editeur import bibliotheque, fenetre, fiche, joueur, synthese, syntheses
     return {fenetre.TITRE, fenetre.FILTRE, fenetre.FILTRE_ROM, *fenetre.LIBELLES_ROLES.values(),
             *fenetre.COLONNES, *fiche.ONGLETS, *joueur.JOURS,
             bibliotheque.FAMILLE_INCONNUE, *bibliotheque.ETATS,
             *bibliotheque.PageMonstres.COLONNES, *bibliotheque.PageManuel.COLONNES,
             'Manuel du dresseur', 'Attribut', 'Attributs', 'Compétences',
             'Équipe', 'Réserve', 'Obtenu par', 'Sert à créer',
-            synthese.AUCUNE_RECETTE, synthese.AUCUN_USAGE}
+            synthese.AUCUNE_RECETTE, synthese.AUCUN_USAGE, syntheses.IGNORER_POLARITE,
+            syntheses.AIDE_POLARITE, syntheses.MASQUER_DRESSEES, *syntheses.INCOMPLETES,
+            *syntheses.TITRES.values(), syntheses.AUCUNE,
+            syntheses.AIDE_SUITES}
 
 
 def _champs(modele: str) -> set[str]:
@@ -221,7 +224,7 @@ class Interface(unittest.TestCase):
         fenetre = self.Fenetre(self.reglages)
         fenetre.ouvrir(self.chemin)
         self.assertEqual(langue.courante(), 'en')
-        self.assertEqual(fenetre.onglets.tabText(3), 'Library')
+        self.assertEqual(fenetre.onglets.tabText(4), 'Library')
         self.assertEqual(fenetre.liste.item(0, 3).text(), 'Slime')
         self.assertEqual(fenetre.liste.item(0, 1).text(), 'Party 1')
 

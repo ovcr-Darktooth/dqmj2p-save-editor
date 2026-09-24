@@ -18,6 +18,7 @@ from .fiche import Fiche
 from .joueur import PageJoueur
 from .menu import PageMenu
 from .sac import PageSac
+from .syntheses import PageSyntheses
 
 # Textes traduits à l'affichage (tr) : la langue peut changer en cours de route.
 TITRE = 'Éditeur de sauvegardes DQMJ2P'
@@ -113,6 +114,8 @@ class Fenetre(QMainWindow):
         self.page_bibliotheque.modifiee.connect(self._rafraichir_titre)
         self.page_menu = PageMenu()
         self.page_menu.modifiee.connect(self._rafraichir_titre)
+        self.page_syntheses = PageSyntheses()
+        self.page_syntheses.selectionner.connect(self._ouvrir_monstre)
         for liaison in (self.fiche.liaison, self.page_joueur.liaison):
             liaison.erreur.connect(lambda message: self.statusBar().showMessage(message, 8000))
 
@@ -136,10 +139,14 @@ class Fenetre(QMainWindow):
 
         self.onglets = QTabWidget()
         self.onglets.addTab(self.page_joueur, tr('Joueur'))
+        self.page_monstres = separation
         self.onglets.addTab(separation, tr('Monstres'))
+        self.onglets.addTab(self.page_syntheses, tr('Synthèses'))
         self.onglets.addTab(self.page_sac, tr('Sac'))
         self.onglets.addTab(self.page_bibliotheque, tr('Bibliothèque'))
         self.onglets.addTab(self.page_menu, tr('Menu'))
+        # Les monstres changent dans l'onglet Monstres : analyse refaite à l'affichage.
+        self.onglets.currentChanged.connect(self._changement_onglet)
         self.setCentralWidget(self.onglets)
 
         menu = self.menuBar().addMenu(tr('&Fichier'))
@@ -241,6 +248,7 @@ class Fenetre(QMainWindow):
         self.page_sac.afficher(sauvegarde.sac)
         self.page_bibliotheque.afficher(sauvegarde)
         self.page_menu.afficher(sauvegarde)
+        self.page_syntheses.afficher(sauvegarde)
         self._rafraichir_titre()
 
     # ── Fichiers récents ─────────────────────────────────────────────────────
@@ -314,6 +322,14 @@ class Fenetre(QMainWindow):
         emplacements = [m.emplacement for m in self.monstres]
         if emplacement in emplacements:
             self.liste.selectRow(emplacements.index(emplacement))
+
+    def _changement_onglet(self, index: int) -> None:
+        if self.onglets.widget(index) is self.page_syntheses:
+            self.page_syntheses.rafraichir()
+
+    def _ouvrir_monstre(self, emplacement: int) -> None:
+        self.onglets.setCurrentWidget(self.page_monstres)
+        self._selectionner_emplacement(emplacement)
 
     def _apres_changement_equipe(self) -> None:
         self._remplir_liste(self.fiche.monstre.emplacement if self.fiche.monstre else None)

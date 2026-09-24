@@ -10,6 +10,11 @@ Graphical save editor for *Dragon Quest Monsters: Joker 2 Professional*
 > weapon), with the names of the French or English patch. Library viewing
 > (monsters seen and scouted, traits, skills) and Scout's Handbook (entries
 > unlocked, marked "new"). Right to scout giant monsters (may block the story of an early save) and to use them.
+> Syntheses tab: the special syntheses that the monsters in the party, on
+> standby and in storage already allow, or soon will (polarity ignored by
+> default, as the English patch allows), and as a tree the syntheses their
+> offspring will allow next (even for an incomplete synthesis, once the
+> missing species are found).
 
 ## How it works
 
@@ -104,6 +109,7 @@ s.enregistrer()                         # save
 | `editeur/extraction.py` | Extracts icons from a ROM (File menu), reads NitroFS |
 | `outils/extraire_icones.py` | The same, from the command line (`MonsterIconDat.NICA`) |
 | `dqmj2p_save/donnees/bestiaire.json` | Rank, family, size and special syntheses |
+| `dqmj2p_save/syntheses.py` | Special syntheses within reach of owned monsters (Syntheses tab) |
 | `outils/importer_synthese.py` | Copies icons and bestiary from the synthesis project |
 | `editeur/icones/familles/` | Family icons, glyphs from the game font (not versioned) |
 | `outils/extraire_familles.py` | Family icons from the command line (`font_16x16.NFTR` + menu palette) |
