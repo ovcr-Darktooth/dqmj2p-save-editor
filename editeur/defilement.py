@@ -1,7 +1,22 @@
 """Zone de défilement pour les pages hautes (Joueur, Synthèses) : la fenêtre
-se redimensionne librement, la page défile quand elle ne tient plus."""
-from PySide6.QtCore import QEvent
-from PySide6.QtWidgets import QFrame, QScrollArea
+se redimensionne librement, la page défile quand elle ne tient plus. Et la
+molette fait défiler la page sans changer les champs survolés."""
+from PySide6.QtCore import QEvent, QObject
+from PySide6.QtWidgets import QAbstractSpinBox, QComboBox, QFrame, QScrollArea
+
+
+class MoletteSansSaisie(QObject):
+    """Filtre d'application : la molette ne change plus les listes déroulantes
+    ni les champs numériques. Ignorée, elle remonte au parent : la page défile
+    au lieu de modifier la valeur survolée. La liste ouverte d'une liste
+    déroulante défile toujours (ce n'est pas la QComboBox qui la reçoit)."""
+
+    def eventFilter(self, objet, evenement) -> bool:
+        if (evenement.type() == QEvent.Wheel
+                and isinstance(objet, (QComboBox, QAbstractSpinBox))):
+            evenement.ignore()
+            return True
+        return False
 
 
 class ZoneDefilante(QScrollArea):
