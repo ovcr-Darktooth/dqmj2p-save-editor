@@ -238,7 +238,9 @@ monstres géants ! »). Il tient à **deux conditions à la fois** :
 **Validé en jeu le 24/09/2026** sur une partie au chapitre 7 (avancement 9),
 devant un Vercule (de nuit dans son nid) : les deux ensemble rendent
 « Dresser » actif ; le drapeau seul, le compteur seul à `0B`, ou le drapeau
-avec le compteur à `0A`, le laissent grisé.
+avec le compteur à `0A`, le laissent grisé. Puis, avec le réglage de
+l'éditeur : une sauvegarde faite en jeu garde les deux octets, et un second
+géant (de jour, dans une grotte d'une sous-zone de Prairia) a été dressé.
 
 Trouvé par dichotomie en jeu, 31 essais. Base : la zone `0x3738-0x3A67`
 recopiée d'un savestate DeSmuME (voir ci-dessous) pris juste avant le dressage
