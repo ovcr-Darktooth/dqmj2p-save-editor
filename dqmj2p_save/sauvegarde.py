@@ -182,11 +182,8 @@ class Sauvegarde:
         return self._drapeau(F.TELEPORTATION_ILES[ile])
 
     def ouvrir_ile(self, ile: str, actif: bool = True) -> None:
-        """Ajoute (ou retire) l'île à la liste du sort Téléportation. L'ajout
-        avance aussi l'histoire au chapitre qui la montre sur la carte des
-        îles, s'il ne l'est pas déjà ; le retrait ne touche pas au chapitre."""
-        if actif:
-            self.chapitre = max(self.chapitre, F.CHAPITRE_CARTE.get(ile, 0))
+        """Ajoute (ou retire) l'île à la liste du sort Téléportation, sans
+        toucher au chapitre (la carte des îles en dépend, pas cette liste)."""
         self._regler_drapeau(F.TELEPORTATION_ILES[ile], actif)
 
     # ── Équipe et réserve ────────────────────────────────────────────────────

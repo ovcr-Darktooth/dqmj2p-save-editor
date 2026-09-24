@@ -235,19 +235,25 @@ class Iles(unittest.TestCase):
                 self.assertTrue(fin.ile_visitee(ile))
                 self.assertFalse(milieu.ile_visitee(ile))
 
-    def test_ouvrir_une_ile_avance_le_chapitre_juste_assez(self):
+    def test_ouvrir_une_ile_sans_changer_de_chapitre(self):
         s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
         avant = bytes(s.copie)
         s.ouvrir_ile('Ténébria')
-        self.assertEqual(s.chapitre, 9)
+        self.assertEqual(s.chapitre, 7)
         self.assertTrue(s.ile_visitee('Ténébria'))
         self.assertFalse(s.ile_visitee('Nécropolis'))
         self.assertEqual([i for i in range(len(avant)) if avant[i] != s.copie[i]],
-                         [F.CHAPITRE, F.TELEPORTATION_ILES['Ténébria'][0]])
-        s.ouvrir_ile('Nécropolis')                  # chapitre 8 : déjà dépassé
-        self.assertEqual(s.chapitre, 9)
-        s.ouvrir_ile('Palais Blanc')                # pas sur la carte des îles
-        self.assertEqual(s.chapitre, 9)
+                         [F.TELEPORTATION_ILES['Ténébria'][0]])
+        s.ouvrir_ile('Ténébria', False)
+        self.assertEqual(bytes(s.copie), avant)
+
+    def test_chapitre_ne_touche_qu_un_octet(self):
+        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        avant = bytes(s.copie)
+        s.chapitre = F.CHAPITRE_CARTE['Ténébria']
+        self.assertEqual([i for i in range(len(avant)) if avant[i] != s.copie[i]],
+                         [F.CHAPITRE])
+        self.assertEqual(Sauvegarde(s.en_octets()).chapitre, 9)
 
     def test_fin_de_jeu_deja_ouverte(self):
         s = Sauvegarde.ouvrir(donnee('en-fin-de-jeu.dsv'))

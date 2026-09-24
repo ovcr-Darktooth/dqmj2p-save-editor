@@ -232,10 +232,12 @@ Relevé le 24/09/2026 sur `moitie-jeu` (partie arrêtée à Archéopolis) :
   autre zone de Ténébria, 136 Île des Pipits. Points de téléportation relevés
   sans bouger : arrivée du sort pour Ténébria et l'Île des Pipits, arrivée par
   la carte des îles pour Nécropolis. Pas encore de point pour le Palais Blanc.
-- L'éditeur propose une case par île (onglet Joueur) : elle allume le bit de
-  Téléportation de l'île et avance le chapitre au seuil de l'île s'il ne
-  l'atteint pas ; décocher rend le chapitre d'origine. Les îles déjà visitées
-  restent cochées : retirer ces bits d'une partie avancée n'a pas été essayé.
+- L'éditeur (onglet Joueur) règle séparément la carte des îles (choix du
+  chapitre, jamais sous celui de la partie ni au-delà de 10) et la liste du
+  sort Téléportation (une case par île, sans toucher au chapitre). Les îles
+  déjà visitées restent cochées : retirer ces bits d'une partie avancée n'a
+  pas été essayé. La Téléportation seule a été validée pour Ténébria au
+  chapitre 7 (l'île apparaît dans la liste sans être sur la carte).
 - Les bits de `0x39A9` et `0x39AB` qu'un éditeur conçu pour Joker 2 présente
   comme « zones débloquables » (L'Arbirynthe `0x10`, Prairia `0x20`, Arène
   `0x39AB` bit `0x08`) sont recalculés : éteint, celui de l'Arbirynthe ne

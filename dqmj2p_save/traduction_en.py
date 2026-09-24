@@ -240,17 +240,19 @@ TEXTES = {
     '{meteo} en cours': '{meteo} in progress',
     'Aucune intempérie connue sur cette carte': 'No known weather on this map',
     'Îles de fin de partie': 'Late-game islands',
-    "Une île cochée entre dans la liste du sort Téléportation et s'affiche comme "
-    "visitée. Pour la montrer sur la carte des îles, l'histoire avance au chapitre où "
-    'le jeu la débloque (Nécropolis 8, Ténébria 9, Île des Pipits 10) : les îles des '
-    "chapitres précédents apparaissent aussi, et des événements de l'histoire peuvent "
-    'être sautés. Les îles déjà visitées restent cochées.':
-        'A ticked island joins the Zoom list and shows as visited. To show it on the '
-        'island map, the story moves on to the chapter where the game unlocks it '
-        '(Necropolis 8, Dark World 9, Pipisle 10): islands of earlier chapters show up '
-        'too, and story events may be skipped. Islands already visited stay ticked.',
-    "Chapitre de l'histoire : {n}": 'Story chapter: {n}',
-    '  (au lieu de {n})': '  (instead of {n})',
+    'Carte des îles': 'Island map',
+    "Le jeu y ajoute les îles au fil des chapitres de l'histoire : l'avancer peut "
+    "faire sauter des événements. On ne peut pas revenir en deçà du chapitre de la "
+    'partie.': 'The game adds the islands as the story chapters go by: moving the '
+               'chapter forward may skip events. It cannot go below the chapter of '
+               'the game.',
+    'Sort Téléportation': 'Zoom spell',
+    "Une île cochée entre dans la liste du sort et s'affiche comme visitée sur la "
+    'carte, sans changer de chapitre. Les îles déjà visitées restent cochées.':
+        'A ticked island joins the spell list and shows as visited on the map, '
+        'without changing the chapter. Islands already visited stay ticked.',
+    '{iles}  (chapitre {n})': '{iles}  (chapter {n})',
+    'Aucune île': 'No island',
     'Déjà visitée dans cette partie.': 'Already visited in this game.',
     "Faire glisser la poignée, ou la molette (5 s par cran). L'horloge ne tourne qu'en "
     'plein air.': 'Drag the handle, or use the mouse wheel (5 s per notch). The clock '

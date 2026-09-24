@@ -74,7 +74,19 @@ class PageJoueur(QWidget):
         disposition.addWidget(infos)
 
         iles = QGroupBox(tr('Îles de fin de partie'))
-        colonne = QVBoxLayout(iles)
+        formulaire = QFormLayout(iles)
+        self.carte_iles = QComboBox()
+        self.carte_iles.activated.connect(self._regler_chapitre)
+        ligne = QHBoxLayout()
+        ligne.addWidget(self.carte_iles)
+        ligne.addStretch()
+        formulaire.addRow(tr('Carte des îles'), ligne)
+        aide = QLabel(tr("Le jeu y ajoute les îles au fil des chapitres de l'histoire : "
+                         "l'avancer peut faire sauter des événements. On ne peut pas "
+                         "revenir en deçà du chapitre de la partie."))
+        aide.setWordWrap(True)
+        aide.setEnabled(False)                      # texte grisé, comme une légende
+        formulaire.addRow(aide)
         ligne = QHBoxLayout()
         self.cases_iles = {}
         for ile in F.TELEPORTATION_ILES:
@@ -83,18 +95,13 @@ class PageJoueur(QWidget):
             ligne.addWidget(case)
             self.cases_iles[ile] = case
         ligne.addStretch()
-        colonne.addLayout(ligne)
-        self.chapitre = QLabel()
-        colonne.addWidget(self.chapitre)
-        aide = QLabel(tr("Une île cochée entre dans la liste du sort Téléportation et "
-                         "s'affiche comme visitée. Pour la montrer sur la carte des îles, "
-                         "l'histoire avance au chapitre où le jeu la débloque (Nécropolis "
-                         "8, Ténébria 9, Île des Pipits 10) : les îles des chapitres "
-                         "précédents apparaissent aussi, et des événements de l'histoire "
-                         "peuvent être sautés. Les îles déjà visitées restent cochées."))
+        formulaire.addRow(tr('Sort Téléportation'), ligne)
+        aide = QLabel(tr("Une île cochée entre dans la liste du sort et s'affiche comme "
+                         "visitée sur la carte, sans changer de chapitre. Les îles déjà "
+                         "visitées restent cochées."))
         aide.setWordWrap(True)
-        aide.setEnabled(False)                      # texte grisé, comme une légende
-        colonne.addWidget(aide)
+        aide.setEnabled(False)
+        formulaire.addRow(aide)
         disposition.addWidget(iles)
         disposition.addStretch()
         self.setEnabled(False)
@@ -127,20 +134,29 @@ class PageJoueur(QWidget):
         self.liaison.modifiee.emit()
 
     def _ouvrir_ile(self, ile: str, actif: bool) -> None:
-        sauvegarde = self.liaison.vue.sauvegarde
-        sauvegarde.ouvrir_ile(ile, actif)
-        # Une île décochée rend le chapitre qu'elle avait fait avancer.
-        sauvegarde.chapitre = max([self._chapitre_d_origine] + [
-            seuil for i, seuil in F.CHAPITRE_CARTE.items() if sauvegarde.ile_visitee(i)])
-        self._afficher_chapitre(sauvegarde)
+        self.liaison.vue.sauvegarde.ouvrir_ile(ile, actif)
         self._remplir_points()
         self.liaison.modifiee.emit()
 
+    def _regler_chapitre(self) -> None:
+        sauvegarde = self.liaison.vue.sauvegarde
+        chapitre = self.carte_iles.currentData()
+        if sauvegarde.chapitre != chapitre:
+            sauvegarde.chapitre = chapitre
+            self.liaison.modifiee.emit()
+
     def _afficher_iles(self, sauvegarde) -> None:
-        # Les îles déjà visitées restent : retirer leurs drapeaux d'une partie
-        # avancée n'a pas été essayé en jeu.
-        self._chapitre_d_origine = sauvegarde.chapitre
-        self._afficher_chapitre(sauvegarde)
+        # Le chapitre ne descend pas sous celui de la partie, et les îles déjà
+        # visitées restent : revenir en arrière n'a pas été essayé en jeu.
+        origine = sauvegarde.chapitre
+        self.carte_iles.clear()
+        paliers = sorted(set(F.CHAPITRE_CARTE.values()) | {origine})
+        for chapitre in (c for c in paliers if c >= origine):
+            iles = [tr(i) for i, seuil in F.CHAPITRE_CARTE.items() if seuil <= chapitre]
+            self.carte_iles.addItem(
+                tr('{iles}  (chapitre {n})', iles=', '.join(iles) if iles else tr('Aucune île'),
+                   n=chapitre), chapitre)
+        self.carte_iles.setEnabled(self.carte_iles.count() > 1)
         for ile, case in self.cases_iles.items():
             visitee = sauvegarde.ile_visitee(ile)
             case.blockSignals(True)
@@ -148,12 +164,6 @@ class PageJoueur(QWidget):
             case.blockSignals(False)
             case.setEnabled(not visitee)
             case.setToolTip(tr('Déjà visitée dans cette partie.') if visitee else '')
-
-    def _afficher_chapitre(self, sauvegarde) -> None:
-        texte = tr("Chapitre de l'histoire : {n}", n=sauvegarde.chapitre)
-        if sauvegarde.chapitre != self._chapitre_d_origine:
-            texte += tr('  (au lieu de {n})', n=self._chapitre_d_origine)
-        self.chapitre.setText(texte)
 
     def _remplir_points(self) -> None:
         """Points de téléportation, sans ceux des îles pas encore ouvertes."""
