@@ -155,6 +155,20 @@ class Sauvegarde:
         if self.copie[octet] != avant:
             self.modifiee = True
 
+    @property
+    def iles_debloquees(self) -> bool:
+        """Nécropolis, Ténébria et l'Île des Pipits sont sur la carte des îles."""
+        octet, bit = F.ILES_FIN_DE_PARTIE
+        return bool(self.copie[octet] & bit)
+
+    def debloquer_iles(self, actif: bool = True) -> None:
+        """Ajoute (ou retire) les trois îles de fin de partie à la carte."""
+        if self.iles_debloquees == actif:
+            return
+        octet, bit = F.ILES_FIN_DE_PARTIE
+        self.copie[octet] ^= bit
+        self.modifiee = True
+
     # ── Équipe et réserve ────────────────────────────────────────────────────
 
     @staticmethod

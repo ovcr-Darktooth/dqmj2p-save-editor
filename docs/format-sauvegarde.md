@@ -39,7 +39,8 @@ Offsets de base relevés par **Ceris White** (`save_converter.py`, projet
 | `0xB0` | u32 | Or en banque |
 | `0xB4` | 6 × u32 | ID de création : équipe 1-3, puis réserve 1-3 |
 | `0xCC` | 256 × u8 | Sac : quantité possédée de chaque objet, indexée par ID d'objet (armes comprises) |
-| `0x1CC-0x1DB` | 16 o | **À cartographier** (`00 01 00 02 03 04 05 07 0B 09 08 7F…`, ressemble à un ordre ou à des index) |
+| `0x1CC` | 12 × u8 | Ordre des boutons de l'écran du bas (grille 4 × 3, ligne par ligne) : ID du bouton, `7F` = case vide (voir « Boutons ») |
+| `0x1D8-0x1DB` | 4 o | **À cartographier** (`0C 0D 7F 7F` en milieu de jeu, `0C 0D 0E 0F` en fin de jeu : autres boutons ?) |
 | `0x1DC` | 3 × u16 | Victoires, monstres dressés, monstres synthétisés |
 | `0x1E8` | 100 × 0x84 | Enregistrements de monstres |
 | `0x3578` | 512 bits | Bibliothèque des monstres, **dressés** : bit n = espèce n (voir ci-dessous) |
@@ -49,7 +50,7 @@ Offsets de base relevés par **Ceris White** (`save_converter.py`, projet
 | `0x36B8-0x36F7` | | **À cartographier** (quasi vide) |
 | `0x36F8` | 256 bits | Bibliothèque des attributs : bit n = attribut n (`msg_tokusei`) |
 | `0x3718` | 256 bits | Bibliothèque des compétences : bit n = compétence n (`noms.competences`) |
-| `0x3738-0x3A67` | | **À cartographier** |
+| `0x3738-0x3A67` | | Drapeaux d'événements, **à cartographier** (voir « Zones ») |
 | `0x3A68` | u8 | Carte actuelle (table `noms.CARTES`, relevée en jeu : 14 L'Arbirynthe, 17 Prairia, 24 Arène, 37 Escarpic, 47 Engloutîle, 57 Archéopolis, 85 Albatros extérieur, 88 Albatros intérieur, 151 Avablanche) |
 | `0x3A6C` | u32 | Horloge jour/nuit, en 1/30 s de jeu en plein air (0 en ville) : nuit à partir de 10 800, retour à 0 à 18 000 |
 | `0x3A69` | u8 | Carte précédente : au chargement, le jeu y met la carte du résumé (`0x86`) |
@@ -204,6 +205,42 @@ avez dressé 30 monstres » et annoncé une récompense, sans nouveau monstre da
 la sauvegarde suivante. Octets changés hors temps et position : `0x3966`
 (0 → 3, change aussi dans d'autres sessions), `0x399D` bit 4, `0x39B7` bit 6,
 `0x3A56` bit 7, `0x3A5E` bit 7. Le drapeau du message est l'un d'eux.
+
+## Zones
+
+Relevé le 24/09/2026 sur `moitie-jeu` (partie arrêtée à Archéopolis), en
+dichotomie sur les 410 bits allumés dans toutes les sauvegardes de fin de jeu
+et éteints dans celle-ci :
+
+- **`0x3951` bit `0x08`** : Nécropolis, Ténébria et l'Île des Pipits sur la
+  carte des îles (affichée en sortant d'une zone par son entrée). Un seul bit
+  pour les trois. **Validé en jeu** : allumé seul, les trois îles
+  apparaissent ; Ténébria (carte 131) a ses monstres, et le jeu conserve le
+  bit à la sauvegarde. Y aller allume de lui-même `0x39AA` bit `0x10` et
+  `0x39A8` bit `0x08`.
+  L'éditeur le propose (onglet Joueur, « Progression », `ILES_FIN_DE_PARTIE`),
+  seulement pour l'ajouter : le retirer d'une partie avancée n'a pas été essayé.
+- **`0x39AA` bit `0x10`** : Ténébria dans la liste du sort Téléportation
+  (validé en jeu). `0x39AA` bit `0x08` : probablement Nécropolis (apparue dans
+  un essai qui l'allumait avec 77 autres bits).
+- Les bits de `0x39A9` et `0x39AB` qu'un éditeur conçu pour Joker 2 présente
+  comme « zones débloquables » (L'Arbirynthe `0x10`, Prairia `0x20`, Arène
+  `0x39AB` bit `0x08`) sont recalculés : éteint, celui de l'Arbirynthe ne
+  retire pas la zone et le jeu le rallume à la sauvegarde suivante.
+- Les bits de `0x39C0-0x3A67` allumés en fin de jeu comprennent les sous-cartes
+  découvertes : ajoutés à `moitie-jeu`, toutes celles d'Archéopolis se sont
+  affichées. Pas encore isolés.
+
+## Boutons
+
+L'écran du bas du menu affiche une grille de 4 × 3 boutons, dont l'ordre est
+enregistré en `0x1CC` (relevé sur `moitie-jeu` et `en-fin-de-jeu`, dont les
+ordres diffèrent : les 10 boutons communs concordent). IDs observés : `00`
+bâton, `01` Objets (sac), `02` épée, `03` flèches croisées, `04` épées
+croisées, `05` liste, `06` statue, `07` parchemin, `08` Compétences de
+dressage (aile), `09` bulle, `0A` pion, `0B` slime. `06` et `0A` n'existent
+qu'en fin de jeu. Libellés à compléter ; modification pas encore validée en
+jeu.
 
 ## Méthode pour la suite
 

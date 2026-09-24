@@ -1,6 +1,6 @@
 """Onglet Joueur : nom, temps de jeu, or et statistiques de partie, plus la
 date de sauvegarde, l'emplacement dans le monde et la téléportation vers des
-points relevés en jeu."""
+points relevés en jeu, et le déblocage des îles de fin de partie."""
 from PySide6.QtWidgets import (QCheckBox, QComboBox, QFormLayout, QGroupBox,
                                QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget)
 
@@ -74,12 +74,24 @@ class PageJoueur(QWidget):
         aide.setWordWrap(True)
         formulaire.addRow(aide)
         disposition.addWidget(infos)
+
+        progression = QGroupBox(tr('Progression'))
+        colonne = QVBoxLayout(progression)
+        self.iles = QCheckBox(tr("Nécropolis, Ténébria et l'Île des Pipits sur la carte des îles"))
+        self.iles.toggled.connect(self._debloquer_iles)
+        colonne.addWidget(self.iles)
+        self.aide_iles = QLabel()
+        self.aide_iles.setWordWrap(True)
+        self.aide_iles.setEnabled(False)            # texte grisé, comme une légende
+        colonne.addWidget(self.aide_iles)
+        disposition.addWidget(progression)
         disposition.addStretch()
         self.setEnabled(False)
 
     def afficher(self, joueur) -> None:
         self.liaison.afficher(joueur)
         self._afficher_emplacement()
+        self._afficher_iles(joueur.sauvegarde)
         self.setEnabled(True)
 
     def _teleporter(self) -> None:
@@ -101,6 +113,26 @@ class PageJoueur(QWidget):
             return
         joueur['intemperie'] = int(active)
         self.liaison.modifiee.emit()
+
+    def _debloquer_iles(self, actif: bool) -> None:
+        sauvegarde = self.liaison.vue.sauvegarde
+        if sauvegarde.iles_debloquees == actif:
+            return
+        sauvegarde.debloquer_iles(actif)
+        self.liaison.modifiee.emit()
+
+    def _afficher_iles(self, sauvegarde) -> None:
+        # Les îles déjà atteintes par l'histoire restent : retirer le drapeau
+        # d'une partie avancée n'a pas été essayé en jeu.
+        deja = sauvegarde.iles_debloquees
+        self.iles.blockSignals(True)
+        self.iles.setChecked(deja)
+        self.iles.blockSignals(False)
+        self.iles.setEnabled(not deja)
+        self.aide_iles.setText(
+            tr("Déjà débloquées par l'histoire dans cette partie.") if deja else
+            tr("Les îles apparaissent en sortant d'une zone par son entrée ; elles "
+               "rejoignent la liste de Téléportation à la première visite."))
 
     def _afficher_emplacement(self) -> None:
         joueur = self.liaison.vue

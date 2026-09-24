@@ -57,6 +57,7 @@ CARTES = {
     57: 'Archéopolis',
     85: 'Albatros (extérieur)',
     88: 'Albatros (intérieur, ranch)',
+    131: 'Ténébria',
     151: 'Avablanche',
 }
 

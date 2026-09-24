@@ -217,6 +217,12 @@ DUREE_CYCLE = 18_000
 # sauvegardes faites de nuit, éteint de jour. Le jeu le recalcule à partir de
 # l'horloge (une horloge de jour avec le bit allumé démarre de jour).
 INDICATEUR_NUIT = (0x39A1, 0x20)
+# Drapeau d'histoire qui ajoute Nécropolis, Ténébria et l'Île des Pipits à la
+# carte des îles (affichée en sortant d'une zone par son entrée) : un seul bit
+# pour les trois. Trouvé le 24/09/2026 par dichotomie sur les bits de fin de
+# jeu, puis validé seul sur moitie-jeu : les îles apparaissent, Ténébria a ses
+# monstres et le jeu garde le bit à la sauvegarde suivante.
+ILES_FIN_DE_PARTIE = (0x3951, 0x08)
 CHAMP_JOUEUR = {c.cle: c for c in CHAMPS_JOUEUR}
 
 # Bloc de position complet (0x3A68-0x3A83 : carte, carte précédente,

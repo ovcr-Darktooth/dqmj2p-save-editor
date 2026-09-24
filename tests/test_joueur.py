@@ -219,6 +219,30 @@ class Meteo(unittest.TestCase):
         self.assertEqual(s.joueur['intemperie'], 0)
 
 
+
+class Iles(unittest.TestCase):
+    def test_relevees_en_jeu(self):
+        self.assertFalse(Sauvegarde.ouvrir(donnee('moitie-jeu.dsv')).iles_debloquees)
+        self.assertTrue(Sauvegarde.ouvrir(donnee('en-fin-de-jeu.dsv')).iles_debloquees)
+
+    def test_deblocage_ne_touche_qu_un_bit(self):
+        # Validé en jeu le 24/09/2026 : moitie-jeu + ce seul bit.
+        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
+        avant = bytes(s.copie)
+        s.debloquer_iles()
+        self.assertTrue(s.iles_debloquees)
+        octet, bit = F.ILES_FIN_DE_PARTIE
+        self.assertEqual([i for i in range(len(avant)) if avant[i] != s.copie[i]], [octet])
+        self.assertEqual(avant[octet] ^ s.copie[octet], bit)
+        relue = Sauvegarde(s.en_octets())
+        self.assertTrue(relue.iles_debloquees)
+        self.assertEqual(relue.brut[:F.TAILLE_COPIE], relue.brut[F.COPIES[1]:][:F.TAILLE_COPIE])
+
+    def test_sans_changement_rien_a_enregistrer(self):
+        s = Sauvegarde.ouvrir(donnee('en-fin-de-jeu.dsv'))
+        s.debloquer_iles()
+        self.assertFalse(s.modifiee)
+
 class Composition(unittest.TestCase):
     def test_lecture(self):
         s = Sauvegarde.ouvrir(donnee('en-avant-boss-final.dsv'))
