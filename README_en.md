@@ -57,7 +57,8 @@ your ROM (original Japanese or patched): **File → Extract icons from a ROM…*
 menu. They are stored where the editor looks for them (`editeur/icones/`, or
 `icones/` next to the exe) and show up right away.
 
-Same thing from the command line:
+Same thing from the command line (the release zip includes these scripts in
+`scripts/`, with French and English instructions in `EXTRAIRE-ICONES.txt`):
 
 ```
 python outils/extraire_icones.py <your .nds ROM> [folder]
@@ -105,6 +106,7 @@ s.enregistrer()                         # save
 | `outils/extraire_familles.py` | Family icons from the command line (`font_16x16.NFTR` + menu palette) |
 | `docs/format-sauvegarde.md` | Map of the format, with what is still unknown (in French) |
 | `outils/construire_exe.py` | Builds the exe (PyInstaller) |
+| `outils/preparer_zip.py` | Prepares the release zip (exe, extraction scripts, `EXTRAIRE-ICONES.txt`) |
 | `.github/workflows/release.yml` | Windows exe on every PR; release when a `vX.Y.Z` tag is pushed (notes: `docs/notes-de-version/vX.Y.Z.md`) |
 | `tests/` | `python -m unittest discover tests` |
 

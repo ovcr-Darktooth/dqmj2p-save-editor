@@ -1,0 +1,57 @@
+EXTRAIRE LES ICÔNES DE VOTRE ROM                       (English below)
+==================================
+
+Les icônes des monstres et des familles sont des graphismes du jeu : elles ne
+sont pas fournies. Deux façons de les extraire de votre ROM (japonaise
+d'origine ou patchée, fichier .nds) :
+
+1. Le plus simple, sans rien installer : dans l'éditeur, menu
+   Fichier > Extraire les icônes d'une ROM…, puis choisissez votre ROM.
+
+2. Avec les scripts Python du dossier scripts\ :
+
+   a. Installez Python 3.10 ou plus récent (https://www.python.org, cochez
+      « Add python.exe to PATH »), puis, dans une invite de commandes :
+
+          pip install PySide6
+
+   b. Ouvrez une invite de commandes dans ce dossier (celui de
+      Editeur-DQMJ2P.exe) et lancez, en remplaçant le chemin de la ROM :
+
+          python scripts\outils\extraire_icones.py "C:\chemin\vers\jeu.nds" icones
+          python scripts\outils\extraire_familles.py "C:\chemin\vers\jeu.nds" icones\familles
+
+   c. Relancez l'éditeur : les icônes s'affichent.
+
+Les icônes vont dans le dossier icones\ à côté de l'exe (monstres : <id>.png,
+familles : icones\familles\). Vous pouvez aussi y copier les PNG de site/icons
+du projet https://github.com/ovcr-Darktooth/dqmj2pro-synthesis.
+
+
+EXTRACTING THE ICONS FROM YOUR ROM
+==================================
+
+Monster and family icons are game graphics: they are not included. Two ways
+to extract them from your ROM (original Japanese or patched, .nds file):
+
+1. The easiest, nothing to install: in the editor, File > Extract icons
+   from a ROM… menu, then pick your ROM.
+
+2. With the Python scripts in the scripts\ folder:
+
+   a. Install Python 3.10 or newer (https://www.python.org, tick "Add
+      python.exe to PATH"), then, in a command prompt:
+
+          pip install PySide6
+
+   b. Open a command prompt in this folder (the one with
+      Editeur-DQMJ2P.exe) and run, replacing the ROM path:
+
+          python scripts\outils\extraire_icones.py "C:\path\to\game.nds" icones
+          python scripts\outils\extraire_familles.py "C:\path\to\game.nds" icones\familles
+
+   c. Restart the editor: the icons show up.
+
+Icons go in the icones\ folder next to the exe (monsters: <id>.png,
+families: icones\familles\). You can also copy the PNG files from site/icons
+of the https://github.com/ovcr-Darktooth/dqmj2pro-synthesis project there.

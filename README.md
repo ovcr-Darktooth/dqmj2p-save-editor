@@ -58,7 +58,8 @@ menu **Fichier → Extraire les icônes d'une ROM…**. Elles sont rangées là 
 l'éditeur les cherche (`editeur/icones/`, ou `icones/` à côté de l'exe) et
 s'affichent aussitôt.
 
-Même chose en ligne de commande :
+Même chose en ligne de commande (le zip de la release contient ces scripts dans
+`scripts/`, avec leurs instructions FR/EN dans `EXTRAIRE-ICONES.txt`) :
 
 ```
 python outils/extraire_icones.py <votre ROM .nds> [dossier]
@@ -102,6 +103,7 @@ s.enregistrer()
 | `outils/extraire_familles.py` | Icônes des familles en ligne de commande (`font_16x16.NFTR` + palette des menus) |
 | `docs/format-sauvegarde.md` | Carte du format, avec ce qui reste inconnu |
 | `outils/construire_exe.py` | Construit l'exe (PyInstaller) |
+| `outils/preparer_zip.py` | Prépare le zip de la release (exe, scripts d'extraction, `EXTRAIRE-ICONES.txt`) |
 | `.github/workflows/release.yml` | Exe Windows à chaque PR ; release au push d'un tag `vX.Y.Z` (notes : `docs/notes-de-version/vX.Y.Z.md`) |
 | `tests/` | `python -m unittest discover tests` |
 
