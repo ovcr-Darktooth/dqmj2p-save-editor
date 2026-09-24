@@ -10,7 +10,8 @@ DeSmuME et DraStic.
 > statistiques), du sac et des monstres (surnom, espèce, stats, lignée,
 > compétences, arme), avec les noms du patch français ou anglais. Consultation
 > de la bibliothèque (monstres vus et dressés, attributs, compétences) et du
-> Manuel du dresseur (entrées débloquées, marquées « nouveau »).
+> Manuel du dresseur (entrées débloquées, marquées « nouveau »). Droit de
+> dresser les monstres géants.
 
 ## Principe
 

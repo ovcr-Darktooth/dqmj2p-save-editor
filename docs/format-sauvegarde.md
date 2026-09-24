@@ -50,7 +50,7 @@ Offsets de base relevés par **Ceris White** (`save_converter.py`, projet
 | `0x36B8-0x36F7` | | **À cartographier** (quasi vide) |
 | `0x36F8` | 256 bits | Bibliothèque des attributs : bit n = attribut n (`msg_tokusei`) |
 | `0x3718` | 256 bits | Bibliothèque des compétences : bit n = compétence n (`noms.competences`) |
-| `0x3738-0x3A53` | | Drapeaux d'événements, **à cartographier** (voir « Zones ») |
+| `0x3738-0x3A53` | | Drapeaux d'événements, **à cartographier** (voir « Zones ») ; `0x393C` : avancement de l'histoire ; `0x39A7` bit `0x01` : anneau évolué (voir « Dressage des monstres géants ») |
 | `0x3A54` | 64 bits | Manuel du dresseur, entrées **débloquées** : bit n = entrée n + 1 (voir « Manuel du dresseur ») |
 | `0x3A5C` | 64 bits | Manuel du dresseur, entrées marquées **« nouveau »** (pas encore lues) |
 | `0x3A64-0x3A67` | | **À cartographier** |
@@ -210,6 +210,47 @@ la sauvegarde suivante. Octets changés hors temps et position : `0x3966`
 `0x3A56` bit 7, `0x3A5E` bit 7. Le drapeau du message est l'un d'eux. Les deux
 derniers sont l'entrée 24 du Manuel du dresseur (Favorites), débloquée et
 nouvelle : la récompense était cette entrée.
+
+## Dressage des monstres géants
+
+Le droit de dresser les monstres géants (3 places dans l'équipe) est accordé
+au chapitre 8 : Lionyx, revenu à la vie, fait évoluer l'anneau de dresseur
+(scène `d092` : « À partir d'aujourd'hui, tu seras en mesure de dresser des
+monstres géants ! »). Il tient à **deux conditions à la fois** :
+
+- **`0x39A7` bit `0x01`** : l'anneau a évolué ;
+- **`0x393C` ≥ `0x0B`** : compteur d'avancement de l'histoire (u8). Il vaut
+  1 au début, 2, 4 (chapitre 4), 5, 6, 7 puis 9 au chapitre 7, `0B` après la
+  scène de Lionyx, puis `0C` et `0D`.
+
+**Validé en jeu le 24/09/2026** sur une partie au chapitre 7 (avancement 9),
+devant un Vercule (de nuit dans son nid) : les deux ensemble rendent
+« Dresser » actif ; le drapeau seul, le compteur seul à `0B`, ou le drapeau
+avec le compteur à `0A`, le laissent grisé.
+
+Trouvé par dichotomie en jeu, 31 essais. Base : la zone `0x3738-0x3A67`
+recopiée d'un savestate DeSmuME (voir ci-dessous) pris juste avant le dressage
+d'un Vercule. Recopiée d'un savestate pris juste après, elle faisait disparaître
+le Vercule : un drapeau de cette zone retient les géants battus. Allumer
+seulement des bits (essais sur les candidats « éteints jusqu'au chapitre 7,
+allumés à partir du 9 ») ne marchait pas, justement parce que `0x393C` est un
+compteur et non un drapeau.
+
+Le bit `0x3996` `0x01`, que met un autre éditeur pour accorder ce droit, n'a
+aucun effet ; il s'allume lui aussi au chapitre 8.
+
+L'éditeur (onglet Joueur, cadre « Dressage ») allume le drapeau et monte le
+compteur à `0B` s'il est en dessous, ce qui peut faire sauter des événements
+de l'histoire ; décocher n'éteint que le drapeau.
+
+### Savestates DeSmuME
+
+Un savestate DeSmuME (`.dst`, en-tête `DeSmuME SState` de 32 octets, puis
+zlib) contient, une fois décompressé, la mémoire de sauvegarde (copies à
+`0x907F34` et `0x90F034`) et la **copie de travail du jeu en RAM** à
+`0x1C9B2C`, même disposition que la sauvegarde, à jour même sans sauvegarde
+en jeu. 1 928 savestates d'une partie japonaise (2022) ont servi à suivre les
+drapeaux dans le temps ; ils n'ont pas d'état entre 12 h 21 et 26 h 46 de jeu.
 
 ## Manuel du dresseur
 

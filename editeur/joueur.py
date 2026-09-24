@@ -1,6 +1,7 @@
 """Onglet Joueur : nom, temps de jeu, or et statistiques de partie, plus la
 date de sauvegarde, l'emplacement dans le monde et la téléportation vers des
-points relevés en jeu, et le déblocage des îles de fin de partie."""
+points relevés en jeu, le déblocage des îles de fin de partie et le dressage
+des monstres géants."""
 from PySide6.QtWidgets import (QCheckBox, QComboBox, QFormLayout, QGridLayout, QGroupBox,
                                QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget)
 
@@ -101,6 +102,20 @@ class PageJoueur(QWidget):
         aide.setEnabled(False)
         formulaire.addRow(aide)
         disposition.addWidget(iles)
+
+        dressage = QGroupBox(tr('Dressage'))
+        formulaire = QFormLayout(dressage)
+        self.geants = QCheckBox(tr('Monstres géants (3 places)'))
+        self.geants.toggled.connect(self._regler_geants)
+        formulaire.addRow(self.geants)
+        aide = QLabel(tr("Coché, les monstres géants peuvent être dressés en combat. Le "
+                         "jeu l'accorde au chapitre 8, quand Lionyx fait évoluer l'anneau de "
+                         "dresseur : plus tôt, cocher avance aussi l'histoire jusqu'à ce "
+                         "moment, ce qui peut faire sauter des événements."))
+        aide.setWordWrap(True)
+        aide.setEnabled(False)
+        formulaire.addRow(aide)
+        disposition.addWidget(dressage)
         disposition.addStretch()
         self.setEnabled(False)
 
@@ -109,6 +124,9 @@ class PageJoueur(QWidget):
         self._afficher_emplacement()
         self._afficher_iles(joueur.sauvegarde)
         self._remplir_points()
+        self.geants.blockSignals(True)
+        self.geants.setChecked(joueur.sauvegarde.dressage_geants)
+        self.geants.blockSignals(False)
         self.setEnabled(True)
 
     def _teleporter(self) -> None:
@@ -135,6 +153,12 @@ class PageJoueur(QWidget):
         self.liaison.vue.sauvegarde.ouvrir_zone(zone, actif)
         self._remplir_points()
         self.liaison.modifiee.emit()
+
+    def _regler_geants(self, actif: bool) -> None:
+        sauvegarde = self.liaison.vue.sauvegarde
+        if sauvegarde.dressage_geants != actif:
+            sauvegarde.dressage_geants = actif
+            self.liaison.modifiee.emit()
 
     def _regler_chapitre(self) -> None:
         sauvegarde = self.liaison.vue.sauvegarde

@@ -244,6 +244,20 @@ TELEPORTATION = {
     'Île des Pipits': (0x39D9, 0x40),
     'Palais Blanc': (0x39D9, 0x80),
 }
+# Droit de dresser les monstres géants (ceux qui prennent 3 places dans
+# l'équipe), accordé par Lionyx au chapitre 8 (« l'anneau de dresseur a
+# évolué », scène d092). Il faut à la fois le drapeau de l'anneau et le
+# compteur d'avancement à AVANCEMENT_GEANTS ou plus. Trouvé le 24/09/2026 par
+# dichotomie en jeu (Vercule de nuit, ROM de test), à partir d'un savestate
+# DeSmuME pris juste après la scène : drapeau seul, ou compteur seul à 0x0B,
+# « Dresser » reste grisé ; les deux ensemble, il est actif. Compteur à 0x0A :
+# grisé. Le bit 0x3996 0x01, que met un autre éditeur, ne joue aucun rôle.
+DRESSAGE_GEANTS = (0x39A7, 0x01)
+# Compteur d'avancement de l'histoire (u8) : 1 au début, 4 au chapitre 4, 7
+# puis 9 au chapitre 7, 0x0B après la scène de Lionyx (chapitre 8), 0x0C et
+# 0x0D ensuite. L'avancer peut faire sauter des événements de l'histoire.
+AVANCEMENT = 0x393C
+AVANCEMENT_GEANTS = 0x0B
 # Îles de fin de partie : leurs points de téléportation ne sont proposés
 # qu'une fois l'île dans la liste. Le Palais Blanc n'est pas sur la carte.
 ILES_FIN_DE_PARTIE = ('Nécropolis', 'Ténébria', 'Île des Pipits', 'Palais Blanc')

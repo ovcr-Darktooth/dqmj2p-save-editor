@@ -254,6 +254,10 @@ TEXTES = {
         'the chapter; an island also shows as visited on the map. Areas already '
         'visited stay ticked: the game would put them back.',
     'Zones': 'Areas',
+    'Dressage': 'Scouting',
+    'Monstres géants (3 places)': 'Giant monsters (3 slots)',
+    "Coché, les monstres géants peuvent être dressés en combat. Le jeu l'accorde au chapitre 8, quand Lionyx fait évoluer l'anneau de dresseur : plus tôt, cocher avance aussi l'histoire jusqu'à ce moment, ce qui peut faire sauter des événements.":
+        'When checked, giant monsters can be scouted in battle. The game grants it in chapter 8, when Leonyx upgrades the scout ring: earlier on, checking it also moves the story up to that point, which may skip events.',
 
     # ── Onglet Menu : boutons de l'écran du bas (noms du patch anglais) ────
     'Menu': 'Menu',
