@@ -217,20 +217,22 @@ DUREE_CYCLE = 18_000
 # sauvegardes faites de nuit, éteint de jour. Le jeu le recalcule à partir de
 # l'horloge (une horloge de jour avec le bit allumé démarre de jour).
 INDICATEUR_NUIT = (0x39A1, 0x20)
-# Drapeau d'histoire qui ajoute Nécropolis, Ténébria et l'Île des Pipits à la
-# carte des îles (affichée en sortant d'une zone par son entrée) : un seul bit
-# pour les trois. Trouvé le 24/09/2026 par dichotomie sur les bits de fin de
-# jeu, puis validé seul sur moitie-jeu : les îles apparaissent, Ténébria a ses
-# monstres et le jeu garde le bit à la sauvegarde suivante.
-ILES_FIN_DE_PARTIE = (0x3951, 0x08)
+# Chapitre de l'histoire (u8) : 0 au début, 4, 7 à mi-parcours, 9 après
+# Rapthorne 2, 10 en fin de jeu. La carte des îles (affichée en sortant d'une
+# zone par son entrée) en dépend : relevé en jeu le 24/09/2026 sur moitie-jeu,
+# le chapitre 8 y ajoute Nécropolis, le 9 Ténébria, le 10 l'Île des Pipits.
+# L'avancer peut faire sauter des événements de l'histoire.
+CHAPITRE = 0x3951
+CHAPITRE_CARTE = {'Nécropolis': 8, 'Ténébria': 9, 'Île des Pipits': 10}
 # Chaque île dans la liste du sort Téléportation, allumé par la première
-# visite (24/09/2026). Validés en jeu en les allumant sur une partie qui ne
-# les avait pas : Ténébria et l'Île des Pipits seuls, Nécropolis avec
-# d'autres bits.
+# visite, qui fait aussi passer son point en « visité » sur la carte. Validés
+# en jeu le 24/09/2026 en les allumant seuls sur moitie-jeu. Le Palais Blanc
+# n'a pas de point sur la carte des îles.
 TELEPORTATION_ILES = {
     'Nécropolis': (0x39AA, 0x08),
     'Ténébria': (0x39AA, 0x10),
     'Île des Pipits': (0x39D9, 0x40),
+    'Palais Blanc': (0x39D9, 0x80),
 }
 CHAMP_JOUEUR = {c.cle: c for c in CHAMPS_JOUEUR}
 

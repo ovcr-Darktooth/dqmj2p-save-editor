@@ -221,27 +221,11 @@ class Meteo(unittest.TestCase):
 
 
 class Iles(unittest.TestCase):
-    def test_relevees_en_jeu(self):
-        self.assertFalse(Sauvegarde.ouvrir(donnee('moitie-jeu.dsv')).iles_debloquees)
-        self.assertTrue(Sauvegarde.ouvrir(donnee('en-fin-de-jeu.dsv')).iles_debloquees)
-
-    def test_deblocage_ne_touche_qu_un_bit(self):
-        # Validé en jeu le 24/09/2026 : moitie-jeu + ce seul bit.
-        s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
-        avant = bytes(s.copie)
-        s.debloquer_iles()
-        self.assertTrue(s.iles_debloquees)
-        octet, bit = F.ILES_FIN_DE_PARTIE
-        self.assertEqual([i for i in range(len(avant)) if avant[i] != s.copie[i]], [octet])
-        self.assertEqual(avant[octet] ^ s.copie[octet], bit)
-        relue = Sauvegarde(s.en_octets())
-        self.assertTrue(relue.iles_debloquees)
-        self.assertEqual(relue.brut[:F.TAILLE_COPIE], relue.brut[F.COPIES[1]:][:F.TAILLE_COPIE])
-
-    def test_sans_changement_rien_a_enregistrer(self):
-        s = Sauvegarde.ouvrir(donnee('en-fin-de-jeu.dsv'))
-        s.debloquer_iles()
-        self.assertFalse(s.modifiee)
+    def test_chapitre_releve_en_jeu(self):
+        for nom, chapitre in (('histoire.dsv', 4), ('moitie-jeu.dsv', 7),
+                              ('en-avant-rapthorne-2.dsv', 9), ('en-fin-de-jeu.dsv', 10)):
+            with self.subTest(nom):
+                self.assertEqual(Sauvegarde.ouvrir(donnee(nom)).chapitre, chapitre)
 
     def test_teleportation_relevee_en_jeu(self):
         fin = Sauvegarde.ouvrir(donnee('en-fin-de-jeu.dsv'))
@@ -251,23 +235,33 @@ class Iles(unittest.TestCase):
                 self.assertTrue(fin.ile_visitee(ile))
                 self.assertFalse(milieu.ile_visitee(ile))
 
-    def test_ouvrir_une_ile_debloque_la_carte(self):
+    def test_ouvrir_une_ile_avance_le_chapitre_juste_assez(self):
         s = Sauvegarde.ouvrir(donnee('moitie-jeu.dsv'))
         avant = bytes(s.copie)
-        s.ouvrir_ile('Île des Pipits')
-        self.assertTrue(s.iles_debloquees)
-        self.assertTrue(s.ile_visitee('Île des Pipits'))
-        self.assertFalse(s.ile_visitee('Ténébria'))
+        s.ouvrir_ile('Ténébria')
+        self.assertEqual(s.chapitre, 9)
+        self.assertTrue(s.ile_visitee('Ténébria'))
+        self.assertFalse(s.ile_visitee('Nécropolis'))
         self.assertEqual([i for i in range(len(avant)) if avant[i] != s.copie[i]],
-                         [F.ILES_FIN_DE_PARTIE[0], F.TELEPORTATION_ILES['Île des Pipits'][0]])
-        s.ouvrir_ile('Île des Pipits', False)
-        self.assertFalse(s.ile_visitee('Île des Pipits'))
-        self.assertTrue(s.iles_debloquees)          # la carte, elle, reste
+                         [F.CHAPITRE, F.TELEPORTATION_ILES['Ténébria'][0]])
+        s.ouvrir_ile('Nécropolis')                  # chapitre 8 : déjà dépassé
+        self.assertEqual(s.chapitre, 9)
+        s.ouvrir_ile('Palais Blanc')                # pas sur la carte des îles
+        self.assertEqual(s.chapitre, 9)
+
+    def test_fin_de_jeu_deja_ouverte(self):
+        s = Sauvegarde.ouvrir(donnee('en-fin-de-jeu.dsv'))
+        for ile in F.TELEPORTATION_ILES:
+            s.ouvrir_ile(ile)
+        self.assertEqual(s.chapitre, 10)
+        self.assertFalse(s.modifiee)
 
     def test_points_des_iles(self):
         for ile in F.TELEPORTATION_ILES:
-            with self.subTest(ile):
-                self.assertEqual(noms.carte(F.POINTS_TELEPORTATION[ile][0]), ile)
+            if ile in F.POINTS_TELEPORTATION:
+                with self.subTest(ile):
+                    self.assertEqual(noms.carte(F.POINTS_TELEPORTATION[ile][0]), ile)
+
 
 class Composition(unittest.TestCase):
     def test_lecture(self):

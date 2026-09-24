@@ -84,10 +84,14 @@ class PageJoueur(QWidget):
             self.cases_iles[ile] = case
         ligne.addStretch()
         colonne.addLayout(ligne)
+        self.chapitre = QLabel()
+        colonne.addWidget(self.chapitre)
         aide = QLabel(tr("Une île cochée entre dans la liste du sort Téléportation et "
-                         "s'affiche comme visitée. La carte des îles, commune aux trois, "
-                         "les montre toutes dès qu'une est cochée. Les îles déjà "
-                         "visitées dans la partie restent cochées."))
+                         "s'affiche comme visitée. Pour la montrer sur la carte des îles, "
+                         "l'histoire avance au chapitre où le jeu la débloque (Nécropolis "
+                         "8, Ténébria 9, Île des Pipits 10) : les îles des chapitres "
+                         "précédents apparaissent aussi, et des événements de l'histoire "
+                         "peuvent être sautés. Les îles déjà visitées restent cochées."))
         aide.setWordWrap(True)
         aide.setEnabled(False)                      # texte grisé, comme une légende
         colonne.addWidget(aide)
@@ -125,17 +129,18 @@ class PageJoueur(QWidget):
     def _ouvrir_ile(self, ile: str, actif: bool) -> None:
         sauvegarde = self.liaison.vue.sauvegarde
         sauvegarde.ouvrir_ile(ile, actif)
-        # Plus aucune île cochée : la carte redevient ce qu'elle était.
-        if not actif and not self._carte_d_origine and not any(
-                sauvegarde.ile_visitee(i) for i in F.TELEPORTATION_ILES):
-            sauvegarde.debloquer_iles(False)
+        # Une île décochée rend le chapitre qu'elle avait fait avancer.
+        sauvegarde.chapitre = max([self._chapitre_d_origine] + [
+            seuil for i, seuil in F.CHAPITRE_CARTE.items() if sauvegarde.ile_visitee(i)])
+        self._afficher_chapitre(sauvegarde)
         self._remplir_points()
         self.liaison.modifiee.emit()
 
     def _afficher_iles(self, sauvegarde) -> None:
         # Les îles déjà visitées restent : retirer leurs drapeaux d'une partie
         # avancée n'a pas été essayé en jeu.
-        self._carte_d_origine = sauvegarde.iles_debloquees
+        self._chapitre_d_origine = sauvegarde.chapitre
+        self._afficher_chapitre(sauvegarde)
         for ile, case in self.cases_iles.items():
             visitee = sauvegarde.ile_visitee(ile)
             case.blockSignals(True)
@@ -143,6 +148,12 @@ class PageJoueur(QWidget):
             case.blockSignals(False)
             case.setEnabled(not visitee)
             case.setToolTip(tr('Déjà visitée dans cette partie.') if visitee else '')
+
+    def _afficher_chapitre(self, sauvegarde) -> None:
+        texte = tr("Chapitre de l'histoire : {n}", n=sauvegarde.chapitre)
+        if sauvegarde.chapitre != self._chapitre_d_origine:
+            texte += tr('  (au lieu de {n})', n=self._chapitre_d_origine)
+        self.chapitre.setText(texte)
 
     def _remplir_points(self) -> None:
         """Points de téléportation, sans ceux des îles pas encore ouvertes."""

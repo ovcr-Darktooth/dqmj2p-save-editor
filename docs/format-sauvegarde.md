@@ -208,32 +208,34 @@ la sauvegarde suivante. Octets changés hors temps et position : `0x3966`
 
 ## Zones
 
-Relevé le 24/09/2026 sur `moitie-jeu` (partie arrêtée à Archéopolis), en
-dichotomie sur les 410 bits allumés dans toutes les sauvegardes de fin de jeu
-et éteints dans celle-ci :
+Relevé le 24/09/2026 sur `moitie-jeu` (partie arrêtée à Archéopolis) :
 
-- **`0x3951` bit `0x08`** : Nécropolis, Ténébria et l'Île des Pipits sur la
-  carte des îles (affichée en sortant d'une zone par son entrée). Un seul bit
-  pour les trois. **Validé en jeu** : allumé seul, les trois îles
-  apparaissent ; Ténébria (carte 131) a ses monstres, et le jeu conserve le
-  bit à la sauvegarde. Y aller allume de lui-même `0x39AA` bit `0x10` et
-  `0x39A8` bit `0x08`.
+- **`0x3951` : chapitre de l'histoire** (u8) : 0 au début, 4, 7 à
+  mi-parcours, 9 après Rapthorne 2, 10 en fin de jeu. La carte des îles
+  (affichée en sortant d'une zone par son entrée) en dépend, **validé en
+  jeu** : au chapitre 8 elle montre Nécropolis, au 9 aussi Ténébria, au 10
+  aussi l'Île des Pipits. Trouvé d'abord par dichotomie comme un « bit
+  `0x08` » : l'allumer faisait passer `moitie-jeu` du chapitre 7 au 15, ce
+  qui montrait les trois îles mais sautait tous les chapitres suivants. Il
+  faut écrire la valeur voulue, jamais un masque. Avancer le chapitre peut
+  faire sauter des événements de l'histoire.
 - **Chaque île dans la liste du sort Téléportation** (`TELEPORTATION_ILES`),
   allumé par la première visite, qui fait aussi passer son point en « visité »
   (moins marqué) sur la carte des îles : Nécropolis `0x39AA` bit `0x08`,
-  Ténébria `0x39AA` bit `0x10`, Île des Pipits `0x39D9` bit `0x40`. Validés
-  en jeu en les allumant sur une partie qui ne les avait pas (Ténébria et
-  l'Île des Pipits seuls). La première visite de l'Île des Pipits allume aussi
-  `0x3950` bit `0x01`, `0x39F2` bit `0x08`, `0x3A29` bit `0x20` et `0x3A2A`
-  (`3F`), sans rôle connu.
+  Ténébria `0x39AA` bit `0x10`, Île des Pipits `0x39D9` bit `0x40`, Palais
+  Blanc `0x39D9` bit `0x80` (pas de point sur la carte des îles). **Validés
+  en jeu** en les allumant seuls sur `moitie-jeu`. La première visite de
+  l'Île des Pipits allume aussi `0x3950` bit `0x01`, `0x39F2` bit `0x08`,
+  `0x3A29` bit `0x20` et `0x3A2A` (`3F`), sans rôle connu ; celle de Ténébria
+  `0x39A8` bit `0x08`.
 - Cartes : 67 Nécropolis, 79 Ténébria (arrivée de la Téléportation), 131 une
   autre zone de Ténébria, 136 Île des Pipits. Points de téléportation relevés
   sans bouger : arrivée du sort pour Ténébria et l'Île des Pipits, arrivée par
-  la carte des îles pour Nécropolis.
+  la carte des îles pour Nécropolis. Pas encore de point pour le Palais Blanc.
 - L'éditeur propose une case par île (onglet Joueur) : elle allume le bit de
-  Téléportation de l'île et, s'il ne l'est pas, celui de la carte. Les îles
-  déjà visitées restent cochées : retirer ces bits d'une partie avancée n'a
-  pas été essayé.
+  Téléportation de l'île et avance le chapitre au seuil de l'île s'il ne
+  l'atteint pas ; décocher rend le chapitre d'origine. Les îles déjà visitées
+  restent cochées : retirer ces bits d'une partie avancée n'a pas été essayé.
 - Les bits de `0x39A9` et `0x39AB` qu'un éditeur conçu pour Joker 2 présente
   comme « zones débloquables » (L'Arbirynthe `0x10`, Prairia `0x20`, Arène
   `0x39AB` bit `0x08`) sont recalculés : éteint, celui de l'Arbirynthe ne

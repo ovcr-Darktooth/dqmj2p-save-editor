@@ -29,6 +29,7 @@ TEXTES = {
     'Ténébria': 'Dark World',
     'Ténébria (autre zone)': 'Dark World (other area)',
     'Île des Pipits': 'Pipisle',
+    'Palais Blanc': 'Blanc Palace',
     'Avablanche (autre zone)': 'Iceolation (other area)',
     'Avablanche (fin de zone)': 'Iceolation (end of area)',
     'Avablanche (fin de zone, sort)': 'Iceolation (end of area, exit)',
@@ -240,11 +241,16 @@ TEXTES = {
     'Aucune intempérie connue sur cette carte': 'No known weather on this map',
     'Îles de fin de partie': 'Late-game islands',
     "Une île cochée entre dans la liste du sort Téléportation et s'affiche comme "
-    "visitée. La carte des îles, commune aux trois, les montre toutes dès qu'une est "
-    'cochée. Les îles déjà visitées dans la partie restent cochées.':
-        'A ticked island joins the Zoom list and shows as visited. The island map, '
-        'shared by all three, shows them all as soon as one is ticked. Islands already '
-        'visited in the game stay ticked.',
+    "visitée. Pour la montrer sur la carte des îles, l'histoire avance au chapitre où "
+    'le jeu la débloque (Nécropolis 8, Ténébria 9, Île des Pipits 10) : les îles des '
+    "chapitres précédents apparaissent aussi, et des événements de l'histoire peuvent "
+    'être sautés. Les îles déjà visitées restent cochées.':
+        'A ticked island joins the Zoom list and shows as visited. To show it on the '
+        'island map, the story moves on to the chapter where the game unlocks it '
+        '(Necropolis 8, Dark World 9, Pipisle 10): islands of earlier chapters show up '
+        'too, and story events may be skipped. Islands already visited stay ticked.',
+    "Chapitre de l'histoire : {n}": 'Story chapter: {n}',
+    '  (au lieu de {n})': '  (instead of {n})',
     'Déjà visitée dans cette partie.': 'Already visited in this game.',
     "Faire glisser la poignée, ou la molette (5 s par cran). L'horloge ne tourne qu'en "
     'plein air.': 'Drag the handle, or use the mouse wheel (5 s per notch). The clock '

@@ -166,13 +166,15 @@ class Sauvegarde:
             self.modifiee = True
 
     @property
-    def iles_debloquees(self) -> bool:
-        """Nécropolis, Ténébria et l'Île des Pipits sont sur la carte des îles."""
-        return self._drapeau(F.ILES_FIN_DE_PARTIE)
+    def chapitre(self) -> int:
+        """Chapitre de l'histoire (voir F.CHAPITRE)."""
+        return self.copie[F.CHAPITRE]
 
-    def debloquer_iles(self, actif: bool = True) -> None:
-        """Ajoute (ou retire) les trois îles de fin de partie à la carte."""
-        self._regler_drapeau(F.ILES_FIN_DE_PARTIE, actif)
+    @chapitre.setter
+    def chapitre(self, valeur: int) -> None:
+        if self.copie[F.CHAPITRE] != valeur:
+            self.copie[F.CHAPITRE] = valeur
+            self.modifiee = True
 
     def ile_visitee(self, ile: str) -> bool:
         """L'île (clé de F.TELEPORTATION_ILES) est dans la liste du sort
@@ -181,9 +183,10 @@ class Sauvegarde:
 
     def ouvrir_ile(self, ile: str, actif: bool = True) -> None:
         """Ajoute (ou retire) l'île à la liste du sort Téléportation. L'ajout
-        débloque aussi la carte des îles, commune aux trois."""
+        avance aussi l'histoire au chapitre qui la montre sur la carte des
+        îles, s'il ne l'est pas déjà ; le retrait ne touche pas au chapitre."""
         if actif:
-            self.debloquer_iles()
+            self.chapitre = max(self.chapitre, F.CHAPITRE_CARTE.get(ile, 0))
         self._regler_drapeau(F.TELEPORTATION_ILES[ile], actif)
 
     # ── Équipe et réserve ────────────────────────────────────────────────────
