@@ -18,7 +18,7 @@ ONGLETS = {
     'Identité': ('surnom', 'espece', 'variante', 'polarite', 'plus', 'plus_base',
                  'arme', 'tactique'),
     'Niveau et stats': ('niveau', 'experience', 'experience_suivant',
-                        'pv', 'pv_max', 'pm', 'pm_max', 'attaque', 'defense',
+                        'pv_max', 'pv', 'pm_max', 'pm', 'attaque', 'defense',
                         'agilite', 'sagesse', 'points_libres'),
     'Lignée': ('parent_1', 'parent_1_surnom', 'parent_1_variante',
                'parent_2', 'parent_2_surnom', 'parent_2_variante',

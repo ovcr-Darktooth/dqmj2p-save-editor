@@ -277,6 +277,27 @@ class Iles(unittest.TestCase):
                 self.assertEqual(s.dressage_geants, attendu)
                 self.assertEqual(s.geants_utilisables, attendu)
 
+    def test_combats_contre_crow(self):
+        # Partie principale : 3 combats faits avant le chapitre 7, puis le
+        # 4e et le 5e après la discussion à l'Arène.
+        for nom, attendu in (('histoire.dsv', 0), ('moitie-jeu.dsv', 3),
+                             ('crow-pnj-parle.dsv', 3), ('crow-combat-1.dsv', 4),
+                             ('crow-combat-2.dsv', 5), ('en-fin-de-jeu.dsv', 5)):
+            with self.subTest(nom):
+                self.assertEqual(Sauvegarde.ouvrir(donnee(nom)).combats_crow, attendu)
+
+    def test_combats_contre_crow_valide_en_jeu(self):
+        # darkside-crow-combat-3 remis de 3 à 0 : Crow est revenu avec
+        # l'équipe du 1er combat, et la victoire a donné darkside-crow-rejoue-1.
+        s = Sauvegarde.ouvrir(donnee('darkside-crow-combat-3.dsv'))
+        avant = bytes(s.copie)
+        s.combats_crow = 0
+        self.assertEqual({i for i in range(len(avant)) if avant[i] != s.copie[i]},
+                         {F.COMBATS_CROW})
+        self.assertEqual(Sauvegarde.ouvrir(donnee('darkside-crow-rejoue-1.dsv')).combats_crow, 1)
+        with self.assertRaises(ValueError):
+            s.combats_crow = F.NB_COMBATS_CROW + 1
+
     def test_bit_de_l_autre_editeur_ne_suffit_pas(self):
         # manuel-vide-geants : seul 0x3996 bit 0x01 (géants utilisables)
         # allumé par un autre éditeur ; en jeu, « Dresser » restait grisé.
