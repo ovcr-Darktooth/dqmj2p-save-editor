@@ -306,6 +306,13 @@ VARIABLES = 0x393C
 # personnage était là, et Crow a attaqué sans qu'on lui parle. Le drapeau 196,
 # que la discussion allume, ne débloque rien seul.
 DEFI_CROW = (0x39AC, 0x20)
+# Récompense des trois premiers combats reçue (drapeau 72) : le personnage de
+# l'Arène l'allume en donnant un Claque-vent une fois le compteur à 3. Crow ne
+# tend le quatrième combat qu'avec ce drapeau, l'anneau évolué et un
+# avancement de 0x0B ou plus. Validé en jeu le 27/09/2026 : compteur à 3,
+# drapeau éteint, pas d'embuscade ; le personnage l'a allumé, et Crow a
+# attaqué avec l'équipe du quatrième combat.
+RECOMPENSE_CROW = (0x399D, 0x01)
 # Îles de fin de partie : leurs points de téléportation ne sont proposés
 # qu'une fois l'île dans la liste. Le Palais Blanc n'est pas sur la carte.
 ILES_FIN_DE_PARTIE = ('Nécropolis', 'Ténébria', 'Île des Pipits', 'Palais Blanc')

@@ -143,6 +143,17 @@ class PageJoueur(QWidget):
         self.defi_crow = QCheckBox(tr('Défi de Capitaine Crow ouvert'))
         self.defi_crow.toggled.connect(self._regler_defi_crow)
         formulaire.addRow(self.defi_crow)
+        self.recompense_crow = QCheckBox(tr('Combats 4 et 5 débloqués'))
+        self.recompense_crow.toggled.connect(self._regler_recompense_crow)
+        formulaire.addRow(self.recompense_crow)
+        aide = QLabel(tr("Après le troisième combat, le personnage de l'Arène donne un "
+                         "Claque-vent : c'est ce qui débloque les deux derniers combats. Cocher "
+                         "les débloque sans passer par lui, mais il ne donnera plus sa "
+                         "récompense : ajoutez le Claque-vent vous-même dans l'onglet Sac. Il "
+                         "faut aussi que l'anneau de dresseur ait évolué (fin du chapitre 7)."))
+        aide.setWordWrap(True)
+        aide.setEnabled(False)
+        formulaire.addRow(aide)
         self.combats_crow = QSpinBox(maximum=F.NB_COMBATS_CROW)
         self.combats_crow.valueChanged.connect(self._regler_combats_crow)
         formulaire.addRow(tr('Combats gagnés contre Capitaine Crow'), self.combats_crow)
@@ -174,6 +185,9 @@ class PageJoueur(QWidget):
         self.defi_crow.blockSignals(True)
         self.defi_crow.setChecked(joueur.sauvegarde.defi_crow)
         self.defi_crow.blockSignals(False)
+        self.recompense_crow.blockSignals(True)
+        self.recompense_crow.setChecked(joueur.sauvegarde.recompense_crow)
+        self.recompense_crow.blockSignals(False)
         self.combats_crow.blockSignals(True)
         self.combats_crow.setValue(joueur.sauvegarde.combats_crow)
         self.combats_crow.blockSignals(False)
@@ -222,6 +236,12 @@ class PageJoueur(QWidget):
         sauvegarde = self.liaison.vue.sauvegarde
         if sauvegarde.defi_crow != actif:
             sauvegarde.defi_crow = actif
+            self.liaison.modifiee.emit()
+
+    def _regler_recompense_crow(self, actif: bool) -> None:
+        sauvegarde = self.liaison.vue.sauvegarde
+        if sauvegarde.recompense_crow != actif:
+            sauvegarde.recompense_crow = actif
             self.liaison.modifiee.emit()
 
     def _regler_combats_crow(self, valeur: int) -> None:

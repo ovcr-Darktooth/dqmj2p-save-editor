@@ -467,8 +467,11 @@ ranch au niveau 1.
 - Combat 4 (compteur 3) : il faut en plus l'avancement `0B` ou plus, le
   **drapeau 152** (anneau évolué, fin du chapitre 7) et le **drapeau 72,
   `0x399D` bit `0x01`**, que le personnage allume en donnant sa récompense
-  après le troisième combat ; puis une chance sur quatre. Pas encore validé
-  en jeu.
+  (un Claque-vent, objet 160) après le troisième combat ; puis une chance
+  sur quatre. **Validé en jeu le 27/09/2026** sur la partie principale,
+  compteur remis à 3 : drapeau 72 éteint, aucune embuscade ; après la
+  récompense (seuls ce drapeau et le Claque-vent ont changé), Crow a attaqué
+  avec l'équipe du quatrième combat, et le compteur est passé à 4.
 - Combat 5 (compteur 4) : une fonction du jeu (`SYS_BB`) doit renvoyer au
   moins 1, rôle inconnu. Après le cinquième, le personnage donne une seconde
   récompense et allume le drapeau 73 (`0x399D` bit `0x02`).
