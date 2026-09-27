@@ -286,6 +286,11 @@ AVANCEMENT_GEANTS = 0x0B
 # l'éditeur avertit.
 AVANCEMENT_MIN_PAR_CHAPITRE = {8: 0x0A, 9: 0x0C, 10: 0x0D}
 CHAPITRE_MIN_PAR_AVANCEMENT = {0x0B: 7, 0x0C: 9}
+# Combats gagnés contre Capitaine Crow (u8, 0 à 5) : il choisit l'équipe de
+# la prochaine embuscade. Validé en jeu le 27/09/2026 : remis de 3 à 0, Crow
+# est revenu avec l'équipe du premier combat, et la victoire l'a passé à 1.
+COMBATS_CROW = 0x3948
+NB_COMBATS_CROW = 5
 # Îles de fin de partie : leurs points de téléportation ne sont proposés
 # qu'une fois l'île dans la liste. Le Palais Blanc n'est pas sur la carte.
 ILES_FIN_DE_PARTIE = ('Nécropolis', 'Ténébria', 'Île des Pipits', 'Palais Blanc')

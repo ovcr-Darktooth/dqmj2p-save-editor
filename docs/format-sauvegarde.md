@@ -50,7 +50,7 @@ Offsets de base relevés par **Ceris White** (`save_converter.py`, projet
 | `0x36B8-0x36F7` | | **À cartographier** (quasi vide) |
 | `0x36F8` | 256 bits | Bibliothèque des attributs : bit n = attribut n (`msg_tokusei`) |
 | `0x3718` | 256 bits | Bibliothèque des compétences : bit n = compétence n (`noms.competences`) |
-| `0x3738-0x3A53` | | Drapeaux d'événements, **à cartographier** (voir « Zones ») ; `0x393C` : avancement de l'histoire ; `0x39A7` bit `0x01` : anneau évolué (voir « Dressage des monstres géants ») |
+| `0x3738-0x3A53` | | Drapeaux d'événements, **à cartographier** (voir « Zones ») ; `0x37B8` : objets déjà obtenus et `0x37E4` : derniers objets nouveaux (voir « Objets obtenus ») ; `0x393C` : avancement de l'histoire ; `0x3948` : combats gagnés contre Capitaine Crow (voir « Défi de Capitaine Crow ») ; `0x39A7` bit `0x01` : anneau évolué (voir « Dressage des monstres géants ») |
 | `0x3A54` | 64 bits | Manuel du dresseur, entrées **débloquées** : bit n = entrée n + 1 (voir « Manuel du dresseur ») |
 | `0x3A5C` | 64 bits | Manuel du dresseur, entrées marquées **« nouveau »** (pas encore lues) |
 | `0x3A64-0x3A67` | | **À cartographier** |
@@ -422,6 +422,56 @@ Relevé le 24/09/2026 sur `moitie-jeu` (partie arrêtée à Archéopolis) :
 - Les bits de `0x39C0-0x3A67` allumés en fin de jeu comprennent les sous-cartes
   découvertes : ajoutés à `moitie-jeu`, toutes celles d'Archéopolis se sont
   affichées. Pas encore isolés.
+
+## Défi de Capitaine Crow
+
+Capitaine Crow et son équipe se battent cinq fois contre le héros : trois
+combats une fois Prairia et l'Arène débloquées, deux après Vilionyx. Un
+personnage de l'Arène lance chaque série. Ensuite, Crow tend une embuscade
+(scène puis combat), avec un pourcentage de chance, quand le héros arrive
+depuis la carte dans une zone qui a de la météo. Après le cinquième combat,
+Capitaine Crow rejoint le ranch au niveau 1.
+
+- **`0x3948` : combats gagnés contre Crow** (u8, 0 à 5). **Validé en jeu le
+  27/09/2026** : sur une partie à 3, le remettre à 0 a fait revenir Crow avec
+  l'équipe du premier combat, et la victoire l'a passé à 1. C'est donc lui
+  qui choisit l'adversaire. Relevé sur toutes les sauvegardes et les
+  savestates DeSmuME, il ne fait que monter et ne dépasse jamais 5 :
+  partie DARKSIDE à 0 à 5 h 32 et à 2 à 6 h 31 (avancement 4 tous deux), à
+  3 après le troisième combat ; partie principale à 3 à l'avancement 7, puis
+  4 et 5 à l'avancement `0B` ; 5 en fin de jeu. Chaque combat gagné
+  l'augmente de 1.
+
+Drapeaux candidats, **pas encore validés** :
+
+- `0x399B` bit `0x10` : le personnage de l'Arène propose les combats 4 et 5.
+  Il s'allume à la fin du chapitre 7 (après les géants) et s'éteint quand on
+  lui parle.
+- `0x39CC` bit `0x04` : allumé seulement entre le quatrième et le cinquième
+  combat. `0x3995` bit `0x01` s'éteint au quatrième.
+- `0x3953` bit `0x01`, `0x39CD` bit `0x10`, `0x39CE` et `0x39BB` bits `0xC0`
+  s'éteignent au troisième combat.
+- `0x3970` change à chaque discussion ou combat, sans ordre : c'est un état
+  passager, pas l'étape du défi.
+
+## Objets obtenus
+
+Trouvé le 27/09/2026 en comparant les combats de Crow, qui donnent des
+objets :
+
+- **`0x37B8`, 256 bits : objets déjà obtenus au moins une fois**, bit n =
+  objet n (mêmes IDs que le sac). Un objet reçu pour la première fois allume
+  son bit (Lance de fer, `0x7F` : `0x37C7` bit `0x80` ; Griffes d'acier,
+  `0xAC` : `0x37CD` bit `0x10`) ; un objet déjà connu (Épée de cuivre) n'en
+  allume pas. Sur les sauvegardes de test, 1 529 objets possédés sur 1 632
+  ont leur bit ; les exceptions sont la Graine de Sagesse (25) de la partie
+  principale au chapitre 7, et `en-fin-de-jeu`, qui suit une sauvegarde
+  trichée.
+- **`0x37E4`, 10 × u8 : derniers objets nouveaux**, le plus récent en tête.
+  Chaque objet obtenu pour la première fois s'y insère et pousse les autres ;
+  le dixième sort.
+
+Pas encore validés en jeu (rôle à l'écran inconnu).
 
 ## Boutons
 

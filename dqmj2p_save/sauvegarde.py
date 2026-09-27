@@ -253,6 +253,21 @@ class Sauvegarde:
     def geants_utilisables(self, actif: bool) -> None:
         self._regler_drapeau(F.GEANTS_UTILISABLES, actif)
 
+    @property
+    def combats_crow(self) -> int:
+        """Combats gagnés contre Capitaine Crow (voir F.COMBATS_CROW)."""
+        return self.copie[F.COMBATS_CROW]
+
+    @combats_crow.setter
+    def combats_crow(self, valeur: int) -> None:
+        if not 0 <= valeur <= F.NB_COMBATS_CROW:
+            raise ValueError(tr('{champ} : {valeur} hors de {minimum}..{maximum}',
+                                champ=tr('Combats gagnés contre Capitaine Crow'),
+                                valeur=valeur, minimum=0, maximum=F.NB_COMBATS_CROW))
+        if self.copie[F.COMBATS_CROW] != valeur:
+            self.copie[F.COMBATS_CROW] = valeur
+            self.modifiee = True
+
     # ── Équipe et réserve ────────────────────────────────────────────────────
 
     @staticmethod

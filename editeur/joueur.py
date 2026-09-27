@@ -1,9 +1,10 @@
 """Onglet Joueur : nom, temps de jeu, or et statistiques de partie, plus la
 date de sauvegarde, l'emplacement dans le monde et la téléportation vers des
-points relevés en jeu, le déblocage des îles de fin de partie et le dressage
-des monstres géants."""
+points relevés en jeu, le déblocage des îles de fin de partie, le dressage
+des monstres géants et le défi de Capitaine Crow."""
 from PySide6.QtWidgets import (QCheckBox, QComboBox, QFormLayout, QGridLayout, QGroupBox,
-                               QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget)
+                               QHBoxLayout, QLabel, QPushButton, QSpinBox, QVBoxLayout,
+                               QWidget)
 
 from dqmj2p_save import format as F
 from dqmj2p_save import noms
@@ -136,6 +137,22 @@ class PageJoueur(QWidget):
         aide.setEnabled(False)
         formulaire.addRow(aide)
         disposition.addWidget(dressage)
+
+        defis = QGroupBox(tr('Défis'))
+        formulaire = QFormLayout(defis)
+        self.combats_crow = QSpinBox(maximum=F.NB_COMBATS_CROW)
+        self.combats_crow.valueChanged.connect(self._regler_combats_crow)
+        formulaire.addRow(tr('Combats gagnés contre Capitaine Crow'), self.combats_crow)
+        aide = QLabel(tr("Crow se bat cinq fois : trois combats une fois l'Arène ouverte, deux "
+                         "après Vilionyx, chaque série lancée par un personnage de l'Arène. "
+                         "Il attaque par surprise en arrivant depuis la carte dans une zone "
+                         "qui a de la météo. Ce nombre choisit l'équipe du prochain combat : "
+                         "le baisser permet de les refaire. Crow rejoint le ranch après le "
+                         "cinquième."))
+        aide.setWordWrap(True)
+        aide.setEnabled(False)
+        formulaire.addRow(aide)
+        disposition.addWidget(defis)
         disposition.addStretch()
         self.setEnabled(False)
 
@@ -149,6 +166,9 @@ class PageJoueur(QWidget):
             case.blockSignals(True)
             case.setChecked(etat)
             case.blockSignals(False)
+        self.combats_crow.blockSignals(True)
+        self.combats_crow.setValue(joueur.sauvegarde.combats_crow)
+        self.combats_crow.blockSignals(False)
         self._verifier_histoire()
         self.setEnabled(True)
 
@@ -188,6 +208,12 @@ class PageJoueur(QWidget):
         sauvegarde = self.liaison.vue.sauvegarde
         if sauvegarde.geants_utilisables != actif:
             sauvegarde.geants_utilisables = actif
+            self.liaison.modifiee.emit()
+
+    def _regler_combats_crow(self, valeur: int) -> None:
+        sauvegarde = self.liaison.vue.sauvegarde
+        if sauvegarde.combats_crow != valeur:
+            sauvegarde.combats_crow = valeur
             self.liaison.modifiee.emit()
 
     def _regler_chapitre(self) -> None:

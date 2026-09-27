@@ -268,6 +268,10 @@ TEXTES = {
         '⚠ Chapter {chapitre} with story progress {avancement}: the game never writes this combination (progress 0B: chapter 7 or 8; chapter 9: 0C or 0D; chapter 10: 0D). The island map and giant scouting each move the story on their own; the consequences have not been tested.',
     'Dresser les monstres géants': 'Scout giant monsters',
     'Utiliser les monstres géants (3 places)': 'Use giant monsters (3 slots)',
+    'Défis': 'Challenges',
+    'Combats gagnés contre Capitaine Crow': 'Battles won against Captain Crow',
+    "Crow se bat cinq fois : trois combats une fois l'Arène ouverte, deux après Vilionyx, chaque série lancée par un personnage de l'Arène. Il attaque par surprise en arrivant depuis la carte dans une zone qui a de la météo. Ce nombre choisit l'équipe du prochain combat : le baisser permet de les refaire. Crow rejoint le ranch après le cinquième.":
+        'Crow fights five times: three battles once the Arena is open, two after Malevolynx, each series started by someone in the Arena. He ambushes you when you arrive from the map in an area that has weather. This number picks the team for the next battle: lowering it lets you fight them again. Crow joins the ranch after the fifth.',
     "Coché, les géants possédés s'affichent au ranch et peuvent entrer dans l'équipe ; sinon, ils occupent leurs 3 cases avec des « ? ». Le jeu l'accorde en même temps que le dressage. Ne change pas l'histoire.":
         'When checked, owned giants show in the ranch and can join the party; otherwise they fill their 3 slots with "?". The game grants it together with scouting. Does not change the story.',
     "Coché, les monstres géants peuvent être dressés en combat. Le jeu l'accorde à la fin du chapitre 7, quand Lionyx fait évoluer l'anneau de dresseur : plus tôt, cocher avance aussi l'histoire jusqu'à ce moment. Attention, ça peut bloquer la progression, en particulier si le boss du cercueil, dans le Vercule, n'est pas encore battu : le Vercule recrache alors le héros dès l'entrée. Les autres étapes sautées n'ont pas été testées.":
