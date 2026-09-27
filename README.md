@@ -12,7 +12,8 @@ DeSmuME et DraStic.
 > de la bibliothèque (monstres vus et dressés, attributs, compétences) et du
 > Manuel du dresseur (entrées débloquées, marquées « nouveau »). Droit de
 > dresser les monstres géants (peut bloquer l'histoire d'une partie peu avancée)
-> et de les utiliser. Onglet Synthèses : les synthèses spéciales que
+> et de les utiliser. Défi de Capitaine Crow : ouverture, combats 4 et 5,
+> nombre de combats gagnés. Onglet Synthèses : les synthèses spéciales que
 > permettent déjà, ou bientôt, les monstres de l'équipe, de la réserve et du
 > ranch (polarité ignorée par défaut, comme le permet le patch anglais), et
 > en arbre les synthèses que leurs enfants permettront ensuite (même pour une
