@@ -50,7 +50,7 @@ Offsets de base relevés par **Ceris White** (`save_converter.py`, projet
 | `0x36B8-0x36F7` | | **À cartographier** (quasi vide) |
 | `0x36F8` | 256 bits | Bibliothèque des attributs : bit n = attribut n (`msg_tokusei`) |
 | `0x3718` | 256 bits | Bibliothèque des compétences : bit n = compétence n (`noms.competences`) |
-| `0x3738-0x3A53` | | Drapeaux d'événements, **à cartographier** (voir « Zones ») ; `0x37B8` : objets déjà obtenus et `0x37E4` : derniers objets nouveaux (voir « Objets obtenus ») ; `0x393C` : avancement de l'histoire ; `0x3948` : combats gagnés contre Capitaine Crow (voir « Défi de Capitaine Crow ») ; `0x39A7` bit `0x01` : anneau évolué (voir « Dressage des monstres géants ») |
+| `0x3738-0x3A53` | | Drapeaux d'événements, **à cartographier** (voir « Zones ») ; `0x37B8` : objets déjà obtenus et `0x37E4` : derniers objets nouveaux (voir « Objets obtenus ») ; `0x393C` : avancement de l'histoire ; `0x3948` : combats gagnés contre Capitaine Crow (voir « Défi de Capitaine Crow ») ; `0x3994` : drapeaux des scripts (voir « Drapeaux et variables de jeu ») ; `0x39A7` bit `0x01` : anneau évolué (voir « Dressage des monstres géants ») |
 | `0x3A54` | 64 bits | Manuel du dresseur, entrées **débloquées** : bit n = entrée n + 1 (voir « Manuel du dresseur ») |
 | `0x3A5C` | 64 bits | Manuel du dresseur, entrées marquées **« nouveau »** (pas encore lues) |
 | `0x3A64-0x3A67` | | **À cartographier** |
@@ -423,36 +423,60 @@ Relevé le 24/09/2026 sur `moitie-jeu` (partie arrêtée à Archéopolis) :
   découvertes : ajoutés à `moitie-jeu`, toutes celles d'Archéopolis se sont
   affichées. Pas encore isolés.
 
+## Drapeaux et variables de jeu
+
+Les scripts du jeu (désassemblés par le projet de traduction,
+`Translation/SCRIPTS/*.txt`, opérandes en flottants) lisent et écrivent la
+sauvegarde par deux familles d'appels :
+
+- **Drapeaux d'événements** : `SYS_29 n` lit le drapeau n, `SYS_2A n v`
+  l'écrit. Le drapeau n est le bit `n % 8` de l'octet `0x3994 + n / 8`. Le
+  départ se retrouve sur des drapeaux connus : `0x39A7` bit `0x01` (anneau
+  évolué) est le drapeau 152, `0x3996` bit `0x01` (géants utilisables) le 16.
+- **Variables de jeu** : `SYS_27 k` lit, `SYS_28 k v` écrit l'octet
+  `0x393C + k`. La variable 0 est l'avancement de l'histoire, la 6 une étape
+  du chapitre 4 (17 après Nhé), la 12 le compteur de Crow, la 13 l'état de
+  son embuscade (0 hors scène).
+
 ## Défi de Capitaine Crow
 
-Capitaine Crow et son équipe se battent cinq fois contre le héros : trois
-combats une fois Prairia et l'Arène débloquées, deux après Vilionyx. Un
-personnage de l'Arène lance chaque série. Ensuite, Crow tend une embuscade
-(scène puis combat), avec un pourcentage de chance, quand le héros arrive
-depuis la carte dans une zone qui a de la météo. Après le cinquième combat,
-Capitaine Crow rejoint le ranch au niveau 1.
+Capitaine Crow et son équipe se battent cinq fois contre le héros. Une fois
+le défi ouvert, chaque arrivée depuis la carte dans une zone à météo lance
+la routine d'embuscade (`L_c074` de `k01e01`, la même dans les dix scripts
+d'entrée de zone), qui ne sert qu'à Crow : scènes `d111` et `d112`, groupes
+de combat 902 à 906. Après le cinquième combat, Capitaine Crow rejoint le
+ranch au niveau 1.
 
-- **`0x3948` : combats gagnés contre Crow** (u8, 0 à 5). **Validé en jeu le
-  27/09/2026** : sur une partie à 3, le remettre à 0 a fait revenir Crow avec
-  l'équipe du premier combat, et la victoire l'a passé à 1. C'est donc lui
-  qui choisit l'adversaire. Relevé sur toutes les sauvegardes et les
-  savestates DeSmuME, il ne fait que monter et ne dépasse jamais 5 :
-  partie DARKSIDE à 0 à 5 h 32 et à 2 à 6 h 31 (avancement 4 tous deux), à
-  3 après le troisième combat ; partie principale à 3 à l'avancement 7, puis
-  4 et 5 à l'avancement `0B` ; 5 en fin de jeu. Chaque combat gagné
-  l'augmente de 1.
-
-Drapeaux candidats, **pas encore validés** :
-
-- `0x399B` bit `0x10` : le personnage de l'Arène propose les combats 4 et 5.
-  Il s'allume à la fin du chapitre 7 (après les géants) et s'éteint quand on
-  lui parle.
-- `0x39CC` bit `0x04` : allumé seulement entre le quatrième et le cinquième
-  combat. `0x3995` bit `0x01` s'éteint au quatrième.
-- `0x3953` bit `0x01`, `0x39CD` bit `0x10`, `0x39CE` et `0x39BB` bits `0xC0`
-  s'éteignent au troisième combat.
-- `0x3970` change à chaque discussion ou combat, sans ordre : c'est un état
-  passager, pas l'étape du défi.
+- **`0x3948` : combats gagnés contre Crow** (variable 12, 0 à 5). **Validé
+  en jeu le 27/09/2026** : sur une partie à 3, le remettre à 0 a fait revenir
+  Crow avec l'équipe du premier combat, et la victoire l'a passé à 1. Il ne
+  fait que monter dans toutes les sauvegardes et les savestates DeSmuME.
+- **Drapeau 197, `0x39AC` bit `0x20` : défi ouvert.** Sans lui, la routine
+  s'arrête tout de suite, et le personnage de l'Arène (`s03e08`) n'est pas
+  placé. Le jeu l'allume dans la scène qui suit Nhé, l'Avatar d'Avablanche
+  (`s04e10`, chapitre 4), avec d'autres drapeaux et la variable 6 : ce sont
+  eux qui font avancer l'histoire. Ses quatorze lectures sont toutes liées à
+  Crow (routine d'embuscade, personnage, affiche et répliques de l'Arène) ;
+  seule autre conséquence, un personnage de l'Arène change de place. **Validé
+  en jeu le 27/09/2026** sur `histoire` (Nhé pas battu) : drapeau 197 seul,
+  le personnage est là et Crow attaque sans qu'on lui parle ; drapeau 196
+  seul, aucun combat.
+- **Drapeau 196, `0x39AC` bit `0x10`** : on a parlé au personnage. Seul son
+  dialogue le lit ; il ne débloque rien (validé le même jour).
+- Combats 1 à 3 (compteur 0 à 2) : une chance sur deux par entrée de zone.
+- Combat 4 (compteur 3) : il faut en plus l'avancement `0B` ou plus, le
+  **drapeau 152** (anneau évolué, fin du chapitre 7) et le **drapeau 72,
+  `0x399D` bit `0x01`**, que le personnage allume en donnant sa récompense
+  (un Claque-vent, objet 160) après le troisième combat ; puis une chance
+  sur quatre. **Validé en jeu le 27/09/2026** sur la partie principale,
+  compteur remis à 3 : drapeau 72 éteint, aucune embuscade ; après la
+  récompense (seuls ce drapeau et le Claque-vent ont changé), Crow a attaqué
+  avec l'équipe du quatrième combat, et le compteur est passé à 4.
+- Combat 5 (compteur 4) : une fonction du jeu (`SYS_BB`) doit renvoyer au
+  moins 1, rôle inconnu. Après le cinquième, le personnage donne une seconde
+  récompense et allume le drapeau 73 (`0x399D` bit `0x02`).
+- `0x3970` (variable 52) et `0x3966` (variable 42) changent à chaque
+  discussion ou combat : états passagers.
 
 ## Objets obtenus
 

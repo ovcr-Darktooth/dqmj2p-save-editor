@@ -298,6 +298,41 @@ class Iles(unittest.TestCase):
         with self.assertRaises(ValueError):
             s.combats_crow = F.NB_COMBATS_CROW + 1
 
+    def test_defi_crow_ouvert(self):
+        # Ouvert après Nhé (chapitre 4) : pas encore dans histoire (3 h 56).
+        for nom, attendu in (('histoire.dsv', False), ('moitie-jeu.dsv', True),
+                             ('darkside-6h31-rang-s.dsv', True), ('defi-crow.dsv', True)):
+            with self.subTest(nom):
+                self.assertEqual(Sauvegarde.ouvrir(donnee(nom)).defi_crow, attendu)
+
+    def test_defi_crow_valide_en_jeu(self):
+        # histoire-rang-s-drapeau197 = histoire-rang-s plus ce seul bit :
+        # personnage présent à l'Arène, Crow a attaqué sans qu'on lui parle,
+        # et la victoire a donné histoire-197-combat-1.
+        s = Sauvegarde.ouvrir(donnee('histoire-rang-s.dsv'))
+        s.defi_crow = True
+        cible = Sauvegarde.ouvrir(donnee('histoire-rang-s-drapeau197.dsv'))
+        self.assertEqual(bytes(s.copie[0x90:]), bytes(cible.copie[0x90:]))
+        apres = Sauvegarde.ouvrir(donnee('histoire-197-combat-1.dsv'))
+        self.assertEqual((apres.defi_crow, apres.combats_crow), (True, 1))
+        s.defi_crow = False
+        self.assertFalse(s.defi_crow)
+
+    def test_recompense_crow_valide_en_jeu(self):
+        # principale-crow-3-sans-72 : partie principale, compteur remis à 3 et
+        # drapeau 72 éteint ; pas d'embuscade. Le personnage l'a rallumé
+        # (principale-apres-pnj-72), puis Crow a attaqué (principale-72-combat-4).
+        s = Sauvegarde.ouvrir(donnee('principale-crow-3-sans-72.dsv'))
+        self.assertFalse(s.recompense_crow)
+        avant = bytes(s.copie)
+        s.recompense_crow = True
+        self.assertEqual({i for i in range(len(avant)) if avant[i] != s.copie[i]},
+                         {F.RECOMPENSE_CROW[0]})
+        apres = Sauvegarde.ouvrir(donnee('principale-apres-pnj-72.dsv'))
+        self.assertTrue(apres.recompense_crow)
+        combat = Sauvegarde.ouvrir(donnee('principale-72-combat-4.dsv'))
+        self.assertEqual((combat.recompense_crow, combat.combats_crow), (True, 4))
+
     def test_bit_de_l_autre_editeur_ne_suffit_pas(self):
         # manuel-vide-geants : seul 0x3996 bit 0x01 (géants utilisables)
         # allumé par un autre éditeur ; en jeu, « Dresser » restait grisé.
