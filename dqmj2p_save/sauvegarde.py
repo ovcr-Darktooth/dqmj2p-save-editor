@@ -254,6 +254,15 @@ class Sauvegarde:
         self._regler_drapeau(F.GEANTS_UTILISABLES, actif)
 
     @property
+    def defi_crow(self) -> bool:
+        """Défi de Capitaine Crow ouvert (voir F.DEFI_CROW)."""
+        return self._drapeau(F.DEFI_CROW)
+
+    @defi_crow.setter
+    def defi_crow(self, actif: bool) -> None:
+        self._regler_drapeau(F.DEFI_CROW, actif)
+
+    @property
     def combats_crow(self) -> int:
         """Combats gagnés contre Capitaine Crow (voir F.COMBATS_CROW)."""
         return self.copie[F.COMBATS_CROW]

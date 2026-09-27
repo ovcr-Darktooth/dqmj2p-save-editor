@@ -291,6 +291,21 @@ CHAPITRE_MIN_PAR_AVANCEMENT = {0x0B: 7, 0x0C: 9}
 # est revenu avec l'équipe du premier combat, et la victoire l'a passé à 1.
 COMBATS_CROW = 0x3948
 NB_COMBATS_CROW = 5
+# Drapeaux d'événements des scripts du jeu : le drapeau n (SYS_29 / SYS_2A
+# dans les scripts désassemblés du projet de traduction) est le bit n % 8 de
+# DRAPEAUX + n // 8. DRESSAGE_GEANTS est le drapeau 152, GEANTS_UTILISABLES
+# le 16. Les variables de jeu (SYS_27 / SYS_28) sont des u8 à VARIABLES + k :
+# AVANCEMENT est la variable 0, COMBATS_CROW la 12.
+DRAPEAUX = 0x3994
+VARIABLES = 0x393C
+# Défi de Capitaine Crow ouvert (drapeau 197) : le personnage de l'Arène
+# apparaît et Crow peut attaquer en arrivant dans une zone à météo. Le jeu
+# l'allume après Nhé, l'Avatar d'Avablanche (chapitre 4), avec d'autres
+# drapeaux qui font avancer l'histoire ; seuls les scripts de Crow le lisent.
+# Validé en jeu le 27/09/2026 sur une partie où Nhé n'était pas battu : le
+# personnage était là, et Crow a attaqué sans qu'on lui parle. Le drapeau 196,
+# que la discussion allume, ne débloque rien seul.
+DEFI_CROW = (0x39AC, 0x20)
 # Îles de fin de partie : leurs points de téléportation ne sont proposés
 # qu'une fois l'île dans la liste. Le Palais Blanc n'est pas sur la carte.
 ILES_FIN_DE_PARTIE = ('Nécropolis', 'Ténébria', 'Île des Pipits', 'Palais Blanc')

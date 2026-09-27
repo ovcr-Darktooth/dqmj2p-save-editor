@@ -140,15 +140,20 @@ class PageJoueur(QWidget):
 
         defis = QGroupBox(tr('Défis'))
         formulaire = QFormLayout(defis)
+        self.defi_crow = QCheckBox(tr('Défi de Capitaine Crow ouvert'))
+        self.defi_crow.toggled.connect(self._regler_defi_crow)
+        formulaire.addRow(self.defi_crow)
         self.combats_crow = QSpinBox(maximum=F.NB_COMBATS_CROW)
         self.combats_crow.valueChanged.connect(self._regler_combats_crow)
         formulaire.addRow(tr('Combats gagnés contre Capitaine Crow'), self.combats_crow)
-        aide = QLabel(tr("Crow se bat cinq fois : trois combats une fois l'Arène ouverte, deux "
-                         "après Vilionyx, chaque série lancée par un personnage de l'Arène. "
-                         "Il attaque par surprise en arrivant depuis la carte dans une zone "
-                         "qui a de la météo. Ce nombre choisit l'équipe du prochain combat : "
-                         "le baisser permet de les refaire. Crow rejoint le ranch après le "
-                         "cinquième."))
+        aide = QLabel(tr("Crow se bat cinq fois. Il attaque par surprise en arrivant depuis "
+                         "la carte dans une zone qui a de la météo, une fois le défi ouvert : "
+                         "le jeu l'ouvre après Nhé, l'Avatar d'Avablanche, et un personnage "
+                         "de l'Arène en parle. Cocher l'ouvre sans toucher à l'histoire. Les "
+                         "deux derniers combats attendent en plus l'évolution de l'anneau "
+                         "de dresseur (fin du chapitre 7). Le nombre de combats gagnés "
+                         "choisit l'équipe du prochain : le baisser permet de les refaire. "
+                         "Crow rejoint le ranch après le cinquième."))
         aide.setWordWrap(True)
         aide.setEnabled(False)
         formulaire.addRow(aide)
@@ -166,6 +171,9 @@ class PageJoueur(QWidget):
             case.blockSignals(True)
             case.setChecked(etat)
             case.blockSignals(False)
+        self.defi_crow.blockSignals(True)
+        self.defi_crow.setChecked(joueur.sauvegarde.defi_crow)
+        self.defi_crow.blockSignals(False)
         self.combats_crow.blockSignals(True)
         self.combats_crow.setValue(joueur.sauvegarde.combats_crow)
         self.combats_crow.blockSignals(False)
@@ -208,6 +216,12 @@ class PageJoueur(QWidget):
         sauvegarde = self.liaison.vue.sauvegarde
         if sauvegarde.geants_utilisables != actif:
             sauvegarde.geants_utilisables = actif
+            self.liaison.modifiee.emit()
+
+    def _regler_defi_crow(self, actif: bool) -> None:
+        sauvegarde = self.liaison.vue.sauvegarde
+        if sauvegarde.defi_crow != actif:
+            sauvegarde.defi_crow = actif
             self.liaison.modifiee.emit()
 
     def _regler_combats_crow(self, valeur: int) -> None:
