@@ -98,6 +98,12 @@ class Edition(unittest.TestCase):
         self.assertEqual(roles[21], 'reserve_3')
         self.assertEqual(roles[0], 'ranch')
 
+    def test_pv_actuels_apres_un_coup(self):
+        """crow-combat-1.dsv : Schwarzleim mis à 1800 PV (max et actuels),
+        touché une fois en combat puis sauvegardé : 1777 PV affichés en jeu."""
+        m = Sauvegarde.ouvrir(donnee('crow-combat-1.dsv')).monstre(35)
+        self.assertEqual((m['pv_max'], m['pv']), (1800, 1777))
+
     def test_valeur_hors_bornes_refusee(self):
         s = Sauvegarde.ouvrir(donnee('histoire.dsv'))
         with self.assertRaises(ValueError):

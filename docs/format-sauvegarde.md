@@ -158,7 +158,7 @@ Voir `CHAMPS_MONSTRE` dans `format.py` pour la liste complète. En résumé :
 | `+0x00` | Surnom, texte 20 o |
 | `+0x14` | ID de création (u32) |
 | `+0x18` | Espèce, variante, polarité, synthèse + |
-| `+0x20` | PV, PM, PV max, PM max, ATQ, DEF, AGI, SAG (u16) |
+| `+0x20` | PV max, PM max, PV, PM, ATQ, DEF, AGI, SAG (u16) ; les max sont hors bonus d'attributs |
 | `+0x30` | Niveau, arme, tactique |
 | `+0x34` | Expérience, expérience du niveau suivant (u32) |
 | `+0x3C` | Points de compétence non attribués (u16) |

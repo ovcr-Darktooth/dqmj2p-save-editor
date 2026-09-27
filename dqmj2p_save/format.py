@@ -126,10 +126,12 @@ CHAMPS_MONSTRE = (
     Champ('polarite', 0x1B, 'u8', 'Polarité'),
     Champ('plus', 0x1C, 'u8', 'Synthèse +'),
     Champ('plus_base', 0x1E, 'u8', 'Synthèse + (base)'),
-    Champ('pv', 0x20, 'u16', 'PV'),
-    Champ('pm', 0x22, 'u16', 'PM'),
-    Champ('pv_max', 0x24, 'u16', 'PV max'),
-    Champ('pm_max', 0x26, 'u16', 'PM max'),
+    # Max sans les bonus d'attributs (« PV maximum +20 »…) : les PV actuels
+    # d'un monstre soigné peuvent dépasser ce champ.
+    Champ('pv_max', 0x20, 'u16', 'PV max'),
+    Champ('pm_max', 0x22, 'u16', 'PM max'),
+    Champ('pv', 0x24, 'u16', 'PV'),
+    Champ('pm', 0x26, 'u16', 'PM'),
     Champ('attaque', 0x28, 'u16', 'Attaque'),
     Champ('defense', 0x2A, 'u16', 'Défense'),
     Champ('agilite', 0x2C, 'u16', 'Agilité'),
