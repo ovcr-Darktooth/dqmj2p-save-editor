@@ -34,6 +34,14 @@ Get the zip of the latest version from the
 unzip it and run `Editeur-DQMJ2P.exe`: Python is not required. Windows may
 show a SmartScreen warning (unsigned exe): "More info", then "Run anyway".
 
+## Download (Linux)
+
+Get `Editeur-DQMJ2P-vX.Y.Z-x86_64.AppImage` from the
+[Releases](https://github.com/ovcr-Darktooth/dqmj2p-save-editor/releases),
+make it executable (`chmod +x`, or Properties → Permissions) and run it:
+nothing to install. Extracted icons go in an `icones/` folder next to the
+`.AppImage` file.
+
 ## Running the editor from source
 
 Double-click `Lancer-Editeur.bat`. The first time, it creates a `.venv`
@@ -63,7 +71,7 @@ repository.
 Without them, the editor works and shows empty boxes. To extract them from
 your ROM (original Japanese or patched): **File → Extract icons from a ROM…**
 menu. They are stored where the editor looks for them (`editeur/icones/`, or
-`icones/` next to the exe) and show up right away.
+`icones/` next to the exe or the AppImage) and show up right away.
 
 Same thing from the command line (the release zip includes these scripts in
 `scripts/`, with French and English instructions in `EXTRAIRE-ICONES.txt`):
@@ -118,8 +126,9 @@ s.enregistrer()                         # save
 | `outils/extraire_boutons.py` | Menu button icons from the command line (`menu_icon_data.cch` + `.cpl`) |
 | `docs/format-sauvegarde.md` | Map of the format, with what is still unknown (in French) |
 | `outils/construire_exe.py` | Builds the exe (PyInstaller) |
+| `outils/construire_appimage.py` | Builds the Linux AppImage (PyInstaller + appimagetool, `outils/appimage/`) |
 | `outils/preparer_zip.py` | Prepares the release zip (exe, extraction scripts, `EXTRAIRE-ICONES.txt`) |
-| `.github/workflows/release.yml` | Windows exe on every PR; release when a `vX.Y.Z` tag is pushed (notes: `docs/notes-de-version/vX.Y.Z.md`) |
+| `.github/workflows/release.yml` | Windows exe and Linux AppImage on every PR; release when a `vX.Y.Z` tag is pushed (notes: `docs/notes-de-version/vX.Y.Z.md`) |
 | `tests/` | `python -m unittest discover tests` |
 
 Tests on real saves read `tests/donnees/*.dsv`. These files are not

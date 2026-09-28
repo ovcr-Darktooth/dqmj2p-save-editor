@@ -38,6 +38,14 @@ décompressez-le et lancez `Editeur-DQMJ2P.exe` : Python n'est pas nécessaire.
 Windows peut afficher un avertissement SmartScreen (exe non signé) :
 « Informations complémentaires », puis « Exécuter quand même ».
 
+## Télécharger (Linux)
+
+Prenez `Editeur-DQMJ2P-vX.Y.Z-x86_64.AppImage` dans les
+[Releases](https://github.com/ovcr-Darktooth/dqmj2p-save-editor/releases),
+rendez-le exécutable (`chmod +x`, ou Propriétés → Permissions) et lancez-le :
+rien à installer. Les icônes extraites vont dans un dossier `icones/` à côté
+du fichier `.AppImage`.
+
 ## Lancer l'éditeur depuis le code
 
 Double-cliquer sur `Lancer-Editeur.bat`. La première fois, il crée un
@@ -63,7 +71,7 @@ Les icônes des monstres, des familles et des boutons du menu sont des
 graphismes du jeu : elles ne sont pas dans ce dépôt. Sans elles, l'éditeur fonctionne et affiche des cases
 vides. Pour les extraire de votre ROM (japonaise d'origine ou patchée) :
 menu **Fichier → Extraire les icônes d'une ROM…**. Elles sont rangées là où
-l'éditeur les cherche (`editeur/icones/`, ou `icones/` à côté de l'exe) et
+l'éditeur les cherche (`editeur/icones/`, ou `icones/` à côté de l'exe ou de l'AppImage) et
 s'affichent aussitôt.
 
 Même chose en ligne de commande (le zip de la release contient ces scripts dans
@@ -115,8 +123,9 @@ s.enregistrer()
 | `outils/extraire_boutons.py` | Icônes des boutons en ligne de commande (`menu_icon_data.cch` + `.cpl`) |
 | `docs/format-sauvegarde.md` | Carte du format, avec ce qui reste inconnu |
 | `outils/construire_exe.py` | Construit l'exe (PyInstaller) |
+| `outils/construire_appimage.py` | Construit l'AppImage Linux (PyInstaller + appimagetool, `outils/appimage/`) |
 | `outils/preparer_zip.py` | Prépare le zip de la release (exe, scripts d'extraction, `EXTRAIRE-ICONES.txt`) |
-| `.github/workflows/release.yml` | Exe Windows à chaque PR ; release au push d'un tag `vX.Y.Z` (notes : `docs/notes-de-version/vX.Y.Z.md`) |
+| `.github/workflows/release.yml` | Exe Windows et AppImage Linux à chaque PR ; release au push d'un tag `vX.Y.Z` (notes : `docs/notes-de-version/vX.Y.Z.md`) |
 | `tests/` | `python -m unittest discover tests` |
 
 Les tests sur sauvegardes réelles lisent `tests/donnees/*.dsv`. Ces fichiers

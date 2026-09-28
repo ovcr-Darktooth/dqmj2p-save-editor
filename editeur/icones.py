@@ -3,6 +3,7 @@
 Les icônes font 40 px de large et 40, 80 ou 120 px de haut selon la taille du
 monstre. Une icône absente n'est pas une erreur : on affiche une case vide.
 """
+import os
 import sys
 from functools import cache
 from pathlib import Path
@@ -10,9 +11,17 @@ from pathlib import Path
 from PySide6.QtCore import QSize, Qt
 from PySide6.QtGui import QIcon, QPainter, QPixmap
 
-# Exe Windows (PyInstaller) : icones/ à côté de l'exe, où l'on peut les déposer.
-DOSSIER = (Path(sys.executable).parent if getattr(sys, 'frozen', False)
-           else Path(__file__).parent) / 'icones'
+
+def _dossier() -> Path:
+    """Exe Windows (PyInstaller) : icones/ à côté de l'exe, où l'on peut les
+    déposer. AppImage Linux : à côté du fichier .AppImage (son chemin est dans
+    $APPIMAGE), car l'exe tourne depuis un montage en lecture seule."""
+    if not getattr(sys, 'frozen', False):
+        return Path(__file__).parent / 'icones'
+    return Path(os.environ.get('APPIMAGE') or sys.executable).parent / 'icones'
+
+
+DOSSIER = _dossier()
 CASE = 40                           # côté de la case dans les listes
 
 
