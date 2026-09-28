@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Éditeur DQMJ2P
+Comment=Éditeur de sauvegardes pour Dragon Quest Monsters: Joker 2 Professional
+Comment[en]=Save editor for Dragon Quest Monsters: Joker 2 Professional
+Exec=Editeur-DQMJ2P %f
+Icon=editeur-dqmj2p
+Terminal=false
+Categories=Utility;

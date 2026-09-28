@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- Icône de l'application (AppImage) : une disquette, pas un graphisme du jeu. -->
+  <rect x="16" y="16" width="224" height="224" rx="40" fill="#2a5db0"/>
+  <path d="M60 52h112l28 28v120a8 8 0 0 1-8 8H60a8 8 0 0 1-8-8V60a8 8 0 0 1 8-8z" fill="#f4f6fa"/>
+  <rect x="84" y="52" width="72" height="44" rx="4" fill="#2a5db0"/>
+  <rect x="132" y="60" width="16" height="28" rx="3" fill="#f4f6fa"/>
+  <rect x="76" y="128" width="104" height="64" rx="6" fill="#e0a526"/>
+  <rect x="92" y="146" width="72" height="8" rx="4" fill="#f4f6fa"/>
+  <rect x="92" y="166" width="48" height="8" rx="4" fill="#f4f6fa"/>
+</svg>
